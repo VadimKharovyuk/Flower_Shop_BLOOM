@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/offers-section.css">
     <link rel="stylesheet" href="/css/offers-section.css">
     <link rel="stylesheet" href="/css/seasonal-section.css">
-    <link rel="stylesheet" href="/css/masterclass.css">
+    <link rel="stylesheet" href="/css/event-boutique.css">
 
     <style>
         :root {
@@ -1758,495 +1758,495 @@
     </div>
 </section>
 
-<style>
-    /* Custom Bouquet Section Styles */
-    .custom-bouquet-section {
-        padding: 120px 0;
-        background-color: var(--primary-bg);
-        position: relative;
-    }
-
-    .custom-bouquet-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 50%;
-        height: 100%;
-        background-color: var(--secondary-bg);
-        z-index: 0;
-    }
-
-    .custom-bouquet-wrapper {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-    }
-
-    .section-badge {
-        display: inline-block;
-        padding: 8px 16px;
-        background-color: rgba(232, 180, 184, 0.1);
-        color: var(--accent-color);
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-        border-radius: 2px;
-    }
-
-    .custom-bouquet-title {
-        font-family: 'Cormorant', serif;
-        font-size: 2.8rem;
-        font-weight: 600;
-        margin-bottom: 25px;
-        line-height: 1.2;
-        color: var(--text-color);
-        letter-spacing: -0.02em;
-    }
-
-    .custom-bouquet-description {
-        font-size: 1rem;
-        line-height: 1.8;
-        color: var(--light-text);
-        margin-bottom: 40px;
-    }
-
-    .custom-bouquet-form {
-        background-color: var(--white);
-        padding: 40px;
-        border-radius: 2px;
-        box-shadow: var(--box-shadow);
-    }
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group:last-child {
-        margin-bottom: 0;
-    }
-
-    .form-group label {
-        display: block;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-color);
-        margin-bottom: 10px;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 14px 16px;
-        border: 1px solid var(--border-color);
-        border-radius: 2px;
-        font-size: 14px;
-        color: var(--text-color);
-        background-color: var(--white);
-        transition: border-color 0.3s ease;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: var(--accent-color);
-    }
-
-    textarea.form-control {
-        resize: vertical;
-        min-height: 120px;
-    }
-
-    .submit-button {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        background-color: var(--text-color);
-        color: var(--white);
-        border: none;
-        border-radius: 2px;
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .submit-button:hover {
-        background-color: var(--accent-color);
-    }
-
-    .custom-bouquet-gallery {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .gallery-main {
-        position: relative;
-        overflow: hidden;
-        border-radius: 2px;
-        box-shadow: var(--box-shadow);
-    }
-
-    .gallery-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .gallery-main:hover .gallery-image,
-    .gallery-item:hover .gallery-image {
-        transform: scale(1.05);
-    }
-
-    .main-image {
-        height: 450px;
-    }
-
-    .image-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px 20px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-        color: var(--white);
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .gallery-item {
-        overflow: hidden;
-        border-radius: 2px;
-        box-shadow: var(--box-shadow);
-        height: 150px;
-    }
-
-    /* Masterclass Section Styles */
-    .masterclass-section {
-        padding: 120px 0;
-        background-color: var(--primary-bg);
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 60px;
-    }
-
-    .section-title {
-        font-family: 'Cormorant', serif;
-        font-size: 2.8rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: var(--text-color);
-        letter-spacing: -0.02em;
-    }
-
-    .section-subtitle {
-        font-size: 1rem;
-        color: var(--light-text);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.8;
-    }
-
-    .events-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-        margin-bottom: 50px;
-    }
-
-    .event-card {
-        background-color: var(--white);
-        border-radius: 2px;
-        overflow: hidden;
-        box-shadow: var(--box-shadow);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .event-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .featured-event {
-        border: 1px solid rgba(232, 180, 184, 0.3);
-        position: relative;
-    }
-
-    .featured-event::before {
-        content: '';
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        bottom: -5px;
-        left: -5px;
-        border: 1px solid var(--accent-color);
-        opacity: 0.1;
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .event-image-container {
-        position: relative;
-        height: 240px;
-        overflow: hidden;
-    }
-
-    .event-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .event-card:hover .event-image {
-        transform: scale(1.05);
-    }
-
-    .event-date {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        width: 60px;
-        height: 60px;
-        background-color: var(--white);
-        border-radius: 2px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .event-day {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--text-color);
-        line-height: 1;
-    }
-
-    .event-month {
-        font-size: 14px;
-        color: var(--light-text);
-        text-transform: lowercase;
-    }
-
-    .event-content {
-        padding: 30px;
-    }
-
-    .event-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .event-time {
-        font-size: 14px;
-        color: var(--light-text);
-    }
-
-    .event-time i {
-        margin-right: 5px;
-    }
-
-    .event-type {
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--accent-color);
-        background-color: rgba(232, 180, 184, 0.1);
-        padding: 4px 10px;
-        border-radius: 2px;
-    }
-
-    .event-title {
-        font-family: 'Cormorant', serif;
-        font-size: 1.4rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: var(--text-color);
-        line-height: 1.4;
-    }
-
-    .event-description {
-        font-size: 0.95rem;
-        color: var(--light-text);
-        margin-bottom: 25px;
-        line-height: 1.6;
-    }
-
-    .event-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .event-price {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--text-color);
-    }
-
-    .event-button {
-        display: inline-block;
-        padding: 8px 20px;
-        background-color: transparent;
-        color: var(--text-color);
-        border: 1px solid var(--text-color);
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .event-button::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background-color: var(--text-color);
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        z-index: -1;
-    }
-
-    .event-button:hover {
-        color: var(--white);
-    }
-
-    .event-button:hover::before {
-        left: 0;
-    }
-
-    .events-footer {
-        text-align: center;
-    }
-
-    .view-all-button {
-        display: inline-flex;
-        align-items: center;
-        color: var(--text-color);
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .view-all-button i {
-        margin-left: 10px;
-        transition: transform 0.3s ease;
-    }
-
-    .view-all-button:hover {
-        color: var(--accent-color);
-    }
-
-    .view-all-button:hover i {
-        transform: translateX(5px);
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 1200px) {
-        .custom-bouquet-wrapper,
-        .events-grid {
-            gap: 30px;
-        }
-
-        .custom-bouquet-title,
-        .section-title {
-            font-size: 2.5rem;
-        }
-
-        .main-image {
-            height: 400px;
-        }
-
-        .gallery-item {
-            height: 140px;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .custom-bouquet-section,
-        .masterclass-section {
-            padding: 80px 0;
-        }
-
-        .custom-bouquet-wrapper {
-            grid-template-columns: 1fr;
-        }
-
-        .custom-bouquet-section::before {
-            width: 100%;
-            height: 50%;
-        }
-
-        .events-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .gallery-item {
-            height: 180px;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .custom-bouquet-section,
-        .masterclass-section {
-            padding: 60px 0;
-        }
-
-        .custom-bouquet-title,
-        .section-title {
-            font-size: 2.2rem;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .events-grid {
-            grid-template-columns: 1fr;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .main-image {
-            height: 350px;
-        }
-    }
-</style>
+<!--<style>-->
+<!--    /* Custom Bouquet Section Styles */-->
+<!--    .custom-bouquet-section {-->
+<!--        padding: 120px 0;-->
+<!--        background-color: var(&#45;&#45;primary-bg);-->
+<!--        position: relative;-->
+<!--    }-->
+
+<!--    .custom-bouquet-section::before {-->
+<!--        content: '';-->
+<!--        position: absolute;-->
+<!--        top: 0;-->
+<!--        left: 0;-->
+<!--        width: 50%;-->
+<!--        height: 100%;-->
+<!--        background-color: var(&#45;&#45;secondary-bg);-->
+<!--        z-index: 0;-->
+<!--    }-->
+
+<!--    .custom-bouquet-wrapper {-->
+<!--        position: relative;-->
+<!--        z-index: 1;-->
+<!--        display: grid;-->
+<!--        grid-template-columns: 1fr 1fr;-->
+<!--        gap: 60px;-->
+<!--        align-items: center;-->
+<!--    }-->
+
+<!--    .section-badge {-->
+<!--        display: inline-block;-->
+<!--        padding: 8px 16px;-->
+<!--        background-color: rgba(232, 180, 184, 0.1);-->
+<!--        color: var(&#45;&#45;accent-color);-->
+<!--        font-size: 12px;-->
+<!--        font-weight: 500;-->
+<!--        text-transform: uppercase;-->
+<!--        letter-spacing: 1px;-->
+<!--        margin-bottom: 20px;-->
+<!--        border-radius: 2px;-->
+<!--    }-->
+
+<!--    .custom-bouquet-title {-->
+<!--        font-family: 'Cormorant', serif;-->
+<!--        font-size: 2.8rem;-->
+<!--        font-weight: 600;-->
+<!--        margin-bottom: 25px;-->
+<!--        line-height: 1.2;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        letter-spacing: -0.02em;-->
+<!--    }-->
+
+<!--    .custom-bouquet-description {-->
+<!--        font-size: 1rem;-->
+<!--        line-height: 1.8;-->
+<!--        color: var(&#45;&#45;light-text);-->
+<!--        margin-bottom: 40px;-->
+<!--    }-->
+
+<!--    .custom-bouquet-form {-->
+<!--        background-color: var(&#45;&#45;white);-->
+<!--        padding: 40px;-->
+<!--        border-radius: 2px;-->
+<!--        box-shadow: var(&#45;&#45;box-shadow);-->
+<!--    }-->
+
+<!--    .form-row {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: 1fr 1fr;-->
+<!--        gap: 20px;-->
+<!--        margin-bottom: 20px;-->
+<!--    }-->
+
+<!--    .form-group {-->
+<!--        margin-bottom: 20px;-->
+<!--    }-->
+
+<!--    .form-group:last-child {-->
+<!--        margin-bottom: 0;-->
+<!--    }-->
+
+<!--    .form-group label {-->
+<!--        display: block;-->
+<!--        font-size: 14px;-->
+<!--        font-weight: 500;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        margin-bottom: 10px;-->
+<!--    }-->
+
+<!--    .form-control {-->
+<!--        width: 100%;-->
+<!--        padding: 14px 16px;-->
+<!--        border: 1px solid var(&#45;&#45;border-color);-->
+<!--        border-radius: 2px;-->
+<!--        font-size: 14px;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        background-color: var(&#45;&#45;white);-->
+<!--        transition: border-color 0.3s ease;-->
+<!--    }-->
+
+<!--    .form-control:focus {-->
+<!--        outline: none;-->
+<!--        border-color: var(&#45;&#45;accent-color);-->
+<!--    }-->
+
+<!--    textarea.form-control {-->
+<!--        resize: vertical;-->
+<!--        min-height: 120px;-->
+<!--    }-->
+
+<!--    .submit-button {-->
+<!--        display: block;-->
+<!--        width: 100%;-->
+<!--        padding: 15px;-->
+<!--        background-color: var(&#45;&#45;text-color);-->
+<!--        color: var(&#45;&#45;white);-->
+<!--        border: none;-->
+<!--        border-radius: 2px;-->
+<!--        font-size: 14px;-->
+<!--        font-weight: 500;-->
+<!--        text-transform: uppercase;-->
+<!--        letter-spacing: 1px;-->
+<!--        cursor: pointer;-->
+<!--        transition: background-color 0.3s ease;-->
+<!--    }-->
+
+<!--    .submit-button:hover {-->
+<!--        background-color: var(&#45;&#45;accent-color);-->
+<!--    }-->
+
+<!--    .custom-bouquet-gallery {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: 1fr;-->
+<!--        gap: 20px;-->
+<!--    }-->
+
+<!--    .gallery-main {-->
+<!--        position: relative;-->
+<!--        overflow: hidden;-->
+<!--        border-radius: 2px;-->
+<!--        box-shadow: var(&#45;&#45;box-shadow);-->
+<!--    }-->
+
+<!--    .gallery-image {-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        object-fit: cover;-->
+<!--        transition: transform 0.5s ease;-->
+<!--    }-->
+
+<!--    .gallery-main:hover .gallery-image,-->
+<!--    .gallery-item:hover .gallery-image {-->
+<!--        transform: scale(1.05);-->
+<!--    }-->
+
+<!--    .main-image {-->
+<!--        height: 450px;-->
+<!--    }-->
+
+<!--    .image-caption {-->
+<!--        position: absolute;-->
+<!--        bottom: 0;-->
+<!--        left: 0;-->
+<!--        width: 100%;-->
+<!--        padding: 15px 20px;-->
+<!--        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);-->
+<!--        color: var(&#45;&#45;white);-->
+<!--        font-size: 14px;-->
+<!--        font-weight: 500;-->
+<!--    }-->
+
+<!--    .gallery-grid {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: repeat(2, 1fr);-->
+<!--        gap: 20px;-->
+<!--    }-->
+
+<!--    .gallery-item {-->
+<!--        overflow: hidden;-->
+<!--        border-radius: 2px;-->
+<!--        box-shadow: var(&#45;&#45;box-shadow);-->
+<!--        height: 150px;-->
+<!--    }-->
+
+<!--    /* Masterclass Section Styles */-->
+<!--    .masterclass-section {-->
+<!--        padding: 120px 0;-->
+<!--        background-color: var(&#45;&#45;primary-bg);-->
+<!--    }-->
+
+<!--    .section-header {-->
+<!--        text-align: center;-->
+<!--        margin-bottom: 60px;-->
+<!--    }-->
+
+<!--    .section-title {-->
+<!--        font-family: 'Cormorant', serif;-->
+<!--        font-size: 2.8rem;-->
+<!--        font-weight: 600;-->
+<!--        margin-bottom: 15px;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        letter-spacing: -0.02em;-->
+<!--    }-->
+
+<!--    .section-subtitle {-->
+<!--        font-size: 1rem;-->
+<!--        color: var(&#45;&#45;light-text);-->
+<!--        max-width: 600px;-->
+<!--        margin: 0 auto;-->
+<!--        line-height: 1.8;-->
+<!--    }-->
+
+<!--    .events-grid {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: repeat(3, 1fr);-->
+<!--        gap: 30px;-->
+<!--        margin-bottom: 50px;-->
+<!--    }-->
+
+<!--    .event-card {-->
+<!--        background-color: var(&#45;&#45;white);-->
+<!--        border-radius: 2px;-->
+<!--        overflow: hidden;-->
+<!--        box-shadow: var(&#45;&#45;box-shadow);-->
+<!--        transition: transform 0.3s ease, box-shadow 0.3s ease;-->
+<!--    }-->
+
+<!--    .event-card:hover {-->
+<!--        transform: translateY(-10px);-->
+<!--        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);-->
+<!--    }-->
+
+<!--    .featured-event {-->
+<!--        border: 1px solid rgba(232, 180, 184, 0.3);-->
+<!--        position: relative;-->
+<!--    }-->
+
+<!--    .featured-event::before {-->
+<!--        content: '';-->
+<!--        position: absolute;-->
+<!--        top: -5px;-->
+<!--        right: -5px;-->
+<!--        bottom: -5px;-->
+<!--        left: -5px;-->
+<!--        border: 1px solid var(&#45;&#45;accent-color);-->
+<!--        opacity: 0.1;-->
+<!--        z-index: -1;-->
+<!--        pointer-events: none;-->
+<!--    }-->
+
+<!--    .event-image-container {-->
+<!--        position: relative;-->
+<!--        height: 240px;-->
+<!--        overflow: hidden;-->
+<!--    }-->
+
+<!--    .event-image {-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        object-fit: cover;-->
+<!--        transition: transform 0.5s ease;-->
+<!--    }-->
+
+<!--    .event-card:hover .event-image {-->
+<!--        transform: scale(1.05);-->
+<!--    }-->
+
+<!--    .event-date {-->
+<!--        position: absolute;-->
+<!--        top: 20px;-->
+<!--        left: 20px;-->
+<!--        width: 60px;-->
+<!--        height: 60px;-->
+<!--        background-color: var(&#45;&#45;white);-->
+<!--        border-radius: 2px;-->
+<!--        display: flex;-->
+<!--        flex-direction: column;-->
+<!--        align-items: center;-->
+<!--        justify-content: center;-->
+<!--        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);-->
+<!--    }-->
+
+<!--    .event-day {-->
+<!--        font-size: 1.3rem;-->
+<!--        font-weight: 600;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        line-height: 1;-->
+<!--    }-->
+
+<!--    .event-month {-->
+<!--        font-size: 14px;-->
+<!--        color: var(&#45;&#45;light-text);-->
+<!--        text-transform: lowercase;-->
+<!--    }-->
+
+<!--    .event-content {-->
+<!--        padding: 30px;-->
+<!--    }-->
+
+<!--    .event-meta {-->
+<!--        display: flex;-->
+<!--        justify-content: space-between;-->
+<!--        align-items: center;-->
+<!--        margin-bottom: 15px;-->
+<!--    }-->
+
+<!--    .event-time {-->
+<!--        font-size: 14px;-->
+<!--        color: var(&#45;&#45;light-text);-->
+<!--    }-->
+
+<!--    .event-time i {-->
+<!--        margin-right: 5px;-->
+<!--    }-->
+
+<!--    .event-type {-->
+<!--        font-size: 12px;-->
+<!--        font-weight: 500;-->
+<!--        color: var(&#45;&#45;accent-color);-->
+<!--        background-color: rgba(232, 180, 184, 0.1);-->
+<!--        padding: 4px 10px;-->
+<!--        border-radius: 2px;-->
+<!--    }-->
+
+<!--    .event-title {-->
+<!--        font-family: 'Cormorant', serif;-->
+<!--        font-size: 1.4rem;-->
+<!--        font-weight: 600;-->
+<!--        margin-bottom: 15px;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        line-height: 1.4;-->
+<!--    }-->
+
+<!--    .event-description {-->
+<!--        font-size: 0.95rem;-->
+<!--        color: var(&#45;&#45;light-text);-->
+<!--        margin-bottom: 25px;-->
+<!--        line-height: 1.6;-->
+<!--    }-->
+
+<!--    .event-footer {-->
+<!--        display: flex;-->
+<!--        justify-content: space-between;-->
+<!--        align-items: center;-->
+<!--    }-->
+
+<!--    .event-price {-->
+<!--        font-size: 1.1rem;-->
+<!--        font-weight: 600;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--    }-->
+
+<!--    .event-button {-->
+<!--        display: inline-block;-->
+<!--        padding: 8px 20px;-->
+<!--        background-color: transparent;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        border: 1px solid var(&#45;&#45;text-color);-->
+<!--        font-size: 12px;-->
+<!--        font-weight: 500;-->
+<!--        text-transform: uppercase;-->
+<!--        letter-spacing: 1px;-->
+<!--        text-decoration: none;-->
+<!--        transition: all 0.3s ease;-->
+<!--        position: relative;-->
+<!--        overflow: hidden;-->
+<!--    }-->
+
+<!--    .event-button::before {-->
+<!--        content: '';-->
+<!--        position: absolute;-->
+<!--        top: 0;-->
+<!--        left: -100%;-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        background-color: var(&#45;&#45;text-color);-->
+<!--        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);-->
+<!--        z-index: -1;-->
+<!--    }-->
+
+<!--    .event-button:hover {-->
+<!--        color: var(&#45;&#45;white);-->
+<!--    }-->
+
+<!--    .event-button:hover::before {-->
+<!--        left: 0;-->
+<!--    }-->
+
+<!--    .events-footer {-->
+<!--        text-align: center;-->
+<!--    }-->
+
+<!--    .view-all-button {-->
+<!--        display: inline-flex;-->
+<!--        align-items: center;-->
+<!--        color: var(&#45;&#45;text-color);-->
+<!--        font-size: 14px;-->
+<!--        font-weight: 500;-->
+<!--        text-transform: uppercase;-->
+<!--        letter-spacing: 1px;-->
+<!--        text-decoration: none;-->
+<!--        transition: color 0.3s ease;-->
+<!--    }-->
+
+<!--    .view-all-button i {-->
+<!--        margin-left: 10px;-->
+<!--        transition: transform 0.3s ease;-->
+<!--    }-->
+
+<!--    .view-all-button:hover {-->
+<!--        color: var(&#45;&#45;accent-color);-->
+<!--    }-->
+
+<!--    .view-all-button:hover i {-->
+<!--        transform: translateX(5px);-->
+<!--    }-->
+
+<!--    /* Responsive Styles */-->
+<!--    @media (max-width: 1200px) {-->
+<!--        .custom-bouquet-wrapper,-->
+<!--        .events-grid {-->
+<!--            gap: 30px;-->
+<!--        }-->
+
+<!--        .custom-bouquet-title,-->
+<!--        .section-title {-->
+<!--            font-size: 2.5rem;-->
+<!--        }-->
+
+<!--        .main-image {-->
+<!--            height: 400px;-->
+<!--        }-->
+
+<!--        .gallery-item {-->
+<!--            height: 140px;-->
+<!--        }-->
+<!--    }-->
+
+<!--    @media (max-width: 991px) {-->
+<!--        .custom-bouquet-section,-->
+<!--        .masterclass-section {-->
+<!--            padding: 80px 0;-->
+<!--        }-->
+
+<!--        .custom-bouquet-wrapper {-->
+<!--            grid-template-columns: 1fr;-->
+<!--        }-->
+
+<!--        .custom-bouquet-section::before {-->
+<!--            width: 100%;-->
+<!--            height: 50%;-->
+<!--        }-->
+
+<!--        .events-grid {-->
+<!--            grid-template-columns: repeat(2, 1fr);-->
+<!--        }-->
+
+<!--        .gallery-item {-->
+<!--            height: 180px;-->
+<!--        }-->
+<!--    }-->
+
+<!--    @media (max-width: 767px) {-->
+<!--        .custom-bouquet-section,-->
+<!--        .masterclass-section {-->
+<!--            padding: 60px 0;-->
+<!--        }-->
+
+<!--        .custom-bouquet-title,-->
+<!--        .section-title {-->
+<!--            font-size: 2.2rem;-->
+<!--        }-->
+
+<!--        .form-row {-->
+<!--            grid-template-columns: 1fr;-->
+<!--            gap: 0;-->
+<!--        }-->
+
+<!--        .events-grid {-->
+<!--            grid-template-columns: 1fr;-->
+<!--            max-width: 500px;-->
+<!--            margin-left: auto;-->
+<!--            margin-right: auto;-->
+<!--        }-->
+
+<!--        .main-image {-->
+<!--            height: 350px;-->
+<!--        }-->
+<!--    }-->
+<!--</style>-->
 
 
 <!-- Seasonal Collections Section -->
