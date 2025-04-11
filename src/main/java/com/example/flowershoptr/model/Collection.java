@@ -1,5 +1,6 @@
 package com.example.flowershoptr.model;
 
+import com.example.flowershoptr.enums.CollectionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,29 +9,29 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "flowers")
-public class Flower {
+@Table(name = "collections")
+public class Collection {
+
+
+    //Для секции "Свадебные букеты"
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     private String name;
 
-    private String fullDescription ;
-    private String shortDescription;
+    @Column(length = 500)
+    private String description;
 
     @Column(name = "preview_image_url", length = 500)
     private String previewImageUrl;
@@ -38,25 +39,23 @@ public class Flower {
     @Column
     private Long photoId;
 
-    private Integer count;
-    private BigDecimal price;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "collection_type")
+    private CollectionType type;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 
-    @Column(name = "has_delivery_today")
-    private boolean hasDeliveryToday;
+    @ManyToMany
+    @JoinTable(
+            name = "collection_flowers",
+            joinColumns = @JoinColumn(name = "collection_id"),
+            inverseJoinColumns = @JoinColumn(name = "flower_id")
+    )
+    private Set<Flower> flowers = new HashSet<>();
 
-    private double weight ;
-
-    @Column(name = "review_count")
-    private Integer reviewCount = 0;
-
-    @Column(name = "average_rating")
-    private Double averageRating; // средний рейтнг
-
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

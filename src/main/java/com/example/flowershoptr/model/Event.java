@@ -16,21 +16,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "flowers")
-public class Flower {
+@Table(name = "events")
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @Column(length = 500)
+    private String description;
 
-    private String name;
+    @Column(name = "event_type") // MASTERCLASS, WORKSHOP, MEETING
+    private String eventType;
 
-    private String fullDescription ;
-    private String shortDescription;
+    @Column(name = "event_date")
+    private LocalDateTime eventDate;
+
+    @Column(name = "duration_minutes")
+    private Integer durationMinutes;
+
+    private BigDecimal price;
+
+    @Column(name = "is_free")
+    private boolean isFree = false;
 
     @Column(name = "preview_image_url", length = 500)
     private String previewImageUrl;
@@ -38,25 +47,17 @@ public class Flower {
     @Column
     private Long photoId;
 
-    private Integer count;
-    private BigDecimal price;
+    @Column(name = "is_featured")
+    private boolean isFeatured = false;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 
-    @Column(name = "has_delivery_today")
-    private boolean hasDeliveryToday;
+    @Column(name = "available_seats")
+    private Integer availableSeats;
 
-    private double weight ;
-
-    @Column(name = "review_count")
-    private Integer reviewCount = 0;
-
-    @Column(name = "average_rating")
-    private Double averageRating; // средний рейтнг
-
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Моя страница</title>
+  <!-- Подключение Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <!-- Способ 1: Включение стилей в head -->
+  <style th:replace="~{fragments/navigation :: style}"></style>
+</head>
+<body>
+<!-- Подключение фрагмента навигации -->
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
+<main>
+  <h1>Контент страницы</h1>
+  <p>Здесь может быть любой контент страницы.</p>
+</main>
+</body>
+</html>

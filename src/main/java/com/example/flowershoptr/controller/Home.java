@@ -12,4 +12,8 @@ public class Home {
     public String homePage(Model model) {
         return "home";
     }
+    @GetMapping("/test")
+    public String test(Model model) {
+    return "test";
+    }
 }
