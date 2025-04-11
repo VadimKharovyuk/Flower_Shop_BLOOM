@@ -1353,7 +1353,7 @@
             </div>
 
             <div class="category-card">
-                <img src="/api/placeholder/600/800" alt="Цветочные композиции" class="category-image">
+                <img src="/img/bucketMain.webp" alt="Цветочные композиции" class="category-image">
                 <div class="category-content">
                     <h3 class="category-title">Цветочные композиции</h3>
                     <a href="#" class="category-link">Смотреть коллекцию <i class="fas fa-long-arrow-alt-right"></i></a>
@@ -1372,7 +1372,7 @@
         <div class="products-grid">
             <div class="product-card">
                 <div class="product-image-container">
-                    <img src="/api/placeholder/600/800" alt="Букет «Нежность»" class="product-image">
+                    <img src="/img/bucketMain.webp" alt="Букет «Нежность»" class="product-image">
                     <span class="product-tag">Хит</span>
                     <div class="product-actions">
                         <div class="product-action-btn"><i class="far fa-heart"></i></div>
@@ -1389,7 +1389,7 @@
 
             <div class="product-card">
                 <div class="product-image-container">
-                    <img src="/api/placeholder/600/800" alt="Букет «Весенний»" class="product-image">
+                    <img src="/img/bucketMain.webp" alt="Букет «Весенний»" class="product-image">
                     <div class="product-actions">
                         <div class="product-action-btn"><i class="far fa-heart"></i></div>
                         <div class="product-action-btn"><i class="fas fa-eye"></i></div>
@@ -1405,7 +1405,7 @@
 
             <div class="product-card">
                 <div class="product-image-container">
-                    <img src="/api/placeholder/600/800" alt="Букет «Элегантность»" class="product-image">
+                    <img src="/img/bucketMain.webp" alt="Букет «Элегантность»" class="product-image">
                     <span class="product-tag">Скидка</span>
                     <div class="product-actions">
                         <div class="product-action-btn"><i class="far fa-heart"></i></div>
@@ -1422,7 +1422,7 @@
 
             <div class="product-card">
                 <div class="product-image-container">
-                    <img src="/api/placeholder/600/800" alt="Букет «Романтика»" class="product-image">
+                    <img src="/img/bucketMain.webp" alt="Букет «Романтика»" class="product-image">
                     <div class="product-actions">
                         <div class="product-action-btn"><i class="far fa-heart"></i></div>
                         <div class="product-action-btn"><i class="fas fa-eye"></i></div>
@@ -3309,6 +3309,423 @@
         <a href="#" class="instagram-link">Подписаться на Instagram <i class="fas fa-long-arrow-alt-right"></i></a>
     </div>
 </section>
+
+
+<!-- Location Section -->
+<section class="location-section">
+    <div class="container">
+        <div class="location-wrapper">
+            <div class="location-content">
+                <div class="section-badge">Наш магазин</div>
+                <h2 class="location-title">Приглашаем вас в гости</h2>
+                <p class="location-description">Посетите наш цветочный бутик, где вы сможете выбрать букет из свежайших цветов, получить консультацию флориста или заказать уникальную композицию.</p>
+
+                <div class="location-details">
+                    <div class="location-detail">
+                        <div class="detail-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="detail-text">
+                            <h4>Адрес</h4>
+                            <p>г. Москва, ул. Цветочная, 123</p>
+                        </div>
+                    </div>
+
+                    <div class="location-detail">
+                        <div class="detail-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="detail-text">
+                            <h4>Часы работы</h4>
+                            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+                        </div>
+                    </div>
+
+                    <div class="location-detail">
+                        <div class="detail-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="detail-text">
+                            <h4>Контакты</h4>
+                            <p>+7 (999) 123-45-67<br>info@bloom-flowers.ru</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-cta">
+                    <a href="#" class="location-button">Построить маршрут</a>
+                    <a href="#" class="location-link">Связаться с нами <i class="fas fa-long-arrow-alt-right"></i></a>
+                </div>
+            </div>
+
+            <div class="location-map-container">
+                <div class="location-image">
+                    <img src="/img/bucketMain.webp" alt="Наш магазин" class="store-image">
+                </div>
+                <div class="location-map">
+                    <!-- Здесь будет Google Maps или Яндекс Карты -->
+                    <div class="map-placeholder" style="background-image: url('/img/bucketMain.webp');">
+                        <div class="map-pin">
+                            <i class="fas fa-map-pin"></i>
+                        </div>
+                    </div>
+
+                    <div class="map-overlay">
+                        <a href="https://maps.google.com" target="_blank" class="map-button">Открыть карту</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .location-section {
+        padding: 120px 0;
+        background-color: var(--primary-bg);
+        position: relative;
+    }
+
+    .location-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 45%;
+        height: 100%;
+        background-color: var(--secondary-bg);
+        z-index: 0;
+    }
+
+    .location-wrapper {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .section-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: rgba(232, 180, 184, 0.1);
+        color: var(--accent-color);
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        border-radius: 2px;
+    }
+
+    .location-title {
+        font-family: 'Cormorant', serif;
+        font-size: 2.8rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        line-height: 1.2;
+        color: var(--text-color);
+        letter-spacing: -0.02em;
+    }
+
+    .location-description {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--light-text);
+        margin-bottom: 40px;
+        max-width: 500px;
+    }
+
+    .location-details {
+        margin-bottom: 40px;
+    }
+
+    .location-detail {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+    }
+
+    .location-detail:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-icon {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(232, 180, 184, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        color: var(--accent-color);
+        font-size: 16px;
+    }
+
+    .detail-text h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+
+    .detail-text p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--light-text);
+    }
+
+    .location-cta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .location-button {
+        display: inline-block;
+        padding: 14px 30px;
+        background-color: var(--text-color);
+        color: var(--white);
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        border-radius: 2px;
+        transition: background-color 0.3s ease;
+    }
+
+    .location-button:hover {
+        background-color: var(--accent-color);
+    }
+
+    .location-link {
+        display: inline-flex;
+        align-items: center;
+        color: var(--text-color);
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .location-link i {
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .location-link:hover {
+        color: var(--accent-color);
+    }
+
+    .location-link:hover i {
+        transform: translateX(5px);
+    }
+
+    .location-map-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .location-image {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 2px;
+        box-shadow: var(--box-shadow);
+    }
+
+    .store-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .location-map {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 2px;
+        box-shadow: var(--box-shadow);
+    }
+
+    .map-placeholder {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(1) contrast(0.9) brightness(1.05);
+        position: relative;
+    }
+
+    .map-pin {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+        color: var(--accent-color);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        70% {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .map-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .location-map:hover .map-overlay {
+        opacity: 1;
+    }
+
+    .map-button {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: var(--white);
+        color: var(--text-color);
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        border-radius: 2px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .map-button:hover {
+        background-color: var(--text-color);
+        color: var(--white);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+        .location-title {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .location-section {
+            padding: 80px 0;
+        }
+
+        .location-section::before {
+            width: 100%;
+            height: 50%;
+            top: 50%;
+        }
+
+        .location-wrapper {
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .location-description {
+            max-width: 100%;
+        }
+
+        .location-image,
+        .location-map {
+            height: 350px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .location-section {
+            padding: 60px 0;
+        }
+
+        .location-title {
+            font-size: 2.2rem;
+        }
+
+        .location-cta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .location-button {
+            width: 100%;
+            text-align: center;
+        }
+
+        .location-image,
+        .location-map {
+            height: 250px;
+        }
+    }
+</style>
+
+
+
+<script>
+    async function initMap() {
+        // Координаты вашего магазина
+        const position = { lat: 55.7558, lng: 37.6173 }; // Пример: центр Москвы
+
+        // Используем динамический импорт
+        const { Map } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        // Создаем карту
+        const map = new Map(document.getElementById("map"), {
+            center: position,
+            zoom: 15,
+            mapId: "FLOWER_SHOP_MAP",
+            styles: [
+                // Здесь можно настроить стили карты в нейтральных тонах
+            ]
+        });
+
+        // Добавляем продвинутый маркер
+        const marker = new AdvancedMarkerElement({
+            position: position,
+            map: map,
+            title: "BLOOM - Цветочный магазин"
+        });
+    }
+</script>
+<script>
+    // Используем новый рекомендованный метод загрузки API
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        key: "AIzaSyD_VNxA28gpMpeNrHVA_qa849HACeLyGsw",
+        v: "weekly"
+    });
+
+    window.initMap = initMap;
+</script>
+
 
 <!-- Newsletter Section -->
 <section class="newsletter-section">
