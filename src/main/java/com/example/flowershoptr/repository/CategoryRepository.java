@@ -17,8 +17,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      */
     Page<Category> findByIsFeaturedTrue(Pageable pageable);
 
-    /**
-     * Найти категорию по имени
-     */
+
     boolean existsByName(String name);
 }

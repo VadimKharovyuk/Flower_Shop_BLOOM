@@ -35,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categories.map(categoryMapper::toListDTO);
     }
 
+
     @Override
     public Page<CategoryListDTO> getActiveCategories(Pageable pageable) {
         log.info("Запрос активных категорий с пагинацией: page={}, size={}",
