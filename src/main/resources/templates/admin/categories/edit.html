@@ -1,10 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Редактирование категории')}">
+    <!-- Этот блок будет заменен содержимым фрагмента head -->
 </head>
 <body>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
 
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+    <header class="header">
+        <h1 class="page-title">Редактирование категории</h1>
+
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name" th:text="${#authentication?.name ?: 'Администратор'}">Администратор</span>
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Уведомления -->
+    <div th:if="${success}" class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Операция выполнена успешно</span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Произошла ошибка</span>
+    </div>
+    <div th:if="${warning}" class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span th:text="${warning}">Предупреждение</span>
+    </div>
+
+    <!-- Форма редактирования категории -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Данные категории</h2>
+            <div class="button-group">
+                <a th:href="@{/admin/categories}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> К списку
+                </a>
+                <a th:href="@{/admin/categories/view/{id}(id=${category.id})}" class="btn btn-outline">
+                    <i class="fas fa-eye"></i> Просмотр
+                </a>
+            </div>
+        </div>
+
+        <!-- Основная форма редактирования -->
+        <form th:action="@{/admin/categories/edit/{id}(id=${category.id})}" method="post"
+              th:object="${category}" class="form">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{photoId}">
+            <input type="hidden" th:field="*{previewImageUrl}">
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="name" class="form-label">Название категории*</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" required
+                           placeholder="Например: Розы">
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Описание категории</label>
+                    <textarea id="description" th:field="*{description}" class="form-control"
+                              placeholder="Введите описание категории..."></textarea>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="isActive" th:field="*{active}" class="form-check-input">
+                    <label for="isActive" class="form-check-label">Категория активна</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="isFeatured" th:field="*{featured}" class="form-check-input">
+                    <label for="isFeatured" class="form-check-label">Показывать на главной странице</label>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <a th:href="@{/admin/categories/view/{id}(id=${category.id})}" class="btn btn-outline">Отмена</a>
+                <button type="submit" class="btn">Сохранить изменения</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Форма загрузки изображения -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Изображение категории</h2>
+        </div>
+
+        <!-- Текущее изображение (если есть) -->
+        <div class="current-image" th:if="${category.previewImageUrl != null}">
+            <h3>Текущее изображение</h3>
+            <div class="image-preview-container">
+                <img th:src="${category.previewImageUrl}" alt="Текущее изображение категории" class="image-preview">
+            </div>
+        </div>
+
+        <!-- Форма загрузки нового изображения -->
+        <form th:action="@{/admin/categories/{id}/upload-image(id=${category.id})}"
+              method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="form-group">
+                <label for="image" class="form-label">Загрузить новое изображение</label>
+                <div class="image-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Перетащите файл сюда или нажмите для выбора</p>
+                    <input type="file" id="image" name="image" class="file-input" accept="image/*" required>
+                </div>
+                <small>Максимальный размер файла: 5MB. Поддерживаемые форматы: JPEG, PNG, GIF</small>
+            </div>
+
+            <button type="submit" class="btn">
+                <i class="fas fa-upload"></i> Загрузить изображение
+            </button>
+        </form>
+    </section>
+</main>
+
+<!-- Подключение скриптов -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<!-- Дополнительные скрипты для загрузки изображений -->
+<script>
+    // Обработка предпросмотра изображения перед загрузкой
+    const fileInput = document.getElementById('image');
+    const imageUpload = document.querySelector('.image-upload');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Создаем элемент предпросмотра если его еще нет
+                    let preview = imageUpload.querySelector('.image-preview');
+                    if (!preview) {
+                        preview = document.createElement('img');
+                        preview.className = 'image-preview';
+                        imageUpload.appendChild(preview);
+                    }
+
+                    // Устанавливаем источник изображения
+                    preview.src = e.target.result;
+
+                    // Скрываем иконку и текст
+                    const icon = imageUpload.querySelector('i');
+                    const text = imageUpload.querySelector('p');
+                    if (icon) icon.style.display = 'none';
+                    if (text) text.style.display = 'none';
+                };
+
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Дополнительные стили для формы редактирования */
+    .current-image {
+        margin-bottom: 30px;
+    }
+
+    .current-image h3 {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+
+    .image-preview-container {
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        margin-bottom: 20px;
+    }
+
+    .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .image-upload {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        border: 2px dashed var(--light-gray);
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .image-upload:hover {
+        border-color: var(--accent-color);
+    }
+
+    .image-upload i {
+        font-size: 40px;
+        color: var(--light-gray);
+        margin-bottom: 15px;
+    }
+
+    .image-upload p {
+        color: var(--text-color);
+        font-size: 14px;
+    }
+
+    .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .upload-form button {
+        margin-top: 15px;
+    }
+</style>
 </body>
 </html>

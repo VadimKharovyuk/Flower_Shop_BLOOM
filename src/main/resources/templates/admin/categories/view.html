@@ -1,10 +1,366 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Просмотр категории')}">
+    <!-- Этот блок будет заменен содержимым фрагмента head -->
 </head>
 <body>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
 
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+    <header class="header">
+        <h1 class="page-title">Просмотр категории</h1>
+
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name" th:text="${#authentication?.name ?: 'Администратор'}">Администратор</span>
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Информация о категории -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Детали категории</h2>
+            <div class="button-group">
+                <a th:href="@{/admin/categories}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> К списку
+                </a>
+                <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}" class="btn">
+                    <i class="fas fa-edit"></i> Редактировать
+                </a>
+            </div>
+        </div>
+
+        <div class="category-details">
+            <div class="row">
+                <!-- Изображение категории -->
+                <div class="category-image-container">
+                    <div class="category-image" th:if="${category.previewImageUrl != null}">
+                        <img th:src="${category.previewImageUrl}"
+                             alt="Изображение категории"
+                             class="preview-image">
+                    </div>
+                    <div class="category-image placeholder" th:if="${category.previewImageUrl == null}">
+                        <i class="fas fa-image"></i>
+                        <p>Изображение отсутствует</p>
+                    </div>
+                </div>
+
+                <!-- Данные категории -->
+                <div class="category-info">
+                    <div class="info-group">
+                        <h3 class="info-title">Основная информация</h3>
+                        <div class="info-item">
+                            <span class="info-label">ID:</span>
+                            <span class="info-value" th:text="${category.id}">1</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Название:</span>
+                            <span class="info-value" th:text="${category.name}">Розы</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Статус:</span>
+                            <span class="info-value">
+                                    <span class="status"
+                                          th:classappend="${category.active ? 'status-active' : 'status-inactive'}"
+                                          th:text="${category.active ? 'Активна' : 'Неактивна'}">
+                                        Активна
+                                    </span>
+                                </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">На главной:</span>
+                            <span class="info-value" th:text="${category.featured ? 'Да' : 'Нет'}">Да</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Кол-во товаров:</span>
+                            <span class="info-value" th:text="${category.flowerCount}">42</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Дата создания:</span>
+                            <span class="info-value" th:text="${#temporals.format(category.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group" th:if="${category.description != null && !category.description.isEmpty()}">
+                        <h3 class="info-title">Описание</h3>
+                        <div class="info-description" th:text="${category.description}">
+                            Описание категории...
+                        </div>
+                    </div>
+
+                    <div class="info-group" th:if="${category.previewImageUrl != null}">
+                        <h3 class="info-title">Информация об изображении</h3>
+                        <div class="info-item">
+                            <span class="info-label">URL изображения:</span>
+                            <span class="info-value url-value">
+                                    <a th:href="${category.previewImageUrl}" target="_blank" th:text="${category.previewImageUrl}">URL</a>
+                                </span>
+                        </div>
+                        <div class="info-item" th:if="${category.photoId != null}">
+                            <span class="info-label">ID изображения:</span>
+                            <span class="info-value" th:text="${category.photoId}">123456</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Действия с категорией -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Действия</h2>
+        </div>
+
+        <div class="action-buttons">
+            <div class="button-row">
+                <!-- Форма для активации/деактивации категории -->
+                <form th:if="${category.active}"
+                      th:action="@{/admin/categories/{id}/toggle-active(id=${category.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <input type="hidden" name="active" value="false">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-toggle-off"></i> Деактивировать категорию
+                    </button>
+                </form>
+                <form th:if="${!category.active}"
+                      th:action="@{/admin/categories/{id}/toggle-active(id=${category.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <input type="hidden" name="active" value="true">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-toggle-on"></i> Активировать категорию
+                    </button>
+                </form>
+
+                <!-- Форма для установки/снятия статуса "featured" -->
+                <form th:if="${!category.featured}"
+                      th:action="@{/admin/categories/{id}/toggle-featured(id=${category.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <input type="hidden" name="featured" value="true">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-star"></i> Добавить на главную
+                    </button>
+                </form>
+                <form th:if="${category.featured}"
+                      th:action="@{/admin/categories/{id}/toggle-featured(id=${category.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <input type="hidden" name="featured" value="false">
+                    <button type="submit" class="btn btn-outline">
+                        <i class="fas fa-star"></i> Убрать с главной
+                    </button>
+                </form>
+            </div>
+
+            <div class="button-row">
+                <!-- Кнопка для редактирования категории -->
+                <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}" class="btn">
+                    <i class="fas fa-edit"></i> Редактировать
+                </a>
+
+                <!-- Кнопка для удаления категории (с подтверждением) -->
+                <button type="button" class="btn btn-danger"
+                        onclick="showDeleteConfirmation()">
+                    <i class="fas fa-trash"></i> Удалить категорию
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Товары в категории -->
+    <section class="content-section" th:if="${category.flowerCount > 0}">
+        <div class="section-header">
+            <h2 class="section-title">Товары в категории</h2>
+            <a th:href="@{/admin/flowers(categoryId=${category.id})}" class="btn btn-outline">
+                <i class="fas fa-list"></i> Все товары категории
+            </a>
+        </div>
+
+        <p class="text-center">
+            Для просмотра всех товаров в данной категории перейдите по ссылке "Все товары категории".
+        </p>
+    </section>
+</main>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal-backdrop" id="deleteModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Подтверждение удаления</h3>
+            <button type="button" class="modal-close" onclick="hideDeleteConfirmation()">×</button>
+        </div>
+        <div class="modal-body">
+            <p>Вы действительно хотите удалить категорию "<span th:text="${category.name}">Название</span>"?</p>
+            <p class="text-danger">Это действие нельзя отменить.</p>
+            <p th:if="${category.flowerCount > 0}" class="text-warning">
+                <i class="fas fa-exclamation-triangle"></i> Внимание! Категория содержит товары.
+                Удаление категории с товарами невозможно. Сначала переместите или удалите товары из этой категории.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="hideDeleteConfirmation()">Отмена</button>
+            <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}" method="post">
+                <button type="submit" class="btn btn-danger"
+                        th:disabled="${category.flowerCount > 0}">Удалить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Подключение скриптов -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<!-- Дополнительные скрипты для страницы просмотра -->
+<script>
+    // Функция показа модального окна подтверждения удаления
+    function showDeleteConfirmation() {
+        document.getElementById('deleteModal').classList.add('active');
+    }
+
+    // Функция скрытия модального окна
+    function hideDeleteConfirmation() {
+        document.getElementById('deleteModal').classList.remove('active');
+    }
+</script>
+
+<style>
+    /* Дополнительные стили для страницы просмотра категории */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+
+    .category-image-container {
+        flex: 0 0 300px;
+        padding: 0 15px;
+        margin-bottom: 30px;
+    }
+
+    .category-info {
+        flex: 1;
+        min-width: 300px;
+        padding: 0 15px;
+    }
+
+    .category-image {
+        width: 100%;
+        height: 300px;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .category-image.placeholder {
+        border: 1px dashed #ddd;
+    }
+
+    .category-image.placeholder i {
+        font-size: 48px;
+        color: #ddd;
+        margin-bottom: 15px;
+    }
+
+    .category-image.placeholder p {
+        color: #999;
+    }
+
+    .preview-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .info-group {
+        margin-bottom: 30px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-title {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .info-item {
+        margin-bottom: 10px;
+        display: flex;
+    }
+
+    .info-label {
+        font-weight: 500;
+        min-width: 150px;
+        color: #666;
+    }
+
+    .info-value {
+        flex: 1;
+    }
+
+    .info-description {
+        line-height: 1.6;
+    }
+
+    .url-value {
+        word-break: break-all;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .category-image-container {
+            flex: 0 0 100%;
+        }
+
+        .button-row {
+            flex-direction: column;
+        }
+
+        .button-row button, .button-row a {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
 </body>
 </html>

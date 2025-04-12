@@ -6,6 +6,7 @@ import com.example.flowershoptr.dto.category.CreateCategoryDTO;
 import com.example.flowershoptr.dto.category.UpdateCategoryDTO;
 import com.example.flowershoptr.service.CategoryService;
 import com.example.flowershoptr.service.serviceImpl.CategoryServiceImpl;
+import com.example.flowershoptr.util.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,8 @@ public class AdminCategoryController {
 
     private final CategoryService categoryService;
     private final CategoryServiceImpl categoryServiceImpl;
+    private final PaginationUtils paginationUtils;
 
-    /**
-     * Отображение списка категорий
-     */
     @GetMapping
     public String listCategories(
             @RequestParam(defaultValue = "0") int page,
@@ -38,9 +37,7 @@ public class AdminCategoryController {
             @RequestParam(defaultValue = "true") boolean ascending,
             Model model) {
 
-        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-
+        Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         Page<CategoryListDTO> categories = categoryService.getAllCategories(pageable);
 
         model.addAttribute("categories", categories);
@@ -52,9 +49,7 @@ public class AdminCategoryController {
         return "admin/categories/list";
     }
 
-    /**
-     * Отображение формы для создания новой категории
-     */
+
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("category", new CreateCategoryDTO());
