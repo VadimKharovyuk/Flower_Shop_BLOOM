@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -83,6 +85,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categoryMapper.toDetailsDTO(savedCategory);
+    }
+
+    @Override
+    public List<CategorySimpleDTO> getAllCategoriesToAdmin() {
+        List<Category> categoryList = categoryRepository.findAll();
+        return categoryList.stream()
+                .map(categoryMapper::toSimpleDTO)
+                .collect(Collectors.toList());
     }
 
     private Category uploadCategoryImage(Category category, MultipartFile imageFile) throws IOException {

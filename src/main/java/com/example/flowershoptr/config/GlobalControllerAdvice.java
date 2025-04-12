@@ -31,9 +31,9 @@ public class GlobalControllerAdvice {
         return categories.getContent();
     }
 
-//    /**
-//     * Добавляет количество товаров в корзине во все модели
-//     */
+    /**
+     * Добавляет количество товаров в корзине во все модели
+     */
 //    @ModelAttribute("cartCount")
 //    public Integer getCartCount() {
 //        try {

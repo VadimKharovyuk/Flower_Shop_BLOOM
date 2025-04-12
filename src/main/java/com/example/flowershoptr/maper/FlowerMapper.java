@@ -26,6 +26,7 @@ public class FlowerMapper {
         dto.setHasDeliveryToday(flower.isHasDeliveryToday());
         dto.setCount(flower.getCount());
         dto.setAverageRating(flower.getAverageRating());
+        dto.setActive(flower.isActive());
 
         // Получаем имя категории, если категория существует
         if (flower.getCategory() != null) {

@@ -13,5 +13,6 @@ public class FlowerListDTO {
     private boolean hasDeliveryToday;
     private Integer count;
     private Double averageRating;
+    private boolean isActive;
     private String categoryName; // Имя категории вместо полного объекта
 }

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Создание цветка')}"></head>
+<body class="admin-body">
+<div class="admin-container">
+  <!-- Боковая панель -->
+  <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+  <!-- Основное содержимое -->
+  <main class="main-content">
+    <div class="content-header">
+      <div class="container">
+        <div class="header-wrapper">
+          <button class="hamburger-btn d-lg-none">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="content-title">Создание нового цветка</h1>
+          <div class="header-actions">
+            <a href="/admin/flowers" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Назад к списку
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <div class="container">
+        <!-- Сообщения об успехе или ошибке -->
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+          <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+          <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
+        </div>
+
+        <!-- Форма создания цветка -->
+        <div class="card">
+          <div class="card-body">
+            <form th:action="@{/admin/flowers/create}" th:object="${flowerDTO}" method="post" enctype="multipart/form-data" class="flower-form">
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Название цветка *</label>
+                  <input type="text" th:field="*{name}" id="name" class="form-control" required>
+                  <div th:if="${#fields.hasErrors('name')}" class="text-danger">
+                    <small th:errors="*{name}"></small>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="categoryId">Категория *</label>
+                  <select id="categoryId" name="categoryId" class="form-control" required>
+                    <option value="">Выберите категорию</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}"></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="price">Цена (руб.) *</label>
+                  <input type="number" th:field="*{price}" id="price" class="form-control" step="0.01" min="0" required>
+                  <div th:if="${#fields.hasErrors('price')}" class="text-danger">
+                    <small th:errors="*{price}"></small>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="count">Количество на складе *</label>
+                  <input type="number" th:field="*{count}" id="count" class="form-control" min="0" required>
+                  <div th:if="${#fields.hasErrors('count')}" class="text-danger">
+                    <small th:errors="*{count}"></small>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="weight">Вес (г)</label>
+                  <input type="number" th:field="*{weight}" id="weight" class="form-control" step="0.01" min="0">
+                  <div th:if="${#fields.hasErrors('weight')}" class="text-danger">
+                    <small th:errors="*{weight}"></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="shortDescription">Краткое описание *</label>
+                  <textarea th:field="*{shortDescription}" id="shortDescription" class="form-control" rows="3" required></textarea>
+                  <div th:if="${#fields.hasErrors('shortDescription')}" class="text-danger">
+                    <small th:errors="*{shortDescription}"></small>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="fullDescription">Полное описание</label>
+                  <textarea th:field="*{fullDescription}" id="fullDescription" class="form-control" rows="5"></textarea>
+                  <div th:if="${#fields.hasErrors('fullDescription')}" class="text-danger">
+                    <small th:errors="*{fullDescription}"></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="imageFile">Изображение</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="imageFile" name="imageFile" accept="image/*">
+                    <label class="custom-file-label" for="imageFile">Выберите файл...</label>
+                  </div>
+                  <small class="form-text text-muted">Рекомендуемый размер: 800x600 пикселей, до 2 МБ</small>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="previewImageUrl">URL изображения (если нет файла)</label>
+                  <input type="url" th:field="*{previewImageUrl}" id="previewImageUrl" class="form-control">
+                  <div th:if="${#fields.hasErrors('previewImageUrl')}" class="text-danger">
+                    <small th:errors="*{previewImageUrl}"></small>
+                  </div>
+                  <small class="form-text text-muted">Если файл не загружен, можно указать URL изображения</small>
+                </div>
+              </div>
+
+              <div class="form-row mt-3">
+                <div class="form-group col-md-6">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" th:field="*{active}" class="custom-control-input" id="isActive">
+                    <label class="custom-control-label" for="isActive">Активен (доступен для покупки)</label>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" th:field="*{hasDeliveryToday}" class="custom-control-input" id="hasDeliveryToday">
+                    <label class="custom-control-label" for="hasDeliveryToday">Доступна доставка сегодня</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions mt-4">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Создать цветок
+                </button>
+                <a href="/admin/flowers" class="btn btn-secondary">
+                  <i class="fas fa-times"></i> Отмена
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Скрипты -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Скрипт для отображения имени выбранного файла -->
+<script>
+  $(document).ready(function() {
+    // Обновление текста в метке файла при выборе
+    $('input[type="file"]').change(function(e) {
+      var fileName = e.target.files[0].name;
+      $(this).next('.custom-file-label').html(fileName);
+    });
+
+    // Инициализация редактора для полного описания (если есть)
+    if (typeof CKEDITOR !== 'undefined') {
+      CKEDITOR.replace('fullDescription');
+    }
+  });
+</script>
+
+<!-- Скрипты для боковой панели -->
+<div th:replace="~{admin/fragments/layout.html :: scripts}"></div>
+</body>
+</html>
