@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryMapper {
 
-    /**
-     * Преобразует сущность Category в CategoryListDTO для списка категорий
-     */
+
     public CategoryListDTO toListDTO(Category category) {
         if (category == null) {
             return null;
@@ -32,9 +30,7 @@ public class CategoryMapper {
         return dto;
     }
 
-    /**
-     * Преобразует сущность Category в CategoryDetailsDTO для детального представления
-     */
+
     public CategoryDetailsDTO toDetailsDTO(Category category) {
         if (category == null) {
             return null;
@@ -60,9 +56,7 @@ public class CategoryMapper {
         return dto;
     }
 
-    /**
-     * Преобразует сущность Category в CategorySimpleDTO
-     */
+
     public CategorySimpleDTO toSimpleDTO(Category category) {
         if (category == null) {
             return null;
@@ -75,9 +69,7 @@ public class CategoryMapper {
         return dto;
     }
 
-    /**
-     * Создает новую сущность Category из CreateCategoryDTO
-     */
+
     public Category toEntityFromCreateDTO(CreateCategoryDTO dto) {
         if (dto == null) {
             return null;
@@ -94,9 +86,7 @@ public class CategoryMapper {
         return category;
     }
 
-    /**
-     * Обновляет существующую сущность Category из UpdateCategoryDTO
-     */
+
     public void updateCategoryFromDTO(Category category, UpdateCategoryDTO dto) {
         if (category == null || dto == null) {
             return;

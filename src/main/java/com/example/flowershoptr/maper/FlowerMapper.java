@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlowerMapper {
 
-    /**
-     * Преобразует сущность Flower в FlowerListDTO для списка цветов
-     */
+
     public FlowerListDTO toListDTO(Flower flower) {
         if (flower == null) {
             return null;
@@ -37,9 +35,7 @@ public class FlowerMapper {
         return dto;
     }
 
-    /**
-     * Преобразует сущность Flower в FlowerDetailsDTO для детального представления
-     */
+
     public FlowerDetailsDTO toDetailsDTO(Flower flower) {
         if (flower == null) {
             return null;
@@ -72,10 +68,7 @@ public class FlowerMapper {
         return dto;
     }
 
-    /**
-     * Создает новую сущность Flower из CreateFlowerDTO
-     * Категория устанавливается отдельно в сервисе
-     */
+
     public Flower toEntityFromCreateDTO(CreateFlowerDTO dto) {
         if (dto == null) {
             return null;
@@ -102,10 +95,7 @@ public class FlowerMapper {
         return flower;
     }
 
-    /**
-     * Обновляет существующую сущность Flower из UpdateFlowerDTO
-     * Категория обновляется отдельно в сервисе
-     */
+
     public void updateFlowerFromDTO(Flower flower, UpdateFlowerDTO dto) {
         if (flower == null || dto == null) {
             return;
