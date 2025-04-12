@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Категории')}">
+    <!-- Этот блок будет заменен содержимым фрагмента head -->
+</head>
+<body>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+    <header class="header">
+        <h1 class="page-title">Категории</h1>
+
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name" th:text="${#authentication?.name ?: 'Администратор'}">Администратор</span>
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Уведомления -->
+    <div th:if="${success}" class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Операция выполнена успешно</span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Произошла ошибка</span>
+    </div>
+
+    <!-- Список категорий -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Список категорий</h2>
+            <a th:href="@{/admin/categories/create}" class="btn">
+                <i class="fas fa-plus"></i> Добавить категорию
+            </a>
+        </div>
+
+        <!-- Фильтры и сортировка -->
+        <div class="filter-section mb-2">
+            <form th:action="@{/admin/categories}" method="get" class="filter-form">
+                <div class="form-group">
+                    <label for="sortBy">Сортировать по:</label>
+                    <select id="sortBy" name="sortBy" class="form-control" onchange="this.form.submit()">
+                        <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+                        <option value="name" th:selected="${sortBy == 'name'}">Название</option>
+                        <option value="createdAt" th:selected="${sortBy == 'createdAt'}">Дата создания</option>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="ascending" name="ascending" th:checked="${ascending}" onchange="this.form.submit()">
+                    <label for="ascending">По возрастанию</label>
+                </div>
+
+                <input type="hidden" name="page" th:value="${currentPage}">
+                <input type="hidden" name="size" th:value="${categories.size}">
+            </form>
+        </div>
+
+        <!-- Таблица категорий -->
+        <div th:if="${!categories.empty}">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Товаров</th>
+                    <th>На главной</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.id}">1</td>
+                    <td th:text="${category.name}">Розы</td>
+                    <td th:text="${category.flowerCount}">42</td>
+                    <td th:text="${category.featured ? 'Да' : 'Нет'}">Да</td>
+                    <td>
+                                <span class="status"
+                                      th:classappend="${category.active ? 'status-active' : 'status-inactive'}"
+                                      th:text="${category.active ? 'Активна' : 'Неактивна'}">
+                                    Активна
+                                </span>
+                    </td>
+                    <td class="actions">
+                        <a th:href="@{/admin/categories/view/{id}(id=${category.id})}" class="action-btn view-btn" title="Просмотр">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}" class="action-btn edit-btn" title="Редактировать">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                        <!-- Форма для активации/деактивации категории -->
+                        <form th:if="${category.active}"
+                              th:action="@{/admin/categories/{id}/toggle-active(id=${category.id})}"
+                              method="post"
+                              style="display:inline;">
+                            <input type="hidden" name="active" value="false">
+                            <button type="submit" class="action-btn" title="Деактивировать">
+                                <i class="fas fa-toggle-off"></i>
+                            </button>
+                        </form>
+                        <form th:if="${!category.active}"
+                              th:action="@{/admin/categories/{id}/toggle-active(id=${category.id})}"
+                              method="post"
+                              style="display:inline;">
+                            <input type="hidden" name="active" value="true">
+                            <button type="submit" class="action-btn" title="Активировать">
+                                <i class="fas fa-toggle-on"></i>
+                            </button>
+                        </form>
+
+                        <!-- Форма для установки/снятия статуса "featured" -->
+                        <form th:if="${!category.featured}"
+                              th:action="@{/admin/categories/{id}/toggle-featured(id=${category.id})}"
+                              method="post"
+                              style="display:inline;">
+                            <input type="hidden" name="featured" value="true">
+                            <button type="submit" class="action-btn" title="Добавить на главную">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </form>
+                        <form th:if="${category.featured}"
+                              th:action="@{/admin/categories/{id}/toggle-featured(id=${category.id})}"
+                              method="post"
+                              style="display:inline;">
+                            <input type="hidden" name="featured" value="false">
+                            <button type="submit" class="action-btn" title="Убрать с главной">
+                                <i class="fas fa-star" style="color: var(--accent-color);"></i>
+                            </button>
+                        </form>
+
+                        <button type="button" class="action-btn delete-btn"
+                                th:attr="data-id=${category.id}, data-name=${category.name}"
+                                onclick="showDeleteConfirmation(this)"
+                                title="Удалить">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Пагинация -->
+            <div th:if="${categories.totalPages > 1}" class="pagination-container">
+                <ul class="pagination">
+                    <li th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                        <a th:href="@{/admin/categories(page=${currentPage - 1}, size=${categories.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                           th:classappend="${currentPage == 0 ? 'disabled' : ''}"
+                           aria-label="Предыдущая">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+
+                    <li th:each="i : ${#numbers.sequence(0, categories.totalPages - 1)}"
+                        th:classappend="${currentPage == i ? 'active' : ''}">
+                        <a th:href="@{/admin/categories(page=${i}, size=${categories.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                           th:text="${i + 1}">1</a>
+                    </li>
+
+                    <li th:classappend="${currentPage == categories.totalPages - 1 ? 'disabled' : ''}">
+                        <a th:href="@{/admin/categories(page=${currentPage + 1}, size=${categories.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                           th:classappend="${currentPage == categories.totalPages - 1 ? 'disabled' : ''}"
+                           aria-label="Следующая">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Если категорий нет -->
+        <div th:if="${categories.empty}" class="text-center my-2">
+            <p>Категории не найдены. Создайте первую категорию, нажав на кнопку "Добавить категорию".</p>
+        </div>
+    </section>
+</main>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal-backdrop" id="deleteModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Подтверждение удаления</h3>
+            <button type="button" class="modal-close" onclick="hideDeleteConfirmation()">×</button>
+        </div>
+        <div class="modal-body">
+            <p>Вы действительно хотите удалить категорию "<span id="categoryName"></span>"?</p>
+            <p class="text-danger">Это действие нельзя отменить.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="hideDeleteConfirmation()">Отмена</button>
+            <form id="deleteForm" method="post">
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Подключение скриптов -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<!-- Дополнительные скрипты -->
+<script>
+    // Функция показа модального окна подтверждения удаления
+    function showDeleteConfirmation(id, name) {
+        document.getElementById('categoryName').textContent = name;
+        document.getElementById('deleteForm').action = '/admin/categories/' + id + '/delete';
+        document.getElementById('deleteModal').classList.add('active');
+    }
+
+    // Функция скрытия модального окна
+    function hideDeleteConfirmation() {
+        document.getElementById('deleteModal').classList.remove('active');
+    }
+</script>
+</body>
+</html>

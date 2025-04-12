@@ -63,10 +63,64 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryDetailsDTO createCategory(CreateCategoryDTO createDTO) {
         log.info("Создание новой категории: {}", createDTO.getName());
+
+        // Создаем и сохраняем категорию
         Category category = categoryMapper.toEntityFromCreateDTO(createDTO);
         Category savedCategory = categoryRepository.save(category);
         log.info("Категория успешно создана с ID: {}", savedCategory.getId());
+
         return categoryMapper.toDetailsDTO(savedCategory);
+    }
+
+    /**
+     * Создает новую категорию и загружает изображение
+     * @param createDTO DTO с данными для создания категории
+     * @param imageFile Файл изображения
+     * @return Детали созданной категории
+     */
+    @Transactional
+    public CategoryDetailsDTO createCategoryWithImage(CreateCategoryDTO createDTO, MultipartFile imageFile) {
+        log.info("Создание новой категории с изображением: {}", createDTO.getName());
+
+        // Сначала создаем категорию
+        Category category = categoryMapper.toEntityFromCreateDTO(createDTO);
+        Category savedCategory = categoryRepository.save(category);
+        log.info("Категория успешно создана с ID: {}", savedCategory.getId());
+
+        // Если передан файл изображения, загружаем его
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                // Загружаем изображение
+                savedCategory = uploadCategoryImage(savedCategory, imageFile);
+            } catch (Exception e) {
+                log.error("Ошибка при загрузке изображения для категории {}: {}",
+                        savedCategory.getId(), e.getMessage());
+
+            }
+        }
+
+        return categoryMapper.toDetailsDTO(savedCategory);
+    }
+
+    private Category uploadCategoryImage(Category category, MultipartFile imageFile) throws IOException {
+        log.info("Загрузка изображения для категории ID: {}", category.getId());
+
+        // Удаляем старое изображение, если оно есть
+        if (category.getPhotoId() != null) {
+            cloudinaryService.deleteImage(category.getPhotoId().toString());
+        }
+
+        // Загружаем новое изображение
+        CloudinaryService.UploadResult result = cloudinaryService.uploadImage(imageFile);
+        category.setPreviewImageUrl(result.getUrl());
+        category.setPhotoId(Long.valueOf(result.getPublicId()));
+
+        // Сохраняем обновленную категорию и возвращаем ее
+        Category updatedCategory = categoryRepository.save(category);
+        log.info("Изображение для категории {} успешно загружено. URL: {}",
+                category.getId(), result.getUrl());
+
+        return updatedCategory;
     }
 
     @Override

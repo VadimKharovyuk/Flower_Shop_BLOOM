@@ -11,5 +11,5 @@ public class CreateCategoryDTO {
     private String previewImageUrl;
     private Long photoId;
     private boolean isFeatured;
-    private boolean isActive = true; // По умолчанию активна
+    private boolean isActive = true;
 }

@@ -13,5 +13,5 @@ public class CategoryDetailsDTO {
     private boolean isFeatured;
     private boolean isActive;
     private LocalDateTime createdAt;
-    private int flowerCount; // Количество цветов в категории
+    private int flowerCount;
 }

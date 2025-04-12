@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Фрагмент боковой панели -->
+<aside th:fragment="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <a href="/admin" class="brand-logo">LUXE <span>Admin</span></a>
+    </div>
+
+    <div class="sidebar-content">
+        <nav class="sidebar-nav">
+            <a href="/admin" class="nav-link" th:classappend="${currentPage == 'dashboard'} ? 'active' : ''">
+                <i class="fas fa-tachometer-alt"></i> Панель управления
+            </a>
+
+            <div class="nav-section-title">Управление</div>
+
+            <a href="/admin/categories" class="nav-link" th:classappend="${currentPage == 'categories'} ? 'active' : ''">
+                <i class="fas fa-th-large"></i> Категории
+            </a>
+
+            <a href="/admin/flowers" class="nav-link" th:classappend="${currentPage == 'flowers'} ? 'active' : ''">
+                <i class="fas fa-leaf"></i> Цветы
+            </a>
+
+            <a href="/admin/orders" class="nav-link" th:classappend="${currentPage == 'orders'} ? 'active' : ''">
+                <i class="fas fa-shopping-cart"></i> Заказы
+            </a>
+
+            <a href="/admin/customers" class="nav-link" th:classappend="${currentPage == 'customers'} ? 'active' : ''">
+                <i class="fas fa-users"></i> Клиенты
+            </a>
+
+            <div class="nav-section-title">Контент</div>
+
+            <a href="/admin/banners" class="nav-link" th:classappend="${currentPage == 'banners'} ? 'active' : ''">
+                <i class="fas fa-image"></i> Баннеры
+            </a>
+
+            <a href="/admin/reviews" class="nav-link" th:classappend="${currentPage == 'reviews'} ? 'active' : ''">
+                <i class="fas fa-star"></i> Отзывы
+            </a>
+
+            <div class="nav-section-title">Настройки</div>
+
+            <a href="/admin/settings" class="nav-link" th:classappend="${currentPage == 'settings'} ? 'active' : ''">
+                <i class="fas fa-cog"></i> Общие настройки
+            </a>
+
+            <a href="/admin/profile" class="nav-link" th:classappend="${currentPage == 'profile'} ? 'active' : ''">
+                <i class="fas fa-user"></i> Мой профиль
+            </a>
+        </nav>
+    </div>
+
+    <div class="sidebar-footer">
+        © 2025 LUXE Администрация
+    </div>
+</aside>
+</body>
+</html>

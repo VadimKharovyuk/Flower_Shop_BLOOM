@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Создание категории')}">
+    <!-- Этот блок будет заменен содержимым фрагмента head -->
+</head>
+<body>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+    <header class="header">
+        <h1 class="page-title">Создание категории</h1>
+
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name" th:text="${#authentication?.name ?: 'Администратор'}">Администратор</span>
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Уведомления -->
+    <div th:if="${success}" class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Операция выполнена успешно</span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Произошла ошибка</span>
+    </div>
+
+    <!-- Форма создания категории -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Данные категории</h2>
+            <a th:href="@{/admin/categories}" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Назад к списку
+            </a>
+        </div>
+        <form th:action="@{/admin/categories/create}" method="post" th:object="${category}"
+              enctype="multipart/form-data" class="form">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="name" class="form-label">Название категории*</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" required
+                           placeholder="Например: Розы">
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Описание категории</label>
+                    <textarea id="description" th:field="*{description}" class="form-control"
+                              placeholder="Введите описание категории..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageFile" class="form-label">Изображение категории</label>
+                    <input type="file" id="imageFile" name="imageFile" class="form-control"
+                           accept="image/*">
+                    <small>Максимальный размер файла: 5MB. Поддерживаемые форматы: JPEG, PNG, GIF</small>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="isActive" th:field="*{active}" class="form-check-input">
+                    <label for="isActive" class="form-check-label">Категория активна</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="isFeatured" th:field="*{featured}" class="form-check-input">
+                    <label for="isFeatured" class="form-check-label">Показывать на главной странице</label>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="reset" class="btn btn-outline">Сбросить</button>
+                <button type="submit" class="btn">Создать категорию</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Справка -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Справка</h2>
+        </div>
+
+        <div class="info-box">
+            <h3>О создании категорий</h3>
+            <ul>
+                <li><strong>Название категории</strong> - обязательное поле, должно быть уникальным.</li>
+                <li><strong>Описание</strong> - информация о категории, которая может отображаться на странице категории.</li>
+                <li><strong>URL изображения</strong> - ссылка на изображение категории. После создания категории вы также сможете загрузить изображение.</li>
+                <li><strong>Категория активна</strong> - если отмечено, категория будет отображаться на сайте. Если не отмечено, категория будет скрыта от посетителей.</li>
+                <li><strong>Показывать на главной странице</strong> - если отмечено, категория будет отображаться на главной странице в разделе "Популярные категории".</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- Подключение скриптов -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<!-- Дополнительные скрипты для предпросмотра изображения -->
+<script>
+    // Предпросмотр изображения по URL
+    const imageUrlInput = document.getElementById('previewImageUrl');
+
+    if (imageUrlInput) {
+        imageUrlInput.addEventListener('blur', function() {
+            const imageUrl = this.value;
+            if (imageUrl) {
+                // Здесь можно добавить код для предпросмотра изображения
+                console.log('URL изображения: ' + imageUrl);
+            }
+        });
+    }
+</script>
+</body>
+</html>

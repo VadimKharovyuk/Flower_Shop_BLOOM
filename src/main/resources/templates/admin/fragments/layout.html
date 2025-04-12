@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${title} + ' | LUXE Admin'">LUXE Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+</head>
+<body>
+<!-- Скрипты для боковой панели -->
+<div th:fragment="scripts">
+  <script>
+    // Скрипт для мобильного меню
+    const hamburgerBtn = document.querySelector('.hamburger-btn');
+    const sidebar = document.querySelector('.sidebar');
+
+    hamburgerBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    // Закрытие меню при клике на пункт меню на мобильных устройствах
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 992) {
+          sidebar.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</div>
+</body>
+</html>
