@@ -1,21 +1,509 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Моя страница</title>
-  <!-- Подключение Font Awesome для иконок -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Премиальный минимализм - Тестовая страница</title>
+  <style>
+    /* Общие стили */
+    :root {
+      --primary-color: #1a1a1a;
+      --secondary-color: #f5f5f5;
+      --accent-color: #c9a980;
+      --text-color: #333333;
+      --transition: all 0.3s ease;
+    }
 
-  <!-- Способ 1: Включение стилей в head -->
-  <style th:replace="~{fragments/navigation :: style}"></style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Стили для основного контента */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--primary-color);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .product-card {
+      background-color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .product-price {
+      font-size: 1.1rem;
+      color: var(--accent-color);
+      font-weight: 400;
+    }
+
+
+
+    /* =====================================================
+       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ НАВИГАЦИИ
+       ===================================================== */
+
+    /* Стили навигации */
+    .nav-container {
+      width: 100%;
+      background-color: var(--secondary-color);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+    }
+
+    .brand-logo {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--primary-color);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-item {
+      margin: 0 20px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-size: 16px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -3px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      color: var(--accent-color);
+    }
+
+    .nav-link:hover:after {
+      width: 100%;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .icon-link {
+      margin-left: 20px;
+      color: var(--primary-color);
+      font-size: 18px;
+      transition: var(--transition);
+    }
+
+    .icon-link:hover {
+      color: var(--accent-color);
+    }
+
+    /* Стили для мобильной навигации */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--secondary-color);
+        padding: 20px 0;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .nav-item {
+        margin: 10px 40px;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .nav-icons {
+        display: none;
+      }
+    }
+
+    /* =====================================================
+       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ ШАПКИ
+       ===================================================== */
+
+    /* Стили для шапки */
+    .header-section {
+      margin-top: 80px; /* Отступ для фиксированной навигации */
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Вариант 1: Полноэкранная шапка с изображением и центрированным текстом */
+    .header-hero {
+      position: relative;
+      height: 80vh;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .header-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      text-align: center;
+      padding: 0 20px;
+      color: var(--secondary-color);
+    }
+
+    .header-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .header-subtitle {
+      font-size: 1.2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .header-btn {
+      display: inline-block;
+      padding: 12px 30px;
+      border: 1px solid var(--secondary-color);
+      background: transparent;
+      color: var(--secondary-color);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      margin-top: 20px;
+    }
+
+    .header-btn:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+    }
+
+    /* Вариант 2: Шапка с изображением и текстом в колонках */
+    .header-split {
+      display: flex;
+      flex-direction: row;
+      height: 80vh;
+    }
+
+    .header-split-image {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .header-split-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-split-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      background-color: var(--secondary-color);
+    }
+
+    .header-split-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .header-split-subtitle {
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: var(--text-color);
+    }
+
+    /* Адаптивность для мобильных устройств */
+    @media screen and (max-width: 768px) {
+      .header-title {
+        font-size: 2rem;
+      }
+
+      .header-subtitle {
+        font-size: 1rem;
+      }
+
+      .header-split {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .header-split-image, .header-split-content {
+        flex: none;
+        width: 100%;
+      }
+
+      .header-split-image {
+        height: 50vh;
+      }
+
+      .header-split-content {
+        padding: 40px 20px;
+      }
+
+      .header-split-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- Подключение фрагмента навигации -->
-<div th:replace="~{fragments/navigation :: navigation}"></div>
+<!-- НАЧАЛО: Навигационное меню -->
+<nav class="nav-container">
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo">LUXE</a>
 
-<main>
-  <h1>Контент страницы</h1>
-  <p>Здесь может быть любой контент страницы.</p>
+    <button class="mobile-menu-btn">☰</button>
+
+    <ul class="nav-menu">
+      <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+      <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>
+      <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>
+      <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>
+      <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>
+      <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>
+    </ul>
+
+    <div class="nav-icons">
+      <a href="/search" class="icon-link">⌕</a>
+      <a href="/account" class="icon-link">◯</a>
+      <a href="/cart" class="icon-link">☐</a>
+    </div>
+  </div>
+</nav>
+<!-- КОНЕЦ: Навигационное меню -->
+
+<!-- НАЧАЛО: Шапка сайта (Вариант 1) -->
+<header class="header-section">
+  <div class="header-hero">
+    <img src="/img/bucketMain.webp" alt="Премиальный продукт" class="header-image">
+    <div class="header-content">
+      <h1 class="header-title">Премиальный минимализм</h1>
+      <p class="header-subtitle">Уникальная коллекция стильных и элегантных предметов, созданных с заботой о каждой детали. Минималистичный дизайн и непревзойденное качество для тех, кто ценит совершенство.</p>
+      <a href="/collection" class="header-btn">Открыть коллекцию</a>
+    </div>
+  </div>
+</header>
+<!-- КОНЕЦ: Шапка сайта (Вариант 1) -->
+
+<!-- НАЧАЛО: Шапка сайта (Вариант 2) - по умолчанию скрыта -->
+<header class="header-section" style="display: none;">
+  <div class="header-split">
+    <div class="header-split-image">
+      <img src="/img/bucketMain.webp" alt="Премиальный продукт">
+    </div>
+    <div class="header-split-content">
+      <h1 class="header-split-title">Элегантность в простоте</h1>
+      <p class="header-split-subtitle">Наша новая коллекция подчеркивает истинную красоту чистых линий и безупречных форм. Каждый предмет — воплощение философии, где совершенство достигается не тогда, когда нечего добавить, а когда нечего убрать.</p>
+      <a href="/collection" class="header-btn" style="color: var(--primary-color); border-color: var(--primary-color);">Исследовать</a>
+    </div>
+  </div>
+</header>
+<!-- КОНЕЦ: Шапка сайта (Вариант 2) -->
+
+<!-- Дополнительный контент страницы для демонстрации -->
+<main class="main-content">
+  <h2 class="section-title">Популярные товары</h2>
+
+  <div class="products-grid">
+    <!-- Товар 1 -->
+    <div class="product-card">
+      <img src="/img/bucketMain.webp" alt="Товар 1" class="product-image">
+      <div class="product-info">
+        <h3 class="product-name">Минималистичная ваза</h3>
+        <p class="product-price">5 900 ₽</p>
+      </div>
+    </div>
+
+    <!-- Товар 2 -->
+    <div class="product-card">
+      <img src="/img/bucketMain.webp" alt="Товар 2" class="product-image">
+      <div class="product-info">
+        <h3 class="product-name">Керамическая чаша</h3>
+        <p class="product-price">3 200 ₽</p>
+      </div>
+    </div>
+
+    <!-- Товар 3 -->
+    <div class="product-card">
+      <img src="/api/placeholder/400/500" alt="Товар 3" class="product-image">
+      <div class="product-info">
+        <h3 class="product-name">Деревянная полка</h3>
+        <p class="product-price">12 500 ₽</p>
+      </div>
+    </div>
+
+    <!-- Товар 4 -->
+    <div class="product-card">
+      <img src="/api/placeholder/400/500" alt="Товар 4" class="product-image">
+      <div class="product-info">
+        <h3 class="product-name">Настольная лампа</h3>
+        <p class="product-price">8 900 ₽</p>
+      </div>
+    </div>
+  </div>
 </main>
+
+
+<script>
+  // Скрипт для мобильного меню
+  document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+    document.querySelector('.nav-menu').classList.toggle('active');
+  });
+
+
+  const toggleBtn = document.createElement('button');
+  toggleBtn.textContent = 'Переключить стиль шапки';
+  toggleBtn.style.position = 'fixed';
+  toggleBtn.style.bottom = '20px';
+  toggleBtn.style.right = '20px';
+  toggleBtn.style.padding = '10px';
+  toggleBtn.style.zIndex = '1000';
+  toggleBtn.style.background = 'white';
+  toggleBtn.style.border = '1px solid #ddd';
+  toggleBtn.style.borderRadius = '4px';
+  toggleBtn.style.cursor = 'pointer';
+
+
+  toggleBtn.addEventListener('click', function() {
+      const headers = document.querySelectorAll('.header-section');
+      headers.forEach(header => {
+          if (header.style.display === 'none') {
+              header.style.display = 'block';
+          } else {
+              header.style.display = 'none';
+          }
+      });
+  });
+
+  // Добавляем кнопку на страницу
+  document.body.appendChild(toggleBtn);
+
+</script>
 </body>
 </html>

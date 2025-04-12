@@ -1,314 +1,185 @@
-<!-- Navigation Section - можно использовать как фрагмент на всех страницах -->
-
-<div th:fragment="navigation">
-<header class="header">
-    <div class="container">
-        <div class="nav-wrapper">
-            <a href="/" class="logo">BLOOM</a>
-
-            <nav class="main-nav">
-                <a href="/" class="nav-link">Главная</a>
-                <a href="/catalog" class="nav-link">Каталог</a>
-                <a href="/bouquets" class="nav-link">Букеты</a>
-                <a href="/about" class="nav-link">О нас</a>
-                <a href="/contacts" class="nav-link">Контакты</a>
-            </nav>
-
-            <div class="nav-actions">
-                <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
-                <a href="#" class="nav-icon"><i class="far fa-heart"></i></a>
-                <a href="#" class="nav-icon cart-icon">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
-                </a>
-
-                <button class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Page Header Section - для внутренних страниц -->
-<section class="page-header">
-    <div class="page-header-image">
-        <div class="page-header-overlay"></div>
-    </div>
-    <div class="container">
-        <div class="page-header-content">
-            <h1 class="page-title">Название страницы</h1>
-            <p class="page-description">Краткое описание раздела сайта с ключевой информацией для посетителей</p>
-        </div>
-    </div>
-</section>
-</div>
-
-<style th:fragment="style">
-    /* Header & Navigation */
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: rgba(255, 252, 248, 0.95);
-        z-index: 1000;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid rgba(230, 230, 230, 0.3);
-        backdrop-filter: blur(10px);
-    }
-
-    .header.scrolled {
-        box-shadow: var(--shadow);
-    }
-
-    .logo {
-        font-family: 'Cormorant', serif;
-        font-size: 28px;
-        font-weight: 700;
-        color: var(--text-color);
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
-
-    .nav-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 0;
-    }
-
-    .main-nav {
-        display: flex;
-        gap: 40px;
-    }
-
-    .nav-link {
-        color: var(--text-color);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        position: relative;
-        padding-bottom: 5px;
-        text-transform: uppercase;
-    }
-
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background-color: var(--accent-color);
-        transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after,
-    .nav-link.active::after {
-        width: 100%;
-    }
-
-    .nav-actions {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-    }
-
-    .nav-icon {
-        color: var(--text-color);
-        font-size: 18px;
-        transition: color 0.3s ease;
-    }
-
-    .nav-icon:hover {
-        color: var(--accent-color);
-    }
-
-    .cart-icon {
-        position: relative;
-    }
-
-    .cart-count {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 18px;
-        height: 18px;
-        background-color: var(--accent-color);
-        color: var(--white);
-        border-radius: 50%;
-        font-size: 10px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-    }
-
-    .mobile-menu-btn span {
-        display: block;
-        width: 25px;
-        height: 2px;
-        background-color: var(--text-color);
-        margin: 5px 0;
-        transition: all 0.3s ease;
-    }
-
-    /* Page Header Section */
-    .page-header {
-        position: relative;
-        height: 40vh;
-        min-height: 300px;
-        display: flex;
-        align-items: center;
-        margin-top: 80px;
-        overflow: hidden;
-    }
-
-    .page-header-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('/img/bucketMain.webp');
-        background-size: cover;
-        background-position: center;
-        z-index: 1;
-    }
-
-    .page-header-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to right, rgba(45, 45, 45, 0.7), rgba(45, 45, 45, 0.4));
-        z-index: 2;
-    }
-
-    .page-header-content {
-        position: relative;
-        z-index: 3;
-        color: var(--white);
-        max-width: 800px;
-    }
-
-    .page-title {
-        font-size: 3rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        letter-spacing: -0.02em;
-    }
-
-    .page-description {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        font-weight: 300;
-        max-width: 600px;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 991px) {
-        .main-nav {
-            display: none;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Премиальная навигация</title>
+    <style>
+        /* Общие стили */
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #f5f5f5;
+            --accent-color: #c9a980;
+            --text-color: #333333;
+            --transition: all 0.3s ease;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        /* Стили навигации */
+        .nav-container {
+            width: 100%;
+            background-color: var(--secondary-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-link {
+            margin-left: 20px;
+            color: var(--primary-color);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .icon-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* Стили для мобильной навигации */
         .mobile-menu-btn {
-            display: block;
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
         }
 
-        .page-header {
-            height: 35vh;
+        @media screen and (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-color);
+                padding: 20px 0;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-item {
+                margin: 10px 40px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-icons {
+                display: none;
+            }
         }
+    </style>
+</head>
+<body>
+<!-- Навигационное меню -->
+<nav class="nav-container">
+    <div class="nav-wrapper">
+        <a href="/" class="brand-logo">LUXE</a>
 
-        .page-title {
-            font-size: 2.5rem;
-        }
-    }
+        <button class="mobile-menu-btn">☰</button>
 
-    @media (max-width: 767px) {
-        .page-header {
-            height: 30vh;
-        }
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>
+            <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>
+            <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>
+            <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>
+            <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>
+        </ul>
 
-        .page-title {
-            font-size: 2rem;
-        }
-
-        .page-description {
-            font-size: 1rem;
-        }
-    }
-
-    /* Стили для активного мобильного меню */
-    .main-nav.active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background-color: var(--white);
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        z-index: 1000;
-    }
-
-    .mobile-menu-btn.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .mobile-menu-btn.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .mobile-menu-btn.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -6px);
-    }
-</style>
+        <div class="nav-icons">
+            <a href="/search" class="icon-link">⌕</a>
+            <a href="/account" class="icon-link">◯</a>
+            <a href="/cart" class="icon-link">☐</a>
+        </div>
+    </div>
+</nav>
 
 <script>
-    // Прокрутка шапки
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('.header');
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Мобильное меню
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mainNav = document.querySelector('.main-nav');
-
-    if (mobileMenuBtn && mainNav) {
-        mobileMenuBtn.addEventListener('click', function() {
-            this.classList.toggle('active');
-            mainNav.classList.toggle('active');
-        });
-    }
-
-    // Активный пункт меню
-    const currentPage = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (currentPage === href || (href !== '/' && currentPage.startsWith(href))) {
-            link.classList.add('active');
-        }
+    // Простой скрипт для мобильного меню
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.nav-menu').classList.toggle('active');
     });
 </script>
+</body>
+</html>
