@@ -60,25 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDetailsDTO(category);
     }
 
-    @Override
-    @Transactional
-    public CategoryDetailsDTO createCategory(CreateCategoryDTO createDTO) {
-        log.info("Создание новой категории: {}", createDTO.getName());
 
-        // Создаем и сохраняем категорию
-        Category category = categoryMapper.toEntityFromCreateDTO(createDTO);
-        Category savedCategory = categoryRepository.save(category);
-        log.info("Категория успешно создана с ID: {}", savedCategory.getId());
-
-        return categoryMapper.toDetailsDTO(savedCategory);
-    }
-
-    /**
-     * Создает новую категорию и загружает изображение
-     * @param createDTO DTO с данными для создания категории
-     * @param imageFile Файл изображения
-     * @return Детали созданной категории
-     */
     @Transactional
     public CategoryDetailsDTO createCategoryWithImage(CreateCategoryDTO createDTO, MultipartFile imageFile) {
         log.info("Создание новой категории с изображением: {}", createDTO.getName());

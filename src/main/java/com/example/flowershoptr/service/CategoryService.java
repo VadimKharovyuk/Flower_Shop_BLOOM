@@ -9,17 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+ public interface CategoryService {
 
-
-
-    public interface CategoryService {
-        // Существующие методы
         Page<CategoryListDTO> getAllCategories(Pageable pageable);
         Page<CategoryListDTO> getActiveCategories(Pageable pageable);
         Page<CategoryListDTO> getFeaturedCategories(Pageable pageable);
         CategoryDetailsDTO getCategoryById(Long id);
-        CategoryDetailsDTO createCategory(CreateCategoryDTO createDTO);
         CategoryDetailsDTO updateCategory(Long id, UpdateCategoryDTO updateDTO);
         CategoryDetailsDTO toggleCategoryActive(Long id, boolean isActive);
         void deleteCategory(Long id);

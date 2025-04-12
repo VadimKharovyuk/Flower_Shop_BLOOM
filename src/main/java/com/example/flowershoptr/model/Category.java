@@ -38,7 +38,6 @@ public class Category {
     @Column(name = "is_featured")
     private boolean isFeatured = false; //main Page
 
-
     @Column(name = "is_active")
     private boolean isActive = true;
 

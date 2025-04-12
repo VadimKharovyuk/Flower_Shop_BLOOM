@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Фрагмент секции партнеров -->
+<section th:fragment="partners" class="partners-section">
+  <div class="partners-container">
+    <div class="partners-header">
+      <h2 class="partners-title">Наши партнеры</h2>
+      <p class="partners-subtitle">Мы сотрудничаем с лучшими брендами и компаниями для создания уникальных проектов</p>
+      <div class="partners-decoration">
+        <span class="line"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <div class="partners-logos">
+      <div class="partner-item">
+        <img src="/img/partners/partner-1.png" alt="Партнер 1" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-2.png" alt="Партнер 2" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-3.png" alt="Партнер 3" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-4.png" alt="Партнер 4" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-5.png" alt="Партнер 5" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-6.png" alt="Партнер 6" class="partner-logo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Фрагмент секции партнеров с дополнительной информацией -->
+<section th:fragment="partners-with-cta" class="partners-section">
+  <div class="partners-container">
+    <div class="partners-header">
+      <h2 class="partners-title">Наши партнеры</h2>
+      <p class="partners-subtitle">Мы сотрудничаем с лучшими брендами и компаниями для создания уникальных проектов</p>
+      <div class="partners-decoration">
+        <span class="line"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <div class="partners-logos">
+      <div class="partner-item">
+        <img src="/img/wedding-couple.jpg" alt="Партнер 1" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/wedding-couple.jpg" alt="Партнер 2" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-3.png" alt="Партнер 3" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-4.png" alt="Партнер 4" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-5.png" alt="Партнер 5" class="partner-logo">
+      </div>
+      <div class="partner-item">
+        <img src="/img/partners/partner-6.png" alt="Партнер 6" class="partner-logo">
+      </div>
+    </div>
+
+    <div class="partners-cta">
+      <p>Заинтересованы в сотрудничестве с нашей компанией?</p>
+      <a href="/contact" class="partners-button">Стать партнером</a>
+    </div>
+  </div>
+</section>
+
+<!-- CSS для секции партнеров -->
+<style th:fragment="partners-css">
+  /* Стили для секции партнеров */
+  .partners-section {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+
+  .partners-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .partners-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .partners-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+  }
+
+  .partners-subtitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+
+  .partners-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .partners-decoration .line {
+    width: 40px;
+    height: 1px;
+    background-color: #c9a980;
+  }
+
+  .partners-decoration .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #c9a980;
+    margin: 0 10px;
+  }
+
+  .partners-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .partner-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .partner-logo {
+    max-width: 140px;
+    max-height: 70px;
+    filter: grayscale(100%) opacity(0.7);
+    transition: all 0.3s ease;
+  }
+
+  .partner-item:hover .partner-logo {
+    filter: grayscale(0%) opacity(1);
+  }
+
+  .partners-cta {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+  }
+
+  .partners-cta p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .partners-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #1a1a1a;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 1px solid #1a1a1a;
+  }
+
+  .partners-button:hover {
+    background-color: transparent;
+    color: #1a1a1a;
+  }
+
+  /* Адаптивность для планшетов */
+  @media (max-width: 992px) {
+    .partners-logos {
+      gap: 40px;
+    }
+
+    .partner-logo {
+      max-width: 120px;
+    }
+  }
+
+  /* Адаптивность для мобильных устройств */
+  @media (max-width: 576px) {
+    .partners-section {
+      padding: 60px 0;
+    }
+
+    .partners-title {
+      font-size: 28px;
+    }
+
+    .partners-logos {
+      gap: 30px;
+    }
+
+    .partner-logo {
+      max-width: 100px;
+    }
+  }
+</style>
+
+<!-- Пример использования фрагмента секции партнеров -->
+
+</body>
+</html>

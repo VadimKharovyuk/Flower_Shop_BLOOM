@@ -1,0 +1,494 @@
+/* Основные стили в духе премиального минимализма */
+body {
+    font-family: 'Cormorant Garamond', 'Montserrat', sans-serif;
+    color: #1a1a1a;
+    background-color: #f8f8f8;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.categories-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.categories-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.categories-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.categories-subtitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.category-card {
+    position: relative;
+    background-color: #fff;
+    border: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.category-image {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.category-card:hover .category-image img {
+    transform: scale(1.05);
+}
+
+.category-info {
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    background-color: #fff;
+}
+
+.category-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+}
+
+.category-products {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+.pagination {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #1a1a1a;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination-button:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination-button.active {
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+}
+
+.pagination-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.no-results {
+    text-align: center;
+    padding: 50px 0;
+    font-size: 18px;
+    color: #666;
+}
+
+/* Исправление для header-content */
+.header-content {
+    margin: 0 auto; /* Центрирование контента */
+}
+
+/* Дополнительное определение контейнера для заголовка */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для секции Event Design */
+.event-design-section {
+    width: 100%;
+    height: 80vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.event-design-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+.event-design-content {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.event-design-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.event-design-subtitle {
+    font-size: 16px;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.contact-btn {
+    display: inline-block;
+    background-color: #e63946;
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    background-color: #c1121f;
+}
+
+/* Стили для секции What's Included */
+.included-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.included-title {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.included-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 1px;
+    background-color: #1a1a1a;
+}
+
+.included-row {
+    display: flex;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.included-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.included-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-height: 350px;
+}
+
+.included-description {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 300px;
+    background-color: #fff;
+}
+
+.included-description h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.included-description p {
+    color: #666;
+    line-height: 1.8;
+}
+
+.special-design {
+    text-align: center;
+    padding: 20px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #666;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 992px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .included-row {
+        flex-direction: column;
+    }
+
+    .included-row:nth-child(even) {
+        flex-direction: column;
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 576px) {
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .categories-title {
+        font-size: 32px;
+    }
+
+    .category-card {
+        height: 320px;
+    }
+
+    .category-image {
+        height: 220px;
+    }
+
+    .event-design-content {
+        padding: 30px;
+        max-width: 90%;
+    }
+
+    .event-design-title {
+        font-size: 28px;
+    }
+}
+
+/* Стили для секции Instagram */
+.instagram-feed-section {
+    padding: 80px 0;
+    background-color: #f8f8f8;
+}
+
+.instagram-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.instagram-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.instagram-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+.instagram-subtitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+
+.instagram-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.instagram-decoration .line {
+    width: 40px;
+    height: 1px;
+    background-color: #c9a980;
+}
+
+.instagram-decoration .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #c9a980;
+    margin: 0 10px;
+}
+
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.instagram-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.instagram-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.instagram-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.instagram-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.instagram-overlay i {
+    color: white;
+    font-size: 30px;
+}
+
+.instagram-item:hover .instagram-image {
+    transform: scale(1.05);
+}
+
+.instagram-item:hover .instagram-overlay {
+    opacity: 1;
+}
+
+.instagram-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.instagram-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #1a1a1a;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 1px solid #1a1a1a;
+}
+
+.instagram-button i {
+    margin-right: 8px;
+}
+
+.instagram-button:hover {
+    background-color: transparent;
+    color: #1a1a1a;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 992px) {
+    .instagram-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 576px) {
+    .instagram-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .instagram-title {
+        font-size: 28px;
+    }
+
+    .instagram-feed-section {
+        padding: 60px 0;
+    }
+}
+
+

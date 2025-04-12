@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Фрагмент футера -->
+<footer th:fragment="footer" class="site-footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-logo-column">
+        <div class="footer-logo">
+          <img src="/img/wedding-couple.jpg" alt="Логотип компании">
+        </div>
+        <p class="footer-description">Эксклюзивные флористические решения для особенных моментов. Мы сочетаем изысканный вкус и премиальное качество в каждой композиции.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">Компания</h3>
+        <ul class="footer-links">
+          <li><a href="/about">О нас</a></li>
+          <li><a href="/services">Услуги</a></li>
+          <li><a href="/portfolio">Портфолио</a></li>
+          <li><a href="/testimonials">Отзывы</a></li>
+          <li><a href="/blog">Блог</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">Категории</h3>
+        <ul class="footer-links">
+          <li><a href="/categories/bouquets">Букеты</a></li>
+          <li><a href="/categories/arrangements">Композиции</a></li>
+          <li><a href="/categories/wedding">Свадебная флористика</a></li>
+          <li><a href="/categories/events">Оформление мероприятий</a></li>
+          <li><a href="/categories/gifts">Подарки</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-column">
+        <h3 class="footer-column-title">Контакты</h3>
+        <ul class="footer-contact-info">
+          <li><i class="fas fa-map-marker-alt"></i> <span>ул. Цветочная, 123, Москва</span></li>
+          <li><i class="fas fa-phone"></i> <span>+7 (495) 123-45-67</span></li>
+          <li><i class="fas fa-envelope"></i> <span>info@example.com</span></li>
+          <li><i class="fas fa-clock"></i> <span>Пн-Вс: 9:00 - 20:00</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        <p>&copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2023</span> Ваша компания. Все права защищены.</p>
+      </div>
+      <div class="footer-bottom-links">
+        <a href="/privacy-policy">Политика конфиденциальности</a>
+        <a href="/terms">Условия использования</a>
+        <a href="/delivery">Доставка</a>
+      </div>
+      <div class="footer-payment">
+        <img src="/img/payment-methods.jpg" alt="Способы оплаты">
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CSS для футера -->
+<style th:fragment="footer-css">
+  /* Стили для футера */
+  .site-footer {
+    background-color: #fafafa;
+    color: #666;
+    padding: 80px 0 30px;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 1px solid #eee;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+
+  .footer-logo-column {
+    max-width: 300px;
+  }
+
+  .footer-logo {
+    margin-bottom: 20px;
+  }
+
+  .footer-logo img {
+    max-width: 150px;
+    height: auto;
+  }
+
+  .footer-description {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #777;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 15px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .social-link:hover {
+    background-color: #1a1a1a;
+    color: white;
+  }
+
+  .footer-column-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .footer-column-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 1px;
+    background-color: #c9a980;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+
+  .footer-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: #1a1a1a;
+  }
+
+  .footer-contact-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-contact-info li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .footer-contact-info i {
+    margin-right: 12px;
+    color: #c9a980;
+    font-size: 16px;
+    margin-top: 3px;
+  }
+
+  .footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-copyright p {
+    font-size: 13px;
+    color: #888;
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-bottom-links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-bottom-links a:hover {
+    color: #1a1a1a;
+  }
+
+  .footer-payment img {
+    height: 25px;
+  }
+
+  /* Адаптивность для планшетов */
+  @media (max-width: 992px) {
+    .footer-top {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .site-footer {
+      padding: 60px 0 30px;
+    }
+  }
+
+  /* Адаптивность для мобильных устройств */
+  @media (max-width: 576px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .footer-bottom-links {
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+</style>
+
+</body>
+</html>

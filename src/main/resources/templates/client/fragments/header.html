@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Фрагмент заголовка страницы с изображением и описанием -->
+<header th:fragment="page-header(title, subtitle, backgroundUrl)" class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-background" th:style="${backgroundUrl != null} ? 'background-image: url(' + ${backgroundUrl} + ')' : ''"></div>
+  <div class="container">
+    <div class="header-content">
+      <h1 class="header-title" th:text="${title}">Заголовок страницы</h1>
+      <p class="header-subtitle" th:text="${subtitle}">Подзаголовок или краткое описание</p>
+      <div class="header-decoration">
+        <span class="line"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Фрагмент заголовка страницы с дополнительной кнопкой -->
+<header th:fragment="page-header-with-button(title, subtitle, buttonText, buttonUrl, backgroundUrl)" class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-background" th:style="${backgroundUrl != null} ? 'background-image: url(' + ${backgroundUrl} + ')' : ''"></div>
+  <div class="container">
+    <div class="header-content">
+      <h1 class="header-title" th:text="${title}">Заголовок страницы</h1>
+      <p class="header-subtitle" th:text="${subtitle}">Подзаголовок или краткое описание</p>
+      <div class="header-decoration">
+        <span class="line"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+      <a th:if="${buttonText != null && buttonUrl != null}"
+         th:href="${buttonUrl}"
+         class="header-button"
+         th:text="${buttonText}">Кнопка</a>
+    </div>
+  </div>
+</header>
+
+
+<!-- CSS для заголовков страниц -->
+<style th:fragment="header-css">
+  /* Базовые стили для заголовков страниц */
+  .page-header {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+  }
+
+  .page-header:hover .header-background {
+    transform: scale(1);
+  }
+
+  .header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards 0.3s;
+  }
+
+  .header-title {
+    font-family: var(--serif-font, 'Playfair Display', serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  .header-subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .header-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+
+  .header-decoration .line {
+    width: 40px;
+    height: 1px;
+    background-color: var(--accent-color, #c9a980);
+  }
+
+  .header-decoration .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-color, #c9a980);
+    margin: 0 10px;
+  }
+
+  .header-button {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: var(--accent-color, #c9a980);
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent-color, #c9a980);
+  }
+
+  .header-button:hover {
+    background-color: transparent;
+    color: white;
+  }
+
+  /* Стили для Hero секции (главная страница) */
+  .hero-header {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 80px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards 0.5s;
+  }
+
+  .hero-title {
+    font-family: var(--serif-font, 'Playfair Display', serif);
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .hero-button {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: var(--accent-color, #c9a980);
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent-color, #c9a980);
+  }
+
+  .hero-button:hover {
+    background-color: transparent;
+    color: white;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.5s;
+  }
+
+  .scroll-text {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+
+  .scroll-icon {
+    width: 30px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    position: relative;
+  }
+
+  .scroll-icon::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    background-color: white;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    animation: scrollAnimation 2s infinite;
+  }
+
+  /* Анимации */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scrollAnimation {
+    0% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Адаптивность */
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      height: 250px;
+    }
+
+    .header-title {
+      font-size: 2rem;
+    }
+
+    .header-subtitle {
+      font-size: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .page-header {
+      height: 220px;
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .hero-button, .header-button {
+      padding: 10px 24px;
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<!-- Примеры использования фрагментов -->
+<div th:fragment="header-examples">
+  <!-- Пример обычного заголовка страницы -->
+  <div th:replace="~{client/fragments/header :: page-header('О нас', 'Узнайте больше о нашей компании и нашей страсти к цветам', '/images/about-bg.jpg')}"></div>
+
+  <!-- Пример заголовка с кнопкой -->
+  <div th:replace="~{client/fragments/header :: page-header-with-button('Наша коллекция', 'Откройте для себя уникальные цветочные композиции', 'Смотреть все', '/catalog', '/images/collection-bg.jpg')}"></div>
+
+  <!-- Пример hero секции для главной страницы -->
+  <div th:replace="~{client/fragments/header :: hero-header('Превосходство в каждом букете', 'Уникальные цветочные композиции для особенных моментов', 'Открыть каталог', '/catalog', '/images/hero-bg.jpg')}"></div>
+</div>
+</body>
+</html>

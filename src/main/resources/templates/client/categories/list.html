@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключение шрифтов (рекомендуемые для премиального минимализма) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap">
+  <!-- Подключение иконок Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Подключение CSS для навигации -->
+  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+  <style th:replace="~{client/fragments/header :: header-css}"></style>
+  <link rel="stylesheet" href="/css/category/categories.css"></link>
+  <title>Категории</title>
+
+</head>
+<body>
+
+<!-- Навигация (подключенная извне) -->
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+
+<div th:replace="~{client/fragments/header :: page-header-with-button('Наша коллекция', 'Откройте для себя уникальные цветочные композиции', 'Смотреть все', '/catalog', '/img/bucketMain.webp')}"></div>
+
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+
+<!-- Контент страницы -->
+<div class="categories-container">
+  <div class="categories-header">
+    <h1 class="categories-title">Категории</h1>
+    <p class="categories-subtitle">Исследуйте нашу коллекцию премиальных категорий, каждая из которых отражает наше стремление к совершенству и изысканности.</p>
+  </div>
+
+  <!-- Если категории не найдены -->
+  <div class="no-results" th:if="${categories.empty}">
+    На данный момент категории недоступны. Пожалуйста, проверьте позже.
+  </div>
+
+  <!-- Сетка категорий -->
+  <div class="categories-grid" th:if="${!categories.empty}">
+    <div class="category-card" th:each="category : ${categories}">
+      <!--      <a th:href="@{'/categories/' + ${category.slug}}"> &lt;!&ndash; Добавлен открывающий тег <a> &ndash;&gt;-->
+      <div class="category-image">
+        <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
+             th:alt="${category.name}">
+      </div>
+      <div class="category-info">
+        <h2 class="category-name" th:text="${category.name}">Название категории</h2>
+        <!--          <p class="category-products" th:text="${category.productCount + ' товаров'}">0 товаров</p>-->
+      </div>
+      <!--      </a>-->
+    </div>
+  </div>
+
+  <!-- Пагинация -->
+  <div class="pagination" th:if="${totalPages > 1}">
+    <!-- Кнопка "Предыдущая" -->
+    <a class="pagination-button"
+       th:classappend="${currentPage == 0 ? 'disabled' : ''}"
+       th:href="@{/categories(page=${currentPage - 1}, size=${categories.size}, sortBy=${param.sortBy}, ascending=${param.ascending})}"
+       th:if="${currentPage > 0}">
+      &laquo;
+    </a>
+
+    <!-- Номера страниц -->
+    <th:block th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+      <a class="pagination-button"
+         th:classappend="${i == currentPage ? 'active' : ''}"
+         th:href="@{/categories(page=${i}, size=${categories.size}, sortBy=${param.sortBy}, ascending=${param.ascending})}"
+         th:text="${i + 1}">
+      </a>
+    </th:block>
+
+    <!-- Кнопка "Следующая" -->
+    <a class="pagination-button"
+       th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}"
+       th:href="@{/categories(page=${currentPage + 1}, size=${categories.size}, sortBy=${param.sortBy}, ascending=${param.ascending})}"
+       th:if="${currentPage < totalPages - 1}">
+      &raquo;
+    </a>
+  </div>
+</div>
+
+<!-- Секция Event Design -->
+<section class="event-design-section">
+  <img src="/img/wedding-couple.jpg" alt="Свадебный дизайн" class="event-design-bg">
+  <div class="event-design-content">
+    <h2 class="event-design-title">EVENT DESIGN</h2>
+    <p class="event-design-subtitle">Get a quote for your event</p>
+    <a href="/contact" class="contact-btn">Contact us</a>
+  </div>
+</section>
+
+<!-- Секция What's Included with your ORDER -->
+<section class="included-section">
+  <h2 class="included-title">What's Included with your ORDER:</h2>
+
+  <!-- Первый ряд: описание слева, фото справа -->
+  <div class="included-row">
+    <div class="included-description">
+      <h3>Персональная консультация</h3>
+      <p>Наши опытные флористы проведут с вами персональную консультацию, чтобы понять ваши предпочтения, стиль и бюджет мероприятия. Мы работаем с каждым клиентом индивидуально, создавая уникальные цветочные композиции, которые идеально дополнят ваше событие.</p>
+    </div>
+    <div class="included-image">
+      <img src="/img/wedding-couple.jpg" alt="Персональная консультация">
+    </div>
+  </div>
+
+  <!-- Второй ряд: фото слева, описание справа -->
+  <div class="included-row">
+    <div class="included-image">
+      <img src="/img/bucketMain.webp" alt="Профессиональный дизайн">
+    </div>
+    <div class="included-description">
+      <h3>Профессиональный дизайн</h3>
+      <p>Наша команда дизайнеров создаст для вас эксклюзивные цветочные композиции с учетом тематики вашего мероприятия. Мы используем только свежие цветы высочайшего качества и уникальные декоративные элементы, чтобы создать неповторимые цветочные аранжировки.</p>
+    </div>
+  </div>
+
+  <div class="special-design">SPECIAL DESIGN</div>
+</section>
+
+
+
+
+<!-- Секция Instagram-ленты -->
+<section class="instagram-feed-section">
+  <div class="instagram-container">
+    <div class="instagram-header">
+      <h2 class="instagram-title">Мы в Instagram</h2>
+      <p class="instagram-subtitle">Следите за нашими последними работами и вдохновляйтесь</p>
+      <div class="instagram-decoration">
+        <span class="line"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <div class="instagram-grid">
+      <!-- Изображения из Instagram -->
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-1.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-2.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-3.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-4.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-5.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="instagram-item">
+        <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-link">
+          <div class="instagram-image-container">
+            <img src="/img/instagram/insta-6.jpg" alt="Instagram пост" class="instagram-image">
+            <div class="instagram-overlay">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="instagram-footer">
+      <a href="https://www.instagram.com/youraccount" target="_blank" class="instagram-button">
+        <i class="fab fa-instagram"></i> Подписаться
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<div th:fragment="partners-example">
+  <!-- Подключение CSS для секции партнеров -->
+  <style th:replace="~{client/fragments/partners :: partners-css}"></style>
+
+
+  <div th:replace="~{client/fragments/partners :: partners-with-cta}"></div>
+</div>
+
+
+
+<!-- Пример использования фрагмента футера -->
+<div th:fragment="footer-example">
+  <!-- Подключение CSS для футера -->
+  <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+  <!-- Подключение футера -->
+  <div th:replace="~{client/fragments/footer :: footer}"></div>
+</div>
+
+
+</body>
+</html>
