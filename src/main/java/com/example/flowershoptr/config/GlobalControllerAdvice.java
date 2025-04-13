@@ -3,6 +3,7 @@ package com.example.flowershoptr.config;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.CategoryService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -35,15 +36,15 @@ public class GlobalControllerAdvice {
     /**
      * Добавляет количество товаров в корзине во все модели
      */
-//    @ModelAttribute("cartCount")
-//    public Integer getCartCount() {
-//        try {
-//            return cartService.getCartItemCount();
-//        } catch (Exception e) {
-//            log.error("Ошибка при получении количества товаров в корзине", e);
-//            return 0;
-//        }
-//    }
+    @ModelAttribute("cartCount")
+    public Integer getCartCount(HttpSession session) {
+        try {
+            return cartService.getCartItemCount(session);
+        } catch (Exception e) {
+            log.error("Ошибка при получении количества товаров в корзине", e);
+            return 0;
+        }
+    }
 
     /**
      * Добавляет переменную текущего года для футера

@@ -32,7 +32,7 @@
         :root {
             --primary-bg: #FFFCF8;
             --secondary-bg: #F8F4F0;
-            --accent-color: #E8B4B8;
+            --accent-color: #d52d21;
             --accent-hover: #D69CA0;
             --text-color: #2D2D2D;
             --light-text: #696969;
@@ -238,28 +238,6 @@
             margin: 5px 0;
             transition: all 0.3s ease;
         }
-
-        /* Hero Section */
-
-
-        /* Categories */
-
-
-        /* Featured Products */
-
-        /* About Section */
-
-
-        /* Testimonials */
-
-
-        /* Instagram Feed */
-
-
-        /* Newsletter */
-
-
-        /* Footer */
 
 
         /* Media Queries */
@@ -725,9 +703,9 @@
                     </form>
                 </div>
                 <a href="#" class="nav-icon"><i class="far fa-heart"></i></a>
-                <a href="#" class="nav-icon cart-icon">
+                <a href="/cart" class="nav-icon cart-icon">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">0</span>
+                    <span th:text="${cartCount ?: 0}">0</span>
                 </a>
 
                 <button class="mobile-menu-btn">

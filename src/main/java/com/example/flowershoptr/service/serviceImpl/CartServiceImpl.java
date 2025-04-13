@@ -275,30 +275,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Integer getCartItemCount(HttpSession session) {
-        if (session == null) {
+        Cart cart = (Cart) session.getAttribute(CART_SESSION_KEY);
+        if (cart == null) {
             return 0;
         }
-
-        Object cartObj = session.getAttribute(CART_SESSION_KEY);
-
-        if (cartObj == null) {
-            return 0;
-        }
-
-        if (!(cartObj instanceof Cart)) {
-            log.warn("Unexpected cart type in session: {}", cartObj.getClass());
-            return 0;
-        }
-
-        Cart cart = (Cart) cartObj;
-        int itemCount = cart.getItems() != null
-                ? cart.getItems().stream()
+        return cart.getItems().stream()
                 .mapToInt(CartItem::getQuantity)
-                .sum()
-                : 0;
-
-        log.debug("Cart item count calculated: {}", itemCount);
-        return itemCount;
+                .sum();
     }
 
 
