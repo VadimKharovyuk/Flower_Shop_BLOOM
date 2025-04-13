@@ -29,9 +29,8 @@
         <a href="/favorites" class="nav-icon"><i class="far fa-heart"></i></a>
         <a href="/cart" class="nav-icon cart-icon">
           <i class="fas fa-shopping-bag"></i>
-          <span class="cart-count" th:text="${cartCount ?: '0'}">0</span>
+          <span th:text="${cartItemCount ?: 0}">0</span>
         </a>
-
         <button class="mobile-menu-btn">
           <span></span>
           <span></span>

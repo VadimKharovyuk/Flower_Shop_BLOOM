@@ -701,70 +701,6 @@
   <div th:replace="~{client/fragments/sidebar-search :: sidebar-search}"></div>
 
   <script th:replace="~{client/fragments/sidebar-search :: sidebar-search-js}"></script>
-  <!-- Боковая панель слева -->
-<!--  <aside class="category-sidebar">-->
-<!--    &lt;!&ndash; Мобильная кнопка для отображения/скрытия фильтров &ndash;&gt;-->
-<!--    <div class="mobile-filter-toggle">-->
-<!--      <i class="fas fa-filter"></i> Показать фильтры-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Блок поиска &ndash;&gt;-->
-<!--    <div class="sidebar-block search-block">-->
-<!--      <h3 class="sidebar-title">Поиск</h3>-->
-<!--      <form th:action="@{/categories/search}" method="get" class="search-form">-->
-<!--        <div class="search-input-wrapper">-->
-<!--          <input type="text" name="query" placeholder="Искать цветы..."-->
-<!--                 th:value="${param.query}" class="search-input">-->
-<!--          <button type="submit" class="search-button">-->
-<!--            <i class="fas fa-search"></i>-->
-<!--          </button>-->
-<!--        </div>-->
-<!--&lt;!&ndash;        &lt;!&ndash; Опциональные скрытые параметры для контекстного поиска &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        <input type="hidden" name="categoryId" th:value="${category != null ? category.id : ''}"&ndash;&gt;-->
-<!--&lt;!&ndash;               th:if="${category != null}">&ndash;&gt;-->
-<!--      </form>-->
-<!--    </div>-->
-
-
-<!--    &lt;!&ndash; Блок фильтров (если есть) &ndash;&gt;-->
-<!--    <div class="sidebar-block" th:if="${category.description}">-->
-<!--      <h3 class="sidebar-title">Фильтры</h3>-->
-<!--      <form th:action="@{'/categories/' + ${category.id}}" method="get">-->
-
-<!--        &lt;!&ndash; Фильтр по цене &ndash;&gt;-->
-<!--        <div class="filter-group">-->
-<!--          <h4 class="filter-title">Цена</h4>-->
-<!--          <div class="price-filter-vertical">-->
-<!--            <div class="price-input-wrapper">-->
-<!--              <label for="min-price">От:</label>-->
-<!--              <input type="number" id="min-price" name="minPrice" placeholder="От" th:value="${param.minPrice}">-->
-<!--            </div>-->
-<!--            <div class="price-input-wrapper">-->
-<!--              <label for="max-price">До:</label>-->
-<!--              <input type="number" id="max-price" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Еще один пример фильтра &ndash;&gt;-->
-<!--        <div class="filter-group">-->
-<!--          <h4 class="filter-title">Наличие</h4>-->
-<!--          <div class="filter-checkbox">-->
-<!--            <input type="checkbox" id="in-stock" name="inStock" value="true" th:checked="${param.inStock}">-->
-<!--            <label for="in-stock">В наличии</label>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Скрытые поля для сохранения параметров сортировки и пагинации &ndash;&gt;-->
-<!--        <input type="hidden" name="page" value="0">-->
-<!--        <input type="hidden" name="size" th:value="${param.size ?: 12}">-->
-<!--        <input type="hidden" name="sortBy" th:value="${param.sortBy ?: 'name'}">-->
-<!--        <input type="hidden" name="ascending" th:value="${param.ascending ?: true}">-->
-
-<!--        <button type="submit" class="filter-button">Применить</button>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </aside>-->
 
   <!-- Основное содержимое с товарами (справа от боковой панели) -->
   <div class="category-main">
@@ -831,17 +767,142 @@
           </div>
 
           <!-- Кнопки действий -->
-          <div class="product-actions">
-            <button class="add-to-cart" th:attr="data-id=${flower.id}">В корзину</button>
-            <div class="action-icons">
-              <div class="product-icon add-to-wishlist" th:attr="data-id=${flower.id}" title="Добавить в избранное">
-                <i class="far fa-heart"></i>
-              </div>
-              <a th:href="@{'/flowers/' + ${flower.id}}" class="product-icon quick-view" title="Быстрый просмотр">
-                <i class="far fa-eye"></i>
-              </a>
+
+          <!-- Форма добавления в корзину -->
+          <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
+            <input type="hidden" name="flowerId" th:value="${flower.id}">
+            <input type="hidden" name="redirectUrl" th:value="@{${#currentUrl}}">
+
+            <!-- Опциональный input для количества -->
+            <div class="quantity-control">
+              <button type="button" class="quantity-decrease">-</button>
+              <input type="number" name="quantity" value="1" min="1" class="quantity-input">
+              <button type="button" class="quantity-increase">+</button>
             </div>
-          </div>
+
+            <div class="product-actions">
+              <button type="submit" class="add-to-cart">В корзину</button>
+              <div class="action-icons">
+                <div class="product-icon add-to-wishlist" th:attr="data-id=${flower.id}" title="Добавить в избранное">
+                  <i class="far fa-heart"></i>
+                </div>
+                <a th:href="@{'/flowers/' + ${flower.id}}" class="product-icon quick-view" title="Быстрой просмотр">
+                  <i class="far fa-eye"></i>
+                </a>
+              </div>
+            </div>
+          </form>
+
+          <!-- JavaScript для управления количеством -->
+          <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+              // Обработка форм добавления в корзину
+              const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+
+              addToCartForms.forEach(form => {
+                // Decrease quantity
+                const decreaseBtn = form.querySelector('.quantity-decrease');
+                const increaseBtn = form.querySelector('.quantity-increase');
+                const quantityInput = form.querySelector('.quantity-input');
+
+                decreaseBtn.addEventListener('click', function() {
+                  let currentValue = parseInt(quantityInput.value);
+                  if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                  }
+                });
+
+                increaseBtn.addEventListener('click', function() {
+                  let currentValue = parseInt(quantityInput.value);
+                  quantityInput.value = currentValue + 1;
+                });
+
+                // Обработка отправки формы через AJAX (опционально)
+                form.addEventListener('submit', function(e) {
+                  e.preventDefault();
+
+                  const formData = new FormData(form);
+
+                  fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                  })
+                          .then(response => {
+                            // Показываем уведомление об успешном добавлении
+                            showNotification('Товар добавлен в корзину');
+                          })
+                          .catch(error => {
+                            console.error('Ошибка:', error);
+                            showNotification('Ошибка при добавлении товара в корзину');
+                          });
+                });
+              });
+
+              // Функция для показа уведомлений (можете использовать ранее созданную)
+              function showNotification(message) {
+                const existingNotification = document.querySelector('.notification');
+                if (existingNotification) {
+                  existingNotification.remove();
+                }
+
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#1a1a1a';
+                notification.style.color = 'white';
+                notification.style.padding = '15px 25px';
+                notification.style.borderRadius = '4px';
+                notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                notification.style.zIndex = '9999';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                notification.style.transition = 'opacity 0.3s, transform 0.3s';
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                  notification.style.opacity = '1';
+                  notification.style.transform = 'translateY(0)';
+                }, 10);
+
+                setTimeout(() => {
+                  notification.style.opacity = '0';
+                  notification.style.transform = 'translateY(20px)';
+
+                  setTimeout(() => {
+                    notification.remove();
+                  }, 300);
+                }, 3000);
+              }
+            });
+          </script>
+
+          <!-- CSS для quantity-control (можете добавить в свой существующий CSS) -->
+          <style>
+            .quantity-control {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+            }
+
+            .quantity-control button {
+              width: 30px;
+              height: 30px;
+              background-color: #f0f0f0;
+              border: 1px solid #ddd;
+              cursor: pointer;
+            }
+
+            .quantity-input {
+              width: 50px;
+              text-align: center;
+              margin: 0 10px;
+            }
+          </style>
+
         </div>
       </div>
     </div>
@@ -1023,61 +1084,82 @@
     }
 
     // Добавление товара в корзину
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const productId = this.getAttribute('data-id');
-
-        // Для демонстрации - просто показываем уведомление
-        showNotification('Товар добавлен в корзину');
-      });
-    });
-
-    // Функция для отображения уведомлений
-    function showNotification(message) {
-      // Проверяем, существует ли уже уведомление, если да - удаляем его
-      const existingNotification = document.querySelector('.notification');
-      if (existingNotification) {
-        existingNotification.remove();
-      }
-
-      // Создаем новое уведомление
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.innerHTML = message;
-      document.body.appendChild(notification);
-
-      // Добавляем стили для уведомления
-      notification.style.position = 'fixed';
-      notification.style.bottom = '20px';
-      notification.style.right = '20px';
-      notification.style.background = '#1a1a1a';
-      notification.style.color = 'white';
-      notification.style.padding = '12px 20px';
-      notification.style.borderRadius = '3px';
-      notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-      notification.style.zIndex = '1000';
-      notification.style.opacity = '0';
-      notification.style.transform = 'translateY(20px)';
-      notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-
-      // Анимация появления
-      setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateY(0)';
-      }, 10);
-
-      // Автоматическое скрытие уведомления через 3 секунды
-      setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
-
-        // Удаляем элемент после завершения анимации
-        setTimeout(() => {
-          notification.remove();
-        }, 300);
-      }, 3000);
-    }
+// Добавление товара в корзину
+//     document.addEventListener('DOMContentLoaded', function () {
+//       // Находим все кнопки "Добавить в корзину"
+//       const addToCartButtons = document.querySelectorAll('.add-to-cart');
+//       addToCartButtons.forEach(button => {
+//         button.addEventListener('click', function () {
+//           const productId = this.getAttribute('data-id');
+//           const quantity = 1;  // Количество товаров (можно динамически изменять, например, через поле ввода)
+//
+//           // Отправка AJAX-запроса для добавления товара в корзину
+//           fetch('/api/add', {
+//             method: 'POST',
+//             headers: {
+//               'Content-Type': 'application/x-www-form-urlencoded',
+//             },
+//             body: `flowerId=${productId}&quantity=${quantity}`  // Серриализуем параметры
+//           })
+//                   .then(response => response.json()) // Ожидаем, что сервер вернёт JSON
+//                   .then(data => {
+//                     // Уведомление о добавлении товара в корзину
+//                     if (data.success) {
+//                       showNotification('Товар добавлен в корзину');
+//                     } else {
+//                       showNotification('Ошибка при добавлении товара в корзину');
+//                     }
+//                   })
+//                   .catch(error => {
+//                     console.error('Ошибка при добавлении товара в корзину:', error);
+//                     showNotification('Ошибка при добавлении товара в корзину');
+//                   });
+//         });
+//       });
+//
+//       // Функция для отображения уведомлений
+//       function showNotification(message) {
+//         const existingNotification = document.querySelector('.notification');
+//         if (existingNotification) {
+//           existingNotification.remove();
+//         }
+//
+//         const notification = document.createElement('div');
+//         notification.className = 'notification';
+//         notification.innerHTML = message;
+//         document.body.appendChild(notification);
+//
+//         // Добавляем стили для уведомления
+//         notification.style.position = 'fixed';
+//         notification.style.bottom = '20px';
+//         notification.style.right = '20px';
+//         notification.style.background = '#1a1a1a';
+//         notification.style.color = 'white';
+//         notification.style.padding = '12px 20px';
+//         notification.style.borderRadius = '3px';
+//         notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+//         notification.style.zIndex = '1000';
+//         notification.style.opacity = '0';
+//         notification.style.transform = 'translateY(20px)';
+//         notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+//
+//         // Анимация появления
+//         setTimeout(() => {
+//           notification.style.opacity = '1';
+//           notification.style.transform = 'translateY(0)';
+//         }, 10);
+//
+//         // Автоматическое скрытие уведомления через 3 секунды
+//         setTimeout(() => {
+//           notification.style.opacity = '0';
+//           notification.style.transform = 'translateY(20px)';
+//
+//           setTimeout(() => {
+//             notification.remove();
+//           }, 300);
+//         }, 3000);
+//       }
+//     });
 
     // Добавление товара в избранное
     const wishlistButtons = document.querySelectorAll('.add-to-wishlist');

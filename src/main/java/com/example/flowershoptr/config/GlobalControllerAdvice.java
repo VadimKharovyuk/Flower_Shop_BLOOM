@@ -1,7 +1,10 @@
 package com.example.flowershoptr.config;
 
 import com.example.flowershoptr.dto.category.CategoryListDTO;
+import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.CategoryService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +21,31 @@ import java.util.List;
 public class GlobalControllerAdvice {
 
     private final CategoryService categoryService;
-//    private final CartService cartService; // Предполагаем, что у вас есть такой сервис
+    private final CartService cartService;
+    private final HttpServletRequest request;
+
+
+//    /**
+//     * Добавляет количество товаров в корзине во все модели
+//     */
+//    @ModelAttribute("cartCount")
+//    public Integer getCartCount() {
+//        try {
+//            HttpSession session = request.getSession(false);
+//            log.info("Session status: {}", session != null);
+//
+//            Integer count = session != null
+//                    ? cartService.getCartItemCount(session)
+//                    : 0;
+//
+//            log.info("Cart Count: {}", count);
+//            return count;
+//        } catch (Exception e) {
+//            log.error("Ошибка при получении количества товаров в корзине", e);
+//            return 0;
+//        }
+//    }
+
 
     /**
      * Добавляет список избранных категорий во все модели
@@ -31,18 +58,6 @@ public class GlobalControllerAdvice {
         return categories.getContent();
     }
 
-    /**
-     * Добавляет количество товаров в корзине во все модели
-     */
-//    @ModelAttribute("cartCount")
-//    public Integer getCartCount() {
-//        try {
-//            return cartService.getCartItemCount();
-//        } catch (Exception e) {
-//            log.error("Ошибка при получении количества товаров в корзине", e);
-//            return 0;
-//        }
-//    }
 
     /**
      * Добавляет переменную текущего года для футера

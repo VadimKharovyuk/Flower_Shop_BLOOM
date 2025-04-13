@@ -78,4 +78,7 @@ public interface CartService {
      * @return Обновленное DTO корзины
      */
     CartDto assignCartToUser(HttpSession session, Long userId);
+
+    Integer getCartItemCount(HttpSession session);
+
 }

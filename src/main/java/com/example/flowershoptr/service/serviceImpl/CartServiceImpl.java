@@ -11,12 +11,14 @@ import com.example.flowershoptr.repository.CartRepository;
 import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.service.CartService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,14 +29,16 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final FlowerRepository flowerRepository;
     private final CartMapper cartMapper;
+    private final HttpSession session;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
                            FlowerRepository flowerRepository,
-                           CartMapper cartMapper) {
+                           CartMapper cartMapper, HttpSession session) {
         this.cartRepository = cartRepository;
         this.flowerRepository = flowerRepository;
         this.cartMapper = cartMapper;
+        this.session = session;
     }
 
     @Override
@@ -78,6 +82,7 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
         }
 
+        System.out.println("корзина создана по " +session.getId());
         // Проверяем, есть ли уже такой цветок в корзине
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(item -> item.getFlower().getId().equals(flowerId))
@@ -266,6 +271,34 @@ public class CartServiceImpl implements CartService {
             return cartMapper.toDto(savedCart);
         }
     }
+
+
+    @Override
+    public Integer getCartItemCount(HttpSession session) {
+        if (session == null) {
+            return 0;
+        }
+
+        Object cartObj = session.getAttribute(CART_SESSION_KEY);
+
+        // Проверяем тип объекта в сессии
+        if (cartObj == null) {
+            return 0;
+        }
+
+        if (cartObj instanceof Cart) {
+            Cart cart = (Cart) cartObj;
+            return cart.getItems() != null
+                    ? cart.getItems().stream()
+                    .mapToInt(CartItem::getQuantity)
+                    .sum()
+                    : 0;
+        }
+
+        // На случай, если что-то пошло не так
+        return 0;
+    }
+
 
     // Вспомогательные методы
 

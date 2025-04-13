@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Table(name = "cart_items")
-public class CartItem implements Serializable {
+public class CartItem  implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

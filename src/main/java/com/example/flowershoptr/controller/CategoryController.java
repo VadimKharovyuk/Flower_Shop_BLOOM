@@ -45,6 +45,8 @@ public class CategoryController {
         Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         Page<CategoryListDTO> categories = categoryService.getActiveCategories(pageable);
 
+
+
         model.addAttribute("categories", categories);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", categories.getTotalPages());
@@ -86,7 +88,7 @@ public class CategoryController {
 
         // Получаем детали категории
         CategoryDetailsDTO category = categoryService.getCategoryById(id);
-
+        model.addAttribute("currentUrl", "/categories/" + id);
         // Проверяем, активна ли категория
         if (!category.isActive()) {
             log.warn("Попытка доступа к неактивной категории: {}", id);
@@ -98,6 +100,7 @@ public class CategoryController {
         Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         model.addAttribute("flowers", flowerService.getFlowersByCategory(id, pageable));
         model.addAttribute("currentPage", page);
+       
 
         return "client/categories/view";
     }

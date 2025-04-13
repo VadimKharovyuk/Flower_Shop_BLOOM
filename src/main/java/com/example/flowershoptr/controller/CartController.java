@@ -19,18 +19,6 @@ public class CartController {
     private final CartService cartService;
 //    private final OrderService orderService;
 
-
-
-    /**
-     * Отображение страницы корзины
-     */
-    @GetMapping
-    public String viewCart(HttpSession session, Model model) {
-        CartDto cart = cartService.getCartDto(session);
-        model.addAttribute("cart", cart);
-        return "client/cart/view";
-    }
-
     /**
      * Добавление цветка в корзину
      */
@@ -48,7 +36,6 @@ public class CartController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         // Если указан URL для редиректа, используем его
         if (redirectUrl != null && !redirectUrl.isEmpty()) {
             return "redirect:" + redirectUrl;
@@ -56,6 +43,70 @@ public class CartController {
 
         return "redirect:/cart";
     }
+//    @PostMapping("/add")
+//    public String addToCart(
+//            HttpSession session,
+//            @RequestParam Long flowerId,
+//            @RequestParam(defaultValue = "1") Integer quantity,
+//            @RequestParam(required = false) String redirectUrl,
+//            RedirectAttributes redirectAttributes) {
+//
+//        try {
+//            cartService.addFlowerToCart(session, flowerId, quantity);
+//            redirectAttributes.addFlashAttribute("successMessage", "Товар добавлен в корзину");
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+//        }
+//
+//        // Если указан URL для редиректа, используем его
+//        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+//            return "redirect:" + redirectUrl;
+//        }
+//
+//        return "redirect:/cart";
+//    }
+
+
+    /**
+     * AJAX-метод для добавления товара в корзину
+     */
+    @PostMapping("/api/add")
+    @ResponseBody
+    public CartDto apiAddToCart(
+            HttpSession session,
+            @RequestParam Long flowerId,
+            @RequestParam(defaultValue = "1") Integer quantity) {
+
+        return cartService.addFlowerToCart(session, flowerId, quantity);
+    }
+
+
+
+    /**
+     * AJAX-метод для получения текущей корзины в формате JSON
+     */
+    @GetMapping("/api/info")
+    @ResponseBody
+    public CartDto getCartInfo(HttpSession session) {
+        return cartService.getCartDto(session);
+    }
+
+
+
+
+    /**
+     * Отображение страницы корзины
+     */
+    @GetMapping
+    public String viewCart(HttpSession session, Model model) {
+        CartDto cart = cartService.getCartDto(session);
+        model.addAttribute("cart", cart);
+        Integer cartDto =cartService.getCartItemCount(session);
+        model.addAttribute("cartItemCount", cartDto);
+        return "client/cart/view";
+    }
+
+
 
     /**
      * Обновление количества цветка в корзине
@@ -153,25 +204,25 @@ public class CartController {
         }
     }
 
-    /**
-     * AJAX-метод для получения текущей корзины в формате JSON
-     */
-    @GetMapping("/api/info")
-    @ResponseBody
-    public CartDto getCartInfo(HttpSession session) {
-        return cartService.getCartDto(session);
-    }
-
-    /**
-     * AJAX-метод для добавления товара в корзину
-     */
-    @PostMapping("/api/add")
-    @ResponseBody
-    public CartDto apiAddToCart(
-            HttpSession session,
-            @RequestParam Long flowerId,
-            @RequestParam(defaultValue = "1") Integer quantity) {
-
-        return cartService.addFlowerToCart(session, flowerId, quantity);
-    }
+//    /**
+//     * AJAX-метод для получения текущей корзины в формате JSON
+//     */
+//    @GetMapping("/api/info")
+//    @ResponseBody
+//    public CartDto getCartInfo(HttpSession session) {
+//        return cartService.getCartDto(session);
+//    }
+//
+//    /**
+//     * AJAX-метод для добавления товара в корзину
+//     */
+//    @PostMapping("/api/add")
+//    @ResponseBody
+//    public CartDto apiAddToCart(
+//            HttpSession session,
+//            @RequestParam Long flowerId,
+//            @RequestParam(defaultValue = "1") Integer quantity) {
+//
+//        return cartService.addFlowerToCart(session, flowerId, quantity);
+//    }
 }
