@@ -17,6 +17,116 @@
   <title>Категории</title>
 
 </head>
+<style>
+
+  /* Сетка категорий */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 40px 0;
+  }
+
+  /* Карточка категории */
+  .category-card {
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+
+  /* Ссылка внутри карточки */
+  .category-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  /* Анимация при наведении */
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Изображение категории */
+  .category-image {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .category-card:hover .category-image img {
+    transform: scale(1.05);
+  }
+
+  /* Информация о категории */
+  .category-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Название категории */
+  .category-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    transition: color 0.3s ease;
+  }
+
+  .category-card:hover .category-name {
+    color: #c9a980;
+  }
+
+  /* Количество товаров */
+  .category-products {
+    font-size: 14px;
+    color: #777;
+    margin: 0 0 8px 0;
+  }
+
+  /* Описание категории */
+  .category-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-image {
+      height: 180px;
+    }
+  }
+</style>
 <body>
 
 <!-- Навигация (подключенная извне) -->
@@ -44,19 +154,18 @@
   <!-- Сетка категорий -->
   <div class="categories-grid" th:if="${!categories.empty}">
     <div class="category-card" th:each="category : ${categories}">
-      <!--
-      <a th:href="@{'/categories/' + ${category.slug}}"> &lt;!&ndash; Добавлен открывающий тег <a> &ndash;&gt;-->
-      <div class="category-image">
-        <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
-             th:alt="${category.name}">
-      </div>
-      <div class="category-info">
-        <h2 class="category-name" th:text="${category.name}">Название категории</h2>
-        <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
-        <span class="category-description" th:text="${category.getShortDescription()}"></span>
-      </div>
-      <!--
-      </a>-->
+      <!-- Оборачиваем всю карточку в тег <a> для перехода -->
+      <a th:href="@{'/categories/' + ${category.id}}" class="category-link">
+        <div class="category-image">
+          <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
+               th:alt="${category.name}">
+        </div>
+        <div class="category-info">
+          <h2 class="category-name" th:text="${category.name}">Название категории</h2>
+          <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
+          <span class="category-description" th:text="${category.getShortDescription()}"></span>
+        </div>
+      </a>
     </div>
   </div>
 
