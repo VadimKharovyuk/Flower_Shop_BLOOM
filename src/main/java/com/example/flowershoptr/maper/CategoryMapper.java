@@ -19,6 +19,7 @@ public class CategoryMapper {
         dto.setPreviewImageUrl(category.getPreviewImageUrl());
         dto.setFeatured(category.isFeatured());
         dto.setActive(category.isActive());
+        dto.setShortDescription(category.getDescription());
 
         // Подсчитываем количество цветов в категории
         if (category.getFlowers() != null) {
@@ -45,6 +46,7 @@ public class CategoryMapper {
         dto.setFeatured(category.isFeatured());
         dto.setActive(category.isActive());
         dto.setCreatedAt(category.getCreatedAt());
+
 
         // Подсчитываем количество цветов в категории
         if (category.getFlowers() != null) {

@@ -39,20 +39,28 @@
   </div>
 
   <!-- Сетка категорий -->
+
+
+  <!-- Сетка категорий -->
   <div class="categories-grid" th:if="${!categories.empty}">
     <div class="category-card" th:each="category : ${categories}">
-      <!--      <a th:href="@{'/categories/' + ${category.slug}}"> &lt;!&ndash; Добавлен открывающий тег <a> &ndash;&gt;-->
+      <!--
+      <a th:href="@{'/categories/' + ${category.slug}}"> &lt;!&ndash; Добавлен открывающий тег <a> &ndash;&gt;-->
       <div class="category-image">
         <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
              th:alt="${category.name}">
       </div>
       <div class="category-info">
         <h2 class="category-name" th:text="${category.name}">Название категории</h2>
-        <!--          <p class="category-products" th:text="${category.productCount + ' товаров'}">0 товаров</p>-->
+        <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
+        <span class="category-description" th:text="${category.getShortDescription()}"></span>
       </div>
-      <!--      </a>-->
+      <!--
+      </a>-->
     </div>
   </div>
+
+
 
   <!-- Пагинация -->
   <div class="pagination" th:if="${totalPages > 1}">

@@ -701,11 +701,11 @@
       <!-- Карточки товаров -->
       <div class="product-card" th:each="flower : ${flowers}">
         <div class="product-image">
-          <img th:src="${flower.imageUrl}" alt="${flower.name}">
+          <img th:src="${flower.getPreviewImageUrl()}" alt="${flower.name}">
           <div class="product-badges">
-            <span class="product-badge badge-new" th:if="${flower.isNew}">Новинка</span>
-            <span class="product-badge badge-sale" th:if="${flower.discountPercent > 0}"
-                  th:text="${'-' + flower.discountPercent + '%'}">-20%</span>
+            <span class="product-badge badge-new" th:if="${flower.getPrice()}">Новинка</span>
+<!--            <span class="product-badge badge-sale" th:if="${flower.discountPercent > 0}"-->
+<!--                  th:text="${'-' + flower.discountPercent + '%'}">-20%</span>-->
           </div>
         </div>
         <div class="product-info">
@@ -714,22 +714,22 @@
           </h3>
 
           <!-- Цена (с учетом возможной скидки) -->
-          <div class="product-price">
-            <span class="old-price" th:if="${flower.discountPercent > 0}"
-                  th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>
-            <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>
-          </div>
+<!--          <div class="product-price">-->
+<!--            <span class="old-price" th:if="${flower.discountPercent > 0}"-->
+<!--                  th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>-->
+<!--            <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>-->
+<!--          </div>-->
 
           <!-- Описание (только для вида списка) -->
           <div class="product-description" style="display: none;" th:text="${flower.shortDescription}">
             Короткое описание товара...
           </div>
 
-          <!-- Цвета (если есть) -->
-          <div class="product-colors" th:if="${!flower.colors.empty}">
-            <div class="color-option" th:each="color : ${flower.colors}"
-                 th:style="'background-color: ' + ${color.hexCode}" th:title="${color.name}"></div>
-          </div>
+<!--          &lt;!&ndash; Цвета (если есть) &ndash;&gt;-->
+<!--          <div class="product-colors" th:if="${!flower.colors.empty}">-->
+<!--            <div class="color-option" th:each="color : ${flower.colors}"-->
+<!--                 th:style="'background-color: ' + ${color.hexCode}" th:title="${color.name}"></div>-->
+<!--          </div>-->
 
           <!-- Кнопки действий -->
           <div class="product-actions">
@@ -778,11 +778,21 @@
 </div>
 
 <!-- Секция рекомендуемых товаров (если нужно) -->
-<section class="recommended-products" th:if="${!recommendedProducts.empty}">
+<section class="recommended-products">
   <div class="container">
     <h2 class="section-title">Рекомендуемые товары</h2>
-    <!-- Здесь может быть код для отображения рекомендуемых товаров -->
+
+<!--    <div th:if="${#lists.isEmpty(recommendedProducts)}">-->
+<!--      <p>На данный момент рекомендуемых товаров нет.</p>-->
+<!--    </div>-->
+
+<!--    <div th:if="${!#lists.isEmpty(recommendedProducts)}">-->
+<!--      &lt;!&ndash; Здесь будет код для отображения рекомендуемых товаров &ndash;&gt;-->
+<!--    </div>-->
   </div>
+</section>
+
+
 </section>
 <section class="why-us-section">
   <div class="container">
@@ -820,7 +830,7 @@
 </section>
 
 <!-- Секция Instagram-ленты -->
-<div th:replace="~{client/fragments/instagram :: partners}"></div>
+<div th:replace="~{client/fragments/partners :: partners}"></div>
 
 <!-- Футер -->
 <div th:replace="~{client/fragments/footer :: footer}"></div>

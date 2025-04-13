@@ -4,6 +4,7 @@ import com.example.flowershoptr.dto.category.CategoryDetailsDTO;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.service.CategoryService;
 
+import com.example.flowershoptr.service.FlowerService;
 import com.example.flowershoptr.util.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CategoryController {
 
     private final CategoryService categoryService;
-//    private final FlowerService flowerService;
+    private final FlowerService flowerService;
     private final PaginationUtils paginationUtils;
 
     /**
@@ -50,9 +51,9 @@ public class CategoryController {
         return "client/categories/list";
     }
 
-//    /**
-//     * Отображение категорий на главной странице (только избранные категории)
-//     */
+    /**
+     * Отображение категорий на главной странице (только избранные категории)
+     */
 //    @GetMapping("/")
 //    public String homePage(Model model) {
 //        log.info("Запрос главной страницы");
@@ -71,7 +72,7 @@ public class CategoryController {
     /**
      * Просмотр конкретной категории с ее товарами
      */
-    @GetMapping("/categories/{id}")
+    @GetMapping("/{id}")
     public String viewCategory(
             @PathVariable Long id,
             @RequestParam(defaultValue = "0") int page,
@@ -95,7 +96,7 @@ public class CategoryController {
 
         // Получаем товары категории (предполагается, что у вас есть такой метод в FlowerService)
         Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
-//        model.addAttribute("flowers", flowerService.getFlowersByCategory(id, pageable));
+        model.addAttribute("flowers", flowerService.getFlowersByCategory(id, pageable));
         model.addAttribute("currentPage", page);
 
         return "client/categories/view";

@@ -9,5 +9,7 @@ public class CategoryListDTO {
     private String previewImageUrl;
     private boolean isFeatured;
     private boolean isActive;
-    private int flowerCount; // Количество цветов в категории
+    private int flowerCount;
+    private String shortDescription;
+
 }
