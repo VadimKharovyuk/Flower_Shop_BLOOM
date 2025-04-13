@@ -31,9 +31,6 @@ public class CategoryController {
     private final FlowerService flowerService;
     private final PaginationUtils paginationUtils;
 
-    /**
-     * Отображение всех активных категорий на главной странице
-     */
     @GetMapping()
     public String listCategories(
             @RequestParam(defaultValue = "0") int page,
