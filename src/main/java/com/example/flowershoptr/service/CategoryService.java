@@ -30,7 +30,6 @@ public interface CategoryService {
     CategoryDetailsDTO createCategoryWithImage(CreateCategoryDTO createDTO, MultipartFile imageFile);
 
     List<CategorySimpleDTO> getAllCategoriesToAdmin();
-
 }
 
 

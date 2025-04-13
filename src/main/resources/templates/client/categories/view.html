@@ -696,69 +696,73 @@
 
 <!-- Основное содержимое категории - новая структура -->
 <div class="category-container">
+  <div th:replace="~{client/fragments/sidebar-search :: sidebar-search}"></div>
+
+  <script th:replace="~{client/fragments/sidebar-search :: sidebar-search-js}"></script>
   <!-- Боковая панель слева -->
-  <aside class="category-sidebar">
-    <!-- Мобильная кнопка для отображения/скрытия фильтров -->
-    <div class="mobile-filter-toggle">
-      <i class="fas fa-filter"></i> Показать фильтры
-    </div>
+<!--  <aside class="category-sidebar">-->
+<!--    &lt;!&ndash; Мобильная кнопка для отображения/скрытия фильтров &ndash;&gt;-->
+<!--    <div class="mobile-filter-toggle">-->
+<!--      <i class="fas fa-filter"></i> Показать фильтры-->
+<!--    </div>-->
 
-    <!-- Блок поиска -->
-    <div class="sidebar-block search-block">
-      <h3 class="sidebar-title">Поиск</h3>
-      <form th:action="@{/search}" method="get" class="search-form">
-        <div class="search-input-wrapper">
-          <input type="text" name="query" placeholder="Искать цветы..."
-                 th:value="${param.query}" class="search-input">
-          <button type="submit" class="search-button">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-        <!-- Опциональные скрытые параметры для контекстного поиска -->
-        <input type="hidden" name="categoryId" th:value="${category != null ? category.id : ''}"
-               th:if="${category != null}">
-      </form>
-    </div>
+<!--    &lt;!&ndash; Блок поиска &ndash;&gt;-->
+<!--    <div class="sidebar-block search-block">-->
+<!--      <h3 class="sidebar-title">Поиск</h3>-->
+<!--      <form th:action="@{/categories/search}" method="get" class="search-form">-->
+<!--        <div class="search-input-wrapper">-->
+<!--          <input type="text" name="query" placeholder="Искать цветы..."-->
+<!--                 th:value="${param.query}" class="search-input">-->
+<!--          <button type="submit" class="search-button">-->
+<!--            <i class="fas fa-search"></i>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--&lt;!&ndash;        &lt;!&ndash; Опциональные скрытые параметры для контекстного поиска &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="hidden" name="categoryId" th:value="${category != null ? category.id : ''}"&ndash;&gt;-->
+<!--&lt;!&ndash;               th:if="${category != null}">&ndash;&gt;-->
+<!--      </form>-->
+<!--    </div>-->
 
-    <!-- Блок фильтров (если есть) -->
-    <div class="sidebar-block" th:if="${category.description}">
-      <h3 class="sidebar-title">Фильтры</h3>
-      <form th:action="@{'/categories/' + ${category.id}}" method="get">
 
-        <!-- Фильтр по цене -->
-        <div class="filter-group">
-          <h4 class="filter-title">Цена</h4>
-          <div class="price-filter-vertical">
-            <div class="price-input-wrapper">
-              <label for="min-price">От:</label>
-              <input type="number" id="min-price" name="minPrice" placeholder="От" th:value="${param.minPrice}">
-            </div>
-            <div class="price-input-wrapper">
-              <label for="max-price">До:</label>
-              <input type="number" id="max-price" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">
-            </div>
-          </div>
-        </div>
+<!--    &lt;!&ndash; Блок фильтров (если есть) &ndash;&gt;-->
+<!--    <div class="sidebar-block" th:if="${category.description}">-->
+<!--      <h3 class="sidebar-title">Фильтры</h3>-->
+<!--      <form th:action="@{'/categories/' + ${category.id}}" method="get">-->
 
-        <!-- Еще один пример фильтра -->
-        <div class="filter-group">
-          <h4 class="filter-title">Наличие</h4>
-          <div class="filter-checkbox">
-            <input type="checkbox" id="in-stock" name="inStock" value="true" th:checked="${param.inStock}">
-            <label for="in-stock">В наличии</label>
-          </div>
-        </div>
+<!--        &lt;!&ndash; Фильтр по цене &ndash;&gt;-->
+<!--        <div class="filter-group">-->
+<!--          <h4 class="filter-title">Цена</h4>-->
+<!--          <div class="price-filter-vertical">-->
+<!--            <div class="price-input-wrapper">-->
+<!--              <label for="min-price">От:</label>-->
+<!--              <input type="number" id="min-price" name="minPrice" placeholder="От" th:value="${param.minPrice}">-->
+<!--            </div>-->
+<!--            <div class="price-input-wrapper">-->
+<!--              <label for="max-price">До:</label>-->
+<!--              <input type="number" id="max-price" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <!-- Скрытые поля для сохранения параметров сортировки и пагинации -->
-        <input type="hidden" name="page" value="0">
-        <input type="hidden" name="size" th:value="${param.size ?: 12}">
-        <input type="hidden" name="sortBy" th:value="${param.sortBy ?: 'name'}">
-        <input type="hidden" name="ascending" th:value="${param.ascending ?: true}">
+<!--        &lt;!&ndash; Еще один пример фильтра &ndash;&gt;-->
+<!--        <div class="filter-group">-->
+<!--          <h4 class="filter-title">Наличие</h4>-->
+<!--          <div class="filter-checkbox">-->
+<!--            <input type="checkbox" id="in-stock" name="inStock" value="true" th:checked="${param.inStock}">-->
+<!--            <label for="in-stock">В наличии</label>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <button type="submit" class="filter-button">Применить</button>
-      </form>
-    </div>
-  </aside>
+<!--        &lt;!&ndash; Скрытые поля для сохранения параметров сортировки и пагинации &ndash;&gt;-->
+<!--        <input type="hidden" name="page" value="0">-->
+<!--        <input type="hidden" name="size" th:value="${param.size ?: 12}">-->
+<!--        <input type="hidden" name="sortBy" th:value="${param.sortBy ?: 'name'}">-->
+<!--        <input type="hidden" name="ascending" th:value="${param.ascending ?: true}">-->
+
+<!--        <button type="submit" class="filter-button">Применить</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </aside>-->
 
   <!-- Основное содержимое с товарами (справа от боковой панели) -->
   <div class="category-main">

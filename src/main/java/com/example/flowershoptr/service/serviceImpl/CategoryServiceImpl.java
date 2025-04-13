@@ -6,6 +6,7 @@ import com.example.flowershoptr.exception.ResourceNotFoundException;
 import com.example.flowershoptr.maper.CategoryMapper;
 import com.example.flowershoptr.model.Category;
 import com.example.flowershoptr.repository.CategoryRepository;
+import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.service.CategoryService;
 import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final CloudinaryService cloudinaryService;
+
 
     @Override
     public Page<CategoryListDTO> getAllCategories(Pageable pageable) {
@@ -94,6 +96,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryMapper::toSimpleDTO)
                 .collect(Collectors.toList());
     }
+
+
 
     private Category uploadCategoryImage(Category category, MultipartFile imageFile) throws IOException {
         log.info("Загрузка изображения для категории ID: {}", category.getId());

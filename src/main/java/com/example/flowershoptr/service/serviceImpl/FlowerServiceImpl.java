@@ -1,9 +1,7 @@
 package com.example.flowershoptr.service.serviceImpl;
 
-import com.example.flowershoptr.dto.flower.CreateFlowerDTO;
-import com.example.flowershoptr.dto.flower.FlowerDetailsDTO;
-import com.example.flowershoptr.dto.flower.FlowerListDTO;
-import com.example.flowershoptr.dto.flower.UpdateFlowerDTO;
+import com.example.flowershoptr.dto.category.CategoryListDTO;
+import com.example.flowershoptr.dto.flower.*;
 import com.example.flowershoptr.maper.FlowerMapper;
 import com.example.flowershoptr.model.Category;
 import com.example.flowershoptr.model.Flower;
@@ -15,11 +13,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +55,55 @@ public class FlowerServiceImpl implements FlowerService {
     @Override
     public long flowerCount() {
      return   flowerRepository.count();
+    }
+
+
+    public Page<FlowerSearchDTO> searchFlowersFindByName(String query, Pageable pageable) {
+        Page<Flower> flowerPage = flowerRepository.findByNameContainingIgnoreCase(query, pageable);
+        return flowerPage.map(flowerMapper::toFlowerSearchDTO);
+    }
+
+    @Override
+    public Page<FlowerSearchDTO> searchFlowersWithFilters(String query, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Pageable pageable) {
+        // Создаем спецификацию для динамических запросов
+        Specification<Flower> spec = Specification.where(null);
+
+        // Добавляем фильтр по имени
+        if (query != null && !query.isEmpty()) {
+            spec = spec.and((root, criteriaQuery, criteriaBuilder) ->
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + query.toLowerCase() + "%"));
+        }
+
+        // Добавляем фильтр по минимальной цене
+        if (minPrice != null) {
+            spec = spec.and((root, criteriaQuery, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+
+        // Добавляем фильтр по максимальной цене
+        if (maxPrice != null) {
+            spec = spec.and((root, criteriaQuery, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+
+        // Добавляем фильтр по наличию
+        if (inStock != null && inStock) {
+            spec = spec.and((root, criteriaQuery, criteriaBuilder) ->
+                    criteriaBuilder.greaterThan(root.get("stock"), 0));
+        }
+
+        // Выполняем запрос и получаем страницу результатов
+        Page<Flower> flowers = flowerRepository.findAll(spec, pageable);
+
+        // Конвертируем результаты в DTO
+        return flowers.map(flower -> {
+            FlowerSearchDTO dto = new FlowerSearchDTO();
+            dto.setId(flower.getId());
+            dto.setName(flower.getName());
+            dto.setPreviewImageUrl(flower.getPreviewImageUrl());
+            dto.setPrice(flower.getPrice());
+            return dto;
+        });
     }
 
     @Override

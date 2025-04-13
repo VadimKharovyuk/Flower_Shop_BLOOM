@@ -3,6 +3,7 @@ package com.example.flowershoptr.repository;
 import com.example.flowershoptr.model.Flower;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -109,4 +110,7 @@ public interface FlowerRepository extends JpaRepository<Flower, Long> {
      * @return список цветов, доступных в количестве не менее указанного
      */
     List<Flower> findByCountGreaterThanEqual(Integer minCount);
+
+    Page<Flower> findAll(Specification<Flower> spec, Pageable pageable);
+
 }

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Фрагмент боковой панели с поиском -->
+<aside th:fragment="sidebar-search" class="category-sidebar">
+  <!-- Мобильная кнопка для отображения/скрытия фильтров -->
+  <div class="mobile-filter-toggle">
+    <i class="fas fa-filter"></i> Показать фильтры
+  </div>
+
+  <!-- Блок поиска -->
+  <div class="sidebar-block search-block">
+    <h3 class="sidebar-title">Поиск</h3>
+    <form th:action="@{/categories/search}" method="get" class="search-form">
+      <div class="search-input-wrapper">
+        <input type="text" name="query" placeholder="Искать цветы..."
+               th:value="${param.query}" class="search-input">
+        <button type="submit" class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Блок фильтров по цене -->
+  <div class="sidebar-block filter-block">
+    <h3 class="sidebar-title">Фильтры по цене</h3>
+    <form th:action="@{/categories/filter}" method="get">
+      <!-- Сохраняем поисковый запрос при фильтрации -->
+      <input type="hidden" name="query" th:value="${param.query}">
+
+      <!-- Фильтр по цене -->
+      <div class="filter-group">
+        <h4 class="filter-title">Цена</h4>
+        <div class="price-filter-vertical">
+          <div class="price-input-wrapper">
+            <label for="min-price">От:</label>
+            <input type="number" id="min-price" name="minPrice" placeholder="От" th:value="${param.minPrice}">
+          </div>
+          <div class="price-input-wrapper">
+            <label for="max-price">До:</label>
+            <input type="number" id="max-price" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">
+          </div>
+        </div>
+      </div>
+
+      <!-- Скрытые поля для сохранения параметров пагинации -->
+      <input type="hidden" name="page" value="0">
+      <input type="hidden" name="size" th:value="${param.size ?: 12}">
+
+      <button type="submit" class="filter-button">Применить</button>
+    </form>
+  </div>
+</aside>
+
+<!-- CSS для боковой панели с поиском -->
+<style th:fragment="sidebar-search-css">
+  /* Боковая панель */
+  .category-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    /* Для прилипания к верху при скролле */
+    position: sticky;
+    top: 100px; /* Отступ от верха при прилипании */
+    height: fit-content;
+    margin-right: 30px; /* Отступ от основного контента */
+  }
+
+  /* Блоки боковой панели */
+  .sidebar-block {
+    background-color: #fff;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  .sidebar-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  /* Стили для блока поиска */
+  .search-block {
+    margin-bottom: 20px;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .search-input:focus {
+    border-color: #c9a980;
+    box-shadow: 0 0 0 2px rgba(201, 169, 128, 0.2);
+    outline: none;
+  }
+
+  .search-button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .search-button:hover {
+    color: #c9a980;
+  }
+
+  /* Фильтры */
+  .filter-group {
+    margin-bottom: 20px;
+  }
+
+  .filter-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .filter-title {
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #333;
+    font-size: 15px;
+  }
+
+  /* Вертикальный фильтр цены */
+  .price-filter-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .price-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .price-input-wrapper label {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .price-input-wrapper input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+  .price-input-wrapper input:focus {
+    border-color: #c9a980;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(201, 169, 128, 0.1);
+  }
+
+  .filter-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .filter-button:hover {
+    background-color: #333;
+  }
+
+  /* Мобильный фильтр */
+  .mobile-filter-toggle {
+    display: none;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .mobile-filter-toggle i {
+    margin-right: 5px;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 992px) {
+    .category-sidebar {
+      width: 100%;
+      position: relative;
+      top: 0;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+
+    .mobile-filter-toggle {
+      display: block;
+    }
+
+    .sidebar-block:not(.search-block) {
+      display: none;
+    }
+
+    .sidebar-active .sidebar-block {
+      display: block;
+    }
+  }
+</style>
+
+<!-- JavaScript для боковой панели с поиском -->
+<script th:fragment="sidebar-search-js">
+  document.addEventListener('DOMContentLoaded', function() {
+    // Мобильный фильтр
+    const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
+    const categorySidebar = document.querySelector('.category-sidebar');
+
+    if (mobileFilterToggle && categorySidebar) {
+      mobileFilterToggle.addEventListener('click', function() {
+        categorySidebar.classList.toggle('sidebar-active');
+
+        // Изменение текста кнопки
+        if (categorySidebar.classList.contains('sidebar-active')) {
+          mobileFilterToggle.innerHTML = '<i class="fas fa-times"></i> Скрыть фильтры';
+        } else {
+          mobileFilterToggle.innerHTML = '<i class="fas fa-filter"></i> Показать фильтры';
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.example.flowershoptr.controller;
 
 import com.example.flowershoptr.dto.category.CategoryDetailsDTO;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
+import com.example.flowershoptr.dto.flower.FlowerSearchDTO;
 import com.example.flowershoptr.service.CategoryService;
 
 import com.example.flowershoptr.service.FlowerService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequiredArgsConstructor
@@ -102,25 +105,47 @@ public class CategoryController {
     }
 
     /**
-     * Поиск категорий по названию
+     * Поиск товара по названию
      */
-    @GetMapping("/categories/search")
-    public String searchCategories(
+    @GetMapping("/search")
+    public String searchFlowers(
             @RequestParam String query,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Boolean inStock,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
 
-        log.info("Поиск категорий по запросу '{}': page={}, size={}", query, page, size);
-
-        // Предполагается, что у вас есть такой метод в CategoryService
         Pageable pageable = paginationUtils.createPageable(page, size, "name", true);
-//        Page<CategoryListDTO> searchResults = categoryService.searchCategories(query, pageable);
-//
-//        model.addAttribute("categories", searchResults);
-//        model.addAttribute("query", query);
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", searchResults.getTotalPages());
+        Page<FlowerSearchDTO> searchResults = flowerService.searchFlowersFindByName(query, pageable);
+
+        model.addAttribute("flowers", searchResults);
+        model.addAttribute("query", query);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", searchResults.getTotalPages());
+
+        return "client/categories/search-results";
+    }
+
+    @GetMapping("/filter")
+    public String filterFlowers(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) Boolean inStock,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            Model model) {
+
+        Pageable pageable = paginationUtils.createPageable(page, size, "name", true);
+        Page<FlowerSearchDTO> filterPriceResults = flowerService.searchFlowersWithFilters(query, minPrice, maxPrice, inStock, pageable);
+
+        model.addAttribute("flowers", filterPriceResults);
+
+        model.addAttribute("query", query);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", filterPriceResults.getTotalPages());
 
         return "client/categories/search-results";
     }

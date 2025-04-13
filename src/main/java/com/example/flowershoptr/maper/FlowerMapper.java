@@ -1,11 +1,10 @@
 package com.example.flowershoptr.maper;
 
-import com.example.flowershoptr.dto.flower.CreateFlowerDTO;
-import com.example.flowershoptr.dto.flower.FlowerDetailsDTO;
-import com.example.flowershoptr.dto.flower.FlowerListDTO;
-import com.example.flowershoptr.dto.flower.UpdateFlowerDTO;
+import com.example.flowershoptr.dto.flower.*;
 import com.example.flowershoptr.model.Category;
 import com.example.flowershoptr.model.Flower;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -114,5 +113,18 @@ public class FlowerMapper {
         flower.setWeight(dto.getWeight());
 
         // Категория будет обновлена в сервисе после поиска по ID
+    }
+
+    public FlowerSearchDTO toFlowerSearchDTO(Flower flower) {
+        if (flower == null) {
+            return null;
+        }
+
+        FlowerSearchDTO dto = new FlowerSearchDTO();
+        dto.setId(flower.getId());
+        dto.setName(flower.getName());
+        dto.setPreviewImageUrl(flower.getPreviewImageUrl());
+        dto.setPrice(flower.getPrice());
+        return dto;
     }
 }
