@@ -478,7 +478,7 @@
   <div class="breadcrumbs">
     <a href="/">Главная</a>
     <span class="separator">/</span>
-    <a href="/flowers">Каталог</a>
+    <a href="/categories">Каталог</a>
     <span class="separator">/</span>
     <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категория</a>
     <span class="separator">/</span>
@@ -561,6 +561,7 @@
             <button class="quantity-btn increase-btn">+</button>
           </div>
         </div>
+
 
         <div class="add-to-cart-buttons">
           <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">Добавить в корзину</button>
@@ -733,5 +734,7 @@
     }
   });
 </script>
+<!-- Вместо inline-скрипта, теперь ссылка на файл -->
+<script th:fragment="navigation-js" src="/js/navigation.js"></script>
 </body>
 </html>
