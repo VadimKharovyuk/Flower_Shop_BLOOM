@@ -28,27 +28,29 @@
       padding: 0;
     }
 
-    /* Контейнер с основным содержимым */
-    .category-page {
-      max-width: 1400px; /* Шире основного контейнера для размещения aside */
-      margin: 0 auto;
-      padding: 50px 20px;
-      display: grid;
-      grid-template-columns: minmax(200px, 1fr) 3fr; /* Соотношение боковой панели и основного контента */
-      gap: 40px;
-    }
-
-    /* Для страниц без боковой панели */
-    .category-page.no-sidebar {
-      display: block;
+    /* Основной контейнер для страницы категории */
+    .category-container {
+      display: flex;
+      max-width: 1400px;
+      margin: 50px auto;
+      padding: 0 20px;
     }
 
     /* Боковая панель */
     .category-sidebar {
+      width: 250px;
+      flex-shrink: 0;
       /* Для прилипания к верху при скролле */
       position: sticky;
       top: 100px; /* Отступ от верха при прилипании */
       height: fit-content;
+      margin-right: 30px; /* Отступ от основного контента */
+    }
+
+    /* Основной контент категории */
+    .category-main {
+      flex: 1;
+      width: 100%;
     }
 
     /* Блоки боковой панели */
@@ -57,54 +59,53 @@
       padding: 25px;
       margin-bottom: 30px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
     }
 
     .sidebar-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 18px;
       font-weight: 500;
+    }
+
+    /* Стили для блока поиска */
+    .search-block {
       margin-bottom: 20px;
+    }
+
+    .search-input-wrapper {
       position: relative;
-      padding-bottom: 10px;
-    }
-
-    .sidebar-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 30px;
-      height: 1px;
-      background-color: #c9a980;
-    }
-
-    /* Список подкатегорий */
-    .subcategories-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .subcategories-list li {
-      margin-bottom: 12px;
-    }
-
-    .subcategories-list a {
-      color: #666;
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.3s ease;
       display: flex;
       align-items: center;
     }
 
-    .subcategories-list a:hover {
-      color: #c9a980;
+    .search-input {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
-    .subcategories-list a i {
-      margin-right: 8px;
-      font-size: 10px;
+    .search-input:focus {
+      border-color: #c9a980;
+      box-shadow: 0 0 0 2px rgba(201, 169, 128, 0.2);
+      outline: none;
+    }
+
+    .search-button {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #777;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .search-button:hover {
       color: #c9a980;
     }
 
@@ -137,6 +138,38 @@
       font-size: 14px;
     }
 
+    /* Вертикальный фильтр цены */
+    .price-filter-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .price-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .price-input-wrapper label {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .price-input-wrapper input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+
+    .price-input-wrapper input:focus {
+      border-color: #c9a980;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(201, 169, 128, 0.1);
+    }
+
     .filter-checkbox {
       display: flex;
       align-items: center;
@@ -167,14 +200,10 @@
       background-color: #333;
     }
 
-    /* Основное содержимое категории */
-    .category-main {
-      width: 100%;
-    }
-
-    /* Заголовок категории */
+    /* Дополнительная информация о категории (если нужно) */
     .category-header {
       margin-bottom: 40px;
+      text-align: center;
     }
 
     .category-title {
@@ -183,6 +212,7 @@
       font-weight: 400;
       margin-bottom: 15px;
       color: #1a1a1a;
+      text-align: center;
     }
 
     .category-description {
@@ -191,6 +221,10 @@
       color: #666;
       line-height: 1.8;
       margin-bottom: 25px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
 
     /* Панель сортировки и фильтрации */
@@ -486,33 +520,113 @@
       margin-right: 5px;
     }
 
+    /* Секция "Почему выбирают нас" */
+    .why-us-section {
+      padding: 80px 0;
+      background-color: #f8f8f8;
+      margin-top: 50px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .why-us-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+
+    .why-us-item {
+      text-align: center;
+      padding: 30px 20px;
+      background-color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .why-us-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .why-us-icon {
+      font-size: 30px;
+      color: #c9a980;
+      margin-bottom: 20px;
+    }
+
+    .why-us-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .why-us-item p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Рекомендуемые товары */
+    .recommended-products {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 1px;
+      background-color: #c9a980;
+    }
+
     /* Адаптивность */
     @media (max-width: 1200px) {
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .category-page {
-        grid-template-columns: 220px 1fr;
+      .why-us-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 992px) {
-      .category-page {
-        grid-template-columns: 1fr;
-        gap: 30px;
+      .category-container {
+        flex-direction: column;
       }
 
       .category-sidebar {
-        display: none;
-        position: static;
-      }
-
-      .category-sidebar.open {
-        display: block;
+        width: 100%;
+        position: relative;
+        top: 0;
+        margin-right: 0;
+        margin-bottom: 20px;
       }
 
       .mobile-filter-toggle {
+        display: block;
+      }
+
+      .sidebar-block:not(.search-block) {
+        display: none;
+      }
+
+      .sidebar-active .sidebar-block {
         display: block;
       }
 
@@ -537,6 +651,10 @@
       .sort-options {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .why-us-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -576,29 +694,31 @@
 
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 
-<!-- Основное содержимое категории -->
-<!--<div class="category-page" th:classappend="${category.subcategories.empty and !category.hasFilters} ? 'no-sidebar' : ''">-->
-
-  <!-- Боковая панель (если есть подкатегории или фильтры) -->
-<!--  <aside class="category-sidebar" th:if="${!category.subcategories.empty or category.hasFilters}">-->
-
+<!-- Основное содержимое категории - новая структура -->
+<div class="category-container">
+  <!-- Боковая панель слева -->
+  <aside class="category-sidebar">
     <!-- Мобильная кнопка для отображения/скрытия фильтров -->
     <div class="mobile-filter-toggle">
       <i class="fas fa-filter"></i> Показать фильтры
     </div>
 
-<!--    &lt;!&ndash; Блок подкатегорий (если есть) &ndash;&gt;-->
-<!--    <div class="sidebar-block" th:if="${!category.subcategories.empty}">-->
-<!--      <h3 class="sidebar-title">Подкатегории</h3>-->
-<!--      <ul class="subcategories-list">-->
-<!--        <li th:each="subcategory : ${category.subcategories}">-->
-<!--          <a th:href="@{'/categories/' + ${subcategory.id}}">-->
-<!--            <i class="fas fa-chevron-right"></i>-->
-<!--            <span th:text="${subcategory.name}">Название подкатегории</span>-->
-<!--          </a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
+    <!-- Блок поиска -->
+    <div class="sidebar-block search-block">
+      <h3 class="sidebar-title">Поиск</h3>
+      <form th:action="@{/search}" method="get" class="search-form">
+        <div class="search-input-wrapper">
+          <input type="text" name="query" placeholder="Искать цветы..."
+                 th:value="${param.query}" class="search-input">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <!-- Опциональные скрытые параметры для контекстного поиска -->
+        <input type="hidden" name="categoryId" th:value="${category != null ? category.id : ''}"
+               th:if="${category != null}">
+      </form>
+    </div>
 
     <!-- Блок фильтров (если есть) -->
     <div class="sidebar-block" th:if="${category.description}">
@@ -608,29 +728,17 @@
         <!-- Фильтр по цене -->
         <div class="filter-group">
           <h4 class="filter-title">Цена</h4>
-          <div class="price-filter">
-            <input type="number" name="minPrice" placeholder="От" th:value="${param.minPrice}">
-            <span>—</span>
-            <input type="number" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">
+          <div class="price-filter-vertical">
+            <div class="price-input-wrapper">
+              <label for="min-price">От:</label>
+              <input type="number" id="min-price" name="minPrice" placeholder="От" th:value="${param.minPrice}">
+            </div>
+            <div class="price-input-wrapper">
+              <label for="max-price">До:</label>
+              <input type="number" id="max-price" name="maxPrice" placeholder="До" th:value="${param.maxPrice}">
+            </div>
           </div>
         </div>
-
-<!--        &lt;!&ndash; Другие фильтры (пример) &ndash;&gt;-->
-<!--        <div class="filter-group">-->
-<!--          <h4 class="filter-title">Цвет</h4>-->
-<!--          <div class="filter-checkbox">-->
-<!--            <input type="checkbox" id="color-red" name="colors" value="red" th:checked="${#arrays.contains(param.colors, 'red')}">-->
-<!--            <label for="color-red">Красный</label>-->
-<!--          </div>-->
-<!--          <div class="filter-checkbox">-->
-<!--            <input type="checkbox" id="color-white" name="colors" value="white" th:checked="${#arrays.contains(param.colors, 'white')}">-->
-<!--            <label for="color-white">Белый</label>-->
-<!--          </div>-->
-<!--          <div class="filter-checkbox">-->
-<!--            <input type="checkbox" id="color-pink" name="colors" value="pink" th:checked="${#arrays.contains(param.colors, 'pink')}">-->
-<!--            <label for="color-pink">Розовый</label>-->
-<!--          </div>-->
-<!--        </div>-->
 
         <!-- Еще один пример фильтра -->
         <div class="filter-group">
@@ -652,7 +760,7 @@
     </div>
   </aside>
 
-  <!-- Основное содержимое с товарами -->
+  <!-- Основное содержимое с товарами (справа от боковой панели) -->
   <div class="category-main">
     <!-- Дополнительная информация о категории (если нужно) -->
     <div class="category-header" th:if="${category.getName() != null}">
@@ -704,8 +812,6 @@
           <img th:src="${flower.getPreviewImageUrl()}" alt="${flower.name}">
           <div class="product-badges">
             <span class="product-badge badge-new" th:if="${flower.getPrice()}">Новинка</span>
-<!--            <span class="product-badge badge-sale" th:if="${flower.discountPercent > 0}"-->
-<!--                  th:text="${'-' + flower.discountPercent + '%'}">-20%</span>-->
           </div>
         </div>
         <div class="product-info">
@@ -713,23 +819,10 @@
             <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название цветка</a>
           </h3>
 
-          <!-- Цена (с учетом возможной скидки) -->
-<!--          <div class="product-price">-->
-<!--            <span class="old-price" th:if="${flower.discountPercent > 0}"-->
-<!--                  th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>-->
-<!--            <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>-->
-<!--          </div>-->
-
           <!-- Описание (только для вида списка) -->
           <div class="product-description" style="display: none;" th:text="${flower.shortDescription}">
             Короткое описание товара...
           </div>
-
-<!--          &lt;!&ndash; Цвета (если есть) &ndash;&gt;-->
-<!--          <div class="product-colors" th:if="${!flower.colors.empty}">-->
-<!--            <div class="color-option" th:each="color : ${flower.colors}"-->
-<!--                 th:style="'background-color: ' + ${color.hexCode}" th:title="${color.name}"></div>-->
-<!--          </div>-->
 
           <!-- Кнопки действий -->
           <div class="product-actions">
@@ -777,23 +870,14 @@
   </div>
 </div>
 
-<!-- Секция рекомендуемых товаров (если нужно) -->
+<!-- Секция рекомендуемых товаров -->
 <section class="recommended-products">
   <div class="container">
     <h2 class="section-title">Рекомендуемые товары</h2>
-
-<!--    <div th:if="${#lists.isEmpty(recommendedProducts)}">-->
-<!--      <p>На данный момент рекомендуемых товаров нет.</p>-->
-<!--    </div>-->
-
-<!--    <div th:if="${!#lists.isEmpty(recommendedProducts)}">-->
-<!--      &lt;!&ndash; Здесь будет код для отображения рекомендуемых товаров &ndash;&gt;-->
-<!--    </div>-->
   </div>
 </section>
 
-
-</section>
+<!-- Секция "Почему выбирают нас" -->
 <section class="why-us-section">
   <div class="container">
     <div class="why-us-grid">
@@ -921,10 +1005,10 @@
 
     if (mobileFilterToggle && categorySidebar) {
       mobileFilterToggle.addEventListener('click', function() {
-        categorySidebar.classList.toggle('open');
+        categorySidebar.classList.toggle('sidebar-active');
 
         // Изменение текста кнопки
-        if (categorySidebar.classList.contains('open')) {
+        if (categorySidebar.classList.contains('sidebar-active')) {
           mobileFilterToggle.innerHTML = '<i class="fas fa-times"></i> Скрыть фильтры';
         } else {
           mobileFilterToggle.innerHTML = '<i class="fas fa-filter"></i> Показать фильтры';
@@ -937,28 +1021,6 @@
     addToCartButtons.forEach(button => {
       button.addEventListener('click', function() {
         const productId = this.getAttribute('data-id');
-
-        // Здесь можно реализовать логику добавления товара в корзину через API
-        // Например, с использованием fetch:
-        /*
-        fetch('/api/cart/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            productId: productId,
-            quantity: 1
-          }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            // Обновление значка корзины, показ уведомления
-            showNotification('Товар добавлен в корзину');
-          }
-        });
-        */
 
         // Для демонстрации - просто показываем уведомление
         showNotification('Товар добавлен в корзину');
@@ -1028,8 +1090,6 @@
           icon.classList.add('far');
           showNotification('Товар удален из избранного');
         }
-
-        // Здесь можно добавить логику обновления избранного через API
       });
     });
 
@@ -1038,105 +1098,10 @@
     quickViewButtons.forEach(button => {
       button.addEventListener('click', function() {
         const productId = this.getAttribute('data-id');
-
-        // Здесь можно реализовать логику быстрого просмотра товара
-        // Например, загрузка данных и отображение модального окна
-
-        // Для демонстрации - просто показываем уведомление
         showNotification('Быстрый просмотр товара');
       });
     });
   });
 </script>
-
-<!-- Дополнительные стили для секций -->
-<style>
-  /* Стили для секции "Почему выбирают нас" */
-  .why-us-section {
-    padding: 80px 0;
-    background-color: #f8f8f8;
-    margin-top: 50px;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .why-us-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-  }
-
-  .why-us-item {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #fff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
-  }
-
-  .why-us-item:hover {
-    transform: translateY(-5px);
-  }
-
-  .why-us-icon {
-    font-size: 30px;
-    color: #c9a980;
-    margin-bottom: 20px;
-  }
-
-  .why-us-item h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  .why-us-item p {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.6;
-  }
-
-  /* Адаптивность для "Почему выбирают нас" */
-  @media (max-width: 992px) {
-    .why-us-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 576px) {
-    .why-us-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* Стили для рекомендуемых товаров */
-  .recommended-products {
-    padding: 80px 0;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 40px;
-    position: relative;
-    padding-bottom: 15px;
-  }
-
-  .section-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 1px;
-    background-color: #c9a980;
-  }
-</style>
 </body>
 </html>

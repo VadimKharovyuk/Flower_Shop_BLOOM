@@ -94,7 +94,6 @@ public class CategoryController {
 
         model.addAttribute("category", category);
 
-        // Получаем товары категории (предполагается, что у вас есть такой метод в FlowerService)
         Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         model.addAttribute("flowers", flowerService.getFlowersByCategory(id, pageable));
         model.addAttribute("currentPage", page);
