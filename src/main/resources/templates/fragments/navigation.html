@@ -1,185 +1,185 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Премиальная навигация</title>
-    <style>
-        /* Общие стили */
-        :root {
-            --primary-color: #1a1a1a;
-            --secondary-color: #f5f5f5;
-            --accent-color: #c9a980;
-            --text-color: #333333;
-            --transition: all 0.3s ease;
-        }
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Премиальная навигация</title>-->
+<!--    <style>-->
+<!--        /* Общие стили */-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #1a1a1a;-->
+<!--            &#45;&#45;secondary-color: #f5f5f5;-->
+<!--            &#45;&#45;accent-color: #c9a980;-->
+<!--            &#45;&#45;text-color: #333333;-->
+<!--            &#45;&#45;transition: all 0.3s ease;-->
+<!--        }-->
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--            font-family: 'Helvetica Neue', Arial, sans-serif;-->
+<!--        }-->
 
-        body {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-        }
+<!--        body {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--        }-->
 
-        /* Стили навигации */
-        .nav-container {
-            width: 100%;
-            background-color: var(--secondary-color);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
+<!--        /* Стили навигации */-->
+<!--        .nav-container {-->
+<!--            width: 100%;-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            z-index: 1000;-->
+<!--            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);-->
+<!--        }-->
 
-        .nav-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-        }
+<!--        .nav-wrapper {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            padding: 20px 40px;-->
+<!--        }-->
 
-        .brand-logo {
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: var(--primary-color);
-            text-decoration: none;
-            text-transform: uppercase;
-        }
+<!--        .brand-logo {-->
+<!--            font-size: 24px;-->
+<!--            font-weight: 300;-->
+<!--            letter-spacing: 2px;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            text-decoration: none;-->
+<!--            text-transform: uppercase;-->
+<!--        }-->
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
+<!--        .nav-menu {-->
+<!--            display: flex;-->
+<!--            list-style: none;-->
+<!--        }-->
 
-        .nav-item {
-            margin: 0 20px;
-        }
+<!--        .nav-item {-->
+<!--            margin: 0 20px;-->
+<!--        }-->
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--primary-color);
-            font-size: 16px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            transition: var(--transition);
-        }
+<!--        .nav-link {-->
+<!--            text-decoration: none;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            font-size: 16px;-->
+<!--            font-weight: 300;-->
+<!--            letter-spacing: 1px;-->
+<!--            text-transform: uppercase;-->
+<!--            position: relative;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
 
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -3px;
-            left: 0;
-            background-color: var(--accent-color);
-            transition: var(--transition);
-        }
+<!--        .nav-link:after {-->
+<!--            content: '';-->
+<!--            position: absolute;-->
+<!--            width: 0;-->
+<!--            height: 1px;-->
+<!--            bottom: -3px;-->
+<!--            left: 0;-->
+<!--            background-color: var(&#45;&#45;accent-color);-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
 
-        .nav-link:hover {
-            color: var(--accent-color);
-        }
+<!--        .nav-link:hover {-->
+<!--            color: var(&#45;&#45;accent-color);-->
+<!--        }-->
 
-        .nav-link:hover:after {
-            width: 100%;
-        }
+<!--        .nav-link:hover:after {-->
+<!--            width: 100%;-->
+<!--        }-->
 
-        .nav-icons {
-            display: flex;
-            align-items: center;
-        }
+<!--        .nav-icons {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
 
-        .icon-link {
-            margin-left: 20px;
-            color: var(--primary-color);
-            font-size: 18px;
-            transition: var(--transition);
-        }
+<!--        .icon-link {-->
+<!--            margin-left: 20px;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            font-size: 18px;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
 
-        .icon-link:hover {
-            color: var(--accent-color);
-        }
+<!--        .icon-link:hover {-->
+<!--            color: var(&#45;&#45;accent-color);-->
+<!--        }-->
 
-        /* Стили для мобильной навигации */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-        }
+<!--        /* Стили для мобильной навигации */-->
+<!--        .mobile-menu-btn {-->
+<!--            display: none;-->
+<!--            background: none;-->
+<!--            border: none;-->
+<!--            cursor: pointer;-->
+<!--            font-size: 24px;-->
+<!--        }-->
 
-        @media screen and (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                background-color: var(--secondary-color);
-                padding: 20px 0;
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
-            }
+<!--        @media screen and (max-width: 768px) {-->
+<!--            .nav-menu {-->
+<!--                display: none;-->
+<!--                flex-direction: column;-->
+<!--                position: absolute;-->
+<!--                top: 60px;-->
+<!--                left: 0;-->
+<!--                width: 100%;-->
+<!--                background-color: var(&#45;&#45;secondary-color);-->
+<!--                padding: 20px 0;-->
+<!--                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);-->
+<!--            }-->
 
-            .nav-menu.active {
-                display: flex;
-            }
+<!--            .nav-menu.active {-->
+<!--                display: flex;-->
+<!--            }-->
 
-            .nav-item {
-                margin: 10px 40px;
-            }
+<!--            .nav-item {-->
+<!--                margin: 10px 40px;-->
+<!--            }-->
 
-            .mobile-menu-btn {
-                display: block;
-            }
+<!--            .mobile-menu-btn {-->
+<!--                display: block;-->
+<!--            }-->
 
-            .nav-icons {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-<!-- Навигационное меню -->
-<nav class="nav-container">
-    <div class="nav-wrapper">
-        <a href="/" class="brand-logo">LUXE</a>
+<!--            .nav-icons {-->
+<!--                display: none;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash; Навигационное меню &ndash;&gt;-->
+<!--<nav class="nav-container">-->
+<!--    <div class="nav-wrapper">-->
+<!--        <a href="/" class="brand-logo">LUXE</a>-->
 
-        <button class="mobile-menu-btn">☰</button>
+<!--        <button class="mobile-menu-btn">☰</button>-->
 
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>
-            <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>
-            <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>
-            <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>
-            <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>
-        </ul>
+<!--        <ul class="nav-menu">-->
+<!--            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>-->
+<!--            <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>-->
+<!--            <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>-->
+<!--            <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>-->
+<!--            <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>-->
+<!--            <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>-->
+<!--        </ul>-->
 
-        <div class="nav-icons">
-            <a href="/search" class="icon-link">⌕</a>
-            <a href="/account" class="icon-link">◯</a>
-            <a href="/cart" class="icon-link">☐</a>
-        </div>
-    </div>
-</nav>
+<!--        <div class="nav-icons">-->
+<!--            <a href="/search" class="icon-link">⌕</a>-->
+<!--            <a href="/account" class="icon-link">◯</a>-->
+<!--            <a href="/cart" class="icon-link">☐</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
 
-<script>
-    // Простой скрипт для мобильного меню
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-        document.querySelector('.nav-menu').classList.toggle('active');
-    });
-</script>
-</body>
-</html>
+<!--<script>-->
+<!--    // Простой скрипт для мобильного меню-->
+<!--    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {-->
+<!--        document.querySelector('.nav-menu').classList.toggle('active');-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

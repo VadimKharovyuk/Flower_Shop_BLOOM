@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог цветов | LUXE Flowers</title>
+
+    <!-- Подключение шрифтов -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Подключение CSS для навигации и хедера -->
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/header :: header-css}"></style>
+
+    <!-- Специфичные стили для страницы каталога -->
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Стили для каталога */
+        .catalog-section {
+            padding: 60px 0;
+        }
+
+        .catalog-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .catalog-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .catalog-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background-color: #c9a980;
+        }
+
+        .catalog-description {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Панель управления каталогом */
+        .catalog-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .catalog-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sort-select {
+            padding: 8px 35px 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #c9a980;
+        }
+
+        .product-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .product-count span {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Сетка товаров */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* Карточка товара */
+        .product-card {
+            background-color: white;
+            border-radius: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #c9a980;
+            color: white;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 2px;
+            z-index: 2;
+        }
+
+        .product-badge.sale {
+            background-color: #e74c3c;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-title {
+            color: #c9a980;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+            height: 40px;
+        }
+
+        .product-button {
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px 0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-button:hover {
+            background-color: #c9a980;
+        }
+
+        .product-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .pagination-list {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            gap: 10px;
+        }
+
+        .pagination-item a,
+        .pagination-item span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-item a:hover {
+            border-color: #c9a980;
+            color: #c9a980;
+        }
+
+        .pagination-item.active span {
+            background-color: #1a1a1a;
+            border-color: #1a1a1a;
+            color: white;
+        }
+
+        .pagination-item.disabled a {
+            color: #ccc;
+            pointer-events: none;
+        }
+
+        /* Фильтры категорий */
+        .category-sidebar {
+            position: sticky;
+            top: 100px;
+            width: 250px;
+            padding-right: 30px;
+        }
+
+        .category-filter {
+            background-color: white;
+            padding: 25px;
+            border-radius: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-item {
+            margin-bottom: 15px;
+        }
+
+        .filter-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-link {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-link:hover {
+            color: #c9a980;
+        }
+
+        .filter-count {
+            color: #999;
+        }
+
+        .filter-link.active {
+            color: #c9a980;
+            font-weight: 500;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .catalog-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination-list {
+                gap: 5px;
+            }
+
+            .pagination-item a,
+            .pagination-item span {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body th:with="currentPage='catalog'">
+<!-- Навигация -->
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+
+<!-- Хедер страницы -->
+<div th:replace="~{client/fragments/header :: page-header('Каталог цветов', 'Выберите из нашей коллекции свежих цветов и уникальных композиций', '/images/catalog-bg.jpg')}"></div>
+
+<!-- Основное содержимое -->
+<main class="catalog-section">
+    <div class="container">
+        <!-- Панель управления каталогом -->
+        <div class="catalog-controls">
+            <div class="product-count">
+                Найдено <span th:text="${flowers.totalElements}">0</span> товаров
+            </div>
+
+            <div class="catalog-filter">
+                <span class="filter-label">Сортировать по:</span>
+                <select id="sort-select" class="sort-select">
+                    <option value="name_true" th:selected="${sortBy == 'name' && ascending == true}">Название (А-Я)</option>
+                    <option value="name_false" th:selected="${sortBy == 'name' && ascending == false}">Название (Я-А)</option>
+                    <option value="price_true" th:selected="${sortBy == 'price' && ascending == true}">Цена (по возрастанию)</option>
+                    <option value="price_false" th:selected="${sortBy == 'price' && ascending == false}">Цена (по убыванию)</option>
+                    <option value="createdAt_false" th:selected="${sortBy == 'createdAt' && ascending == false}">Новинки</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Сетка товаров -->
+        <div class="products-grid">
+            <!-- Если нет товаров -->
+            <div th:if="${flowers.empty}" style="grid-column: 1/-1; text-align: center; padding: 50px 0;">
+                <p>К сожалению, товары не найдены.</p>
+                <p>Пожалуйста, воспользуйтесь фильтрами или вернитесь позже.</p>
+            </div>
+
+            <!-- Карточки товаров -->
+            <div class="product-card" th:each="flower : ${flowers}">
+                <a th:href="@{'/flowers/' + ${flower.id}}" class="product-link"></a>
+
+                <div class="product-image">
+                    <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}">
+                    <div class="product-badge" th:if="${flower.hasDeliveryToday}">Доставка сегодня</div>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title" th:text="${flower.name}">Название цветка</h3>
+                    <div class="product-price" th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</div>
+
+                    <div class="product-actions">
+                        <button class="product-button add-to-cart-btn" th:attr="data-id=${flower.id}">В корзину</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пагинация -->
+        <div class="pagination" th:if="${flowers.totalPages > 1}">
+            <ul class="pagination-list">
+                <!-- Кнопка "Назад" -->
+                <li class="pagination-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                    <a th:href="@{/flowers(page=${currentPage - 1}, size=${flowers.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                       th:if="${currentPage > 0}">&laquo;</a>
+                    <span th:unless="${currentPage > 0}">&laquo;</span>
+                </li>
+
+                <!-- Номера страниц -->
+                <li class="pagination-item" th:each="i : ${#numbers.sequence(0, flowers.totalPages - 1)}"
+                    th:classappend="${i == currentPage ? 'active' : ''}">
+                    <a th:href="@{/flowers(page=${i}, size=${flowers.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                       th:unless="${i == currentPage}" th:text="${i + 1}">1</a>
+                    <span th:if="${i == currentPage}" th:text="${i + 1}">1</span>
+                </li>
+
+                <!-- Кнопка "Вперед" -->
+                <li class="pagination-item" th:classappend="${currentPage == flowers.totalPages - 1 ? 'disabled' : ''}">
+                    <a th:href="@{/flowers(page=${currentPage + 1}, size=${flowers.size}, sortBy=${sortBy}, ascending=${ascending})}"
+                       th:if="${currentPage < flowers.totalPages - 1}">&raquo;</a>
+                    <span th:unless="${currentPage < flowers.totalPages - 1}">&raquo;</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<!-- Футер -->
+
+<div th:replace="~{client/fragments/footer :: footer}"></div>
+<style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+<!-- JavaScript для функциональности страницы -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработка изменения сортировки
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                const [sortBy, ascending] = this.value.split('_');
+                window.location.href = `/flowers?page=0&size=${new URLSearchParams(window.location.search).get('size') || 12}&sortBy=${sortBy}&ascending=${ascending}`;
+            });
+        }
+
+        // Обработка кнопок "В корзину"
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const productId = this.getAttribute('data-id');
+
+                // Здесь будет AJAX-запрос для добавления товара в корзину
+                // Для демонстрации просто показываем уведомление
+                showNotification('Товар добавлен в корзину');
+            });
+        });
+
+        // Функция для показа уведомлений
+        function showNotification(message) {
+            // Проверяем, существует ли уже уведомление
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+
+            // Добавляем уведомление в DOM
+            document.body.appendChild(notification);
+
+            // Анимируем появление
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+
+            // Скрываем через 3 секунды
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+
+                // Удаляем из DOM после завершения анимации
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    });
+</script>
+</body>
+</html>
