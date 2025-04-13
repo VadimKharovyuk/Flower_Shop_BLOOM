@@ -5,7 +5,7 @@
 <nav th:fragment="navigation" class="site-header">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="/" class="logo">LUXE</a>
+      <a href="/" class="logo">BLOOM</a>
 
       <nav class="main-nav">
         <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Главная</a>
@@ -16,8 +16,16 @@
         <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакты</a>
       </nav>
 
+
       <div class="nav-actions">
-        <a href="/search" class="nav-icon"><i class="fas fa-search"></i></a>
+        <div class="search-container">
+          <form action="/categories/search" method="get">
+            <input type="text" name="query" placeholder="Search flowers...">
+            <a href="#" onclick="this.closest('form').submit(); return false;" class="nav-icon">
+              <i class="fas fa-search"></i>
+            </a>
+          </form>
+        </div>
         <a href="/favorites" class="nav-icon"><i class="far fa-heart"></i></a>
         <a href="/cart" class="nav-icon cart-icon">
           <i class="fas fa-shopping-bag"></i>
@@ -296,6 +304,92 @@
 
     .nav-actions .nav-icon:not(.cart-icon) {
       display: none;
+    }
+  }
+
+  /* Luxury Minimalism Search Box Styles */
+
+  .search-container {
+    position: relative;
+    max-width: 300px;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+
+  .search-container form {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-container input[type="text"] {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+    background-color: transparent;
+    font-family: 'Playfair Display', serif; /* Luxury font - you may need to import this */
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .search-container input[type="text"]:focus {
+    border-color: #9e8a78; /* Subtle gold/bronze color for focus */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-container input[type="text"]::placeholder {
+    color: #aaa;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .search-container .nav-icon {
+    position: absolute;
+    right: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: #9e8a78; /* Matches the border focus color */
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .search-container .nav-icon:hover {
+    color: #806a59; /* Darker shade on hover */
+    transform: scale(1.1);
+  }
+
+  /* Optional animations */
+  @keyframes gentle-pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+  }
+
+  .search-container:focus-within .nav-icon {
+    animation: gentle-pulse 2s infinite;
+  }
+
+  /* Media queries for responsive design */
+  @media (max-width: 768px) {
+    .search-container {
+      max-width: 100%;
+    }
+
+    .search-container input[type="text"] {
+      padding: 10px 36px 10px 12px;
+      font-size: 13px;
+    }
+
+    .search-container .nav-icon {
+      right: 12px;
+      font-size: 14px;
     }
   }
 </style>

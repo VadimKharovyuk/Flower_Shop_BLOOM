@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+
 @RequestMapping("categories")
 public class CategoryController {
 
@@ -110,9 +111,6 @@ public class CategoryController {
     @GetMapping("/search")
     public String searchFlowers(
             @RequestParam String query,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Boolean inStock,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
