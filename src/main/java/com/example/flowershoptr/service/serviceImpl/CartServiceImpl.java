@@ -12,6 +12,7 @@ import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -82,7 +83,6 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
         }
 
-        System.out.println("корзина создана по " +session.getId());
         // Проверяем, есть ли уже такой цветок в корзине
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(item -> item.getFlower().getId().equals(flowerId))
@@ -281,22 +281,24 @@ public class CartServiceImpl implements CartService {
 
         Object cartObj = session.getAttribute(CART_SESSION_KEY);
 
-        // Проверяем тип объекта в сессии
         if (cartObj == null) {
             return 0;
         }
 
-        if (cartObj instanceof Cart) {
-            Cart cart = (Cart) cartObj;
-            return cart.getItems() != null
-                    ? cart.getItems().stream()
-                    .mapToInt(CartItem::getQuantity)
-                    .sum()
-                    : 0;
+        if (!(cartObj instanceof Cart)) {
+            log.warn("Unexpected cart type in session: {}", cartObj.getClass());
+            return 0;
         }
 
-        // На случай, если что-то пошло не так
-        return 0;
+        Cart cart = (Cart) cartObj;
+        int itemCount = cart.getItems() != null
+                ? cart.getItems().stream()
+                .mapToInt(CartItem::getQuantity)
+                .sum()
+                : 0;
+
+        log.debug("Cart item count calculated: {}", itemCount);
+        return itemCount;
     }
 
 

@@ -79,6 +79,7 @@ public interface CartService {
      */
     CartDto assignCartToUser(HttpSession session, Long userId);
 
+
     Integer getCartItemCount(HttpSession session);
 
 }

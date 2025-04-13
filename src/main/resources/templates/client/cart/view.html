@@ -100,7 +100,85 @@
             color: var(--secondary-color);
             font-size: 1.1rem;
         }
+        /* Исправленные стили для таблицы корзины */
+        .cart-table {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+            width: 100%;
+        }
 
+        .cart-table thead {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .cart-table th {
+            font-weight: 500;
+            padding: 20px;
+            color: var(--secondary-color);
+        }
+
+        .cart-table td {
+            padding: 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        /* Усиливаем видимость названия товара */
+        .flower-name {
+            font-weight: 500;
+            color: var(--text-color) !important; /* Используем основной цвет текста */
+            font-size: 1.1rem;
+            display: block; /* Гарантирует блочное отображение */
+            margin-bottom: 5px;
+        }
+
+        /* Улучшаем контрастность и видимость */
+        .table {
+            color: var(--text-color) !important;
+            width: 100%;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        /* Медиа-запросы для улучшения отображения на мобильных */
+        @media (max-width: 768px) {
+            .cart-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap; /* Предотвращает перенос текста в ячейках */
+            }
+
+            .flower-name {
+                font-size: 0.9rem;
+                white-space: normal; /* Разрешаем перенос только для названия */
+                max-width: 150px; /* Ограничиваем ширину */
+            }
+
+            .cart-table td, .cart-table th {
+                padding: 15px 10px; /* Уменьшаем отступы на мобильных */
+            }
+        }
+
+        /* Дополнительно: улучшаем видимость всех элементов в корзине */
+        .cart-table tr:hover {
+            background-color: rgba(200, 169, 126, 0.05); /* Добавляем подсветку строки при наведении */
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            margin: 0 8px;
+            border: 1px solid var(--gray-light);
+            border-radius: 4px;
+            background-color: var(--white);
+            color: var(--text-color);
+        }
         .quantity-control {
             display: flex;
             align-items: center;
