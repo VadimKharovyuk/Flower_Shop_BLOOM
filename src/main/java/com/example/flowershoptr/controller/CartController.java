@@ -19,6 +19,22 @@ public class CartController {
     private final CartService cartService;
 //    private final OrderService orderService;
 
+
+
+    /**
+     * AJAX-метод для добавления товара в корзину
+     */
+    @PostMapping("/api/add")
+    @ResponseBody
+    public CartDto apiAddToCart(
+            HttpSession session,
+            @RequestParam Long flowerId,
+            @RequestParam(defaultValue = "1") Integer quantity) {
+
+        return cartService.addFlowerToCart(session, flowerId, quantity);
+    }
+
+
     /**
      * Добавление цветка в корзину
      */
@@ -46,18 +62,6 @@ public class CartController {
 
 
 
-    /**
-     * AJAX-метод для добавления товара в корзину
-     */
-    @PostMapping("/api/add")
-    @ResponseBody
-    public CartDto apiAddToCart(
-            HttpSession session,
-            @RequestParam Long flowerId,
-            @RequestParam(defaultValue = "1") Integer quantity) {
-
-        return cartService.addFlowerToCart(session, flowerId, quantity);
-    }
 
 
 
