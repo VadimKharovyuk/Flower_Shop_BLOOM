@@ -570,7 +570,10 @@
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 <!-- Хедер категории -->
-<div th:replace="~{client/fragments/header :: page-header(${category.name}, ${category.description}, ${category.getPreviewImageUrl()})}"></div>
+<!--<div th:replace="~{client/fragments/header :: page-header(${category.name}, ${category.description}, ${category.getPreviewImageUrl()})}"></div>-->
+<!-- Подключение фрагмента -->
+<div th:replace="~{client/fragments/luxe-header-content :: category-header(${category})}"></div>
+<style th:replace="~{client/fragments/luxe-header-content :: category-header-css}"></style>
 
 <!-- Основное содержимое категории - новая структура -->
 <div class="category-container">

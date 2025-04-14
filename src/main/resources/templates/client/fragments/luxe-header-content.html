@@ -1,0 +1,159 @@
+<!-- Thymeleaf-фрагмент для заголовка категории -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<!-- Фрагмент заголовка категории -->
+<div th:fragment="category-header(category)" class="luxe-header">
+    <div class="luxe-header-image">
+        <img th:src="@{${category.previewImageUrl}}" alt="Фон категории">
+        <div class="luxe-header-overlay"></div>
+    </div>
+
+    <div class="luxe-header-content">
+        <div class="luxe-header-text">
+            <div class="luxe-header-divider"></div>
+            <h1 class="luxe-header-title" th:text="${category.name}">Название категории</h1>
+            <p class="luxe-header-subtitle" th:text="${category.description}">Описание категории</p>
+        </div>
+    </div>
+</div>
+
+<!-- CSS стили для заголовка категории -->
+<style th:fragment="category-header-css">
+    .luxe-header {
+        position: relative;
+        height: 500px;
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 80px;
+    }
+
+    .luxe-header-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .luxe-header-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 8s ease;
+    }
+
+    .luxe-header:hover .luxe-header-image img {
+        transform: scale(1.05);
+    }
+
+    .luxe-header-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+    }
+
+    .luxe-header-content {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .luxe-header-text {
+        max-width: 800px;
+        padding: 0 60px;
+        animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    .luxe-header-divider {
+        width: 60px;
+        height: 2px;
+        background-color: #c9a980;
+        margin-bottom: 30px;
+    }
+
+    .luxe-header-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 52px;
+        font-weight: 500;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        letter-spacing: 0.5px;
+    }
+
+    .luxe-header-subtitle {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+        max-width: 600px;
+        font-weight: 300;
+        letter-spacing: 0.3px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .luxe-header {
+            height: 400px;
+            margin-bottom: 60px;
+        }
+
+        .luxe-header-text {
+            padding: 0 40px;
+        }
+
+        .luxe-header-title {
+            font-size: 42px;
+        }
+
+        .luxe-header-subtitle {
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .luxe-header {
+            height: 350px;
+            margin-bottom: 40px;
+        }
+
+        .luxe-header-text {
+            padding: 0 20px;
+        }
+
+        .luxe-header-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .luxe-header-subtitle {
+            font-size: 14px;
+        }
+
+        .luxe-header-divider {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+</body>
+</html>
