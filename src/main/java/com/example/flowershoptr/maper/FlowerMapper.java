@@ -7,6 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Component
 public class FlowerMapper {
 
@@ -30,6 +33,13 @@ public class FlowerMapper {
         // Получаем имя категории, если категория существует
         if (flower.getCategory() != null) {
             dto.setCategoryName(flower.getCategory().getName());
+        }
+        if (flower.getCreatedAt() != null) {
+            LocalDateTime now = LocalDateTime.now();
+            long daysBetween = ChronoUnit.DAYS.between(flower.getCreatedAt(), now);
+            dto.setNew(daysBetween < 14);
+        } else {
+            dto.setNew(false);
         }
 
         return dto;
@@ -89,6 +99,7 @@ public class FlowerMapper {
         // Установка значений по умолчанию
         flower.setReviewCount(0);
         flower.setAverageRating(0.0);
+
 
         // Категория будет установлена в сервисе после поиска по ID
 

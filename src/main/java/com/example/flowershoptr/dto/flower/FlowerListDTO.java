@@ -14,5 +14,6 @@ public class FlowerListDTO {
     private Integer count;
     private Double averageRating;
     private boolean isActive;
-    private String categoryName; // Имя категории вместо полного объекта
+    private String categoryName;
+    private boolean isNew;
 }
