@@ -17,6 +17,8 @@
   <!-- Подключение CSS для футера -->
   <style th:replace="~{client/fragments/footer :: footer-css}"></style>
 
+  <link rel="stylesheet" href="/css/category/products-section.css">
+
   <title th:text="${category.name}">Название категории</title>
 
   <style>
@@ -687,11 +689,55 @@
 </div>
 
 <!-- Секция рекомендуемых товаров -->
-<section class="recommended-products">
-  <div class="container">
-    <h2 class="section-title">Рекомендуемые товары</h2>
-  </div>
-</section>
+
+
+    <!-- Избранные букеты -->
+    <section class="section products-section">
+        <div class="container">
+            <h2 class="section-title">Избранные букеты</h2>
+            <p class="section-subtitle">Букеты, которые полюбили наши клиенты</p>
+
+            <div class="products-grid">
+                <div th:each="flower : ${popularFlower}" class="product-card">
+                    <div class="product-image-container">
+                        <img th:src="${flower.previewImageUrl}"
+                             th:alt="${flower.name}"
+                             class="product-image">
+
+                        <span th:if="${flower.favoritesCount > 10}" class="product-tag">Популярное</span>
+
+                        <div class="product-actions">
+                            <div class="product-action-btn wishlist" th:data-id="${flower.id}">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <a class="product-action-btn" th:href="@{'/flowers/' + ${flower.id}}">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="product-content">
+                        <p class="product-category" th:text="${flower.categoryName}">Категория</p>
+                        <h3 class="product-title" th:text="${flower.name}">Название букета</h3>
+                        <div class="product-price-cart-wrapper">
+                            <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Цена</p>
+                            <button class="add-to-cart">В корзину</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-more-container" style="text-align: center;">
+                <a href="/trending" class="wedding-btn">
+                    Посмотреть больше
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+<script th:src="@{/js/favorites.js}"></script>
+<script th:src="@{/js/add-to-cart.js}"></script>
+
 
 <!-- Секция "Почему выбирают нас" -->
 <section class="why-us-section">
@@ -835,33 +881,6 @@
         }
       });
     }
-
-    // // Обработка добавления в избранное
-    // const wishlistButtons = document.querySelectorAll('.wishlist');
-    //
-    // wishlistButtons.forEach(button => {
-    //   button.addEventListener('click', function() {
-    //     const flowerId = this.getAttribute('data-id');
-    //     const heartIcon = this.querySelector('i');
-    //
-    //     // Переключение иконки сердца
-    //     if (heartIcon.classList.contains('far')) {
-    //       heartIcon.classList.remove('far');
-    //       heartIcon.classList.add('fas');
-    //       showNotification('Товар добавлен в избранное');
-    //
-    //       // Здесь можно добавить AJAX-запрос для добавления в избранное
-    //       // fetch('/wishlist/add?flowerId=' + flowerId)...
-    //     } else {
-    //       heartIcon.classList.remove('fas');
-    //       heartIcon.classList.add('far');
-    //       showNotification('Товар удален из избранного');
-    //
-    //       // Здесь можно добавить AJAX-запрос для удаления из избранного
-    //       // fetch('/wishlist/remove?flowerId=' + flowerId)...
-    //     }
-    //   });
-    // });
 
     // Функция для показа уведомлений
     function showNotification(message) {

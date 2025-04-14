@@ -3,6 +3,7 @@ package com.example.flowershoptr.controller;
 import com.example.flowershoptr.dto.category.CategoryDetailsDTO;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.FlowerSearchDTO;
+import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.service.CategoryService;
 
 import com.example.flowershoptr.service.FlowerService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -84,7 +86,9 @@ public class CategoryController {
         Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         model.addAttribute("flowers", flowerService.getFlowersByCategory(id, pageable));
         model.addAttribute("currentPage", page);
-       
+
+        List<PopularFlowerDto> popularFlowerDtos = flowerService.getPopularFlowersList();
+        model.addAttribute("popularFlower", popularFlowerDtos);
 
         return "client/categories/view";
     }

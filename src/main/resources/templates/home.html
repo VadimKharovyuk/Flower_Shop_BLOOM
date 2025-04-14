@@ -934,52 +934,6 @@
         </div>
     </div>
 </section>
-
-<!--&lt;!&ndash; Избранные букеты &ndash;&gt;-->
-<!--<section class="section products-section">-->
-<!--    <div class="container">-->
-<!--        <h2 class="section-title">Избранные букеты</h2>-->
-<!--        <p class="section-subtitle">Букеты, которые полюбили наши клиенты</p>-->
-
-<!--        <div class="products-grid">-->
-<!--            <div th:each="flower : ${favoriteFlowers}" class="product-card">-->
-<!--                <div class="product-image-container">-->
-<!--                    <img th:src="${flower.previewImageUrl}"-->
-<!--                         th:alt="${flower.name}"-->
-<!--                         class="product-image">-->
-
-<!--                    <span th:if="${flower.favoritesCount > 10}" class="product-tag">Популярное</span>-->
-
-<!--                    <div class="product-actions">-->
-<!--                        <div class="product-action-btn wishlist" th:data-id="${flower.id}">-->
-<!--                            <i class="far fa-heart"></i>-->
-<!--                        </div>-->
-<!--                        <a class="product-action-btn" th:href="@{'/flowers/' + ${flower.id}}">-->
-<!--                            <i class="fas fa-eye"></i>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="product-content">-->
-<!--                    <p class="product-category" th:text="${flower.categoryName}">Категория</p>-->
-<!--                    <h3 class="product-title" th:text="${flower.name}">Название букета</h3>-->
-<!--                    <div class="product-price-cart-wrapper">-->
-<!--                        <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Цена</p>-->
-<!--                        <button class="add-to-cart">В корзину</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="section-more-container" style="text-align: center;">-->
-<!--            <a href="/trending" class="wedding-btn">-->
-<!--                Посмотреть больше-->
-<!--                <span class="btn-arrow">→</span>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
 <!-- Скрипт для работы с избранным -->
 <script th:src="@{/js/favorites.js}"></script>
 
