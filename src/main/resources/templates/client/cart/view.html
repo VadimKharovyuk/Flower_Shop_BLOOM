@@ -1,463 +1,1146 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Корзина | Цветочный магазин</title>-->
+
+<!--    &lt;!&ndash; Google Fonts &ndash;&gt;-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Custom CSS &ndash;&gt;-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #c8a97e;-->
+<!--            &#45;&#45;secondary-color: #333333;-->
+<!--            &#45;&#45;background-color: #f8f7f5;-->
+<!--            &#45;&#45;text-color: #1a1a1a;-->
+<!--            &#45;&#45;gray-light: #e6e6e6;-->
+<!--            &#45;&#45;white: #ffffff;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Raleway', sans-serif;-->
+<!--            background-color: var(&#45;&#45;background-color);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            line-height: 1.6;-->
+<!--        }-->
+
+<!--        h1, h2, h3, h4, h5 {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            letter-spacing: 0.5px;-->
+<!--        }-->
+
+<!--        .cart-container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 60px 20px;-->
+<!--        }-->
+
+<!--        .cart-header {-->
+<!--            text-align: center;-->
+<!--            margin-bottom: 40px;-->
+<!--            position: relative;-->
+<!--        }-->
+
+<!--        .cart-header:after {-->
+<!--            content: '';-->
+<!--            position: absolute;-->
+<!--            bottom: -15px;-->
+<!--            left: 50%;-->
+<!--            transform: translateX(-50%);-->
+<!--            width: 40px;-->
+<!--            height: 2px;-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .cart-table {-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);-->
+<!--            margin-bottom: 30px;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .cart-table thead {-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-bottom: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .cart-table th {-->
+<!--            font-weight: 500;-->
+<!--            padding: 20px;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--        }-->
+
+<!--        .cart-table td {-->
+<!--            padding: 20px;-->
+<!--            vertical-align: middle;-->
+<!--            border-bottom: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .cart-table tr:last-child td {-->
+<!--            border-bottom: none;-->
+<!--        }-->
+
+<!--        .flower-img {-->
+<!--            width: 80px;-->
+<!--            height: 80px;-->
+<!--            object-fit: cover;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+
+<!--        .flower-name {-->
+<!--            font-weight: 500;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            font-size: 1.1rem;-->
+<!--        }-->
+<!--        /* Исправленные стили для таблицы корзины */-->
+<!--        .cart-table {-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);-->
+<!--            margin-bottom: 30px;-->
+<!--            overflow: hidden;-->
+<!--            width: 100%;-->
+<!--        }-->
+
+<!--        .cart-table thead {-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-bottom: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .cart-table th {-->
+<!--            font-weight: 500;-->
+<!--            padding: 20px;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--        }-->
+
+<!--        .cart-table td {-->
+<!--            padding: 20px;-->
+<!--            vertical-align: middle;-->
+<!--            border-bottom: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        /* Усиливаем видимость названия товара */-->
+<!--        .flower-name {-->
+<!--            font-weight: 500;-->
+<!--            color: var(&#45;&#45;text-color) !important; /* Используем основной цвет текста */-->
+<!--            font-size: 1.1rem;-->
+<!--            display: block; /* Гарантирует блочное отображение */-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+
+<!--        /* Улучшаем контрастность и видимость */-->
+<!--        .table {-->
+<!--            color: var(&#45;&#45;text-color) !important;-->
+<!--            width: 100%;-->
+<!--            margin-bottom: 0;-->
+<!--            border-collapse: separate;-->
+<!--            border-spacing: 0;-->
+<!--        }-->
+
+<!--        /* Медиа-запросы для улучшения отображения на мобильных */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .cart-table {-->
+<!--                display: block;-->
+<!--                overflow-x: auto;-->
+<!--                white-space: nowrap; /* Предотвращает перенос текста в ячейках */-->
+<!--            }-->
+
+<!--            .flower-name {-->
+<!--                font-size: 0.9rem;-->
+<!--                white-space: normal; /* Разрешаем перенос только для названия */-->
+<!--                max-width: 150px; /* Ограничиваем ширину */-->
+<!--            }-->
+
+<!--            .cart-table td, .cart-table th {-->
+<!--                padding: 15px 10px; /* Уменьшаем отступы на мобильных */-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Дополнительно: улучшаем видимость всех элементов в корзине */-->
+<!--        .cart-table tr:hover {-->
+<!--            background-color: rgba(200, 169, 126, 0.05); /* Добавляем подсветку строки при наведении */-->
+<!--        }-->
+
+<!--        .quantity-input {-->
+<!--            width: 50px;-->
+<!--            height: 30px;-->
+<!--            text-align: center;-->
+<!--            margin: 0 8px;-->
+<!--            border: 1px solid var(&#45;&#45;gray-light);-->
+<!--            border-radius: 4px;-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--        }-->
+<!--        .quantity-control {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .quantity-btn {-->
+<!--            width: 30px;-->
+<!--            height: 30px;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border: 1px solid var(&#45;&#45;gray-light);-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--            transition: all 0.2s;-->
+<!--        }-->
+
+<!--        .quantity-btn:hover {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;white);-->
+<!--        }-->
+
+<!--        .quantity-input {-->
+<!--            width: 50px;-->
+<!--            height: 30px;-->
+<!--            text-align: center;-->
+<!--            margin: 0 8px;-->
+<!--            border: 1px solid var(&#45;&#45;gray-light);-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+
+<!--        .remove-btn {-->
+<!--            background: none;-->
+<!--            border: none;-->
+<!--            color: #999;-->
+<!--            font-size: 1.2rem;-->
+<!--            cursor: pointer;-->
+<!--            transition: color 0.2s;-->
+<!--        }-->
+
+<!--        .remove-btn:hover {-->
+<!--            color: #dc3545;-->
+<!--        }-->
+
+<!--        .cart-summary {-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);-->
+<!--            padding: 25px;-->
+<!--        }-->
+
+<!--        .cart-total {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            margin-bottom: 20px;-->
+<!--            padding-bottom: 20px;-->
+<!--            border-bottom: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .total-label {-->
+<!--            font-size: 1.2rem;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .total-value {-->
+<!--            font-size: 1.3rem;-->
+<!--            font-weight: 600;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--        }-->
+
+<!--        .action-btn {-->
+<!--            display: block;-->
+<!--            width: 100%;-->
+<!--            padding: 12px 20px;-->
+<!--            margin: 10px 0;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            font-weight: 500;-->
+<!--            transition: all 0.3s;-->
+<!--            text-align: center;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .primary-btn {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;white) !important;-->
+<!--        }-->
+
+<!--        .primary-btn:hover {-->
+<!--            background-color: #b5966c;-->
+<!--        }-->
+
+<!--        .secondary-btn {-->
+<!--            background-color: transparent;-->
+<!--            color: var(&#45;&#45;text-color) !important;-->
+<!--            border: 1px solid var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .secondary-btn:hover {-->
+<!--            background-color: var(&#45;&#45;gray-light);-->
+<!--        }-->
+
+<!--        .empty-cart {-->
+<!--            text-align: center;-->
+<!--            padding: 40px 20px;-->
+<!--            background-color: var(&#45;&#45;white);-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);-->
+<!--        }-->
+
+<!--        .empty-cart-icon {-->
+<!--            font-size: 3rem;-->
+<!--            color: var(&#45;&#45;gray-light);-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .form-update {-->
+<!--            display: inline;-->
+<!--        }-->
+
+<!--        /* Анимации */-->
+<!--        @keyframes fadeIn {-->
+<!--            from { opacity: 0; }-->
+<!--            to { opacity: 1; }-->
+<!--        }-->
+
+<!--        .cart-table, .cart-summary, .empty-cart {-->
+<!--            animation: fadeIn 0.5s ease-in-out;-->
+<!--        }-->
+
+<!--        /* Медиа-запросы */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .cart-table {-->
+<!--                display: block;-->
+<!--                overflow-x: auto;-->
+<!--            }-->
+
+<!--            .flower-name {-->
+<!--                font-size: 0.9rem;-->
+<!--            }-->
+
+<!--            .quantity-input {-->
+<!--                width: 40px;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>-->
+<!--    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>-->
+<!--    <script th:fragment="navigation-js" src="/js/navigation.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; Здесь будет подключаться навигация через фрагмент &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/navigation :: navigation}"></div>-->
+
+<!--<div class="cart-container">-->
+<!--    <div class="cart-header">-->
+<!--        <h1>Ваша корзина</h1>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Сообщения об успешных операциях или ошибках &ndash;&gt;-->
+<!--    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage != null}">-->
+<!--        <span th:text="${successMessage}"></span>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--    </div>-->
+
+<!--    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage != null}">-->
+<!--        <span th:text="${errorMessage}"></span>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Если корзина пуста &ndash;&gt;-->
+<!--    <div class="empty-cart" th:if="${cart.items.isEmpty()}">-->
+<!--        <div class="empty-cart-icon">-->
+<!--            <i class="bi bi-cart"></i>-->
+<!--        </div>-->
+<!--        <h3>Ваша корзина пуста</h3>-->
+<!--        <p>Добавьте цветы, чтобы продолжить</p>-->
+<!--        <a href="/catalog" class="action-btn primary-btn mt-4">Перейти в каталог</a>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Если в корзине есть товары &ndash;&gt;-->
+<!--    <div class="row" th:if="${!cart.items.isEmpty()}">-->
+<!--        <div class="col-lg-8">-->
+<!--            <div class="cart-table">-->
+<!--                <table class="table table-borderless mb-0">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th scope="col" style="width: 100px;">Фото</th>-->
+<!--                        <th scope="col">Название</th>-->
+<!--                        <th scope="col">Цена</th>-->
+<!--                        <th scope="col">Количество</th>-->
+<!--                        <th scope="col">Сумма</th>-->
+<!--                        <th scope="col"></th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="item : ${cart.items}">-->
+<!--                        <td>-->
+<!--                            <img class="flower-img" th:src="${item.flowerImageUrl}" alt="Фото цветка">-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <span class="flower-name" th:text="${item.flowerName}">Роза красная</span>-->
+<!--                        </td>-->
+<!--                        <td th:text="${#numbers.formatDecimal(item.price, 1, 2)} + ' ₽'">1500.00 ₽</td>-->
+<!--                        <td>-->
+<!--                            <form class="form-update" th:action="@{/cart/update}" method="post">-->
+<!--                                <input type="hidden" name="flowerId" th:value="${item.flowerId}">-->
+<!--                                <div class="quantity-control">-->
+<!--                                    <button type="button" class="quantity-btn decrement">-</button>-->
+<!--                                    <input type="number" class="quantity-input" name="quantity" min="1" th:value="${item.quantity}" readonly>-->
+<!--                                    <button type="button" class="quantity-btn increment">+</button>-->
+<!--                                    <button type="submit" class="d-none update-btn"></button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                        <td th:text="${#numbers.formatDecimal(item.itemTotal, 1, 2)} + ' ₽'">3000.00 ₽</td>-->
+<!--                        <td class="text-end">-->
+<!--                            <form th:action="@{/cart/remove}" method="post">-->
+<!--                                <input type="hidden" name="flowerId" th:value="${item.flowerId}">-->
+<!--                                <button type="submit" class="remove-btn">-->
+<!--                                    <i class="bi bi-x-lg"></i>-->
+<!--                                </button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-lg-4">-->
+<!--            <div class="cart-summary">-->
+<!--                <div class="cart-total">-->
+<!--                    <span class="total-label">Итого:</span>-->
+<!--                    <span class="total-value" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 2)} + ' ₽'">5000.00 ₽</span>-->
+<!--                </div>-->
+
+<!--                <a href="/cart/checkout" class="action-btn primary-btn">Оформить заказ</a>-->
+
+<!--                <form th:action="@{/cart/clear}" method="post">-->
+<!--                    <button type="submit" class="action-btn secondary-btn">Очистить корзину</button>-->
+<!--                </form>-->
+
+<!--                <a href="/catalog" class="action-btn secondary-btn">Продолжить покупки</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap Bundle with Popper &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--&lt;!&ndash; Bootstrap Icons &ndash;&gt;-->
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">-->
+<!--&lt;!&ndash; JavaScript для обработки изменения количества &ndash;&gt;-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        // Обработка кнопок изменения количества-->
+<!--        document.querySelectorAll('.increment').forEach(button => {-->
+<!--            button.addEventListener('click', function() {-->
+<!--                const input = this.parentNode.querySelector('.quantity-input');-->
+<!--                input.value = parseInt(input.value) + 1;-->
+<!--                this.parentNode.querySelector('.update-btn').click();-->
+<!--            });-->
+<!--        });-->
+
+<!--        document.querySelectorAll('.decrement').forEach(button => {-->
+<!--            button.addEventListener('click', function() {-->
+<!--                const input = this.parentNode.querySelector('.quantity-input');-->
+<!--                const value = parseInt(input.value);-->
+<!--                if (value > 1) {-->
+<!--                    input.value = value - 1;-->
+<!--                    this.parentNode.querySelector('.update-btn').click();-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина | Цветочный магазин</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
+    <title>Корзина | BLOOM</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* Базовые стили */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+
         :root {
-            --primary-color: #c8a97e;
-            --secondary-color: #333333;
-            --background-color: #f8f7f5;
-            --text-color: #1a1a1a;
-            --gray-light: #e6e6e6;
-            --white: #ffffff;
+            --color-background: #f8f8f8;
+            --color-text: #000000;
+            --color-primary: #d0d0d0;
+            --color-secondary: #333333;
+            --color-accent: #e8e8e8;
+            --color-light: #ffffff;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Raleway', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-background);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, h5 {
-            font-family: 'Playfair Display', serif;
+        /* Заголовок и типографика */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
             letter-spacing: 0.5px;
         }
 
-        .cart-container {
-            max-width: 1200px;
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Верхнее меню навигации */
+        .header {
+            background-color: var(--color-light);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 0 1rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--color-text);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 1.2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-secondary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-link {
+            margin-left: 1.2rem;
+            color: var(--color-text);
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background-color: var(--color-secondary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Секция корзины */
+        .cart-section {
+            padding: 5rem 0;
         }
 
         .cart-header {
             text-align: center;
-            margin-bottom: 40px;
-            position: relative;
+            margin-bottom: 3rem;
         }
 
-        .cart-header:after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary-color);
+        .cart-header h1 {
+            margin-bottom: 0.5rem;
         }
 
-        .cart-table {
-            background-color: var(--white);
+        .cart-breadcrumb {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+
+        .cart-breadcrumb a {
+            color: var(--color-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .cart-breadcrumb a:hover {
+            color: var(--color-secondary);
+        }
+
+        .cart-breadcrumb span {
+            margin: 0 0.5rem;
+        }
+
+        .cart-contents {
+            background-color: var(--color-light);
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
+            box-shadow: var(--shadow-soft);
+            padding: 2rem;
+        }
+
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .cart-items {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 6px;
             overflow: hidden;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
         }
 
-        .cart-table thead {
-            background-color: var(--white);
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .cart-table th {
-            font-weight: 500;
-            padding: 20px;
-            color: var(--secondary-color);
-        }
-
-        .cart-table td {
-            padding: 20px;
-            vertical-align: middle;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .cart-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .flower-img {
-            width: 80px;
-            height: 80px;
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 5px;
         }
 
-        .flower-name {
-            font-weight: 500;
-            color: var(--secondary-color);
+        .cart-item-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .cart-item-name {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
             font-size: 1.1rem;
-        }
-        /* Исправленные стили для таблицы корзины */
-        .cart-table {
-            background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .cart-table thead {
-            background-color: var(--white);
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .cart-table th {
             font-weight: 500;
-            padding: 20px;
-            color: var(--secondary-color);
+            color: var(--color-secondary);
+            margin-top: 0.5rem;
         }
 
-        .cart-table td {
-            padding: 20px;
-            vertical-align: middle;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        /* Усиливаем видимость названия товара */
-        .flower-name {
-            font-weight: 500;
-            color: var(--text-color) !important; /* Используем основной цвет текста */
-            font-size: 1.1rem;
-            display: block; /* Гарантирует блочное отображение */
-            margin-bottom: 5px;
-        }
-
-        /* Улучшаем контрастность и видимость */
-        .table {
-            color: var(--text-color) !important;
-            width: 100%;
-            margin-bottom: 0;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        /* Медиа-запросы для улучшения отображения на мобильных */
-        @media (max-width: 768px) {
-            .cart-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap; /* Предотвращает перенос текста в ячейках */
-            }
-
-            .flower-name {
-                font-size: 0.9rem;
-                white-space: normal; /* Разрешаем перенос только для названия */
-                max-width: 150px; /* Ограничиваем ширину */
-            }
-
-            .cart-table td, .cart-table th {
-                padding: 15px 10px; /* Уменьшаем отступы на мобильных */
-            }
-        }
-
-        /* Дополнительно: улучшаем видимость всех элементов в корзине */
-        .cart-table tr:hover {
-            background-color: rgba(200, 169, 126, 0.05); /* Добавляем подсветку строки при наведении */
-        }
-
-        .quantity-input {
-            width: 50px;
-            height: 30px;
-            text-align: center;
-            margin: 0 8px;
-            border: 1px solid var(--gray-light);
-            border-radius: 4px;
-            background-color: var(--white);
-            color: var(--text-color);
-        }
         .quantity-control {
             display: flex;
             align-items: center;
+            margin: 1rem 0;
         }
 
         .quantity-btn {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
+            background-color: var(--color-accent);
+            border: none;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--white);
-            border: 1px solid var(--gray-light);
-            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.2s;
+            font-size: 1rem;
+            color: var(--color-text);
+            transition: background-color 0.3s;
         }
 
         .quantity-btn:hover {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background-color: var(--color-primary);
         }
 
         .quantity-input {
-            width: 50px;
-            height: 30px;
+            width: 40px;
             text-align: center;
-            margin: 0 8px;
-            border: 1px solid var(--gray-light);
-            border-radius: 4px;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            -moz-appearance: textfield;
         }
 
-        .remove-btn {
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .cart-item-remove {
+            margin-left: auto;
             background: none;
             border: none;
-            color: #999;
-            font-size: 1.2rem;
+            color: rgba(0,0,0,0.4);
+            font-size: 1rem;
             cursor: pointer;
-            transition: color 0.2s;
+            padding: 0.5rem;
+            transition: color 0.3s;
+            align-self: flex-start;
         }
 
-        .remove-btn:hover {
-            color: #dc3545;
+        .cart-item-remove:hover {
+            color: rgba(0,0,0,0.7);
         }
 
         .cart-summary {
-            background-color: var(--white);
+            background-color: rgba(0,0,0,0.03);
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            padding: 25px;
+            padding: 2rem;
         }
 
-        .cart-total {
+        .summary-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1rem;
+            font-size: 1rem;
         }
 
-        .total-label {
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .total-value {
-            font-size: 1.3rem;
+        .summary-row.total {
             font-weight: 600;
-            color: var(--secondary-color);
+            font-size: 1.2rem;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
         }
 
-        .action-btn {
+        .checkout-btn {
             display: block;
             width: 100%;
-            padding: 12px 20px;
-            margin: 10px 0;
+            padding: 1rem;
+            margin-top: 2rem;
+            background-color: var(--color-secondary);
+            color: white;
             border: none;
             border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--color-text);
+        }
+
+        .continue-shopping {
+            display: block;
             text-align: center;
+            margin-top: 1rem;
+            color: var(--color-text);
             text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
 
-        .primary-btn {
-            background-color: var(--primary-color);
-            color: var(--white) !important;
+        .continue-shopping:hover {
+            color: var(--color-secondary);
         }
 
-        .primary-btn:hover {
-            background-color: #b5966c;
-        }
-
-        .secondary-btn {
+        .clear-cart-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
             background-color: transparent;
-            color: var(--text-color) !important;
-            border: 1px solid var(--gray-light);
+            color: var(--color-text);
+            border: 1px solid var(--color-text);
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .secondary-btn:hover {
-            background-color: var(--gray-light);
+        .clear-cart-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            background-color: var(--color-secondary);
+            color: white;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .notification.error {
+            background-color: #d9534f;
+        }
+
+        .notification.success {
+            background-color: #5cb85c;
         }
 
         .empty-cart {
             text-align: center;
-            padding: 40px 20px;
-            background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 3rem 0;
         }
 
-        .empty-cart-icon {
-            font-size: 3rem;
-            color: var(--gray-light);
-            margin-bottom: 20px;
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
         }
 
-        .form-update {
-            display: inline;
+        .empty-cart h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .empty-cart p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            color: rgba(0,0,0,0.6);
         }
 
-        .cart-table, .cart-summary, .empty-cart {
-            animation: fadeIn 0.5s ease-in-out;
+        .shop-now-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--color-secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
         }
 
-        /* Медиа-запросы */
+        .shop-now-btn:hover {
+            background-color: var(--color-text);
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 1024px) {
+            .cart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+
         @media (max-width: 768px) {
-            .cart-table {
-                display: block;
-                overflow-x: auto;
+            .nav-menu {
+                display: none;
             }
 
-            .flower-name {
-                font-size: 0.9rem;
+            .cart-item {
+                flex-direction: column;
             }
 
-            .quantity-input {
-                width: 40px;
+            .cart-item-image {
+                margin-bottom: 1rem;
+                margin-right: 0;
+                width: 120px;
+                height: 120px;
+            }
+
+            .cart-item-remove {
+                align-self: flex-end;
+                margin-top: 1rem;
             }
         }
     </style>
     <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
     <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
-    <script th:fragment="navigation-js" src="/js/navigation.js"></script>
 </head>
 <body>
-
-<!-- Здесь будет подключаться навигация через фрагмент -->
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+<!-- Отображение сообщений об успехе или ошибке -->
+<div th:if="${successMessage}" class="notification success" th:text="${successMessage}"></div>
+<div th:if="${errorMessage}" class="notification error" th:text="${errorMessage}"></div>
+<!-- Шапка сайта -->
 
-<div class="cart-container">
-    <div class="cart-header">
-        <h1>Ваша корзина</h1>
-    </div>
 
-    <!-- Сообщения об успешных операциях или ошибках -->
-    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage != null}">
-        <span th:text="${successMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage != null}">
-        <span th:text="${errorMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <!-- Если корзина пуста -->
-    <div class="empty-cart" th:if="${cart.items.isEmpty()}">
-        <div class="empty-cart-icon">
-            <i class="bi bi-cart"></i>
-        </div>
-        <h3>Ваша корзина пуста</h3>
-        <p>Добавьте цветы, чтобы продолжить</p>
-        <a href="/catalog" class="action-btn primary-btn mt-4">Перейти в каталог</a>
-    </div>
-
-    <!-- Если в корзине есть товары -->
-    <div class="row" th:if="${!cart.items.isEmpty()}">
-        <div class="col-lg-8">
-            <div class="cart-table">
-                <table class="table table-borderless mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="width: 100px;">Фото</th>
-                        <th scope="col">Название</th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Количество</th>
-                        <th scope="col">Сумма</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${cart.items}">
-                        <td>
-                            <img class="flower-img" th:src="${item.flowerImageUrl}" alt="Фото цветка">
-                        </td>
-                        <td>
-                            <span class="flower-name" th:text="${item.flowerName}">Роза красная</span>
-                        </td>
-                        <td th:text="${#numbers.formatDecimal(item.price, 1, 2)} + ' ₽'">1500.00 ₽</td>
-                        <td>
-                            <form class="form-update" th:action="@{/cart/update}" method="post">
-                                <input type="hidden" name="flowerId" th:value="${item.flowerId}">
-                                <div class="quantity-control">
-                                    <button type="button" class="quantity-btn decrement">-</button>
-                                    <input type="number" class="quantity-input" name="quantity" min="1" th:value="${item.quantity}" readonly>
-                                    <button type="button" class="quantity-btn increment">+</button>
-                                    <button type="submit" class="d-none update-btn"></button>
-                                </div>
-                            </form>
-                        </td>
-                        <td th:text="${#numbers.formatDecimal(item.itemTotal, 1, 2)} + ' ₽'">3000.00 ₽</td>
-                        <td class="text-end">
-                            <form th:action="@{/cart/remove}" method="post">
-                                <input type="hidden" name="flowerId" th:value="${item.flowerId}">
-                                <button type="submit" class="remove-btn">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+<!-- Секция корзины -->
+<section class="cart-section">
+    <div class="container">
+        <div class="cart-header">
+            <h1>Корзина</h1>
+            <div class="cart-breadcrumb">
+                <a href="#">Главная</a>
+                <span>/</span>
+                <a href="#">Корзина</a>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="cart-summary">
-                <div class="cart-total">
-                    <span class="total-label">Итого:</span>
-                    <span class="total-value" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 2)} + ' ₽'">5000.00 ₽</span>
+        <div class="cart-contents" th:if="${cart != null && !cart.items.isEmpty()}">
+            <div class="cart-grid">
+                <div class="cart-items">
+                    <!-- Перебираем элементы корзины -->
+                    <div class="cart-item" th:each="item : ${cart.items}">
+                        <div class="cart-item-image">
+                            <img th:src="${item.flowerImageUrl}" alt="Цветок">
+                        </div>
+                        <div class="cart-item-details">
+                            <div>
+                                <div class="cart-item-name" th:text="${item.flowerName}">Название букета</div>
+                                <div class="cart-item-price" th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</div>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <form class="form-update" th:action="@{/cart/update}" method="post">
+                                    <input type="hidden" name="flowerId" th:value="${item.flowerId}">
+                                    <div class="quantity-control">
+                                        <button type="button" class="quantity-btn decrement">-</button>
+                                        <input type="number" class="quantity-input" name="quantity" min="1" th:value="${item.quantity}" readonly>
+                                        <button type="button" class="quantity-btn increment">+</button>
+                                        <button type="submit" class="d-none update-btn"></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" th:data-id="${item.id}" onclick="removeItem(this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <a href="/cart/checkout" class="action-btn primary-btn">Оформить заказ</a>
+                <div class="cart-summary">
+                    <h3 class="summary-title">Итого</h3>
+                    <div class="summary-row">
+                        <span>Товаров</span>
+                        <span th:text="${cart.items.size()}">3</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Стоимость букетов</span>
+                        <span th:text="${#numbers.formatDecimal(cart.totalPrice, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">7 500 ₽</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Доставка</span>
+                        <span>Бесплатно</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Итого</span>
+                        <span th:text="${#numbers.formatDecimal(cart.totalPrice, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">7 500 ₽</span>
+                    </div>
 
-                <form th:action="@{/cart/clear}" method="post">
-                    <button type="submit" class="action-btn secondary-btn">Очистить корзину</button>
-                </form>
-
-                <a href="/catalog" class="action-btn secondary-btn">Продолжить покупки</a>
+                    <a href="/cart/checkout" class="checkout-btn">Оформить заказ</a>
+                    <a href="/catalog" class="continue-shopping">Продолжить покупки</a>
+                    <button type="button" onclick="clearCart()" class="clear-cart-btn">Очистить корзину</button>
+                </div>
             </div>
         </div>
+
+        <!-- Пустая корзина -->
+        <div class="cart-contents empty-cart" th:if="${cart == null || cart.items.isEmpty()}">
+            <i class="fas fa-shopping-bag"></i>
+            <h2>Ваша корзина пуста</h2>
+            <p>Добавьте что-нибудь, чтобы сделать нас счастливыми :)</p>
+            <a href="/catalog" class="shop-now-btn">Перейти в каталог</a>
+        </div>
     </div>
-</div>
+</section>
 
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-<!-- JavaScript для обработки изменения количества -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Обработка кнопок изменения количества
-        document.querySelectorAll('.increment').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentNode.querySelector('.quantity-input');
-                input.value = parseInt(input.value) + 1;
-                this.parentNode.querySelector('.update-btn').click();
-            });
-        });
+    // Отображение уведомлений
+    function showNotification(message, isError = false) {
+        const notification = document.createElement('div');
+        notification.className = 'notification ' + (isError ? 'error' : 'success');
+        notification.textContent = message;
+        document.body.appendChild(notification);
 
-        document.querySelectorAll('.decrement').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentNode.querySelector('.quantity-input');
-                const value = parseInt(input.value);
+        // Автоматическое скрытие уведомления через 3 секунды
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+    }
+
+    // Функция для автоматического скрытия уведомлений
+    function setupNotificationAutoHide() {
+        const notifications = document.querySelectorAll('.notification');
+        notifications.forEach(notification => {
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        });
+    }
+
+    // Функция удаления товара
+    function removeItem(button) {
+        const flowerId = button.getAttribute('data-id');
+
+        // Отправка формы для удаления товара
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/cart/remove';
+        form.style.display = 'none';
+
+        const flowerIdInput = document.createElement('input');
+        flowerIdInput.type = 'hidden';
+        flowerIdInput.name = 'flowerId';
+        flowerIdInput.value = flowerId;
+
+        form.appendChild(flowerIdInput);
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+
+    // Функция очистки корзины
+    function clearCart() {
+        if (confirm('Вы уверены, что хотите очистить корзину?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/cart/clear';
+            form.style.display = 'none';
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    // Инициализация обработчиков событий при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        // Настройка форм обновления количества
+        const forms = document.querySelectorAll('.form-update');
+
+        forms.forEach(form => {
+            const decrementBtn = form.querySelector('.decrement');
+            const incrementBtn = form.querySelector('.increment');
+            const quantityInput = form.querySelector('.quantity-input');
+            const updateBtn = form.querySelector('.update-btn');
+
+            decrementBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
                 if (value > 1) {
-                    input.value = value - 1;
-                    this.parentNode.querySelector('.update-btn').click();
+                    quantityInput.value = value - 1;
+                    updateBtn.click();
                 }
             });
+
+            incrementBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                quantityInput.value = value + 1;
+                updateBtn.click();
+            });
         });
+
+        // Настройка автоскрытия уведомлений
+        setupNotificationAutoHide();
     });
 </script>
-
 </body>
 </html>

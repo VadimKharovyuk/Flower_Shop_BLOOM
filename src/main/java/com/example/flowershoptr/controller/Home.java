@@ -21,7 +21,7 @@ public class Home {
     @GetMapping
     public String homePage(HttpSession session, Model model) {
        String s =session.getId();
-        System.out.println(s);
+        System.out.println( "HttpSession создалась с номером " + s);
 
 
         return "home";

@@ -43,28 +43,7 @@ public class CartController {
 
         return "redirect:/cart";
     }
-//    @PostMapping("/add")
-//    public String addToCart(
-//            HttpSession session,
-//            @RequestParam Long flowerId,
-//            @RequestParam(defaultValue = "1") Integer quantity,
-//            @RequestParam(required = false) String redirectUrl,
-//            RedirectAttributes redirectAttributes) {
-//
-//        try {
-//            cartService.addFlowerToCart(session, flowerId, quantity);
-//            redirectAttributes.addFlashAttribute("successMessage", "Товар добавлен в корзину");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-//        }
-//
-//        // Если указан URL для редиректа, используем его
-//        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-//            return "redirect:" + redirectUrl;
-//        }
-//
-//        return "redirect:/cart";
-//    }
+
 
 
     /**
@@ -103,6 +82,7 @@ public class CartController {
         model.addAttribute("cart", cart);
         Integer cartDto =cartService.getCartItemCount(session);
         model.addAttribute("cartItemCount", cartDto);
+
         return "client/cart/view";
     }
 

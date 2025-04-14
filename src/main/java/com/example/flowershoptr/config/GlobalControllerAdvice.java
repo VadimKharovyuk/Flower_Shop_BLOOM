@@ -22,16 +22,16 @@ public class GlobalControllerAdvice {
     private final CategoryService categoryService;
     private final CartService cartService; // Предполагаем, что у вас есть такой сервис
 
-    /**
-     * Добавляет список избранных категорий во все модели
-     */
-    @ModelAttribute("featuredCategories")
-    public List<CategoryListDTO> getFeaturedCategories() {
-        log.debug("Загрузка избранных категорий для глобального использования");
-        PageRequest pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.ASC, "name"));
-        Page<CategoryListDTO> categories = categoryService.getFeaturedCategories(pageable);
-        return categories.getContent();
-    }
+//    /**
+//     * Добавляет список избранных категорий во все модели
+//     */
+//    @ModelAttribute("featuredCategories")
+//    public List<CategoryListDTO> getFeaturedCategories() {
+//        log.debug("Загрузка избранных категорий для глобального использования");
+//        PageRequest pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.ASC, "name"));
+//        Page<CategoryListDTO> categories = categoryService.getFeaturedCategories(pageable);
+//        return categories.getContent();
+//    }
 
     /**
      * Добавляет количество товаров в корзине во все модели

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CartServiceImpl implements CartService {
 
     private static final String CART_SESSION_KEY = "user_cart";
@@ -30,17 +31,7 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final FlowerRepository flowerRepository;
     private final CartMapper cartMapper;
-    private final HttpSession session;
 
-    @Autowired
-    public CartServiceImpl(CartRepository cartRepository,
-                           FlowerRepository flowerRepository,
-                           CartMapper cartMapper, HttpSession session) {
-        this.cartRepository = cartRepository;
-        this.flowerRepository = flowerRepository;
-        this.cartMapper = cartMapper;
-        this.session = session;
-    }
 
     @Override
     public Cart getOrCreateCartFromSession(HttpSession session) {
