@@ -833,32 +833,32 @@
       });
     }
 
-    // Обработка добавления в избранное
-    const wishlistButtons = document.querySelectorAll('.wishlist');
-
-    wishlistButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const flowerId = this.getAttribute('data-id');
-        const heartIcon = this.querySelector('i');
-
-        // Переключение иконки сердца
-        if (heartIcon.classList.contains('far')) {
-          heartIcon.classList.remove('far');
-          heartIcon.classList.add('fas');
-          showNotification('Товар добавлен в избранное');
-
-          // Здесь можно добавить AJAX-запрос для добавления в избранное
-          // fetch('/wishlist/add?flowerId=' + flowerId)...
-        } else {
-          heartIcon.classList.remove('fas');
-          heartIcon.classList.add('far');
-          showNotification('Товар удален из избранного');
-
-          // Здесь можно добавить AJAX-запрос для удаления из избранного
-          // fetch('/wishlist/remove?flowerId=' + flowerId)...
-        }
-      });
-    });
+    // // Обработка добавления в избранное
+    // const wishlistButtons = document.querySelectorAll('.wishlist');
+    //
+    // wishlistButtons.forEach(button => {
+    //   button.addEventListener('click', function() {
+    //     const flowerId = this.getAttribute('data-id');
+    //     const heartIcon = this.querySelector('i');
+    //
+    //     // Переключение иконки сердца
+    //     if (heartIcon.classList.contains('far')) {
+    //       heartIcon.classList.remove('far');
+    //       heartIcon.classList.add('fas');
+    //       showNotification('Товар добавлен в избранное');
+    //
+    //       // Здесь можно добавить AJAX-запрос для добавления в избранное
+    //       // fetch('/wishlist/add?flowerId=' + flowerId)...
+    //     } else {
+    //       heartIcon.classList.remove('fas');
+    //       heartIcon.classList.add('far');
+    //       showNotification('Товар удален из избранного');
+    //
+    //       // Здесь можно добавить AJAX-запрос для удаления из избранного
+    //       // fetch('/wishlist/remove?flowerId=' + flowerId)...
+    //     }
+    //   });
+    // });
 
     // Функция для показа уведомлений
     function showNotification(message) {
@@ -889,5 +889,7 @@
     }
   });
 </script>
+
+<script th:src="@{/js/favorites.js}"></script>
 </body>
 </html>

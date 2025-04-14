@@ -1,0 +1,125 @@
+
+ .favorites-banner {
+     width: 100%;
+     background-color: #fafafa;
+     border-radius: 10px;
+     overflow: hidden;
+     margin-bottom: 40px;
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+ }
+
+.favorites-banner-content {
+    display: flex;
+    align-items: stretch;
+    min-height: 300px;
+}
+
+.favorites-banner-image {
+    width: 40%;
+    overflow: hidden;
+    position: relative;
+}
+
+.favorites-banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.favorites-banner-info {
+    width: 60%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.favorites-banner-info h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.favorites-banner-info p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.favorites-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.favorites-stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-count {
+    font-size: 32px;
+    font-weight: bold;
+    color: #e67e22;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #888;
+}
+
+.favorites-action-button {
+    display: inline-block;
+    background-color: #e67e22;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.favorites-action-button:hover {
+    background-color: #d35400;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .favorites-banner-content {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .favorites-banner-image,
+    .favorites-banner-info {
+        width: 100%;
+    }
+
+    .favorites-banner-image {
+        height: 200px;
+        position: relative;
+    }
+
+    .favorites-banner-info {
+        padding: 24px;
+    }
+
+    .favorites-banner-info h1 {
+        font-size: 24px;
+    }
+
+    .favorites-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+

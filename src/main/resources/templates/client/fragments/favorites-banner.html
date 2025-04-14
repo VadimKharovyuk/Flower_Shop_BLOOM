@@ -1,0 +1,40 @@
+<!-- HTML для кастомного header страницы избранных товаров -->
+<div class="favorites-banner" th:fragment="favorites-banner">
+  <div class="favorites-banner-content">
+    <div class="favorites-banner-image">
+      <img src="/img/IMG_0744.webp" alt="Избранные товары">
+    </div>
+    <div class="favorites-banner-info">
+      <h1>Ваши избранные товары</h1>
+      <p>Здесь собраны все цветы и композиции, которые вы отметили как избранные. Вы можете легко добавить их в корзину или удалить из списка избранного.</p>
+      <div class="favorites-stats">
+        <div class="favorites-stat-item">
+          <span class="stat-count" id="favorites-count">0</span>
+          <span class="stat-label">товаров в избранном</span>
+        </div>
+        <a href="/catalog" class="favorites-action-button">Перейти в каталог</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<
+<!-- Дополнительный JavaScript для обновления счетчика избранных товаров -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Функция для обновления числа товаров в избранном
+    function updateFavoritesCount() {
+      // Получаем количество элементов в избранном из localStorage или API
+      // Это пример, вы можете заменить на реальную логику получения данных
+      const favoritesItems = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesCountElement = document.getElementById('favorites-count');
+
+      if (favoritesCountElement) {
+        favoritesCountElement.textContent = favoritesItems.length;
+      }
+    }
+
+    // Инициализируем счетчик при загрузке страницы
+    updateFavoritesCount();
+  });
+</script>
