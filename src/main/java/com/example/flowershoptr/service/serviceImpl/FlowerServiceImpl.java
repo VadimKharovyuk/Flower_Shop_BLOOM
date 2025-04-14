@@ -107,6 +107,17 @@ public class FlowerServiceImpl implements FlowerService {
     }
 
     @Override
+    public Page<PopularFlowerDto> getPopularFlowers(Pageable pageable) {
+        Page<Flower> popularFlowers = flowerRepository.findByOrderByPopularityCountDesc(pageable);
+        return popularFlowers.map(flowerMapper::toPopularDto);
+    }
+
+    public Page<PopularFlowerDto> getFavoritesFlowers(Pageable pageable) {
+        Page<Flower> favoritesFlowers = flowerRepository.findByOrderByFavoritesCountDesc(pageable);
+        return favoritesFlowers.map(flowerMapper::toPopularDto);
+    }
+
+    @Override
     public Page<FlowerListDTO> getActiveFlowers(Pageable pageable) {
         log.info("Получение страницы списка активных цветов. Page: {}, Size: {}",
                 pageable.getPageNumber(), pageable.getPageSize());

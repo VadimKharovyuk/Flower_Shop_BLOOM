@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @AllArgsConstructor
@@ -37,6 +38,15 @@ public class Flower {
 
     @Column
     private Long photoId;
+
+
+    ///в корзину __
+    @Column(name = "popularity_count")
+    private int popularityCount = 0;
+
+    /// избраное
+    @Column(name = "favorites_count")
+    private Integer favoritesCount = 0;
 
     private Integer count;
     private BigDecimal price;

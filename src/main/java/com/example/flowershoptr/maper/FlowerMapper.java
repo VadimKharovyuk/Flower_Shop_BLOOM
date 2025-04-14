@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.stream.Collectors;
 
 @Component
 public class FlowerMapper {
@@ -138,4 +139,27 @@ public class FlowerMapper {
         dto.setPrice(flower.getPrice());
         return dto;
     }
+
+    public PopularFlowerDto toPopularDto(Flower flower) {
+        PopularFlowerDto dto = new PopularFlowerDto();
+        dto.setId(flower.getId());
+        dto.setName(flower.getName());
+        dto.setPreviewImageUrl(flower.getPreviewImageUrl());
+        dto.setPrice(flower.getPrice());
+
+        // Получаем название категории, если она существует
+        String categoryName = flower.getCategory() != null ? flower.getCategory().getName() : null;
+        dto.setCategoryName(categoryName);
+
+        // Обработка null-значений для popularityCount
+        Integer popularityCount = flower.getPopularityCount();
+        dto.setPopularityCount(popularityCount != null ? popularityCount : 0);
+
+        // Обработка null-значений для favoritesCount
+        Integer favoritesCount = flower.getFavoritesCount();
+        dto.setFavoritesCount(favoritesCount != null ? favoritesCount : 0);
+
+        return dto;
+    }
+
 }

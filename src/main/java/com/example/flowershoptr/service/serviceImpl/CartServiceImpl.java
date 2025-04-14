@@ -1,6 +1,7 @@
 package com.example.flowershoptr.service.serviceImpl;
 
 import com.example.flowershoptr.dto.cart.CartDto;
+import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.maper.CartMapper;
 import com.example.flowershoptr.model.Cart;
 import com.example.flowershoptr.model.CartItem;
@@ -14,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -73,6 +78,8 @@ public class CartServiceImpl implements CartService {
         if (flower.getCount() < quantity) {
             throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
         }
+       incrementPopularity(flower);
+        incrementFlowerFavorites(flowerId, quantity);
 
         // Проверяем, есть ли уже такой цветок в корзине
         Optional<CartItem> existingItem = cart.getItems().stream()
@@ -308,4 +315,22 @@ public class CartServiceImpl implements CartService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         cart.setTotalPrice(totalPrice);
     }
+
+    private void incrementPopularity(Flower flower) {
+        if (flower != null) {
+            // Увеличиваем счетчик популярности на 1
+            flower.setPopularityCount(flower.getPopularityCount() + 1);
+
+            // Сохраняем обновленный объект в базе данных
+            flowerRepository.save(flower);
+        }
+    }
+    private void incrementFlowerFavorites(Long flowerId, int incrementValue) {
+        Flower flower = flowerRepository.findById(flowerId)
+                .orElseThrow(() -> new RuntimeException("Flower not found with ID: " + flowerId));
+
+        flower.setFavoritesCount(flower.getFavoritesCount() + incrementValue);
+        flowerRepository.save(flower);
+    }
+
 }

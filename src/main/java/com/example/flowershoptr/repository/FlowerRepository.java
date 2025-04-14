@@ -113,4 +113,10 @@ public interface FlowerRepository extends JpaRepository<Flower, Long> {
 
     Page<Flower> findAll(Specification<Flower> spec, Pageable pageable);
 
+    // Метод для поиска популярных цветов с пагинацией
+    Page<Flower> findByOrderByPopularityCountDesc(Pageable pageable);
+
+    // Метод для поиска часто добавляемых в избранное цветов с пагинацией
+    Page<Flower> findByOrderByFavoritesCountDesc(Pageable pageable);
+
 }
