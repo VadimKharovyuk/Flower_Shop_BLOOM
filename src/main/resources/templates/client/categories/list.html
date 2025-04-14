@@ -151,25 +151,215 @@
 
   <!-- Сетка категорий -->
 
+  <!-- Замена старых стилей сетки категорий на новые в стиле Luxury Minimalism -->
 
-  <!-- Сетка категорий -->
-  <div class="categories-grid" th:if="${!categories.empty}">
-    <div class="category-card" th:each="category : ${categories}">
-      <!-- Оборачиваем всю карточку в тег <a> для перехода -->
-      <a th:href="@{'/categories/' + ${category.id}}" class="category-link">
-        <div class="category-image">
-          <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
-               th:alt="${category.name}">
-        </div>
-        <div class="category-info">
-          <h2 class="category-name" th:text="${category.name}">Название категории</h2>
-          <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
-          <span class="category-description" th:text="${category.getShortDescription()}"></span>
-        </div>
-      </a>
+  <!-- Обновленный HTML -->
+  <div class="categories-container">
+    <div class="categories-grid" th:if="${!categories.empty}">
+      <div class="category-card" th:each="category : ${categories}">
+        <a th:href="@{'/categories/' + ${category.id}}" class="category-link">
+          <div class="category-image">
+            <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
+                 th:alt="${category.name}">
+            <div class="category-overlay">
+              <span class="view-category">Смотреть</span>
+            </div>
+          </div>
+          <div class="category-info">
+            <h2 class="category-name" th:text="${category.name}">Название категории</h2>
+            <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
+            <span class="category-description" th:text="${category.getShortDescription()}"></span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 
+  <!-- Новые стили Luxury Minimalism, которые нужно сохранить -->
+  <style>
+    /* Стили для сетки категорий в стиле Luxury Minimalism */
+    .categories-container {
+      max-width: 1400px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .category-card {
+      position: relative;
+      background-color: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .category-image {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .category-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .category-card:hover .category-image img {
+      transform: scale(1.05);
+    }
+
+    .category-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease, background-color 0.4s ease;
+    }
+
+    .category-card:hover .category-overlay {
+      background-color: rgba(0, 0, 0, 0.2);
+      opacity: 1;
+    }
+
+    .view-category {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #fff;
+      color: #000;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .category-card:hover .view-category {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .view-category:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .category-info {
+      padding: 25px 30px;
+      position: relative;
+    }
+
+    .category-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 500;
+      margin: 0 0 10px;
+      color: #000;
+      transition: color 0.3s ease;
+    }
+
+    .category-products {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    .category-description {
+      display: block;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+      margin-top: 10px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .category-info::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 30px;
+      width: 40px;
+      height: 2px;
+      background-color: #000;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .category-card:hover .category-info::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    @media (max-width: 768px) {
+      .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+      }
+
+      .category-image {
+        height: 220px;
+      }
+
+      .category-info {
+        padding: 20px;
+      }
+
+      .category-name {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-image {
+        height: 250px;
+      }
+    }
+  </style>
+
+  <!-- Инструкции по интеграции -->
+  <!--
+  Для интеграции этих изменений:
+  1. Удалите старые стили .categories-grid, .category-card и связанные с ними
+  2. Замените HTML-структуру сетки категорий на эту
+  3. Добавьте новые стили в свой CSS файл или в <style> секцию на странице
+  -->
 
 
   <!-- Пагинация -->
