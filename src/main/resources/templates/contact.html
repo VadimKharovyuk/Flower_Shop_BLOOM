@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакты | LUXE Flowers</title>
+
+  <!-- Подключение шрифтов -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
+  <!-- Подключение иконок Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Подключение CSS для навигации и хедера -->
+  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+  <style th:replace="~{client/fragments/header :: header-css}"></style>
+
+  <!-- Стили для страницы контактов -->
+  <style>
+    /* Основные стили */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #1a1a1a;
+      background-color: #f9f9f9;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Секция контактов */
+    .contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* Блок с информацией о контактах */
+    .contact-info {
+      padding-right: 40px;
+    }
+
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .contact-subheading {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+      max-width: 450px;
+      line-height: 1.8;
+    }
+
+    .contact-details {
+      margin-bottom: 40px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 25px;
+    }
+
+    .contact-icon {
+      font-size: 18px;
+      color: #c9a980;
+      margin-right: 15px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .contact-text {
+      flex: 1;
+    }
+
+    .contact-label {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .contact-value {
+      font-size: 16px;
+      color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    .contact-value a {
+      color: #1a1a1a;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .contact-value a:hover {
+      color: #c9a980;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a1a1a;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background-color: #c9a980;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* Карта */
+    .map-wrapper {
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      height: 500px;
+      position: relative;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.05);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .google-map {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Форма обратной связи */
+    .contact-form-section {
+      padding: 80px 0;
+      background-color: #fff;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .form-subtitle {
+      font-size: 16px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .contact-form {
+      max-width: 800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 15px;
+      color: #333;
+      background-color: #f9f9f9;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #c9a980;
+      background-color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .btn-submit {
+      grid-column: span 2;
+      background-color: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      margin-top: 15px;
+    }
+
+    .btn-submit:hover {
+      background-color: #c9a980;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Секция с информацией о магазине */
+    .store-info-section {
+      padding: 80px 0;
+      background-color: #f9f9f9;
+    }
+
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .store-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .store-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .store-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .store-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .store-card:hover .store-image img {
+      transform: scale(1.1);
+    }
+
+    .store-details {
+      padding: 25px;
+    }
+
+    .store-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #1a1a1a;
+    }
+
+    .store-address {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .store-hours {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .store-hours-title {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .store-link {
+      display: inline-block;
+      color: #c9a980;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .store-link:hover {
+      color: #1a1a1a;
+    }
+
+    .store-link i {
+      margin-left: 5px;
+      font-size: 12px;
+    }
+
+    /* FAQ секция */
+    .faq-section {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .faq-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .faq-subtitle {
+      font-size: 16px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 20px;
+    }
+
+    .faq-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 20px;
+      color: #c9a980;
+    }
+
+    .faq-item.active .faq-question::after {
+      content: '−';
+    }
+
+    .faq-answer {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 1000px;
+      padding-top: 10px;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 992px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .contact-info {
+        padding-right: 0;
+      }
+
+      .store-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width,
+      .btn-submit {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .store-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-heading {
+        font-size: 32px;
+      }
+
+      .form-title,
+      .faq-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body th:with="currentPage='contact'">
+<!-- Навигация -->
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+
+<!-- Хедер страницы -->
+<div th:replace="~{client/fragments/header :: page-header('Контакты', 'Узнайте, как связаться с нами и где нас найти', '/images/contact-bg.jpg')}"></div>
+
+<!-- Секция с контактной информацией и картой -->
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <h2 class="contact-heading">Свяжитесь с нами</h2>
+        <p class="contact-subheading">Мы всегда рады помочь вам с выбором цветов и ответить на любые вопросы. Не стесняйтесь обращаться к нам любым удобным способом.</p>
+
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-text">
+              <div class="contact-label">Адрес</div>
+              <div class="contact-value">ул. Цветочная, 123, Москва, Россия</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="contact-text">
+              <div class="contact-label">Телефон</div>
+              <div class="contact-value"><a href="tel:+74951234567">+7 (495) 123-45-67</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-text">
+              <div class="contact-label">Email</div>
+              <div class="contact-value"><a href="mailto:info@luxeflowers.ru">info@luxeflowers.ru</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="far fa-clock"></i>
+            </div>
+            <div class="contact-text">
+              <div class="contact-label">Часы работы</div>
+              <div class="contact-value">Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+      </div>
+
+      <div class="map-wrapper">
+        <div class="map-overlay"></div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.5888576094286!2d37.62165931590841!3d55.753918180551744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5662b05357%3A0xd2ddf45ba3485855!2sRed%20Square!5e0!3m2!1sen!2sru!4v1619167654321!5m2!1sen!2sru" class="google-map" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Форма обратной связи -->
+<section class="contact-form-section">
+  <div class="container">
+    <div class="form-header">
+      <h2 class="form-title">Напишите нам</h2>
+      <p class="form-subtitle">Если у вас есть вопросы или предложения, заполните форму ниже, и мы свяжемся с вами в ближайшее время.</p>
+    </div>
+
+    <form class="contact-form" th:action="@{/contact/submit}" method="post">
+      <div class="form-group">
+        <label for="name" class="form-label">Ваше имя</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone" class="form-label">Телефон</label>
+        <input type="tel" id="phone" name="phone" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="subject" class="form-label">Тема</label>
+        <input type="text" id="subject" name="subject" class="form-control" required>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="message" class="form-label">Сообщение</label>
+        <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Отправить сообщение</button>
+    </form>
+  </div>
+</section>
+
+<!-- Секция с информацией о магазинах -->
+<section class="store-info-section">
+  <div class="container">
+    <div class="form-header">
+      <h2 class="form-title">Наши магазины</h2>
+      <p class="form-subtitle">Посетите один из наших магазинов, чтобы увидеть нашу коллекцию цветов и композиций лично.</p>
+    </div>
+
+    <div class="store-grid">
+      <div class="store-card">
+        <div class="store-image">
+          <img src="/img/wedding-couple.jpg" alt="Магазин на Цветочной">
+        </div>
+        <div class="store-details">
+          <h3 class="store-name">LUXE Flowers Центр</h3>
+          <p class="store-address">ул. Цветочная, 123, Москва, Россия</p>
+          <div class="store-hours">
+            <p class="store-hours-title">Часы работы:</p>
+            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+          </div>
+          <a href="#" class="store-link">Построить маршрут <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-image">
+          <img src="/img/IMG_0744.webp" alt="Магазин на Северной">
+        </div>
+        <div class="store-details">
+          <h3 class="store-name">LUXE Flowers Север</h3>
+          <p class="store-address">ул. Северная, 45, Москва, Россия</p>
+          <div class="store-hours">
+            <p class="store-hours-title">Часы работы:</p>
+            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+          </div>
+          <a href="#" class="store-link">Построить маршрут <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-image">
+          <img src="/images/store-3.jpg" alt="Магазин на Южной">
+        </div>
+        <div class="store-details">
+          <h3 class="store-name">LUXE Flowers Юг</h3>
+          <p class="store-address">ул. Южная, 78, Москва, Россия</p>
+          <div class="store-hours">
+            <p class="store-hours-title">Часы работы:</p>
+            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+          </div>
+          <a href="#" class="store-link">Построить маршрут <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ секция -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <h2 class="faq-title">Часто задаваемые вопросы</h2>
+      <p class="faq-subtitle">Здесь вы найдете ответы на наиболее распространенные вопросы о нашем магазине и услугах.</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">Как долго сохраняются цветы в букетах?</div>
+        <div class="faq-answer">
+          <p>Срок свежести цветов зависит от их вида и условий хранения. В среднем, наши букеты сохраняют свежесть от 7 до 14 дней. Мы используем только свежесрезанные цветы и предоставляем инструкции по уходу для максимального продления жизни букета.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как заказать доставку цветов?</div>
+        <div class="faq-answer">
+          <p>Заказать доставку цветов можно на нашем сайте, по телефону или в любом из наших магазинов. При оформлении заказа онлайн вы можете выбрать дату, время доставки и указать адрес получателя. При необходимости, мы также можем добавить к букету открытку с вашим сообщением.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли заказать индивидуальный букет?</div>
+        <div class="faq-answer">
+          <p>Да, мы предлагаем услугу создания индивидуальных букетов и композиций. Вы можете связаться с нами, чтобы обсудить ваши пожелания, бюджет и предпочтения по цветам. Наши флористы с удовольствием создадут для вас уникальную композицию.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Какие способы оплаты вы принимаете?</div>
+        <div class="faq-answer">
+          <p>Мы принимаем различные способы оплаты, включая наличные, банковские карты Visa, MasterCard, American Express, а также онлайн-платежи через PayPal и электронные кошельки. При оплате онлайн вы получите электронный чек на указанный вами адрес электронной почты.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Что делать, если я не доволен качеством цветов?</div>
+        <div class="faq-answer">
+          <p>Мы гарантируем качество наших цветов и стремимся к полному удовлетворению наших клиентов. Если вы не довольны качеством полученных цветов, пожалуйста, свяжитесь с нами в течение 24 часов после получения заказа, и мы решим проблему. В зависимости от ситуации, мы можем предложить замену букета, возврат средств или скидку на следующий заказ.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Футер -->
+<div th:replace="~{client/fragments/footer :: footer}"></div>
+<style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+<!-- JavaScript для функциональности страницы -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // FAQ аккордеон
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+
+      question.addEventListener('click', function() {
+        const isActive = item.classList.contains('active');
+
+        // Закрываем все элементы
+        faqItems.forEach(faq => {
+          faq.classList.remove('active');
+        });
+
+        // Если элемент не был активен, открываем его
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
