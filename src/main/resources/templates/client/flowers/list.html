@@ -13,7 +13,8 @@
     <!-- Подключение CSS для навигации и хедера -->
     <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
     <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
-    <style th:replace="~{client/fragments/header :: header-css}"></style>
+
+
 
     <!-- Специфичные стили для страницы каталога -->
     <style>
@@ -48,7 +49,7 @@
             font-size: 36px;
             font-weight: 400;
             margin-bottom: 15px;
-            color: #1a1a1a;
+            color: #f1ebeb;
             position: relative;
             display: inline-block;
             padding-bottom: 15px;
@@ -69,7 +70,7 @@
             max-width: 700px;
             margin: 0 auto;
             font-size: 16px;
-            color: #666;
+            color: #ece3e3;
             line-height: 1.8;
         }
 
@@ -388,7 +389,122 @@
                 height: 35px;
             }
         }
+
+
+        /* Стили для кастомного хедера каталога с центрированным текстом */
+        .catalog-header {
+            position: relative;
+            height: 450px;
+            background-image: url('/img/wedding-couple.jpg'); /* Замените на путь к вашему изображению */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Центрирование по горизонтали */
+            text-align: center; /* Центрирование текста */
+            margin-bottom: 60px;
+        }
+
+        .catalog-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+        }
+
+        .catalog-header .container {
+            position: relative;
+            z-index: 2;
+            width: 100%; /* Обеспечивает полную ширину контейнера */
+            display: flex;
+            justify-content: center; /* Центрирование содержимого контейнера */
+        }
+
+        .catalog-header-content {
+            max-width: 700px;
+            padding: 0 20px;
+            text-align: center; /* Явное центрирование текста внутри контента */
+        }
+
+        .catalog-title {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-align: center; /* Явное центрирование заголовка */
+        }
+
+        .catalog-description {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-align: center; /* Явное центрирование описания */
+        }
+
+        .catalog-features {
+            display: flex;
+            justify-content: center; /* Центрирование блоков с преимуществами */
+            gap: 30px;
+            width: 100%; /* Обеспечивает полную ширину */
+        }
+
+        .catalog-feature {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Центрирование содержимого внутри блока */
+            gap: 10px;
+        }
+
+        .catalog-feature i {
+            font-size: 18px;
+        }
+
+        .catalog-feature span {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .catalog-header {
+                height: 350px;
+            }
+
+            .catalog-title {
+                font-size: 32px;
+            }
+
+            .catalog-features {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .catalog-header {
+                height: 300px;
+            }
+
+            .catalog-title {
+                font-size: 28px;
+            }
+
+            .catalog-description {
+                font-size: 14px;
+            }
+
+            .catalog-features {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
+
 </head>
 
 <body th:with="currentPage='catalog'">
@@ -396,7 +512,34 @@
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
 
 <!-- Хедер страницы -->
-<div th:replace="~{client/fragments/header :: page-header('Каталог цветов', 'Выберите из нашей коллекции свежих цветов и уникальных композиций', '/images/catalog-bg.jpg')}"></div>
+<!-- Кастомный хедер для страницы каталога -->
+<section class="catalog-header">
+    <div class="catalog-header-overlay"></div>
+    <div class="container">
+        <div class="catalog-header-content">
+            <h1 class="catalog-title">Наша коллекция букетов</h1>
+            <p class="catalog-description">
+                Откройте для себя изысканные букеты, созданные с любовью и вниманием к каждой детали.
+                Мы тщательно отбираем самые свежие и красивые цветы, чтобы воплотить ваши чувства
+                в прекрасных композициях.
+            </p>
+            <div class="catalog-features">
+                <div class="catalog-feature">
+                    <i class="fas fa-leaf"></i>
+                    <span>Свежие цветы</span>
+                </div>
+                <div class="catalog-feature">
+                    <i class="fas fa-truck"></i>
+                    <span>Доставка в день заказа</span>
+                </div>
+                <div class="catalog-feature">
+                    <i class="fas fa-heart"></i>
+                    <span>Авторский дизайн</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Основное содержимое -->
 <main class="catalog-section">
@@ -665,5 +808,6 @@
         }
     });
 </script>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 </body>
 </html>
