@@ -1,6 +1,5 @@
 package com.example.flowershoptr.service.serviceImpl;
 
-import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.*;
 import com.example.flowershoptr.maper.FlowerMapper;
 import com.example.flowershoptr.model.Category;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +41,12 @@ public class FlowerServiceImpl implements FlowerService {
         return flowerRepository.findAll(pageable)
                 .map(flowerMapper::toListDTO);
     }
+
+    @Override
+    public List<PopularFlowerDto> getFavoritesFlowersList(int limit) {
+        return List.of();
+    }
+
 
     @Override
     public List<FlowerListDTO> getAllFlowersWithoutPagination() {
@@ -117,6 +123,24 @@ public class FlowerServiceImpl implements FlowerService {
         return favoritesFlowers.map(flowerMapper::toPopularDto);
     }
 
+
+
+
+    @Override
+    public List<PopularFlowerDto> getFavoritesFlowersList() {
+        return flowerRepository.findTopFavoriteFlowers()
+                .stream()
+                .map(flowerMapper::toPopularDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PopularFlowerDto> getPopularFlowersList() {
+        return flowerRepository.findTop6ByFavoritesCountGreaterThanOrderByFavoritesCountDesc()
+                .stream()
+                .map(flowerMapper::toPopularDto)
+                .collect(Collectors.toList());
+    }
     @Override
     public Page<FlowerListDTO> getActiveFlowers(Pageable pageable) {
         log.info("Получение страницы списка активных цветов. Page: {}, Size: {}",

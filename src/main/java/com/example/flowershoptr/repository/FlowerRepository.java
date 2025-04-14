@@ -1,12 +1,15 @@
 package com.example.flowershoptr.repository;
 
+import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.model.Flower;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -119,4 +122,10 @@ public interface FlowerRepository extends JpaRepository<Flower, Long> {
     // Метод для поиска часто добавляемых в избранное цветов с пагинацией
     Page<Flower> findByOrderByFavoritesCountDesc(Pageable pageable);
 
+    @Query("SELECT f FROM Flower f WHERE f.favoritesCount > 0 ORDER BY f.favoritesCount DESC")
+    List<Flower> findTopFavoriteFlowers();
+
+    // Или, если хотите ограничить количество
+    @Query("SELECT f FROM Flower f WHERE f.favoritesCount > 0 ORDER BY f.favoritesCount DESC")
+    List<Flower> findTop6ByFavoritesCountGreaterThanOrderByFavoritesCountDesc();
 }

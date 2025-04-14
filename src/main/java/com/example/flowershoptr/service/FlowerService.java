@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 public interface FlowerService {
@@ -16,6 +17,8 @@ public interface FlowerService {
      * @return страница цветов в формате списка
      */
     Page<FlowerListDTO> getAllFlowers(Pageable pageable);
+
+    List<PopularFlowerDto> getFavoritesFlowersList(int limit);
 
     /**
      * Получить страницу списка активных цветов
@@ -129,4 +132,9 @@ public interface FlowerService {
 
     Page<PopularFlowerDto> getPopularFlowers(Pageable pageable);
     Page<PopularFlowerDto> getFavoritesFlowers(Pageable pageable);
+
+
+
+    List<PopularFlowerDto> getFavoritesFlowersList();
+    List<PopularFlowerDto> getPopularFlowersList();
 }

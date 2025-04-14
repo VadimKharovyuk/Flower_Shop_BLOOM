@@ -10,4 +10,10 @@ public class FlowerShopTrApplication {
         SpringApplication.run(FlowerShopTrApplication.class, args);
     }
 
+
+    ///рекоменодвать товар по полуряность   где продукт id
+
+    ///добавить кнопку _добавить в избарное  в фото по id
+
+    ///
 }

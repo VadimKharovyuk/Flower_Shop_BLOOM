@@ -22,30 +22,6 @@ public class FlowerClientController {
     private final PaginationUtils paginationUtils;
 
     /**
-     * Отображение всех цветов с пагинацией
-     */
-    @GetMapping
-    public String viewAllFlowers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
-            @RequestParam(defaultValue = "name") String sortBy,
-            @RequestParam(defaultValue = "true") boolean ascending,
-            Model model) {
-
-        log.info("Запрос на просмотр всех цветов: page={}, size={}, sortBy={}, ascending={}",
-                page, size, sortBy, ascending);
-
-        Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
-        Page<FlowerListDTO> flowers = flowerService.getActiveFlowers(pageable);
-
-        model.addAttribute("flowers", flowers);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", flowers.getTotalPages());
-
-        return "client/flowers/list";
-    }
-
-    /**
      * Просмотр детальной информации о цветке
      */
     @GetMapping("/{id}")
@@ -70,6 +46,32 @@ public class FlowerClientController {
 
         return "client/flowers/view";
     }
+
+    /**
+     * Отображение всех цветов с пагинацией
+     */
+    @GetMapping
+    public String viewAllFlowers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending,
+            Model model) {
+
+        log.info("Запрос на просмотр всех цветов: page={}, size={}, sortBy={}, ascending={}",
+                page, size, sortBy, ascending);
+
+        Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
+        Page<FlowerListDTO> flowers = flowerService.getActiveFlowers(pageable);
+
+        model.addAttribute("flowers", flowers);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", flowers.getTotalPages());
+
+        return "client/flowers/list";
+    }
+
+
 
     /**
      * Отображение цветов с доставкой сегодня

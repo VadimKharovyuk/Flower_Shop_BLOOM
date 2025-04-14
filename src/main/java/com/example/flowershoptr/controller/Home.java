@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,17 +26,24 @@ public class Home {
 
 
     @GetMapping
-    public String homePage(HttpSession session, Model model,
-                           @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "8") int size) {
+    public String homePage(HttpSession session, Model model){
 
-        Pageable pageable = PageRequest.of(page, size);
 
-        Page<PopularFlowerDto> popularFlowers = flowerService.getPopularFlowers(pageable);
-        Page<PopularFlowerDto> favoriteFlowers = flowerService.getFavoritesFlowers(pageable);
+
+        List<PopularFlowerDto> popularFlowers = flowerService.getPopularFlowersList().stream()
+                .limit(6)
+                .collect(Collectors.toList());
 
         model.addAttribute("popularFlowers", popularFlowers);
+
+        List<PopularFlowerDto> favoriteFlowers = flowerService.getFavoritesFlowersList().stream()
+                .limit(6)
+                .collect(Collectors.toList());
+
+
         model.addAttribute("favoriteFlowers", favoriteFlowers);
+
+
 
         String s = session.getId();
         System.out.println("HttpSession создалась с номером " + s);

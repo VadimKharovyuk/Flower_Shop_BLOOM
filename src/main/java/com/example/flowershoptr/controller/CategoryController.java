@@ -54,23 +54,7 @@ public class CategoryController {
         return "client/categories/list";
     }
 
-    /**
-     * Отображение категорий на главной странице (только избранные категории)
-     */
-//    @GetMapping("/")
-//    public String homePage(Model model) {
-//        log.info("Запрос главной страницы");
-//
-//        // Получаем избранные категории для главной страницы
-//        Pageable pageable = paginationUtils.createPageable(0, 6, "name", true);
-//        Page<CategoryListDTO> featuredCategories = categoryService.getFeaturedCategories(pageable);
-//
-//        model.addAttribute("featuredCategories", featuredCategories.getContent());
-//
-//        // Здесь можно добавить популярные товары, акции и т.д.
-//
-//        return "client/home";
-//    }
+
 
     /**
      * Просмотр конкретной категории с ее товарами

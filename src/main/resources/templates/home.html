@@ -675,6 +675,119 @@
                 font-size: 14px;
             }
         }
+
+        /* Обновленная сетка товаров - ровно 3 товара в ряд */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Унифицированный стиль для всех кнопок */
+        .wedding-btn, .add-to-cart {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: transparent;
+            color: var(--text-color, #333);
+            border: 1px solid var(--text-color, #333);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .wedding-btn::before, .add-to-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--text-color, #333);
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: -1;
+        }
+
+        .wedding-btn:hover, .add-to-cart:hover {
+            color: var(--white, #fff);
+        }
+
+        .wedding-btn:hover::before, .add-to-cart:hover::before {
+            left: 0;
+        }
+
+        /* Стрелка для кнопки "Посмотреть больше" */
+        .btn-arrow {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .wedding-btn:hover .btn-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Добавим стрелку для кнопки "В корзину" */
+        .add-to-cart::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .add-to-cart:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Стили для адаптивности */
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Стили для уведомлений */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Стили для элементов избранного */
+        .wishlist {
+            cursor: pointer;
+        }
+
+        .wishlist .far.fa-heart {
+            color: var(--text-color, #333);
+        }
+
+        .wishlist .fas.fa-heart {
+            color: var(--accent-color, #ff6b6b);
+        }
     </style>
 </head>
 <body>
@@ -771,81 +884,184 @@
     </div>
 </section>
 
-<!-- Featured Products -->
+
+
+
+
+
+<!-- Популярные букеты -->
+<!-- Популярные букеты -->
 <section class="section products-section">
     <div class="container">
         <h2 class="section-title">Популярные букеты</h2>
         <p class="section-subtitle">Наши бестселлеры, которые выбирают покупатели</p>
 
         <div class="products-grid">
-            <div class="product-card">
+            <div th:each="flower : ${popularFlowers}" class="product-card">
                 <div class="product-image-container">
-                    <img src="/img/bucketMain.webp" alt="Букет «Нежность»" class="product-image">
-                    <span class="product-tag">Хит</span>
-                    <div class="product-actions">
-                        <div class="product-action-btn"><i class="far fa-heart"></i></div>
-                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>
-                    </div>
-                </div>
-                <div class="product-content">
-                    <p class="product-category">Авторские букеты</p>
-                    <h3 class="product-title">Букет «Нежность»</h3>
-                    <p class="product-price">4 500 ₽</p>
-                    <button class="add-to-cart">В корзину</button>
-                </div>
-            </div>
+                    <img th:src="${flower.previewImageUrl}"
+                         th:alt="${flower.name}"
+                         class="product-image">
 
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="/img/bucketMain.webp" alt="Букет «Весенний»" class="product-image">
-                    <div class="product-actions">
-                        <div class="product-action-btn"><i class="far fa-heart"></i></div>
-                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>
-                    </div>
-                </div>
-                <div class="product-content">
-                    <p class="product-category">Монобукеты</p>
-                    <h3 class="product-title">Букет «Весенний»</h3>
-                    <p class="product-price">3 200 ₽</p>
-                    <button class="add-to-cart">В корзину</button>
-                </div>
-            </div>
+                    <span th:if="${flower.popularityCount > 10}" class="product-tag">Хит</span>
 
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="/img/bucketMain.webp" alt="Букет «Элегантность»" class="product-image">
-                    <span class="product-tag">Скидка</span>
                     <div class="product-actions">
-                        <div class="product-action-btn"><i class="far fa-heart"></i></div>
-                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>
+                        <div class="product-action-btn wishlist" th:data-id="${flower.id}">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <a class="product-action-btn" th:href="@{'/flowers/' + ${flower.id}}">
+                            <i class="fas fa-eye"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="product-content">
-                    <p class="product-category">Авторские букеты</p>
-                    <h3 class="product-title">Букет «Элегантность»</h3>
-                    <p class="product-price">5 800 ₽</p>
-                    <button class="add-to-cart">В корзину</button>
-                </div>
-            </div>
 
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="/img/bucketMain.webp" alt="Букет «Романтика»" class="product-image">
-                    <div class="product-actions">
-                        <div class="product-action-btn"><i class="far fa-heart"></i></div>
-                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>
-                    </div>
-                </div>
                 <div class="product-content">
-                    <p class="product-category">Композиции</p>
-                    <h3 class="product-title">Букет «Романтика»</h3>
-                    <p class="product-price">4 200 ₽</p>
-                    <button class="add-to-cart">В корзину</button>
+                    <p class="product-category" th:text="${flower.categoryName}">Категория</p>
+                    <h3 class="product-title" th:text="${flower.name}">Название букета</h3>
+                    <div class="product-price-cart-wrapper">
+                        <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Цена</p>
+                        <button class="add-to-cart">В корзину</button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="section-more-container" style="text-align: center;">
+            <a href="/trending" class="wedding-btn">
+                Посмотреть больше
+                <span class="btn-arrow">→</span>
+            </a>
+        </div>
     </div>
 </section>
+
+<!--&lt;!&ndash; Избранные букеты &ndash;&gt;-->
+<!--<section class="section products-section">-->
+<!--    <div class="container">-->
+<!--        <h2 class="section-title">Избранные букеты</h2>-->
+<!--        <p class="section-subtitle">Букеты, которые полюбили наши клиенты</p>-->
+
+<!--        <div class="products-grid">-->
+<!--            <div th:each="flower : ${favoriteFlowers}" class="product-card">-->
+<!--                <div class="product-image-container">-->
+<!--                    <img th:src="${flower.previewImageUrl}"-->
+<!--                         th:alt="${flower.name}"-->
+<!--                         class="product-image">-->
+
+<!--                    <span th:if="${flower.favoritesCount > 10}" class="product-tag">Популярное</span>-->
+
+<!--                    <div class="product-actions">-->
+<!--                        <div class="product-action-btn wishlist" th:data-id="${flower.id}">-->
+<!--                            <i class="far fa-heart"></i>-->
+<!--                        </div>-->
+<!--                        <a class="product-action-btn" th:href="@{'/flowers/' + ${flower.id}}">-->
+<!--                            <i class="fas fa-eye"></i>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="product-content">-->
+<!--                    <p class="product-category" th:text="${flower.categoryName}">Категория</p>-->
+<!--                    <h3 class="product-title" th:text="${flower.name}">Название букета</h3>-->
+<!--                    <div class="product-price-cart-wrapper">-->
+<!--                        <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Цена</p>-->
+<!--                        <button class="add-to-cart">В корзину</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="section-more-container" style="text-align: center;">-->
+<!--            <a href="/trending" class="wedding-btn">-->
+<!--                Посмотреть больше-->
+<!--                <span class="btn-arrow">→</span>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!-- Скрипт для работы с избранным -->
+<script th:src="@{/js/favorites.js}"></script>
+
+
+
+
+
+<!-- Featured Products -->
+<!--<section class="section products-section">-->
+<!--    <div class="container">-->
+<!--        <h2 class="section-title">Популярные букеты</h2>-->
+<!--        <p class="section-subtitle">Наши бестселлеры, которые выбирают покупатели</p>-->
+
+<!--        <div class="products-grid">-->
+<!--            <div class="product-card">-->
+<!--                <div class="product-image-container">-->
+<!--                    <img src="/img/bucketMain.webp" alt="Букет «Нежность»" class="product-image">-->
+<!--                    <span class="product-tag">Хит</span>-->
+<!--                    <div class="product-actions">-->
+<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
+<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="product-content">-->
+<!--                    <p class="product-category">Авторские букеты</p>-->
+<!--                    <h3 class="product-title">Букет «Нежность»</h3>-->
+<!--                    <p class="product-price">4 500 ₽</p>-->
+<!--                    <button class="add-to-cart">В корзину</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="product-card">-->
+<!--                <div class="product-image-container">-->
+<!--                    <img src="/img/bucketMain.webp" alt="Букет «Весенний»" class="product-image">-->
+<!--                    <div class="product-actions">-->
+<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
+<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="product-content">-->
+<!--                    <p class="product-category">Монобукеты</p>-->
+<!--                    <h3 class="product-title">Букет «Весенний»</h3>-->
+<!--                    <p class="product-price">3 200 ₽</p>-->
+<!--                    <button class="add-to-cart">В корзину</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="product-card">-->
+<!--                <div class="product-image-container">-->
+<!--                    <img src="/img/bucketMain.webp" alt="Букет «Элегантность»" class="product-image">-->
+<!--                    <span class="product-tag">Скидка</span>-->
+<!--                    <div class="product-actions">-->
+<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
+<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="product-content">-->
+<!--                    <p class="product-category">Авторские букеты</p>-->
+<!--                    <h3 class="product-title">Букет «Элегантность»</h3>-->
+<!--                    <p class="product-price">5 800 ₽</p>-->
+<!--                    <button class="add-to-cart">В корзину</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="product-card">-->
+<!--                <div class="product-image-container">-->
+<!--                    <img src="/img/bucketMain.webp" alt="Букет «Романтика»" class="product-image">-->
+<!--                    <div class="product-actions">-->
+<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
+<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="product-content">-->
+<!--                    <p class="product-category">Композиции</p>-->
+<!--                    <h3 class="product-title">Букет «Романтика»</h3>-->
+<!--                    <p class="product-price">4 200 ₽</p>-->
+<!--                    <button class="add-to-cart">В корзину</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!-- About Section -->
 <section class="section">
