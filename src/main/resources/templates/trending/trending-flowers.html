@@ -604,43 +604,187 @@
   </div>
 </section>
 
-<!-- Секция с категориями букетов -->
-<section class="categories-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Категории букетов</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">Исследуйте наши разнообразные коллекции цветочных композиций, созданных для любого случая и настроения.</p>
+
+
+<div class="popular-categories-section">
+  <h2 class="section-title">Популярные категории</h2>
+
+  <div class="popular-categories-container">
+    <div class="popular-categories-grid" th:if="${!popularCategory.empty}">
+      <div class="popular-category-card" th:each="category : ${popularCategory}">
+        <a th:href="@{'/categories/' + ${category.id}}" class="category-link">
+          <div class="popular-category-image">
+            <img th:src="${category.previewImageUrl != null ? category.previewImageUrl : '/img/category-placeholder.jpg'}"
+                 th:alt="${category.name}">
+            <div class="popular-category-overlay">
+              <span class="view-category">Смотреть</span>
+            </div>
+          </div>
+          <div class="popular-category-info">
+            <h3 class="popular-category-name" th:text="${category.name}">Название категории</h3>
+            <p class="popular-category-products" th:text="${category.flowerCount + ' товаров'}">0 товаров</p>
+            <p class="popular-category-cart-count" th:text="${'Добавлено в корзину: ' + category.cartAddCount}">Добавлено в корзину: 0</p>
+            <span class="popular-category-description" th:text="${category.shortDescription}"></span>
+          </div>
+        </a>
+      </div>
     </div>
 
-    <div class="categories-grid">
-      <a href="#" class="category-card">
-        <img src="/images/category-1.jpg" alt="Букеты для любимых" class="category-image">
-        <div class="category-overlay">
-          <h3 class="category-name">Букеты для любимых</h3>
-        </div>
-      </a>
-      <a href="#" class="category-card">
-        <img src="/images/category-2.jpg" alt="Свадебные букеты" class="category-image">
-        <div class="category-overlay">
-          <h3 class="category-name">Свадебные букеты</h3>
-        </div>
-      </a>
-      <a href="#" class="category-card">
-        <img src="/images/category-3.jpg" alt="Букеты из роз" class="category-image">
-        <div class="category-overlay">
-          <h3 class="category-name">Букеты из роз</h3>
-        </div>
-      </a>
-      <a href="#" class="category-card">
-        <img src="/images/category-4.jpg" alt="Сезонные букеты" class="category-image">
-        <div class="category-overlay">
-          <h3 class="category-name">Сезонные букеты</h3>
-        </div>
-      </a>
+    <div class="no-popular-categories" th:if="${popularCategory.empty}">
+      <p>Популярные категории отсутствуют</p>
     </div>
   </div>
-</section>
+</div>
+
+
+
+<style>
+  .popular-categories-section {
+    padding: 3rem 0;
+    margin: 2rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+    color: #333;
+  }
+
+  .popular-categories-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .popular-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .popular-category-card {
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .popular-category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .category-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .popular-category-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .popular-category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .popular-category-card:hover .popular-category-image img {
+    transform: scale(1.05);
+  }
+
+  .popular-category-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .popular-category-card:hover .popular-category-overlay {
+    opacity: 1;
+  }
+
+  .view-category {
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+
+  .view-category:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .popular-category-info {
+    padding: 1.5rem;
+  }
+
+  .popular-category-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #222;
+  }
+
+  .popular-category-products {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 0.5rem;
+  }
+
+  .popular-category-cart-count {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.75rem;
+  }
+
+  .popular-category-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .no-popular-categories {
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+  }
+
+  @media (max-width: 768px) {
+    .popular-categories-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .popular-category-image {
+      height: 180px;
+    }
+  }
+</style>
+
 
 <!-- Футер будет добавлен как фрагмент -->
 

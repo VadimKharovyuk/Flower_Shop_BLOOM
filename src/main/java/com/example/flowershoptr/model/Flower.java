@@ -48,6 +48,11 @@ public class Flower {
     @Column(name = "favorites_count")
     private Integer favoritesCount = 0;
 
+    @Column(name = "cart_add_count")
+    private Long cartAddCount = 0L;
+
+
+
     private Integer count;
     private BigDecimal price;
 

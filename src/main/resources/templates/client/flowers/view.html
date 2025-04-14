@@ -885,6 +885,90 @@
         height: 250px;
       }
     }
+
+
+
+    /* Стили для кнопки избранного */
+    .wishlist-btn, .wishlist {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: white;
+      border: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .wishlist-btn:hover, .wishlist:hover {
+      background-color: #f5f5f5;
+      transform: scale(1.05);
+    }
+
+    /* Анимация при нажатии */
+    .wishlist-btn:active, .wishlist:active {
+      transform: scale(0.95);
+    }
+
+    /* Стили для иконки сердечка */
+    .wishlist-btn i, .wishlist i {
+      font-size: 18px;
+      color: #1a1a1a;
+      transition: color 0.3s ease;
+    }
+
+    /* Стиль для заполненного сердечка (когда товар в избранном) */
+    .wishlist-btn i.fas, .wishlist i.fas {
+      color: #d6001c; /* Красный цвет для заполненного сердечка */
+    }
+
+    /* Стили для блока с кнопками */
+    .add-to-cart-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Стили для кнопки добавления в корзину */
+    .add-to-cart-btn {
+      flex: 1;
+      padding: 12px 20px;
+      background-color: transparent;
+      border: 1px solid #1a1a1a;
+      color: #1a1a1a;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .add-to-cart-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #1a1a1a;
+      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+      z-index: -1;
+    }
+
+    .add-to-cart-btn:hover {
+      color: #fff;
+    }
+
+    .add-to-cart-btn:hover::before {
+      left: 0;
+    }
   </style>
 </head>
 
@@ -985,10 +1069,12 @@
 
         <div class="add-to-cart-buttons">
           <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">Добавить в корзину</button>
-          <button class="wishlist-btn" th:attr="data-id=${flower.id}">
+          <button class="wishlist" th:attr="data-id=${flower.id}">
             <i class="far fa-heart"></i>
           </button>
         </div>
+        <script th:src="@{/js/favorites.js}"></script>
+
       </div>
 
       <!-- Информация о доставке -->
@@ -1200,7 +1286,7 @@
   });
 </script>
 <!-- Вместо inline-скрипта, теперь ссылка на файл -->
-<script th:fragment="navigation-js" src="/js/navigation.js"></script>
+
 
 </body>
 </html>

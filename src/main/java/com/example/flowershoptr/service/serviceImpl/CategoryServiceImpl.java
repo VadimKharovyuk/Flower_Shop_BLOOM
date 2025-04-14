@@ -12,6 +12,7 @@ import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,7 +98,14 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CategoryListDTO> getTotalCartAddCountByCategory(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Category> results = categoryRepository.getCartAddCountsByCategory(pageable);
+        return results.stream().map(categoryMapper::toListDTO)
+                .collect(Collectors.toList());
 
+    }
 
     private Category uploadCategoryImage(Category category, MultipartFile imageFile) throws IOException {
         log.info("Загрузка изображения для категории ID: {}", category.getId());

@@ -2,6 +2,7 @@ package com.example.flowershoptr.maper;
 
 import com.example.flowershoptr.dto.category.*;
 import com.example.flowershoptr.model.Category;
+import com.example.flowershoptr.model.Flower;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,8 +25,15 @@ public class CategoryMapper {
         // Подсчитываем количество цветов в категории
         if (category.getFlowers() != null) {
             dto.setFlowerCount(category.getFlowers().size());
+
+            // Суммируем cartAddCount всех цветов данной категории
+            Long totalCartAddCount = category.getFlowers().stream()
+                    .mapToLong(Flower::getCartAddCount)
+                    .sum();
+            dto.setCartAddCount(totalCartAddCount);
         } else {
             dto.setFlowerCount(0);
+            dto.setCartAddCount(0L);
         }
 
         return dto;
@@ -46,6 +54,7 @@ public class CategoryMapper {
         dto.setFeatured(category.isFeatured());
         dto.setActive(category.isActive());
         dto.setCreatedAt(category.getCreatedAt());
+
 
 
         // Подсчитываем количество цветов в категории

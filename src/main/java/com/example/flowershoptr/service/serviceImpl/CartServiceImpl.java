@@ -81,6 +81,9 @@ public class CartServiceImpl implements CartService {
        incrementPopularity(flower);
         incrementFlowerFavorites(flowerId, quantity);
 
+        flower.setCartAddCount(flower.getCartAddCount() + 1);
+        flowerRepository.save(flower);
+
         // Проверяем, есть ли уже такой цветок в корзине
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(item -> item.getFlower().getId().equals(flowerId))
