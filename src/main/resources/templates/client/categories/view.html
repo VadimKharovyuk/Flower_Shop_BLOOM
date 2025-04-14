@@ -750,162 +750,273 @@
       </div>
 
       <!-- Карточки товаров -->
+      <!-- Обновленная карточка товара в стиле Luxury Minimalism -->
       <div class="product-card" th:each="flower : ${flowers}">
         <div class="product-image">
-          <img th:src="${flower.getPreviewImageUrl()}" alt="${flower.name}">
+          <img th:src="${flower.getPreviewImageUrl()}" th:alt="${flower.name}">
+          <div class="product-overlay">
+            <div class="product-actions">
+              <a th:href="@{'/flowers/' + ${flower.id}}" class="view-product">
+                <i class="far fa-eye"></i>
+              </a>
+              <div class="action-icon wishlist" th:attr="data-id=${flower.id}">
+                <i class="far fa-heart"></i>
+              </div>
+            </div>
+          </div>
           <div class="product-badges">
-            <span class="product-badge badge-new" th:if="${flower.getPrice()}">Новинка</span>
+            <span class="product-badge" th:if="${flower.getPrice() != null}">Новинка</span>
           </div>
         </div>
         <div class="product-info">
           <h3 class="product-title">
-            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название цветка</a>
+            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>
           </h3>
-
-          <!-- Описание (только для вида списка) -->
-          <div class="product-description" style="display: none;" th:text="${flower.shortDescription}">
-            Короткое описание товара...
+          <div class="product-price" th:if="${flower.getPrice() != null}">
+            <span th:text="${#numbers.formatDecimal(flower.getPrice(), 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</span>
           </div>
-
-          <!-- Кнопки действий -->
-
-          <!-- Форма добавления в корзину -->
-          <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
-            <input type="hidden" name="flowerId" th:value="${flower.id}">
-            <input type="hidden" name="redirectUrl" th:value="@{${#currentUrl}}">
-
-            <!-- Опциональный input для количества -->
-            <div class="quantity-control">
-              <button type="button" class="quantity-decrease">-</button>
-              <input type="number" name="quantity" value="1" min="1" class="quantity-input">
-              <button type="button" class="quantity-increase">+</button>
-            </div>
-
-            <div class="product-actions">
-              <button type="submit" class="add-to-cart">В корзину</button>
-              <div class="action-icons">
-                <div class="product-icon add-to-wishlist" th:attr="data-id=${flower.id}" title="Добавить в избранное">
-                  <i class="far fa-heart"></i>
-                </div>
-                <a th:href="@{'/flowers/' + ${flower.id}}" class="product-icon quick-view" title="Быстрой просмотр">
-                  <i class="far fa-eye"></i>
-                </a>
-              </div>
-            </div>
-          </form>
-
-          <!-- JavaScript для управления количеством -->
-          <script th:inline="javascript">
-            document.addEventListener('DOMContentLoaded', function() {
-              // Обработка форм добавления в корзину
-              const addToCartForms = document.querySelectorAll('.add-to-cart-form');
-
-              addToCartForms.forEach(form => {
-                // Decrease quantity
-                const decreaseBtn = form.querySelector('.quantity-decrease');
-                const increaseBtn = form.querySelector('.quantity-increase');
-                const quantityInput = form.querySelector('.quantity-input');
-
-                decreaseBtn.addEventListener('click', function() {
-                  let currentValue = parseInt(quantityInput.value);
-                  if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                  }
-                });
-
-                increaseBtn.addEventListener('click', function() {
-                  let currentValue = parseInt(quantityInput.value);
-                  quantityInput.value = currentValue + 1;
-                });
-
-                // Обработка отправки формы через AJAX (опционально)
-                form.addEventListener('submit', function(e) {
-                  e.preventDefault();
-
-                  const formData = new FormData(form);
-
-                  fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                  })
-                          .then(response => {
-                            // Показываем уведомление об успешном добавлении
-                            showNotification('Товар добавлен в корзину');
-                          })
-                          .catch(error => {
-                            console.error('Ошибка:', error);
-                            showNotification('Ошибка при добавлении товара в корзину');
-                          });
-                });
-              });
-
-              // Функция для показа уведомлений (можете использовать ранее созданную)
-              function showNotification(message) {
-                const existingNotification = document.querySelector('.notification');
-                if (existingNotification) {
-                  existingNotification.remove();
-                }
-
-                const notification = document.createElement('div');
-                notification.className = 'notification';
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.right = '20px';
-                notification.style.backgroundColor = '#1a1a1a';
-                notification.style.color = 'white';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '4px';
-                notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                notification.style.zIndex = '9999';
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(20px)';
-                notification.style.transition = 'opacity 0.3s, transform 0.3s';
-                notification.textContent = message;
-
-                document.body.appendChild(notification);
-
-                setTimeout(() => {
-                  notification.style.opacity = '1';
-                  notification.style.transform = 'translateY(0)';
-                }, 10);
-
-                setTimeout(() => {
-                  notification.style.opacity = '0';
-                  notification.style.transform = 'translateY(20px)';
-
-                  setTimeout(() => {
-                    notification.remove();
-                  }, 300);
-                }, 3000);
-              }
-            });
-          </script>
-
-          <!-- CSS для quantity-control (можете добавить в свой существующий CSS) -->
-          <style>
-            .quantity-control {
-              display: flex;
-              align-items: center;
-              margin-bottom: 10px;
-            }
-
-            .quantity-control button {
-              width: 30px;
-              height: 30px;
-              background-color: #f0f0f0;
-              border: 1px solid #ddd;
-              cursor: pointer;
-            }
-
-            .quantity-input {
-              width: 50px;
-              text-align: center;
-              margin: 0 10px;
-            }
-          </style>
-
         </div>
       </div>
+
+      <style>
+        /* Стили для карточки товара в стиле Luxury Minimalism */
+        .product-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 30px;
+          margin: 40px 0;
+        }
+
+        .product-card {
+          position: relative;
+          background-color: #fff;
+          border-radius: 4px;
+          overflow: hidden;
+          transition: transform 0.3s, box-shadow 0.3s;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .product-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-image {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 1 / 1.2;
+          overflow: hidden;
+          background-color: #f8f8f8;
+        }
+
+        .product-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s;
+        }
+
+        .product-card:hover .product-image img {
+          transform: scale(1.05);
+        }
+
+        .product-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s, background-color 0.3s;
+        }
+
+        .product-card:hover .product-overlay {
+          opacity: 1;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .product-actions {
+          display: flex;
+          gap: 15px;
+        }
+
+        .product-actions a,
+        .product-actions .action-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #000;
+          text-decoration: none;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+          transform: translateY(20px);
+          opacity: 0;
+          transition: transform 0.3s, opacity 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .product-card:hover .product-actions a,
+        .product-card:hover .product-actions .action-icon {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .view-product {
+          transition-delay: 0s;
+        }
+
+        .wishlist {
+          transition-delay: 0.05s;
+          cursor: pointer;
+        }
+
+        .product-actions a:hover,
+        .product-actions .action-icon:hover {
+          background-color: #000;
+          color: #fff;
+        }
+
+        .product-badges {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          z-index: 2;
+        }
+
+        .product-badge {
+          display: inline-block;
+          padding: 5px 10px;
+          background-color: #000;
+          color: white;
+          font-size: 0.7rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .product-info {
+          padding: 20px;
+          text-align: center;
+        }
+
+        .product-title {
+          margin: 0 0 10px;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.1rem;
+          font-weight: 500;
+        }
+
+        .product-title a {
+          color: #000;
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+
+        .product-title a:hover {
+          color: #444;
+        }
+
+        .product-price {
+          font-size: 1rem;
+          font-weight: 500;
+          color: #333;
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 768px) {
+          .product-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+          }
+
+          .product-title {
+            font-size: 1rem;
+          }
+
+          .product-price {
+            font-size: 0.9rem;
+          }
+        }
+      </style>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Обработка добавления в избранное
+          const wishlistButtons = document.querySelectorAll('.wishlist');
+
+          wishlistButtons.forEach(button => {
+            button.addEventListener('click', function() {
+              const flowerId = this.getAttribute('data-id');
+              const heartIcon = this.querySelector('i');
+
+              // Переключение иконки сердца
+              if (heartIcon.classList.contains('far')) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                showNotification('Товар добавлен в избранное');
+
+                // Здесь можно добавить AJAX-запрос для добавления в избранное
+                // fetch('/wishlist/add?flowerId=' + flowerId)...
+              } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                showNotification('Товар удален из избранного');
+
+                // Здесь можно добавить AJAX-запрос для удаления из избранного
+                // fetch('/wishlist/remove?flowerId=' + flowerId)...
+              }
+            });
+          });
+
+          // Функция для показа уведомлений
+          function showNotification(message) {
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+              existingNotification.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#000';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '4px';
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            notification.style.zIndex = '9999';
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+              notification.style.opacity = '1';
+              notification.style.transform = 'translateY(0)';
+            }, 10);
+
+            setTimeout(() => {
+              notification.style.opacity = '0';
+              notification.style.transform = 'translateY(20px)';
+
+              setTimeout(() => {
+                notification.remove();
+              }, 300);
+            }, 3000);
+          }
+        });
+      </script>
+
+
     </div>
 
     <!-- Пагинация -->

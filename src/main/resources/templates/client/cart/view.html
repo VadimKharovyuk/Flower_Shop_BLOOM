@@ -1142,5 +1142,12 @@
         setupNotificationAutoHide();
     });
 </script>
+<div th:fragment="footer-example">
+    <!-- Подключение CSS для футера -->
+    <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+    <!-- Подключение футера -->
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
+</div>
 </body>
 </html>
