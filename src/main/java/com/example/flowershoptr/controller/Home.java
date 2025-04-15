@@ -46,7 +46,7 @@ public class Home {
 
         model.addAttribute("favoriteFlowers", favoriteFlowers);
 
-        List<CategoryListDTO> popularCategoryList = categoryService.getTotalCartAddCountByCategory(5);
+        List<CategoryListDTO> popularCategoryList = categoryService.getTotalCartAddCountByCategory(6);
         model.addAttribute("popularCategory", popularCategoryList);
 
         String s = session.getId();
