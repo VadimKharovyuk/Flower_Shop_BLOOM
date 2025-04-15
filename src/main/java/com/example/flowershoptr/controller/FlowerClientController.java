@@ -4,6 +4,7 @@ import com.example.flowershoptr.dto.flower.FlowerDetailsDTO;
 import com.example.flowershoptr.dto.flower.FlowerListDTO;
 import com.example.flowershoptr.service.FlowerService;
 import com.example.flowershoptr.util.PaginationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class FlowerClientController {
      * Просмотр детальной информации о цветке
      */
     @GetMapping("/{id}")
-    public String viewFlower(@PathVariable Long id, Model model) {
+    public String viewFlower(@PathVariable Long id, Model model , HttpServletRequest request) {
         log.info("Запрос на просмотр цветка с ID: {}", id);
 
         FlowerDetailsDTO flower = flowerService.getFlowerById(id);
@@ -34,7 +35,7 @@ public class FlowerClientController {
         if (!flower.isActive()) {
             log.warn("Попытка доступа к неактивному цветку: {}", id);
             return "redirect:/flowers";
-        }
+        }model.addAttribute("request", request);
 
         model.addAttribute("flower", flower);
 

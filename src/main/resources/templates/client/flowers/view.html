@@ -1,975 +1,976 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${flower.name + ' | LUXE Flowers'}">Название цветка | LUXE Flowers</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Подключение шрифтов -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
-  <!-- Подключение иконок Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-  <!-- Подключение CSS для навигации и хедера -->
-  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
-  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
-  <style th:replace="~{client/fragments/header :: header-css}"></style>
-
-  <!-- Специфичные стили для страницы продукта -->
-  <style>
-    /* Основные стили */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: #1a1a1a;
-      background-color: #f9f9f9;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Хлебные крошки */
-    .breadcrumbs {
-      margin: 40px 0 20px;
-      font-size: 14px;
-      color: #777;
-    }
-
-    .breadcrumbs a {
-      color: #777;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .breadcrumbs a:hover {
-      color: #c9a980;
-    }
-
-    .breadcrumbs .separator {
-      margin: 0 8px;
-    }
-
-    /* Секция продукта */
-    .product-section {
-      margin: 60px 0;
-      display: grid;
-      grid-template-columns: 6fr 5fr;
-      gap: 50px;
-      align-items: start;
-    }
-
-    /* Галерея изображений */
-    .product-gallery {
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px;
-      background-color: #fff;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .main-image {
-      width: 100%;
-      height: 600px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .main-image:hover {
-      transform: scale(1.02);
-    }
-
-    .thumbnails {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .thumbnail {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-      opacity: 0.7;
-    }
-
-    .thumbnail:hover, .thumbnail.active {
-      border-color: #c9a980;
-      opacity: 1;
-    }
-
-    /* Информация о продукте */
-    .product-info {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .product-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      font-weight: 500;
-      margin-bottom: 15px;
-      line-height: 1.2;
-      color: #1a1a1a;
-    }
-
-    .product-category {
-      font-size: 14px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .product-category a {
-      color: #888;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .product-category a:hover {
-      color: #c9a980;
-    }
-
-    .product-rating {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      gap: 8px;
-    }
-
-    .stars {
-      color: #c9a980;
-      font-size: 16px;
-    }
-
-    .review-count {
-      font-size: 14px;
-      color: #777;
-    }
-
-    .product-price {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 500;
-      color: #1a1a1a;
-      margin: 15px 0 25px;
-    }
-
-    .old-price {
-      text-decoration: line-through;
-      font-size: 20px;
-      color: #999;
-      margin-right: 10px;
-    }
-
-    .product-description {
-      margin-bottom: 30px;
-      font-size: 15px;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    /* Свойства продукта */
-    .product-attributes {
-      margin-bottom: 30px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .attribute {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .attribute span {
-      font-weight: 500;
-      color: #333;
-    }
-
-    /* Добавление в корзину */
-    .add-to-cart-section {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: auto;
-      padding-top: 30px;
-      border-top: 1px solid #eee;
-    }
-
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      border: 1px solid #e0e0e0;
-      border-radius: 24px;
-      overflow: hidden;
-      background-color: #f9f9f9;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-    }
-
-    .quantity-control:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .quantity-control button {
-      width: 40px;
-      height: 40px;
-      background-color: transparent;
-      border: none;
-      color: #333;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      outline: none;
-    }
-
-    .quantity-control button:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .quantity-control button:active {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .quantity-input {
-      width: 50px;
-      text-align: center;
-      border: none;
-      background-color: transparent;
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      color: #333;
-      padding: 8px;
-      outline: none;
-      -moz-appearance: textfield;
-    }
-
-    .quantity-input::-webkit-outer-spin-button,
-    .quantity-input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    .quantity-control button.quantity-decrease {
-      border-right: 1px solid #e0e0e0;
-    }
-
-    .quantity-control button.quantity-increase {
-      border-left: 1px solid #e0e0e0;
-    }
-
-    .add-to-cart-buttons {
-      display: flex;
-      gap: 15px;
-    }
-
-    .add-to-cart-btn {
-      flex: 1;
-      padding: 12px 25px;
-      background-color: #1a1a1a;
-      color: white;
-      border: 1px solid #1a1a1a;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .add-to-cart-btn:hover {
-      background-color: transparent;
-      color: #1a1a1a;
-    }
-
-    .wishlist-btn {
-      width: 45px;
-      height: 45px;
-      background: white;
-      border: 1px solid #ddd;
-      color: #555;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .wishlist-btn:hover {
-      border-color: #c9a980;
-      color: #c9a980;
-    }
-
-    .wishlist-btn.active {
-      color: #c9a980;
-      border-color: #c9a980;
-    }
-
-    /* Доставка */
-    .delivery-info {
-      margin-top: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .delivery-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .delivery-item i {
-      color: #c9a980;
-      font-size: 16px;
-    }
-
-    /* Секция рекомендуемых товаров */
-    .recommended-section {
-      margin: 80px 0;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 400;
-      color: #1a1a1a;
-      text-align: center;
-      margin-bottom: 50px;
-      position: relative;
-      padding-bottom: 15px;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 1px;
-      background-color: #c9a980;
-    }
-
-    .recommended-products {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-    }
-
-    /* Карточка рекомендуемого товара */
-    .product-card {
-      background-color: white;
-      border-radius: 2px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-card-image {
-      height: 200px;
-      width: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .product-card:hover .product-card-image {
-      transform: scale(1.05);
-    }
-
-    .product-card-info {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .product-card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: #1a1a1a;
-      margin-bottom: 10px;
-      transition: color 0.3s ease;
-    }
-
-    .product-card:hover .product-card-title {
-      color: #c9a980;
-    }
-
-    .product-card-price {
-      color: #1a1a1a;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .product-card-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    /* Адаптивность */
-    @media (max-width: 1024px) {
-      .product-section {
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-      }
-
-      .main-image {
-        height: 450px;
-      }
-
-      .recommended-products {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .product-section {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .product-gallery {
-        max-width: 500px;
-        margin: 0 auto;
-      }
-
-      .recommended-products {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 576px) {
-      .main-image {
-        height: 350px;
-      }
-
-      .product-attributes {
-        grid-template-columns: 1fr;
-      }
-
-      .add-to-cart-buttons {
-        flex-direction: column;
-      }
-
-      .wishlist-btn {
-        width: 100%;
-      }
-
-      .recommended-products {
-        grid-template-columns: 1fr;
-      }
-    }
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      border: 1px solid #e0e0e0;
-      border-radius: 24px;
-      overflow: hidden;
-      background-color: #f9f9f9;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-    }
-
-    .quantity-control:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .quantity-control button {
-      width: 40px;
-      height: 40px;
-      background-color: transparent;
-      border: none;
-      color: #333;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      outline: none;
-    }
-
-    .quantity-control button:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .quantity-control button:active {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .quantity-input {
-      width: 50px;
-      text-align: center;
-      border: none;
-      background-color: transparent;
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      color: #333;
-      padding: 8px;
-      outline: none;
-      -moz-appearance: textfield;
-    }
-
-    .quantity-input::-webkit-outer-spin-button,
-    .quantity-input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    .quantity-control button.quantity-decrease {
-      border-right: 1px solid #e0e0e0;
-    }
-
-    .quantity-control button.quantity-increase {
-      border-left: 1px solid #e0e0e0;
-    }
-
-
-    /* Стили для секции рекомендуемых товаров в стиле Luxury Minimalism */
-
-    /* Основной контейнер секции */
-    .recommended-section {
-      background-color: #fafafa;
-      padding: 80px 0;
-      margin-top: 60px;
-      border-top: 1px solid #eaeaea;
-    }
-
-    /* Контейнер с ограничением ширины */
-    .recommended-section .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
-
-    /* Заголовок секции */
-    .recommended-section .section-title {
-      font-size: 32px;
-      font-weight: 300;
-      text-align: center;
-      margin-bottom: 10px;
-      color: #1a1a1a;
-      letter-spacing: 1px;
-      text-transform: none;
-    }
-
-    /* Подзаголовок секции */
-    .recommended-section .section-subtitle {
-      font-size: 14px;
-      font-weight: 400;
-      text-align: center;
-      margin-bottom: 50px;
-      color: #777;
-      letter-spacing: 0.5px;
-    }
-
-    /* Сетка товаров */
-    .recommended-section .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 35px;
-      margin-bottom: 50px;
-    }
-
-    /* Карточка товара */
-    .recommended-section .product-card {
-      background-color: #fff;
-      border: none;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
-      transition: all 0.4s ease;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .recommended-section .product-card:hover {
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-      transform: translateY(-5px);
-    }
-
-    /* Контейнер изображения */
-    .recommended-section .product-image-container {
-      position: relative;
-      overflow: hidden;
-      height: 280px;
-      background-color: #f5f5f5;
-    }
-
-    .recommended-section .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .recommended-section .product-card:hover .product-image {
-      transform: scale(1.05);
-    }
-
-    /* Метка товара (Хит) */
-    .recommended-section .product-tag {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      font-size: 10px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 5px 10px;
-    }
-
-    /* Действия с продуктом (избранное и просмотр) */
-    .recommended-section .product-actions {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(-5px);
-      transition: all 0.3s ease;
-    }
-
-    .recommended-section .product-card:hover .product-actions {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .recommended-section .product-action-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .recommended-section .product-action-btn:hover {
-      background-color: #000;
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    /* Избранное */
-    .recommended-section .wishlist .far.fa-heart {
-      color: #1a1a1a;
-    }
-
-    .recommended-section .wishlist .fas.fa-heart {
-      color: #d6001c;
-    }
-
-    /* Содержимое карточки товара */
-    .recommended-section .product-content {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      min-height: 180px;
-    }
-
-    /* Категория товара */
-    .recommended-section .product-category {
-      font-size: 10px;
-      text-transform: uppercase;
-      color: #888;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    /* Ссылка на название товара */
-    .recommended-section .product-title-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    /* Название товара */
-    .recommended-section .product-title {
-      font-size: 16px;
-      font-weight: 400;
-      color: #1a1a1a;
-      line-height: 1.4;
-      margin: 0;
-      min-height: 48px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      transition: color 0.3s ease;
-    }
-
-    .recommended-section .product-title-link:hover .product-title {
-      color: #000;
-    }
-
-    /* Блок с ценой и кнопкой */
-    .recommended-section .product-price-cart-wrapper {
-      margin-top: auto;
-    }
-
-    /* Цена товара */
-    .recommended-section .product-price {
-      font-size: 18px;
-      font-weight: 400;
-      color: #1a1a1a;
-      margin-bottom: 15px;
-    }
-
-    /* Кнопка добавления в корзину */
-    .recommended-section .add-to-cart {
-      width: 100%;
-      padding: 12px 20px;
-      background-color: transparent;
-      border: 1px solid #1a1a1a;
-      color: #1a1a1a;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .recommended-section .add-to-cart::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background-color: #1a1a1a;
-      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-      z-index: -1;
-    }
-
-    .recommended-section .add-to-cart:hover {
-      color: #fff;
-    }
-
-    .recommended-section .add-to-cart:hover::before {
-      left: 0;
-    }
-
-    .recommended-section .add-to-cart::after {
-      content: '→';
-      margin-left: 8px;
-      transition: transform 0.3s ease;
-    }
-
-    .recommended-section .add-to-cart:hover::after {
-      transform: translateX(5px);
-    }
-
-    /* Контейнер для кнопки "Больше из этой категории" */
-    .recommended-section .section-more-container {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    /* Кнопка "Больше из этой категории" */
-    .recommended-section .wedding-btn {
-      display: inline-block;
-      padding: 14px 32px;
-      background-color: transparent;
-      color: #1a1a1a;
-      border: 1px solid #1a1a1a;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .recommended-section .wedding-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background-color: #1a1a1a;
-      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-      z-index: -1;
-    }
-
-    .recommended-section .wedding-btn:hover {
-      color: #fff;
-    }
-
-    .recommended-section .wedding-btn:hover::before {
-      left: 0;
-    }
-
-    .recommended-section .btn-arrow {
-      margin-left: 8px;
-      transition: transform 0.3s ease;
-    }
-
-    .recommended-section .wedding-btn:hover .btn-arrow {
-      transform: translateX(5px);
-    }
-
-    /* Адаптивность */
-    @media (max-width: 1200px) {
-      .recommended-section .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-      }
-    }
-
-    @media (max-width: 992px) {
-      .recommended-section .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .recommended-section {
-        padding: 60px 0;
-      }
-
-      .recommended-section .section-title {
-        font-size: 28px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .recommended-section .section-title {
-        font-size: 24px;
-      }
-
-      .recommended-section .section-subtitle {
-        margin-bottom: 35px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .recommended-section .products-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .recommended-section {
-        padding: 40px 0;
-      }
-
-      .recommended-section .product-image-container {
-        height: 250px;
-      }
-    }
-
-
-
-    /* Стили для кнопки избранного */
-    .wishlist-btn, .wishlist {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background-color: white;
-      border: 1px solid #1a1a1a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .wishlist-btn:hover, .wishlist:hover {
-      background-color: #f5f5f5;
-      transform: scale(1.05);
-    }
-
-    /* Анимация при нажатии */
-    .wishlist-btn:active, .wishlist:active {
-      transform: scale(0.95);
-    }
-
-    /* Стили для иконки сердечка */
-    .wishlist-btn i, .wishlist i {
-      font-size: 18px;
-      color: #1a1a1a;
-      transition: color 0.3s ease;
-    }
-
-    /* Стиль для заполненного сердечка (когда товар в избранном) */
-    .wishlist-btn i.fas, .wishlist i.fas {
-      color: #d6001c; /* Красный цвет для заполненного сердечка */
-    }
-
-    /* Стили для блока с кнопками */
-    .add-to-cart-buttons {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    /* Стили для кнопки добавления в корзину */
-    .add-to-cart-btn {
-      flex: 1;
-      padding: 12px 20px;
-      background-color: transparent;
-      border: 1px solid #1a1a1a;
-      color: #1a1a1a;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .add-to-cart-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background-color: #1a1a1a;
-      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-      z-index: -1;
-    }
-
-    .add-to-cart-btn:hover {
-      color: #fff;
-    }
-
-    .add-to-cart-btn:hover::before {
-      left: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${flower.name + ' | LUXE Flowers'}">Название цветка | LUXE Flowers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Подключение шрифтов -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Подключение CSS для навигации и хедера -->
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/header :: header-css}"></style>
+
+    <!-- Специфичные стили для страницы продукта -->
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Хлебные крошки */
+        .breadcrumbs {
+            margin: 40px 0 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .breadcrumbs a {
+            color: #777;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumbs a:hover {
+            color: #c9a980;
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 8px;
+        }
+
+        /* Секция продукта */
+        .product-section {
+            margin: 60px 0;
+            display: grid;
+            grid-template-columns: 6fr 5fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* Галерея изображений */
+        .product-gallery {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            background-color: #fff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-image {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #c9a980;
+            opacity: 1;
+        }
+
+        /* Информация о продукте */
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            color: #1a1a1a;
+        }
+
+        .product-category {
+            font-size: 14px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .product-category a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .product-category a:hover {
+            color: #c9a980;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 8px;
+        }
+
+        .stars {
+            color: #c9a980;
+            font-size: 16px;
+        }
+
+        .review-count {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin: 15px 0 25px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            font-size: 20px;
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .product-description {
+            margin-bottom: 30px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Свойства продукта */
+        .product-attributes {
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .attribute {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .attribute span {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Добавление в корзину */
+        .add-to-cart-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: auto;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 24px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .quantity-control:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .quantity-control button {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: none;
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            outline: none;
+        }
+
+        .quantity-control button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .quantity-control button:active {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: #333;
+            padding: 8px;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-control button.quantity-decrease {
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .quantity-control button.quantity-increase {
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .add-to-cart-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 12px 25px;
+            background-color: #1a1a1a;
+            color: white;
+            border: 1px solid #1a1a1a;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: transparent;
+            color: #1a1a1a;
+        }
+
+        .wishlist-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border: 1px solid #ddd;
+            color: #555;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            border-color: #c9a980;
+            color: #c9a980;
+        }
+
+        .wishlist-btn.active {
+            color: #c9a980;
+            border-color: #c9a980;
+        }
+
+        /* Доставка */
+        .delivery-info {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .delivery-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .delivery-item i {
+            color: #c9a980;
+            font-size: 16px;
+        }
+
+        /* Секция рекомендуемых товаров */
+        .recommended-section {
+            margin: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background-color: #c9a980;
+        }
+
+        .recommended-products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        /* Карточка рекомендуемого товара */
+        .product-card {
+            background-color: white;
+            border-radius: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-card-image {
+            transform: scale(1.05);
+        }
+
+        .product-card-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-card-title {
+            color: #c9a980;
+        }
+
+        .product-card-price {
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .product-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .product-section {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .main-image {
+                height: 450px;
+            }
+
+            .recommended-products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-gallery {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .recommended-products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-image {
+                height: 350px;
+            }
+
+            .product-attributes {
+                grid-template-columns: 1fr;
+            }
+
+            .add-to-cart-buttons {
+                flex-direction: column;
+            }
+
+            .wishlist-btn {
+                width: 100%;
+            }
+
+            .recommended-products {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 24px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .quantity-control:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .quantity-control button {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: none;
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            outline: none;
+        }
+
+        .quantity-control button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .quantity-control button:active {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: #333;
+            padding: 8px;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-control button.quantity-decrease {
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .quantity-control button.quantity-increase {
+            border-left: 1px solid #e0e0e0;
+        }
+
+
+        /* Стили для секции рекомендуемых товаров в стиле Luxury Minimalism */
+
+        /* Основной контейнер секции */
+        .recommended-section {
+            background-color: #fafafa;
+            padding: 80px 0;
+            margin-top: 60px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        /* Контейнер с ограничением ширины */
+        .recommended-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Заголовок секции */
+        .recommended-section .section-title {
+            font-size: 32px;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+            text-transform: none;
+        }
+
+        /* Подзаголовок секции */
+        .recommended-section .section-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #777;
+            letter-spacing: 0.5px;
+        }
+
+        /* Сетка товаров */
+        .recommended-section .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+            margin-bottom: 50px;
+        }
+
+        /* Карточка товара */
+        .recommended-section .product-card {
+            background-color: #fff;
+            border: none;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .recommended-section .product-card:hover {
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        /* Контейнер изображения */
+        .recommended-section .product-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+            background-color: #f5f5f5;
+        }
+
+        .recommended-section .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .recommended-section .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        /* Метка товара (Хит) */
+        .recommended-section .product-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 10px;
+        }
+
+        /* Действия с продуктом (избранное и просмотр) */
+        .recommended-section .product-actions {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .recommended-section .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .recommended-section .product-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommended-section .product-action-btn:hover {
+            background-color: #000;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Избранное */
+        .recommended-section .wishlist .far.fa-heart {
+            color: #1a1a1a;
+        }
+
+        .recommended-section .wishlist .fas.fa-heart {
+            color: #d6001c;
+        }
+
+        /* Содержимое карточки товара */
+        .recommended-section .product-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 180px;
+        }
+
+        /* Категория товара */
+        .recommended-section .product-category {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* Ссылка на название товара */
+        .recommended-section .product-title-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Название товара */
+        .recommended-section .product-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #1a1a1a;
+            line-height: 1.4;
+            margin: 0;
+            min-height: 48px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.3s ease;
+        }
+
+        .recommended-section .product-title-link:hover .product-title {
+            color: #000;
+        }
+
+        /* Блок с ценой и кнопкой */
+        .recommended-section .product-price-cart-wrapper {
+            margin-top: auto;
+        }
+
+        /* Цена товара */
+        .recommended-section .product-price {
+            font-size: 18px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        /* Кнопка добавления в корзину */
+        .recommended-section .add-to-cart {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            color: #1a1a1a;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .recommended-section .add-to-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: -1;
+        }
+
+        .recommended-section .add-to-cart:hover {
+            color: #fff;
+        }
+
+        .recommended-section .add-to-cart:hover::before {
+            left: 0;
+        }
+
+        .recommended-section .add-to-cart::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .recommended-section .add-to-cart:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Контейнер для кнопки "Больше из этой категории" */
+        .recommended-section .section-more-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        /* Кнопка "Больше из этой категории" */
+        .recommended-section .wedding-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: transparent;
+            color: #1a1a1a;
+            border: 1px solid #1a1a1a;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .recommended-section .wedding-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: -1;
+        }
+
+        .recommended-section .wedding-btn:hover {
+            color: #fff;
+        }
+
+        .recommended-section .wedding-btn:hover::before {
+            left: 0;
+        }
+
+        .recommended-section .btn-arrow {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .recommended-section .wedding-btn:hover .btn-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .recommended-section .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .recommended-section .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .recommended-section {
+                padding: 60px 0;
+            }
+
+            .recommended-section .section-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .recommended-section .section-title {
+                font-size: 24px;
+            }
+
+            .recommended-section .section-subtitle {
+                margin-bottom: 35px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .recommended-section .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .recommended-section {
+                padding: 40px 0;
+            }
+
+            .recommended-section .product-image-container {
+                height: 250px;
+            }
+        }
+
+
+        /* Стили для кнопки избранного */
+        .wishlist-btn, .wishlist {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            border: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .wishlist-btn:hover, .wishlist:hover {
+            background-color: #f5f5f5;
+            transform: scale(1.05);
+        }
+
+        /* Анимация при нажатии */
+        .wishlist-btn:active, .wishlist:active {
+            transform: scale(0.95);
+        }
+
+        /* Стили для иконки сердечка */
+        .wishlist-btn i, .wishlist i {
+            font-size: 18px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+
+        /* Стиль для заполненного сердечка (когда товар в избранном) */
+        .wishlist-btn i.fas, .wishlist i.fas {
+            color: #d6001c; /* Красный цвет для заполненного сердечка */
+        }
+
+        /* Стили для блока с кнопками */
+        .add-to-cart-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Стили для кнопки добавления в корзину */
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            color: #1a1a1a;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .add-to-cart-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: -1;
+        }
+
+        .add-to-cart-btn:hover {
+            color: #fff;
+        }
+
+        .add-to-cart-btn:hover::before {
+            left: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -978,174 +979,130 @@
 
 <!-- Основное содержимое -->
 <div class="container">
-  <!-- Хлебные крошки -->
-  <div class="breadcrumbs">
-    <a href="/">Главная</a>
-    <span class="separator">/</span>
-    <a href="/categories">Каталог</a>
-    <span class="separator">/</span>
-    <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категория</a>
-    <span class="separator">/</span>
-    <span th:text="${flower.name}">Название цветка</span>
-  </div>
-
-  <!-- Секция продукта -->
-  <div class="product-section">
-    <!-- Галерея продукта -->
-    <div class="product-gallery">
-      <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="main-image">
-
-      <!-- Миниатюры (если есть дополнительные изображения) -->
-<!--      <div class="thumbnails" th:if="${flower.additionalImages != null && !flower.additionalImages.isEmpty()}">-->
-<!--        <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="thumbnail active">-->
-<!--        <img th:each="image : ${flower.additionalImages}" th:src="${image}" th:alt="${flower.name}" class="thumbnail">-->
-<!--      </div>-->
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs">
+        <a href="/">Главная</a>
+        <span class="separator">/</span>
+        <a href="/categories">Каталог</a>
+        <span class="separator">/</span>
+        <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категория</a>
+        <span class="separator">/</span>
+        <span th:text="${flower.name}">Название цветка</span>
     </div>
 
-    <!-- Информация о продукте -->
-    <div class="product-info">
+    <!-- Секция продукта -->
+    <div class="product-section">
+        <!-- Галерея продукта -->
+        <div class="product-gallery">
+            <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="main-image">
+
+            <!-- Миниатюры (если есть дополнительные изображения) -->
+            <!--      <div class="thumbnails" th:if="${flower.additionalImages != null && !flower.additionalImages.isEmpty()}">-->
+            <!--        <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="thumbnail active">-->
+            <!--        <img th:each="image : ${flower.additionalImages}" th:src="${image}" th:alt="${flower.name}" class="thumbnail">-->
+            <!--      </div>-->
+        </div>
+
+        <!-- Информация о продукте -->
+        <div class="product-info">
         <span class="product-category">
           <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категория</a>
         </span>
 
-      <h1 class="product-title" th:text="${flower.name}">Название цветка</h1>
+            <h1 class="product-title" th:text="${flower.name}">Название цветка</h1>
 
-      <!-- Рейтинг -->
-      <div class="product-rating">
-        <div class="stars">
-         <span>Рейтинг </span>
-<!--          <th:block th:with="fullStars=${T(Math).floor(flower.averageRating)}, hasHalfStar=${flower.averageRating - T(Math).floor(flower.averageRating) >= 0.5}">-->
-<!--            <i class="fas fa-star" th:each="i : ${#numbers.sequence(1, fullStars)}"></i>-->
-<!--            <i class="fas fa-star-half-alt" th:if="${hasHalfStar}"></i>-->
-<!--            <i class="far fa-star" th:each="i : ${#numbers.sequence(1, 5 - fullStars - (hasHalfStar ? 1 : 0))}"></i>-->
-<!--          </th:block>-->
-        </div>
-        <span class="review-count" th:text="${flower.reviewCount + ' отзывов'}">0 отзывов</span>
-      </div>
-      <!-- Цена -->
-
-      <div class="product-price">
-        <!-- Только основная цена без проверки на скидку -->
-        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>
-      </div>
-<!--      <div class="product-price">-->
-<!--          <span class="old-price" th:if="${flower.discountPercent > 0}"-->
-<!--                th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>-->
-<!--        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>-->
-<!--      </div>-->
-
-      <!-- Описание -->
-      <div class="product-description" th:utext="${flower.getFullDescription()}">
-        Подробное описание цветка...
-      </div>
-
-      <!-- Характеристики товара -->
-      <div class="product-attributes">
-        <div class="attribute">
-          Артикул: <span th:text="${flower.id}">123456</span>
-        </div>
-        <div class="attribute">
-          В наличии: <span th:text="${flower.count > 0 ? 'Да' : 'Нет'}">Да</span>
-        </div>
-        <div class="attribute">
-          Высота: <span th:text="${flower.price ?: 'Не указано'}">50 см</span>
-        </div>
-        <div class="attribute">
-          Состав: <span th:text="${flower.getPrice() ?: 'Не указано'}">Розы, зелень</span>
-        </div>
-      </div>
-
-      <!-- Добавление в корзину -->
-      <div class="add-to-cart-section">
-        <div class="quantity-selector">
-          <span class="quantity-label">Количество:</span>
-          <div class="quantity-control">
-            <button class="quantity-btn decrease-btn">-</button>
-            <input type="number" class="quantity-input" value="1" min="1" th:max="${flower.count}" id="quantity">
-            <button class="quantity-btn increase-btn">+</button>
-          </div>
-        </div>
-
-
-        <div class="add-to-cart-buttons">
-          <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">Добавить в корзину</button>
-          <button class="wishlist" th:attr="data-id=${flower.id}">
-            <i class="far fa-heart"></i>
-          </button>
-        </div>
-        <script th:src="@{/js/favorites.js}"></script>
-
-      </div>
-
-      <!-- Информация о доставке -->
-      <div class="delivery-info">
-        <div class="delivery-item">
-          <i class="fas fa-truck"></i>
-          <span th:if="${flower.hasDeliveryToday}">Доставка сегодня</span>
-          <span th:unless="${flower.hasDeliveryToday}">Доставка в течение 1-2 дней</span>
-        </div>
-        <div class="delivery-item">
-          <i class="fas fa-shield-alt"></i>
-          <span>Гарантия свежести 7 дней</span>
-        </div>
-        <div class="delivery-item">
-          <i class="fas fa-credit-card"></i>
-          <span>Оплата при получении или онлайн</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Рекомендуемые товары -->
-
-  <!-- Рекомендуемые товары -->
-  <section class="section products-section recommended-section">
-    <div class="container">
-      <h2 class="section-title">Похожие букеты</h2>
-      <p class="section-subtitle" th:text="'Еще букеты из категории «' + ${flower.category.name} + '»'">Еще букеты из этой категории</p>
-
-      <div class="products-grid">
-        <div th:each="recommendedFlower : ${recommendedFlowers}" class="product-card">
-          <div class="product-image-container">
-            <a th:href="@{'/flowers/' + ${recommendedFlower.id}}">
-              <img th:src="${recommendedFlower.previewImageUrl}"
-                   th:alt="${recommendedFlower.name}"
-                   class="product-image">
-            </a>
-
-<!--            <span th:if="${recommendedFlower.name > 10}" class="product-tag">Хит</span>-->
-
-            <div class="product-actions">
-<!--              <div class="product-action-btn wishlist" th:data-id="${recommendedFlower.id}">-->
-<!--&lt;!&ndash;                <i class="far fa-heart"></i>&ndash;&gt;-->
-<!--              </div>-->
-              <a th:href="@{'/flowers/' + ${recommendedFlower.id}}" class="product-action-btn">
-                <i class="fas fa-eye"></i>
-              </a>
+            <!-- Рейтинг -->
+            <div class="product-rating">
+                <div class="stars">
+                    <span>Рейтинг </span>
+                    <!--          <th:block th:with="fullStars=${T(Math).floor(flower.averageRating)}, hasHalfStar=${flower.averageRating - T(Math).floor(flower.averageRating) >= 0.5}">-->
+                    <!--            <i class="fas fa-star" th:each="i : ${#numbers.sequence(1, fullStars)}"></i>-->
+                    <!--            <i class="fas fa-star-half-alt" th:if="${hasHalfStar}"></i>-->
+                    <!--            <i class="far fa-star" th:each="i : ${#numbers.sequence(1, 5 - fullStars - (hasHalfStar ? 1 : 0))}"></i>-->
+                    <!--          </th:block>-->
+                </div>
+                <span class="review-count" th:text="${flower.reviewCount + ' отзывов'}">0 отзывов</span>
             </div>
-          </div>
+            <!-- Цена -->
 
-          <div class="product-content">
-            <p class="product-category" th:text="${recommendedFlower.categoryName}">Категория</p>
-            <a th:href="@{'/flowers/' + ${recommendedFlower.id}}" class="product-title-link">
-              <h3 class="product-title" th:text="${recommendedFlower.name}">Название букета</h3>
-            </a>
-            <div class="product-price-cart-wrapper">
-              <p class="product-price" th:text="${#numbers.formatCurrency(recommendedFlower.price)}">Цена</p>
-              <button class="add-to-cart">В корзину</button>
+            <div class="product-price">
+                <!-- Только основная цена без проверки на скидку -->
+                <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>
             </div>
-          </div>
-        </div>
-      </div>
+            <!--      <div class="product-price">-->
+            <!--          <span class="old-price" th:if="${flower.discountPercent > 0}"-->
+            <!--                th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>-->
+            <!--        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>-->
+            <!--      </div>-->
 
-      <div class="section-more-container">
-        <a th:href="@{'/categories/' + ${flower.category.id}}" class="wedding-btn">
-          Больше из этой категории
-          <span class="btn-arrow">→</span>
-        </a>
-      </div>
+            <!-- Описание -->
+            <div class="product-description" th:utext="${flower.getFullDescription()}">
+                Подробное описание цветка...
+            </div>
+
+            <!-- Характеристики товара -->
+            <div class="product-attributes">
+                <div class="attribute">
+                    Артикул: <span th:text="${flower.id}">123456</span>
+                </div>
+                <div class="attribute">
+                    В наличии: <span th:text="${flower.count > 0 ? 'Да' : 'Нет'}">Да</span>
+                </div>
+                <div class="attribute">
+                    Высота: <span th:text="${flower.price ?: 'Не указано'}">50 см</span>
+                </div>
+                <div class="attribute">
+                    Состав: <span th:text="${flower.getPrice() ?: 'Не указано'}">Розы, зелень</span>
+                </div>
+            </div>
+
+            <!-- Добавление в корзину -->
+            <div class="add-to-cart-section">
+                <div class="quantity-selector">
+                    <span class="quantity-label">Количество:</span>
+                    <div class="quantity-control">
+                        <button class="quantity-btn decrease-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" th:max="${flower.count}"
+                               id="quantity">
+                        <button class="quantity-btn increase-btn">+</button>
+                    </div>
+                </div>
+
+
+                <div class="add-to-cart-buttons">
+                    <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">Добавить в корзину</button>
+                    <button class="wishlist" th:attr="data-id=${flower.id}">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+
+            </div>
+
+            <!-- Информация о доставке -->
+            <div class="delivery-info">
+                <div class="delivery-item">
+                    <i class="fas fa-truck"></i>
+                    <span th:if="${flower.hasDeliveryToday}">Доставка сегодня</span>
+                    <span th:unless="${flower.hasDeliveryToday}">Доставка в течение 1-2 дней</span>
+                </div>
+                <div class="delivery-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Гарантия свежести 7 дней</span>
+                </div>
+                <div class="delivery-item">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Оплата при получении или онлайн</span>
+                </div>
+            </div>
+        </div>
     </div>
-  </section>
+
+
+    <!-- Рекомендуемые товары -->
+
+    <!-- Рекомендуемые товары -->
+
 
 </div>
 
@@ -1153,139 +1110,11 @@
 <div th:replace="~{client/fragments/footer :: footer}"></div>
 <style th:replace="~{client/fragments/footer :: footer-css}"></style>
 
+<script th:src="@{/js/favorites.js}"></script>
+<script th:src="@{/js/add-to-cart.js}"></script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Управление количеством
-    const decreaseBtn = document.querySelector('.decrease-btn');
-    const increaseBtn = document.querySelector('.increase-btn');
-    const quantityInput = document.querySelector('.quantity-input');
+<script th:src="@{/js/add-to-cart-btn.js}"></script>
 
-    decreaseBtn.addEventListener('click', function() {
-      let value = parseInt(quantityInput.value);
-      if (value > 1) {
-        quantityInput.value = value - 1;
-      }
-    });
-
-    increaseBtn.addEventListener('click', function() {
-      let value = parseInt(quantityInput.value);
-      let max = parseInt(quantityInput.getAttribute('max'));
-      if (value < max) {
-        quantityInput.value = value + 1;
-      }
-    });
-
-    // Миниатюры изображений
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    const mainImage = document.querySelector('.main-image');
-
-    thumbnails.forEach(thumb => {
-      thumb.addEventListener('click', function() {
-        // Удаляем класс active у всех миниатюр
-        thumbnails.forEach(t => t.classList.remove('active'));
-
-        // Добавляем класс active текущей миниатюре
-        this.classList.add('active');
-
-        // Обновляем главное изображение
-        mainImage.src = this.src;
-      });
-    });
-
-    // Кнопка "Добавить в избранное"
-    const wishlistBtn = document.querySelector('.wishlist-btn');
-
-    wishlistBtn.addEventListener('click', function() {
-      const icon = this.querySelector('i');
-
-      if (icon.classList.contains('far')) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-        this.classList.add('active');
-        showNotification('Товар добавлен в избранное');
-      } else {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
-        this.classList.remove('active');
-        showNotification('Товар удален из избранного');
-      }
-    });
-
-// Кнопка "Добавить в корзину"
-    const addToCartBtn = document.querySelector('.add-to-cart-btn');
-
-    addToCartBtn.addEventListener('click', function() {
-      const productId = this.getAttribute('data-id');
-      const quantity = parseInt(document.getElementById('quantity').value);
-
-      // Отправляем запрос на сервер для добавления товара в корзину
-      fetch(`/cart/api/add?flowerId=${productId}&quantity=${quantity}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `flowerId=${productId}&quantity=${quantity}`
-      })
-              .then(response => response.json()) // Ответ ожидаем в формате JSON
-              .then(data => {
-                // Показываем уведомление об успешном добавлении
-                showNotification(`Товар добавлен в корзину (${data.quantity} шт.)`);
-              })
-              .catch(error => {
-                console.error('Ошибка при добавлении товара в корзину:', error);
-                showNotification('Ошибка при добавлении товара в корзину');
-              });
-    });
-
-    // Функция для показа уведомлений
-    function showNotification(message) {
-      // Проверяем, существует ли уже уведомление
-      const existingNotification = document.querySelector('.notification');
-      if (existingNotification) {
-        existingNotification.remove();
-      }
-
-      // Создаем элемент уведомления
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.style.position = 'fixed';
-      notification.style.bottom = '20px';
-      notification.style.right = '20px';
-      notification.style.backgroundColor = '#1a1a1a';
-      notification.style.color = 'white';
-      notification.style.padding = '15px 25px';
-      notification.style.borderRadius = '4px';
-      notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-      notification.style.zIndex = '9999';
-      notification.style.opacity = '0';
-      notification.style.transform = 'translateY(20px)';
-      notification.style.transition = 'opacity 0.3s, transform 0.3s';
-      notification.textContent = message;
-
-      // Добавляем уведомление в DOM
-      document.body.appendChild(notification);
-
-      // Анимируем появление
-      setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateY(0)';
-      }, 10);
-
-      // Скрываем через 3 секунды
-      setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
-
-        // Удаляем из DOM после завершения анимации
-        setTimeout(() => {
-          notification.remove();
-        }, 300);
-      }, 3000);
-    }
-  });
-</script>
-<!-- Вместо inline-скрипта, теперь ссылка на файл -->
 
 
 </body>

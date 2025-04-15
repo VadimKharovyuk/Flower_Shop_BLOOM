@@ -4,6 +4,7 @@ import com.example.flowershoptr.dto.cart.CartDto;
 import com.example.flowershoptr.model.Order;
 import com.example.flowershoptr.service.CartService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class CartController {
 
 
 
+
     /**
      * AJAX-метод для добавления товара в корзину
      */
@@ -35,6 +37,9 @@ public class CartController {
     }
 
 
+
+
+
     /**
      * Добавление цветка в корзину
      */
@@ -44,6 +49,7 @@ public class CartController {
             @RequestParam Long flowerId,
             @RequestParam(defaultValue = "1") Integer quantity,
             @RequestParam(required = false) String redirectUrl,
+            HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
         try {
@@ -52,13 +58,20 @@ public class CartController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        // Если указан URL для редиректа, используем его
-        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-            return "redirect:" + redirectUrl;
+
+        // Возвращаем пользователя на страницу, с которой он пришел
+        String referer = request.getHeader("Referer");
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
         }
 
         return "redirect:/cart";
     }
+
+
+
+
+
 
 
 
@@ -196,7 +209,7 @@ public class CartController {
 //    public CartDto getCartInfo(HttpSession session) {
 //        return cartService.getCartDto(session);
 //    }
-//
+
 //    /**
 //     * AJAX-метод для добавления товара в корзину
 //     */
@@ -209,4 +222,8 @@ public class CartController {
 //
 //        return cartService.addFlowerToCart(session, flowerId, quantity);
 //    }
+
+
+
+
 }
