@@ -44,4 +44,10 @@ public class AdminDashboard {
     }
 
 
+    @GetMapping("/customers")
+    public String adminCustomers(){
+        return "admin/custom-bouquet";
+    }
+
+
 }

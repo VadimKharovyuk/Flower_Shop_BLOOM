@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/css/newsletter-section.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/hero.css">
+    <link rel="stylesheet" href="/css/custom-bouquet-section.css">
 
     <style>
         :root {
@@ -940,85 +941,6 @@
 <script th:src="@{/js/add-to-cart.js}"></script>
 
 
-
-
-
-<!-- Featured Products -->
-<!--<section class="section products-section">-->
-<!--    <div class="container">-->
-<!--        <h2 class="section-title">Популярные букеты</h2>-->
-<!--        <p class="section-subtitle">Наши бестселлеры, которые выбирают покупатели</p>-->
-
-<!--        <div class="products-grid">-->
-<!--            <div class="product-card">-->
-<!--                <div class="product-image-container">-->
-<!--                    <img src="/img/bucketMain.webp" alt="Букет «Нежность»" class="product-image">-->
-<!--                    <span class="product-tag">Хит</span>-->
-<!--                    <div class="product-actions">-->
-<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="product-content">-->
-<!--                    <p class="product-category">Авторские букеты</p>-->
-<!--                    <h3 class="product-title">Букет «Нежность»</h3>-->
-<!--                    <p class="product-price">4 500 ₽</p>-->
-<!--                    <button class="add-to-cart">В корзину</button>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="product-card">-->
-<!--                <div class="product-image-container">-->
-<!--                    <img src="/img/bucketMain.webp" alt="Букет «Весенний»" class="product-image">-->
-<!--                    <div class="product-actions">-->
-<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="product-content">-->
-<!--                    <p class="product-category">Монобукеты</p>-->
-<!--                    <h3 class="product-title">Букет «Весенний»</h3>-->
-<!--                    <p class="product-price">3 200 ₽</p>-->
-<!--                    <button class="add-to-cart">В корзину</button>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="product-card">-->
-<!--                <div class="product-image-container">-->
-<!--                    <img src="/img/bucketMain.webp" alt="Букет «Элегантность»" class="product-image">-->
-<!--                    <span class="product-tag">Скидка</span>-->
-<!--                    <div class="product-actions">-->
-<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="product-content">-->
-<!--                    <p class="product-category">Авторские букеты</p>-->
-<!--                    <h3 class="product-title">Букет «Элегантность»</h3>-->
-<!--                    <p class="product-price">5 800 ₽</p>-->
-<!--                    <button class="add-to-cart">В корзину</button>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="product-card">-->
-<!--                <div class="product-image-container">-->
-<!--                    <img src="/img/bucketMain.webp" alt="Букет «Романтика»" class="product-image">-->
-<!--                    <div class="product-actions">-->
-<!--                        <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                        <div class="product-action-btn"><i class="fas fa-eye"></i></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="product-content">-->
-<!--                    <p class="product-category">Композиции</p>-->
-<!--                    <h3 class="product-title">Букет «Романтика»</h3>-->
-<!--                    <p class="product-price">4 200 ₽</p>-->
-<!--                    <button class="add-to-cart">В корзину</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
 <!-- About Section -->
 <section class="section">
     <div class="container">
@@ -1174,6 +1096,9 @@
 <script src="/js/countdown.js"></script>
 
 <!-- Custom Bouquet Section -->
+
+
+
 <section class="custom-bouquet-section">
     <div class="container">
         <div class="custom-bouquet-wrapper">
@@ -1182,11 +1107,11 @@
                 <h2 class="custom-bouquet-title">Создайте свой идеальный букет</h2>
                 <p class="custom-bouquet-description">Мы создадим уникальную цветочную композицию по вашим пожеланиям. Опишите ваши предпочтения, бюджет и повод, а наши флористы воплотят вашу идею в жизнь.</p>
 
-                <form class="custom-bouquet-form">
+                <form id="customBouquetForm" class="custom-bouquet-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="occasion">Повод</label>
-                            <select id="occasion" class="form-control">
+                            <select id="occasion" name="occasion" class="form-control" required>
                                 <option value="" selected disabled>Выберите повод</option>
                                 <option value="birthday">День рождения</option>
                                 <option value="anniversary">Годовщина</option>
@@ -1198,7 +1123,7 @@
                         </div>
                         <div class="form-group">
                             <label for="budget">Бюджет</label>
-                            <select id="budget" class="form-control">
+                            <select id="budget" name="budgetRange" class="form-control" required>
                                 <option value="" selected disabled>Выберите диапазон</option>
                                 <option value="3000-5000">3 000 ₽ - 5 000 ₽</option>
                                 <option value="5000-8000">5 000 ₽ - 8 000 ₽</option>
@@ -1210,22 +1135,42 @@
 
                     <div class="form-group">
                         <label for="preferences">Ваши пожелания</label>
-                        <textarea id="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..."></textarea>
+                        <textarea id="preferences" name="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..." required></textarea>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Ваше имя</label>
-                            <input type="text" id="name" class="form-control" placeholder="Введите ваше имя">
+                            <input type="text" id="name" name="customerName" class="form-control" placeholder="Введите ваше имя" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="+7 (___) ___-__-__">
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required>
                         </div>
                     </div>
 
                     <button type="submit" class="submit-button">Отправить заявку</button>
                 </form>
+
+                <!-- Контейнер для отображения результата отправки формы -->
+                <div id="formResult" class="form-result" style="display: none;"></div>
+
+                <!-- Блок для отслеживания статуса заявки -->
+                <div id="statusTracker" class="status-tracker" style="display: none; margin-top: 30px;">
+                    <h3>Отслеживание статуса заявки</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="trackingId">Номер заявки</label>
+                            <input type="number" id="trackingId" class="form-control" placeholder="Введите номер заявки">
+                        </div>
+                        <div class="form-group">
+                            <label for="trackingPhone">Телефон</label>
+                            <input type="tel" id="trackingPhone" class="form-control" placeholder="+7 (___) ___-__-__">
+                        </div>
+                    </div>
+                    <button type="button" id="checkStatusBtn" class="submit-button">Проверить статус</button>
+                    <div id="statusResult" class="status-result" style="display: none; margin-top: 15px;"></div>
+                </div>
             </div>
 
             <div class="custom-bouquet-gallery">
@@ -1251,6 +1196,93 @@
         </div>
     </div>
 </section>
+
+<!-- Подключение JavaScript файла для обработки формы -->
+<script src="/js/custom-bouquet.js"></script>
+
+
+
+
+
+
+
+<!--<section class="custom-bouquet-section">-->
+<!--    <div class="container">-->
+<!--        <div class="custom-bouquet-wrapper">-->
+<!--            <div class="custom-bouquet-content">-->
+<!--                <div class="section-badge">Индивидуальный подход</div>-->
+<!--                <h2 class="custom-bouquet-title">Создайте свой идеальный букет</h2>-->
+<!--                <p class="custom-bouquet-description">Мы создадим уникальную цветочную композицию по вашим пожеланиям. Опишите ваши предпочтения, бюджет и повод, а наши флористы воплотят вашу идею в жизнь.</p>-->
+
+<!--                <form class="custom-bouquet-form">-->
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="occasion">Повод</label>-->
+<!--                            <select id="occasion" class="form-control">-->
+<!--                                <option value="" selected disabled>Выберите повод</option>-->
+<!--                                <option value="birthday">День рождения</option>-->
+<!--                                <option value="anniversary">Годовщина</option>-->
+<!--                                <option value="wedding">Свадьба</option>-->
+<!--                                <option value="date">Свидание</option>-->
+<!--                                <option value="corporate">Корпоративное событие</option>-->
+<!--                                <option value="other">Другое</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="budget">Бюджет</label>-->
+<!--                            <select id="budget" class="form-control">-->
+<!--                                <option value="" selected disabled>Выберите диапазон</option>-->
+<!--                                <option value="3000-5000">3 000 ₽ - 5 000 ₽</option>-->
+<!--                                <option value="5000-8000">5 000 ₽ - 8 000 ₽</option>-->
+<!--                                <option value="8000-12000">8 000 ₽ - 12 000 ₽</option>-->
+<!--                                <option value="12000+">Более 12 000 ₽</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-group">-->
+<!--                        <label for="preferences">Ваши пожелания</label>-->
+<!--                        <textarea id="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..."></textarea>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="name">Ваше имя</label>-->
+<!--                            <input type="text" id="name" class="form-control" placeholder="Введите ваше имя">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="phone">Телефон</label>-->
+<!--                            <input type="tel" id="phone" class="form-control" placeholder="+7 (___) ___-__-__">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <button type="submit" class="submit-button">Отправить заявку</button>-->
+<!--                </form>-->
+<!--            </div>-->
+
+<!--            <div class="custom-bouquet-gallery">-->
+<!--                <div class="gallery-main">-->
+<!--                    <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image main-image">-->
+<!--                    <div class="image-caption">Создано специально для юбилея</div>-->
+<!--                </div>-->
+<!--                <div class="gallery-grid">-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!-- Masterclass Section -->
 <section class="masterclass-section">

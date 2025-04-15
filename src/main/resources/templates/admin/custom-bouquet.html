@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление заявками на индивидуальные букеты | Админ-панель</title>
+  <link rel="stylesheet" href="/css/admin/admin-request-bouque.css">
+  <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+  <!-- Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="admin-wrapper">
+  <!-- Боковое меню -->
+  <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+  <!-- Основной контент -->
+  <div class="admin-content">
+    <div class="admin-header">
+      <h1>Управление заявками на индивидуальные букеты</h1>
+      <div class="actions-container">
+        <div class="filter-container">
+          <label for="statusFilter">Фильтр по статусу:</label>
+          <select id="statusFilter" class="filter-select">
+            <option value="">Все заявки</option>
+            <option value="NEW">Новые</option>
+            <option value="PROCESSING">В обработке</option>
+            <option value="DESIGN_STAGE">Разработка дизайна</option>
+            <option value="AWAITING_APPROVAL">Ожидает подтверждения</option>
+            <option value="CONFIRMED">Подтверждено</option>
+            <option value="IN_PRODUCTION">В производстве</option>
+            <option value="READY">Готов к выдаче</option>
+            <option value="DELIVERED">Доставлен</option>
+            <option value="COMPLETED">Завершено</option>
+            <option value="CANCELLED">Отменено</option>
+          </select>
+        </div>
+        <button id="refreshButton" class="action-button refresh-button">
+          <i class="fas fa-sync-alt"></i> Обновить
+        </button>
+      </div>
+    </div>
+
+    <!-- Таблица с заявками -->
+    <div class="table-responsive">
+      <table class="data-table" id="requestsTable">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Статус</th>
+          <th>Имя клиента</th>
+          <th>Телефон</th>
+          <th>Повод</th>
+          <th>Бюджет</th>
+          <th>Дата создания</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody id="requestsTableBody">
+        <!-- Данные будут загружены с помощью JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Заглушка при отсутствии заявок -->
+    <div id="noRequestsMessage" class="no-data-message" style="display: none;">
+      <i class="fas fa-inbox"></i>
+      <p>Заявки отсутствуют</p>
+    </div>
+
+    <!-- Индикатор загрузки -->
+    <div id="loadingIndicator" class="loading-indicator">
+      <div class="spinner"></div>
+      <p>Загрузка данных...</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно для просмотра подробностей заявки -->
+<div id="requestDetailsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Подробности заявки <span id="modalRequestId"></span></h2>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="request-details">
+        <div class="detail-row">
+          <div class="detail-group">
+            <h3>Информация о клиенте</h3>
+            <p><strong>Имя:</strong> <span id="modalCustomerName"></span></p>
+            <p><strong>Телефон:</strong> <span id="modalPhone"></span></p>
+          </div>
+          <div class="detail-group">
+            <h3>Информация о заказе</h3>
+            <p><strong>Повод:</strong> <span id="modalOccasion"></span></p>
+            <p><strong>Бюджет:</strong> <span id="modalBudget"></span></p>
+            <p><strong>Дата создания:</strong> <span id="modalCreatedAt"></span></p>
+            <p><strong>Последнее обновление:</strong> <span id="modalUpdatedAt"></span></p>
+          </div>
+        </div>
+        <div class="detail-group full-width">
+          <h3>Пожелания клиента</h3>
+          <div class="preferences-box" id="modalPreferences"></div>
+        </div>
+        <div class="detail-group full-width">
+          <h3>Комментарий администратора</h3>
+          <textarea id="modalAdminComment" class="admin-comment-textarea" placeholder="Добавьте комментарий здесь..."></textarea>
+        </div>
+        <div class="status-update-container">
+          <h3>Обновить статус</h3>
+          <div class="status-controls">
+            <select id="statusSelect" class="status-select">
+              <option value="NEW">Новая заявка</option>
+              <option value="PROCESSING">В обработке</option>
+              <option value="DESIGN_STAGE">Разработка дизайна</option>
+              <option value="AWAITING_APPROVAL">Ожидает подтверждения клиента</option>
+              <option value="CONFIRMED">Подтверждено клиентом</option>
+              <option value="IN_PRODUCTION">В производстве</option>
+              <option value="READY">Готов к выдаче/доставке</option>
+              <option value="DELIVERED">Доставлен</option>
+              <option value="COMPLETED">Завершено</option>
+              <option value="CANCELLED">Отменено</option>
+            </select>
+            <button id="updateStatusBtn" class="update-status-btn">Обновить статус</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/admin-custom-bouquet.js"></script>
+</body>
+</html>
