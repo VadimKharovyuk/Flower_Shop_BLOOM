@@ -1097,8 +1097,6 @@
 
 <!-- Custom Bouquet Section -->
 
-
-
 <section class="custom-bouquet-section">
     <div class="container">
         <div class="custom-bouquet-wrapper">
@@ -1107,70 +1105,101 @@
                 <h2 class="custom-bouquet-title">Создайте свой идеальный букет</h2>
                 <p class="custom-bouquet-description">Мы создадим уникальную цветочную композицию по вашим пожеланиям. Опишите ваши предпочтения, бюджет и повод, а наши флористы воплотят вашу идею в жизнь.</p>
 
-                <form id="customBouquetForm" class="custom-bouquet-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="occasion">Повод</label>
-                            <select id="occasion" name="occasion" class="form-control" required>
-                                <option value="" selected disabled>Выберите повод</option>
-                                <option value="birthday">День рождения</option>
-                                <option value="anniversary">Годовщина</option>
-                                <option value="wedding">Свадьба</option>
-                                <option value="date">Свидание</option>
-                                <option value="corporate">Корпоративное событие</option>
-                                <option value="other">Другое</option>
-                            </select>
+                <!-- Переключатель режимов: Создание заявки / Отслеживание -->
+                <div class="mode-toggle">
+                    <button type="button" class="mode-btn active" data-mode="create">Создать заявку</button>
+                    <button type="button" class="mode-btn" data-mode="track">Отследить статус</button>
+                </div>
+
+                <!-- Форма создания заявки -->
+                <div id="createMode" class="mode-content">
+                    <form id="customBouquetForm" class="custom-bouquet-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="occasion">Повод</label>
+                                <select id="occasion" name="occasion" class="form-control" required>
+                                    <option value="" selected disabled>Выберите повод</option>
+                                    <option value="birthday">День рождения</option>
+                                    <option value="anniversary">Годовщина</option>
+                                    <option value="wedding">Свадьба</option>
+                                    <option value="date">Свидание</option>
+                                    <option value="corporate">Корпоративное событие</option>
+                                    <option value="other">Другое</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget">Бюджет</label>
+                                <select id="budget" name="budgetRange" class="form-control" required>
+                                    <option value="" selected disabled>Выберите диапазон</option>
+                                    <option value="3000-5000">3 000 ₽ - 5 000 ₽</option>
+                                    <option value="5000-8000">5 000 ₽ - 8 000 ₽</option>
+                                    <option value="8000-12000">8 000 ₽ - 12 000 ₽</option>
+                                    <option value="12000+">Более 12 000 ₽</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="budget">Бюджет</label>
-                            <select id="budget" name="budgetRange" class="form-control" required>
-                                <option value="" selected disabled>Выберите диапазон</option>
-                                <option value="3000-5000">3 000 ₽ - 5 000 ₽</option>
-                                <option value="5000-8000">5 000 ₽ - 8 000 ₽</option>
-                                <option value="8000-12000">8 000 ₽ - 12 000 ₽</option>
-                                <option value="12000+">Более 12 000 ₽</option>
-                            </select>
+                            <label for="preferences">Ваши пожелания</label>
+                            <textarea id="preferences" name="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..." required></textarea>
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Ваше имя</label>
+                                <input type="text" id="name" name="customerName" class="form-control" placeholder="Введите ваше имя" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Телефон</label>
+                                <input type="tel" id="phone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-button">Отправить заявку</button>
+                    </form>
+                </div>
+
+                <!-- Форма отслеживания статуса -->
+                <div id="trackMode" class="mode-content" style="display: none;">
+                    <div class="tracking-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="trackingId">Номер заявки</label>
+                                <input type="number" id="trackingId" class="form-control" placeholder="Введите номер заявки" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="trackingPhone">Телефон</label>
+                                <input type="tel" id="trackingPhone" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+                        </div>
+                        <button type="button" id="checkStatusBtn" class="submit-button">Проверить статус</button>
                     </div>
 
-                    <div class="form-group">
-                        <label for="preferences">Ваши пожелания</label>
-                        <textarea id="preferences" name="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..." required></textarea>
+                    <!-- Результат отслеживания -->
+                    <div id="statusResult" class="status-result" style="display: none;">
+                        <!-- Содержимое будет добавлено через JavaScript -->
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Ваше имя</label>
-                            <input type="text" id="name" name="customerName" class="form-control" placeholder="Введите ваше имя" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                    <!-- История статусов (аккордеон) -->
+                    <div id="statusHistory" class="status-history" style="display: none;">
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <span class="status-date">15.04.2025</span>
+                                    <span class="status-badge status-new">Новая заявка</span>
+                                    <span class="accordion-toggle"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                                <div class="accordion-content">
+                                    <p>Ваша заявка принята и будет обработана в ближайшее время.</p>
+                                </div>
+                            </div>
+                            <!-- Дополнительные статусы будут добавлены через JavaScript -->
                         </div>
                     </div>
-
-                    <button type="submit" class="submit-button">Отправить заявку</button>
-                </form>
+                </div>
 
                 <!-- Контейнер для отображения результата отправки формы -->
                 <div id="formResult" class="form-result" style="display: none;"></div>
-
-                <!-- Блок для отслеживания статуса заявки -->
-                <div id="statusTracker" class="status-tracker" style="display: none; margin-top: 30px;">
-                    <h3>Отслеживание статуса заявки</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="trackingId">Номер заявки</label>
-                            <input type="number" id="trackingId" class="form-control" placeholder="Введите номер заявки">
-                        </div>
-                        <div class="form-group">
-                            <label for="trackingPhone">Телефон</label>
-                            <input type="tel" id="trackingPhone" class="form-control" placeholder="+7 (___) ___-__-__">
-                        </div>
-                    </div>
-                    <button type="button" id="checkStatusBtn" class="submit-button">Проверить статус</button>
-                    <div id="statusResult" class="status-result" style="display: none; margin-top: 15px;"></div>
-                </div>
             </div>
 
             <div class="custom-bouquet-gallery">
@@ -1197,8 +1226,114 @@
     </div>
 </section>
 
+<!-- Добавление Font Awesome для иконок -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Подключение CSS файла -->
+<link rel="stylesheet" href="/css/custom-bouquet-section.css">
 <!-- Подключение JavaScript файла для обработки формы -->
 <script src="/js/custom-bouquet.js"></script>
+
+
+<!--<section class="custom-bouquet-section">-->
+<!--    <div class="container">-->
+<!--        <div class="custom-bouquet-wrapper">-->
+<!--            <div class="custom-bouquet-content">-->
+<!--                <div class="section-badge">Индивидуальный подход</div>-->
+<!--                <h2 class="custom-bouquet-title">Создайте свой идеальный букет</h2>-->
+<!--                <p class="custom-bouquet-description">Мы создадим уникальную цветочную композицию по вашим пожеланиям. Опишите ваши предпочтения, бюджет и повод, а наши флористы воплотят вашу идею в жизнь.</p>-->
+
+<!--                <form id="customBouquetForm" class="custom-bouquet-form">-->
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="occasion">Повод</label>-->
+<!--                            <select id="occasion" name="occasion" class="form-control" required>-->
+<!--                                <option value="" selected disabled>Выберите повод</option>-->
+<!--                                <option value="birthday">День рождения</option>-->
+<!--                                <option value="anniversary">Годовщина</option>-->
+<!--                                <option value="wedding">Свадьба</option>-->
+<!--                                <option value="date">Свидание</option>-->
+<!--                                <option value="corporate">Корпоративное событие</option>-->
+<!--                                <option value="other">Другое</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="budget">Бюджет</label>-->
+<!--                            <select id="budget" name="budgetRange" class="form-control" required>-->
+<!--                                <option value="" selected disabled>Выберите диапазон</option>-->
+<!--                                <option value="3000-5000">3 000 ₽ - 5 000 ₽</option>-->
+<!--                                <option value="5000-8000">5 000 ₽ - 8 000 ₽</option>-->
+<!--                                <option value="8000-12000">8 000 ₽ - 12 000 ₽</option>-->
+<!--                                <option value="12000+">Более 12 000 ₽</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-group">-->
+<!--                        <label for="preferences">Ваши пожелания</label>-->
+<!--                        <textarea id="preferences" name="preferences" class="form-control" rows="4" placeholder="Опишите желаемые цвета, цветы и стиль букета..." required></textarea>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="name">Ваше имя</label>-->
+<!--                            <input type="text" id="name" name="customerName" class="form-control" placeholder="Введите ваше имя" required>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="phone">Телефон</label>-->
+<!--                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <button type="submit" class="submit-button">Отправить заявку</button>-->
+<!--                </form>-->
+
+<!--                &lt;!&ndash; Контейнер для отображения результата отправки формы &ndash;&gt;-->
+<!--                <div id="formResult" class="form-result" style="display: none;"></div>-->
+
+<!--                &lt;!&ndash; Блок для отслеживания статуса заявки &ndash;&gt;-->
+<!--                <div id="statusTracker" class="status-tracker" style="display: none; margin-top: 30px;">-->
+<!--                    <h3>Отслеживание статуса заявки</h3>-->
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="trackingId">Номер заявки</label>-->
+<!--                            <input type="number" id="trackingId" class="form-control" placeholder="Введите номер заявки">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="trackingPhone">Телефон</label>-->
+<!--                            <input type="tel" id="trackingPhone" class="form-control" placeholder="+7 (___) ___-__-__">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <button type="button" id="checkStatusBtn" class="submit-button">Проверить статус</button>-->
+<!--                    <div id="statusResult" class="status-result" style="display: none; margin-top: 15px;"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="custom-bouquet-gallery">-->
+<!--                <div class="gallery-main">-->
+<!--                    <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image main-image">-->
+<!--                    <div class="image-caption">Создано специально для юбилея</div>-->
+<!--                </div>-->
+<!--                <div class="gallery-grid">-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                    <div class="gallery-item">-->
+<!--                        <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Индивидуальный букет" class="gallery-image">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Подключение JavaScript файла для обработки формы &ndash;&gt;-->
+<!--<script src="/js/custom-bouquet.js"></script>-->
 
 
 

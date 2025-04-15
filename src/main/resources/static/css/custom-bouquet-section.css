@@ -217,3 +217,164 @@ textarea.form-control {
         margin-top: 30px;
     }
 }
+mode-toggle {
+    display: flex;
+    margin-bottom: 25px;
+    background-color: #f5f5f5;
+    border-radius: 30px;
+    padding: 5px;
+    width: fit-content;
+}
+
+.mode-btn {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background-color: #9d8664;
+    color: white;
+}
+
+/* Стили для статусов */
+.status-history {
+    margin-top: 25px;
+}
+
+.accordion {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #eee;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.accordion-header:hover {
+    background-color: #f0f0f0;
+}
+
+.status-date {
+    font-size: 14px;
+    color: #777;
+    min-width: 85px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-new {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.accordion-toggle i {
+    transition: transform 0.3s;
+}
+
+.accordion-item.active .accordion-toggle i {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.accordion-item.active .accordion-content {
+    padding: 15px;
+    max-height: 200px;
+}
+
+/* Стили для результата статуса */
+.status-result {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.status-current {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.status-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e3f2fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976d2;
+    font-size: 20px;
+}
+
+.status-info {
+    flex: 1;
+}
+
+.status-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.status-description {
+    color: #777;
+    font-size: 14px;
+}
+
+.view-history-toggle {
+    color: #9d8664;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-history-toggle i {
+    transition: transform 0.3s;
+}
+
+.view-history-toggle.active i {
+    transform: rotate(180deg);
+}
