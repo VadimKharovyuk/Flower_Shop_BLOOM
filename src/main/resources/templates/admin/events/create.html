@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Создание события | Админ-панель</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    .custom-file-label::after {
+      content: "Выбрать";
+    }
+    .preview-image {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- Здесь может быть боковое меню админки -->
+      <div class="list-group">
+        <a href="/admin/dashboard" class="list-group-item list-group-item-action">
+          <i class="fas fa-tachometer-alt mr-2"></i> Панель управления
+        </a>
+        <a href="/admin/events" class="list-group-item list-group-item-action active">
+          <i class="fas fa-calendar-alt mr-2"></i> События
+        </a>
+        <a href="/admin/products" class="list-group-item list-group-item-action">
+          <i class="fas fa-leaf mr-2"></i> Цветы и букеты
+        </a>
+        <a href="/admin/orders" class="list-group-item list-group-item-action">
+          <i class="fas fa-shopping-cart mr-2"></i> Заказы
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-plus-circle mr-2"></i> Создание нового события
+          </h5>
+        </div>
+        <div class="card-body">
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span th:text="${errorMessage}"></span>
+          </div>
+
+          <form th:action="@{/admin/events/create}" method="post" enctype="multipart/form-data" th:object="${event}">
+            <div class="form-group">
+              <label for="title">Название события <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="title" th:field="*{title}" required>
+              <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Описание <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="description" th:field="*{description}" rows="4" required></textarea>
+              <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="eventType">Тип события <span class="text-danger">*</span></label>
+                <select class="form-control" id="eventType" th:field="*{eventType}" required>
+                  <option value="">-- Выберите тип --</option>
+                  <option th:each="type : ${eventTypes}"
+                          th:value="${type}"
+                          th:text="${type.displayName}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('eventType')}" th:errors="*{eventType}"></div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="availableSeats">Количество мест <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="availableSeats" th:field="*{availableSeats}" min="1" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('availableSeats')}" th:errors="*{availableSeats}"></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="eventDate">Дата и время начала <span class="text-danger">*</span></label>
+                <input type="text" class="form-control flatpickr-datetime" id="eventDate"
+                       th:field="*{eventDate}"
+                       th:value="${event.eventDate != null ? #temporals.format(event.eventDate, 'yyyy-MM-dd HH:mm') : ''}"
+                       required>
+                <div class="text-danger" th:if="${#fields.hasErrors('eventDate')}" th:errors="*{eventDate}"></div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="durationMinutes">Продолжительность (минуты) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="durationMinutes" th:field="*{durationMinutes}" min="15" step="15" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('durationMinutes')}" th:errors="*{durationMinutes}"></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="price">Стоимость (₽)</label>
+                <input type="number" class="form-control" id="price" th:field="*{price}" min="0" step="100">
+                <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox mt-4">
+                  <input type="checkbox" class="custom-control-input" id="isFree" th:field="*{free}">
+                  <label class="custom-control-label" for="isFree">Бесплатное мероприятие</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mt-2">
+                  <input type="checkbox" class="custom-control-input" id="isFeatured" th:field="*{featured}">
+                  <label class="custom-control-label" for="isFeatured">Рекомендуемое событие</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="image">Изображение события</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image" name="image" accept="image/*">
+                <label class="custom-file-label" for="image">Выберите файл</label>
+              </div>
+              <small class="form-text text-muted">Рекомендуемый размер: 1200x800 пикселей</small>
+              <div id="imagePreviewContainer" class="mt-2" style="display: none;">
+                <img id="imagePreview" class="preview-image" src="#" alt="Предпросмотр изображения">
+              </div>
+            </div>
+
+            <div class="form-group mt-4">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save mr-2"></i> Создать событие
+              </button>
+              <a href="/admin/events" class="btn btn-secondary ml-2">
+                <i class="fas fa-times mr-2"></i> Отмена
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+<script>
+  $(document).ready(function() {
+    // Инициализация Flatpickr с русской локализацией
+    flatpickr(".flatpickr-datetime", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",  // Формат должен соответствовать "yyyy-MM-dd HH:mm"
+      time_24hr: true,
+      locale: "ru",
+      minuteIncrement: 15,
+      allowInput: true
+    });
+
+    // Обработка бесплатного события
+    $('#isFree').change(function() {
+      if($(this).is(':checked')) {
+        $('#price').val(0).prop('disabled', true);
+      } else {
+        $('#price').prop('disabled', false);
+      }
+    });
+
+    // Если при загрузке страницы "Бесплатное" отмечено
+    if($('#isFree').is(':checked')) {
+      $('#price').val(0).prop('disabled', true);
+    }
+
+    // Отображение имени выбранного файла
+    $('.custom-file-input').on('change', function() {
+      var fileName = $(this).val().split('\\').pop();
+      $(this).next('.custom-file-label').html(fileName);
+
+      // Предпросмотр изображения
+      if (this.files && this.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          $('#imagePreview').attr('src', e.target.result);
+          $('#imagePreviewContainer').show();
+        }
+
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+  });
+</script>
+</body>
+</html>

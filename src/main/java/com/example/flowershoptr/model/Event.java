@@ -10,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -44,8 +46,8 @@ public class Event {
     @Column(name = "preview_image_url", length = 500)
     private String previewImageUrl;
 
-    @Column
-    private Long photoId;
+    @Column(name = "image_public_id")
+    private String imagePublicId;
 
     @Column(name = "is_featured")
     private boolean isFeatured = false;
@@ -55,6 +57,14 @@ public class Event {
 
     @Column(name = "available_seats")
     private Integer availableSeats;
+
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventBooking> bookings = new ArrayList<>();
+
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+
 
     @CreationTimestamp
     @Column(updatable = false)
