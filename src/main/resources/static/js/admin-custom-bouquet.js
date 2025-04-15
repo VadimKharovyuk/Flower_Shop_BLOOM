@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.querySelector('.close');
     const updateStatusBtn = document.getElementById('updateStatusBtn');
 
+
     // ID текущей выбранной заявки
     let currentRequestId = null;
 
