@@ -398,17 +398,7 @@
     </div>
 
     <!-- Форма проверки бронирований по email -->
-    <div class="check-bookings-form" th:if="${bookings.empty && email == null}">
-      <h3 class="check-bookings-title">Проверить бронирования</h3>
-      <p>Введите ваш email, чтобы найти все ваши бронирования</p>
 
-      <form th:action="@{/events/booking/my}" method="get">
-        <div class="form-group">
-          <input type="email" name="email" class="form-control" placeholder="Введите ваш email" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Проверить</button>
-      </form>
-    </div>
   </div>
 </section>
 

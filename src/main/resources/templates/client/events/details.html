@@ -6,6 +6,7 @@
     <title th:text="${event.title} + ' - Описание события'">Искусство составления весенних букетов</title>
 
     <!-- Подключение шрифтов -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -412,12 +413,152 @@
                 margin-right: 0;
                 margin-bottom: 8px;
             }
+
+
+            .my-bookings-section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-family: 'Playfair Display', serif;
+                text-align: center;
+                margin-bottom: 30px;
+                color: var(--primary-color);
+            }
+
+            .email-form {
+                background-color: var(--secondary-color);
+                padding: 30px;
+                border-radius: 5px;
+                margin-bottom: 40px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            }
+
+            .email-form-title {
+                text-align: center;
+                margin-bottom: 20px;
+                color: var(--primary-color);
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 12px 15px;
+                border: 1px solid var(--light-gray);
+                border-radius: 3px;
+                font-size: 16px;
+                transition: var(--transition);
+            }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--accent-color);
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px 15px;
+                background-color: var(--accent-color);
+                color: white;
+                border: none;
+                border-radius: 3px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .btn:hover {
+                background-color: #b38b66;
+            }
+
+            .bookings-list {
+                background-color: var(--secondary-color);
+                padding: 30px;
+                border-radius: 5px;
+            }
+
+            .booking-card {
+                background-color: white;
+                border: 1px solid var(--light-gray);
+                margin-bottom: 20px;
+                padding: 20px;
+                border-radius: 5px;
+            }
+
+            .booking-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .booking-title {
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .booking-date {
+                color: #666;
+                font-size: 14px;
+            }
+
+            .booking-details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                font-size: 14px;
+            }
+
+            .booking-details-label {
+                color: #666;
+            }
+
+            .booking-details-value {
+                font-weight: 500;
+            }
+
+            .no-bookings {
+                text-align: center;
+                color: #666;
+                padding: 20px;
+                background-color: white;
+                border-radius: 5px;
+            }
+
+            @media (max-width: 576px) {
+                .booking-details {
+                    grid-template-columns: 1fr;
+                }
+            }
         }
     </style>
 </head>
 <body>
 <!-- Навигация -->
 <nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+
+
+<section class="my-bookings-section">
+    <div class="container">
+        <h1 class="section-title">Мои бронирования</h1>
+
+        <div class="email-form">
+            <h2 class="email-form-title">Введите email для просмотра бронирований</h2>
+            <form th:action="@{/events/booking/my}" method="get">
+                <div class="form-group">
+                    <input type="email" name="email" class="form-control"
+                           placeholder="Введите ваш email"
+                           required
+                           th:value="${email != null ? email : ''}">
+                </div>
+                <button type="submit" class="btn">Показать бронирования</button>
+            </form>
+        </div>
+    </div>
+</section>
 
 <!-- Секция деталей события -->
 <section class="event-details-section">

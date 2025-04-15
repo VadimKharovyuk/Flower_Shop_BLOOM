@@ -31,7 +31,7 @@ public class EventClientController {
     public String showEventsList(
             Model model,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size) {
+            @RequestParam(defaultValue = "9") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<EventListDto> eventListDtos = eventService.getAllEvents(pageable);
