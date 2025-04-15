@@ -629,33 +629,514 @@
         <p>Товары не найдены. Попробуйте изменить параметры фильтрации или вернуться позже.</p>
       </div>
 
-      <!-- Карточки товаров -->
-      <div class="product-card" th:each="flower : ${flowers}">
-        <div class="product-image">
-          <img th:src="${flower.getPreviewImageUrl()}" th:alt="${flower.name}">
-          <div class="product-overlay">
-            <div class="product-actions">
-              <a th:href="@{'/flowers/' + ${flower.id}}" class="view-product">
-                <i class="far fa-eye"></i>
-              </a>
-              <div class="action-icon wishlist" th:attr="data-id=${flower.id}">
-                <i class="far fa-heart"></i>
-              </div>
+            <!-- Карточки товаров -->
+        <div class="luxury-product-card" th:each="flower : ${flowers}" th:attr="data-product-id=${flower.id}">
+            <div class="luxury-product-image">
+                <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}" class="luxury-image">
+                <div class="luxury-product-overlay">
+                    <div class="luxury-product-actions">
+                        <a th:href="@{'/flowers/' + ${flower.id}}" class="luxury-view-btn">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <div class="luxury-wishlist-btn wishlist add-to-wishlist" th:attr="data-id=${flower.id}">
+                            <i class="far fa-heart"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="luxury-product-badges">
+                    <span class="luxury-badge" th:if="${flower.isNew()}">Новинка</span>
+                </div>
             </div>
-          </div>
-          <div class="product-badges">
-            <span class="product-badge" th:if="${flower.isNew()}">Новинка</span>
-          </div>
+            <div class="luxury-product-content">
+                <p class="luxury-product-category" th:if="${flower.categoryName != null}" th:text="${flower.categoryName}">Категория</p>
+                <h3 class="luxury-product-title">
+                    <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>
+                </h3>
+                <div class="luxury-product-footer">
+                    <div class="luxury-product-price" th:if="${flower.price != null}">
+                        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</span>
+                    </div>
+                    <button class="luxury-cart-btn add-to-cart">В корзину</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="product-info">
-          <h3 class="product-title">
-            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>
-          </h3>
-          <div class="product-price" th:if="${flower.getPrice() != null}">
-            <span th:text="${#numbers.formatDecimal(flower.getPrice(), 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</span>
-          </div>
-        </div>
-      </div>
+
+      <!-- JavaScript для обработки кнопок корзины -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              // Обработка кнопок "Добавить в корзину"
+              const cartButtons = document.querySelectorAll('.add-to-cart');
+              console.log('Найдено кнопок корзины:', cartButtons.length);
+
+              cartButtons.forEach(button => {
+                  button.addEventListener('click', function() {
+                      // Находим ID товара в родительском элементе
+                      const productCard = this.closest('.luxury-product-card');
+
+                      if (!productCard) {
+                          console.error('Не найден родительский элемент .luxury-product-card');
+                          showNotification('Ошибка при добавлении товара в корзину');
+                          return;
+                      }
+
+                      const productId = productCard.getAttribute('data-product-id') ||
+                          (productCard.querySelector('.luxury-wishlist-btn') ?
+                              productCard.querySelector('.luxury-wishlist-btn').getAttribute('data-id') : null);
+
+                      if (!productId) {
+                          console.error('Не удалось найти ID товара для добавления в корзину');
+                          showNotification('Ошибка при добавлении товара в корзину');
+                          return;
+                      }
+
+                      console.log('Добавление в корзину товара с ID:', productId);
+
+                      // Отправляем запрос на добавление товара в корзину
+                      fetch(`/cart/api/add?flowerId=${productId}`, {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                          }
+                      })
+                          .then(response => {
+                              if (response.ok) {
+                                  return response.json();
+                              }
+                              throw new Error('Ошибка при добавлении в корзину');
+                          })
+                          .then(data => {
+                              // Показываем уведомление
+                              showNotification('Товар добавлен в корзину');
+
+                              // Обновляем счетчик товаров в корзине
+                              updateCartCounter(data.totalItems);
+
+                              // Анимация кнопки для визуального подтверждения
+                              animateCartButton(this);
+                          })
+                          .catch(error => {
+                              console.error('Ошибка:', error);
+                              showNotification('Произошла ошибка при добавлении в корзину');
+                          });
+                  });
+              });
+
+              // Обработка кнопок "Добавить в избранное"
+              const wishlistButtons = document.querySelectorAll('.wishlist');
+              console.log('Найдено кнопок избранного:', wishlistButtons.length);
+
+              wishlistButtons.forEach(button => {
+                  const productId = button.getAttribute('data-id');
+                  const icon = button.querySelector('i');
+
+                  // Проверяем, есть ли товар в избранном при загрузке страницы
+                  checkIfInFavorites(productId, icon);
+
+                  button.addEventListener('click', function() {
+                      const productId = this.getAttribute('data-id');
+                      const icon = this.querySelector('i');
+
+                      // Отправляем запрос на изменение статуса товара в избранном
+                      fetch(`/favorites/api/toggle?flowerId=${productId}`, {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                          }
+                      })
+                          .then(response => {
+                              if (response.ok) {
+                                  return response.json();
+                              }
+                              throw new Error('Ошибка при обновлении избранного');
+                          })
+                          .then(data => {
+                              // Обновляем иконку в зависимости от статуса
+                              if (data.inFavorites) {
+                                  icon.classList.remove('far');
+                                  icon.classList.add('fas');
+                                  showNotification('Товар добавлен в избранное');
+                              } else {
+                                  icon.classList.remove('fas');
+                                  icon.classList.add('far');
+                                  showNotification('Товар удален из избранного');
+                              }
+
+                              // Обновляем счетчик товаров в избранном, если он есть на странице
+                              updateFavoritesCounter(data.totalItems);
+                          })
+                          .catch(error => {
+                              console.error('Ошибка:', error);
+                              showNotification('Произошла ошибка при обновлении избранного');
+                          });
+                  });
+              });
+
+              // Проверяет, находится ли товар в избранном
+              function checkIfInFavorites(productId, icon) {
+                  fetch(`/favorites/api/check?flowerId=${productId}`)
+                      .then(response => response.json())
+                      .then(data => {
+                          if (data.inFavorites) {
+                              icon.classList.remove('far');
+                              icon.classList.add('fas');
+                          } else {
+                              icon.classList.remove('fas');
+                              icon.classList.add('far');
+                          }
+                      })
+                      .catch(error => {
+                          console.error('Ошибка при проверке избранного:', error);
+                      });
+              }
+
+              // Обновляет счетчик товаров в избранном
+              function updateFavoritesCounter(count) {
+                  const counters = document.querySelectorAll('.favorites-counter');
+                  counters.forEach(counter => {
+                      counter.textContent = count;
+
+                      // Если счетчик равен 0, можно скрыть его
+                      if (count > 0) {
+                          counter.classList.remove('hidden');
+                      } else {
+                          counter.classList.add('hidden');
+                      }
+                  });
+
+                  // Также обновляем счетчик на странице избранного, если мы на ней
+                  const favoritesCount = document.getElementById('favorites-count');
+                  if (favoritesCount) {
+                      favoritesCount.textContent = count;
+                  }
+              }
+
+              // Анимация кнопки добавления в корзину
+              function animateCartButton(button) {
+                  button.classList.add('added');
+
+                  // Временно меняем текст кнопки
+                  const originalText = button.textContent;
+                  button.textContent = 'Добавлено';
+
+                  // Возвращаем исходное состояние через 1.5 секунды
+                  setTimeout(() => {
+                      button.classList.remove('added');
+                      button.textContent = originalText;
+                  }, 1500);
+              }
+
+              // Обновляет счетчик товаров в корзине
+              function updateCartCounter(count) {
+                  const counters = document.querySelectorAll('.cart-counter');
+                  counters.forEach(counter => {
+                      counter.textContent = count;
+
+                      // Если счетчик равен 0, можно скрыть его
+                      if (count > 0) {
+                          counter.classList.remove('hidden');
+                      } else {
+                          counter.classList.add('hidden');
+                      }
+                  });
+              }
+
+              // Функция показа уведомлений
+              function showNotification(message) {
+                  // Проверяем, существует ли уже уведомление, если да - удаляем его
+                  const existingNotification = document.querySelector('.notification');
+                  if (existingNotification) {
+                      existingNotification.remove();
+                  }
+
+                  // Создаем новое уведомление
+                  const notification = document.createElement('div');
+                  notification.className = 'notification';
+                  notification.innerHTML = message;
+                  document.body.appendChild(notification);
+
+                  // Анимация появления
+                  notification.style.opacity = '0';
+                  notification.style.transform = 'translateY(20px)';
+
+                  setTimeout(() => {
+                      notification.style.opacity = '1';
+                      notification.style.transform = 'translateY(0)';
+                  }, 10);
+
+                  // Удаляем уведомление через 3 секунды
+                  setTimeout(() => {
+                      notification.style.opacity = '0';
+                      notification.style.transform = 'translateY(20px)';
+                      setTimeout(() => {
+                          notification.remove();
+                      }, 300);
+                  }, 3000);
+              }
+
+              // Загружаем количество товаров в избранном при загрузке страницы
+              fetch('/favorites/api/count')
+                  .then(response => response.json())
+                  .then(data => {
+                      updateFavoritesCounter(data.count);
+                  })
+                  .catch(error => {
+                      console.error('Ошибка при получении количества товаров в избранном:', error);
+                  });
+          });
+      </script>
+
+      <!-- CSS для премиального минималистичного дизайна -->
+      <style>
+          .luxury-products-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+              gap: 30px;
+              margin: 40px 0;
+          }
+
+          .luxury-no-products {
+              grid-column: 1/-1;
+              text-align: center;
+              padding: 60px 0;
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 18px;
+              color: #6c6c6c;
+          }
+
+          .luxury-product-card {
+              background-color: #ffffff;
+              border-radius: 8px;
+              overflow: hidden;
+              box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+              transition: all 0.3s ease;
+              position: relative;
+          }
+
+          .luxury-product-card:hover {
+              transform: translateY(-5px);
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+          }
+
+          .luxury-product-image {
+              position: relative;
+              overflow: hidden;
+              aspect-ratio: 1 / 1;
+          }
+
+          .luxury-image {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.8s ease;
+          }
+
+          .luxury-product-card:hover .luxury-image {
+              transform: scale(1.05);
+          }
+
+          .luxury-product-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(to bottom, rgba(0,0,0,0) 70%, rgba(0,0,0,0.3) 100%);
+              opacity: 0;
+              transition: opacity 0.3s ease;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+          }
+
+          .luxury-product-card:hover .luxury-product-overlay {
+              opacity: 1;
+          }
+
+          .luxury-product-actions {
+              display: flex;
+              gap: 15px;
+          }
+
+          .luxury-view-btn, .luxury-wishlist-btn {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background-color: rgba(255, 255, 255, 0.9);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #333;
+              transition: all 0.3s ease;
+              cursor: pointer;
+              backdrop-filter: blur(2px);
+          }
+
+          .luxury-view-btn:hover, .luxury-wishlist-btn:hover {
+              background-color: #fff;
+              transform: scale(1.1);
+          }
+
+          .luxury-wishlist-btn.active i,
+          .luxury-wishlist-btn i.fas {
+              color: #e74c3c;
+          }
+
+          .luxury-product-badges {
+              position: absolute;
+              top: 15px;
+              left: 15px;
+              z-index: 2;
+          }
+
+          .luxury-badge {
+              display: inline-block;
+              padding: 5px 10px;
+              background-color: rgba(231, 76, 60, 0.9);
+              color: white;
+              font-size: 12px;
+              letter-spacing: 0.5px;
+              border-radius: 4px;
+              font-family: 'Montserrat', sans-serif;
+              font-weight: 500;
+          }
+
+          .luxury-product-content {
+              padding: 20px;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+          }
+
+          .luxury-product-category {
+              color: #a0a0a0;
+              font-size: 13px;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              margin: 0;
+              font-family: 'Montserrat', sans-serif;
+          }
+
+          .luxury-product-title {
+              margin: 0;
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 20px;
+              font-weight: 500;
+              line-height: 1.3;
+          }
+
+          .luxury-product-title a {
+              color: #333;
+              text-decoration: none;
+              transition: color 0.3s ease;
+          }
+
+          .luxury-product-title a:hover {
+              color: #9d8664;
+          }
+
+          .luxury-product-footer {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 10px;
+          }
+
+          .luxury-product-price {
+              font-family: 'Montserrat', sans-serif;
+              font-size: 18px;
+              font-weight: 600;
+              color: #333;
+          }
+
+          .luxury-cart-btn {
+              background-color: transparent;
+              border: 1px solid #9d8664;
+              color: #9d8664;
+              padding: 8px 15px;
+              border-radius: 4px;
+              font-size: 14px;
+              font-family: 'Montserrat', sans-serif;
+              cursor: pointer;
+              transition: all 0.3s ease;
+          }
+
+          .luxury-cart-btn:hover {
+              background-color: #9d8664;
+              color: white;
+          }
+
+          .luxury-cart-btn.added {
+              background-color: #4CAF50;
+              border-color: #4CAF50;
+              color: white;
+              transition: all 0.3s ease;
+          }
+
+          /* Стили для уведомлений */
+          .notification {
+              position: fixed;
+              bottom: 30px;
+              right: 30px;
+              background-color: #9d8664;
+              color: white;
+              padding: 12px 25px;
+              border-radius: 6px;
+              box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+              z-index: 1000;
+              font-family: 'Montserrat', sans-serif;
+              font-size: 14px;
+              transition: all 0.3s ease;
+          }
+
+          @media (max-width: 768px) {
+              .luxury-products-grid {
+                  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                  gap: 20px;
+              }
+
+              .luxury-product-title {
+                  font-size: 18px;
+              }
+
+              .luxury-product-price {
+                  font-size: 16px;
+              }
+
+              .luxury-cart-btn {
+                  padding: 6px 12px;
+                  font-size: 12px;
+              }
+          }
+      </style>
+
+      <!-- Карточки товаров -->
+<!--      <div class="product-card" th:each="flower : ${flowers}">-->
+<!--        <div class="product-image">-->
+<!--          <img th:src="${flower.getPreviewImageUrl()}" th:alt="${flower.name}">-->
+<!--          <div class="product-overlay">-->
+<!--            <div class="product-actions">-->
+<!--              <a th:href="@{'/flowers/' + ${flower.id}}" class="view-product">-->
+<!--                <i class="far fa-eye"></i>-->
+<!--              </a>-->
+<!--              <div class="action-icon wishlist" th:attr="data-id=${flower.id}">-->
+<!--                <i class="far fa-heart"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="product-badges">-->
+<!--            <span class="product-badge" th:if="${flower.isNew()}">Новинка</span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="product-info">-->
+<!--          <h3 class="product-title">-->
+<!--            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>-->
+<!--          </h3>-->
+<!--          <div class="product-price" th:if="${flower.getPrice() != null}">-->
+<!--            <span th:text="${#numbers.formatDecimal(flower.getPrice(), 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
     <!-- Пагинация -->

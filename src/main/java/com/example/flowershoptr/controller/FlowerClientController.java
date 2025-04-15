@@ -43,6 +43,8 @@ public class FlowerClientController {
         Pageable pageable = paginationUtils.createPageable(0, 4, "name", true);
         Page<FlowerListDTO> recommendedFlowers = flowerService.getFlowersByCategory(
                 flower.getCategory().getId(), pageable);
+
+
         model.addAttribute("recommendedFlowers", recommendedFlowers);
 
         return "client/flowers/view";
