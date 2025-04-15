@@ -606,108 +606,125 @@
 
 
 
-<div class="popular-categories-section">
-  <h2 class="section-title">Популярные категории</h2>
+<!-- Блок популярных категорий в стиле Luxury Minimalism -->
+<div class="luxury-categories-section">
+  <h2 class="luxury-section-title">Популярные категории</h2>
 
-  <div class="popular-categories-container">
-    <div class="popular-categories-grid" th:if="${!popularCategory.empty}">
-      <div class="popular-category-card" th:each="category : ${popularCategory}">
-        <a th:href="@{'/categories/' + ${category.id}}" class="category-link">
-          <div class="popular-category-image">
+  <div class="luxury-categories-container">
+    <div class="luxury-categories-grid" th:if="${!popularCategory.empty}">
+      <div class="luxury-category-card" th:each="category : ${popularCategory}">
+        <a th:href="@{'/categories/' + ${category.id}}" class="luxury-category-link">
+          <div class="luxury-category-image">
             <img th:src="${category.previewImageUrl != null ? category.previewImageUrl : '/img/category-placeholder.jpg'}"
                  th:alt="${category.name}">
-            <div class="popular-category-overlay">
-              <span class="view-category">Смотреть</span>
+            <div class="luxury-category-overlay">
+              <span class="luxury-view-category">Смотреть</span>
             </div>
           </div>
-          <div class="popular-category-info">
-            <h3 class="popular-category-name" th:text="${category.name}">Название категории</h3>
-            <p class="popular-category-products" th:text="${category.flowerCount + ' товаров'}">0 товаров</p>
-            <p class="popular-category-cart-count" th:text="${'Добавлено в корзину: ' + category.cartAddCount}">Добавлено в корзину: 0</p>
-            <span class="popular-category-description" th:text="${category.shortDescription}"></span>
+          <div class="luxury-category-info">
+            <h3 class="luxury-category-name" th:text="${category.name}">Название категории</h3>
+            <p class="luxury-category-products" th:text="${category.flowerCount + ' товаров'}">0 товаров</p>
+            <p class="luxury-category-cart-count" th:text="${'Добавлено в корзину: ' + category.cartAddCount}">Добавлено в корзину: 0</p>
+            <span class="luxury-category-description" th:text="${category.shortDescription}"></span>
           </div>
         </a>
       </div>
     </div>
 
-    <div class="no-popular-categories" th:if="${popularCategory.empty}">
+    <div class="luxury-no-categories" th:if="${popularCategory.empty}">
       <p>Популярные категории отсутствуют</p>
     </div>
   </div>
 </div>
 
-
-
+<!-- CSS для премиального минималистичного дизайна категорий -->
 <style>
-  .popular-categories-section {
-    padding: 3rem 0;
-    margin: 2rem 0;
+  /* Подключение шрифтов Cormorant Garamond (serif) и Montserrat (sans-serif) */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+  .luxury-categories-section {
+    padding: 60px 0;
+    margin: 20px 0;
   }
 
-  .section-title {
-    font-size: 2rem;
-    font-weight: 300;
+  .luxury-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 500;
     text-align: center;
-    margin-bottom: 2.5rem;
-    letter-spacing: 1px;
+    margin-bottom: 40px;
     color: #333;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 15px;
   }
 
-  .popular-categories-container {
+  .luxury-section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background-color: #9d8664;
+  }
+
+  .luxury-categories-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 15px;
   }
 
-  .popular-categories-grid {
+  .luxury-categories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    gap: 30px;
   }
 
-  .popular-category-card {
-    background-color: #fff;
-    border-radius: 4px;
+  .luxury-category-card {
+    background-color: #ffffff;
+    border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
   }
 
-  .popular-category-card:hover {
+  .luxury-category-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   }
 
-  .category-link {
-    display: block;
+  .luxury-category-link {
     text-decoration: none;
     color: inherit;
+    display: block;
   }
 
-  .popular-category-image {
+  .luxury-category-image {
     position: relative;
-    height: 220px;
     overflow: hidden;
+    aspect-ratio: 16 / 9;
   }
 
-  .popular-category-image img {
+  .luxury-category-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.8s ease;
   }
 
-  .popular-category-card:hover .popular-category-image img {
+  .luxury-category-card:hover .luxury-category-image img {
     transform: scale(1.05);
   }
 
-  .popular-category-overlay {
+  .luxury-category-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -715,72 +732,87 @@
     transition: opacity 0.3s ease;
   }
 
-  .popular-category-card:hover .popular-category-overlay {
+  .luxury-category-card:hover .luxury-category-overlay {
     opacity: 1;
   }
 
-  .view-category {
+  .luxury-view-category {
     color: white;
-    font-size: 0.9rem;
+    background-color: rgba(157, 134, 100, 0.9);
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
     letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 0.6rem 1.2rem;
-    border: 1px solid white;
-    background-color: rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
-  }
-
-  .view-category:hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-
-  .popular-category-info {
-    padding: 1.5rem;
-  }
-
-  .popular-category-name {
-    font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #222;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
   }
 
-  .popular-category-products {
-    font-size: 0.9rem;
-    color: #777;
-    margin-bottom: 0.5rem;
+  .luxury-category-card:hover .luxury-view-category {
+    transform: translateY(0);
   }
 
-  .popular-category-cart-count {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.75rem;
+  .luxury-category-info {
+    padding: 20px;
   }
 
-  .popular-category-description {
-    font-size: 0.9rem;
+  .luxury-category-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: #333;
+  }
+
+  .luxury-category-products {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #9d8664;
+    margin: 10px 0 5px;
+    font-weight: 500;
+  }
+
+  .luxury-category-cart-count {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
     color: #666;
-    line-height: 1.5;
+    margin: 5px 0 10px;
+  }
+
+  .luxury-category-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #777;
+    display: block;
+    margin-top: 10px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .no-popular-categories {
+  .luxury-no-categories {
     text-align: center;
-    padding: 2rem;
-    color: #777;
+    padding: 40px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: #666;
   }
 
   @media (max-width: 768px) {
-    .popular-categories-grid {
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
+    .luxury-categories-grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
     }
 
-    .popular-category-image {
-      height: 180px;
+    .luxury-section-title {
+      font-size: 28px;
+    }
+
+    .luxury-category-name {
+      font-size: 20px;
     }
   }
 </style>
