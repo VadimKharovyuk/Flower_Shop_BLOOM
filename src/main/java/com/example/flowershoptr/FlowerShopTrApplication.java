@@ -16,4 +16,9 @@ public class FlowerShopTrApplication {
     ///добавить кнопку _добавить в избарное  в фото по id
 
     ///
+
+
+    ///      docker-compose up -d
+
+    ///   mvn clean package -DskipTests
 }
