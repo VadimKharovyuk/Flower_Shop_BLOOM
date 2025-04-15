@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -70,6 +71,14 @@ public class Flower {
 
     @Column(name = "average_rating")
     private Double averageRating; // средний рейтнг
+
+
+
+    // Добавляем связь со специальными предложениями
+    @ManyToMany(mappedBy = "applicableFlowers")
+    private List<SpecialOffer> specialOffers = new ArrayList<>();
+
+
 
     @Column(updatable = false)
     @CreationTimestamp
