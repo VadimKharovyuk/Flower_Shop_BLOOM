@@ -49,7 +49,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventListDto> getFeaturedEvents() {
+    public List<EventListDto> getFeaturedEvents(int limit) {
         List<Event> events = eventRepository.findByIsFeaturedTrueAndIsActiveTrue();
         return eventMapper.toListDto(events);
     }

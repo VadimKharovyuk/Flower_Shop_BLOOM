@@ -16,4 +16,5 @@ public class EventListDto {
     private String previewImageUrl;
     private boolean isFeatured;
     private Integer availableSeats;
+    private String description;
 }

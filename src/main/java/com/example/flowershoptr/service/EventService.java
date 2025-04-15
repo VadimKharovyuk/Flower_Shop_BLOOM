@@ -20,7 +20,7 @@ public interface EventService {
     // Сохраним также методы без пагинации для случаев, когда нужны все данные
     List<EventListDto> getAllEvents();
 
-    List<EventListDto> getFeaturedEvents();
+    List<EventListDto> getFeaturedEvents(int limit);
 
     EventDetailsDto getEventById(Long id);
 

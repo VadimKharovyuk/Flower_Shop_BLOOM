@@ -27,6 +27,7 @@ public class EventMapper {
         dto.setPreviewImageUrl(event.getPreviewImageUrl());
         dto.setFeatured(event.isFeatured());
         dto.setAvailableSeats(event.getAvailableSeats());
+        dto.setDescription(event.getDescription());
         return dto;
     }
 

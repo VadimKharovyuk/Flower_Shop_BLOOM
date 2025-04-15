@@ -1,10 +1,12 @@
 package com.example.flowershoptr.controller;
 
+import com.example.flowershoptr.dto.Event.EventListDto;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.FlowerSearchDTO;
 import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.service.CategoryService;
+import com.example.flowershoptr.service.EventService;
 import com.example.flowershoptr.service.FlowerService;
 import com.example.flowershoptr.util.PaginationUtils;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class Home {
     private final FlowerService flowerService;
     private final CategoryService categoryService;
+    private final EventService eventService;
 
 
 
@@ -51,6 +54,12 @@ public class Home {
 
         String s = session.getId();
         System.out.println("HttpSession создалась с номером " + s);
+
+
+
+        List<EventListDto> listDtoPage = eventService.getFeaturedEvents(3);
+        model.addAttribute("eventList", listDtoPage);
+
 
         return "home";
     }
