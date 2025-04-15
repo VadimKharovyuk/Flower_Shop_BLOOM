@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Фрагмент для секции header в стиле Luxury Minimalism -->
+</head>
+<body>
+
+<!-- Фрагмент header, который можно включить на любую страницу -->
+<header th:fragment="bloom-header(heroImage, heroTitle, heroSubtitle)" class="bloom-hero-header">
+  <div class="bloom-hero-overlay"></div>
+  <div class="bloom-hero-image" th:style="${heroImage != null} ? 'background-image: url(' + ${heroImage} + ');' : 'background-image: url(/img/hero-default.webp);'"></div>
+  <div class="bloom-container">
+    <div class="bloom-hero-content">
+      <h1 class="bloom-hero-title" th:text="${heroTitle != null} ? ${heroTitle} : 'Создаем неповторимые цветочные истории'">Создаем неповторимые цветочные истории</h1>
+      <p class="bloom-hero-subtitle" th:text="${heroSubtitle != null} ? ${heroSubtitle} : 'Откройте для себя мир изысканных букетов и цветочных композиций, созданных с любовью и вниманием к каждой детали'">Откройте для себя мир изысканных букетов и цветочных композиций, созданных с любовью и вниманием к каждой детали</p>
+      <div class="bloom-hero-buttons">
+        <a href="/categories" class="bloom-button bloom-button-primary">В каталог</a>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+<!-- CSS фрагмент -->
+<th:block th:fragment="bloom-header-css">
+  <style>
+    /* Импорт шрифтов */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+    /* Переменные */
+    :root {
+      --primary-color: #9A8478;
+      --secondary-color: #E8E4E0;
+      --accent-color: #D6AD60;
+      --text-color: #2C2C2C;
+      --light-text: #6C6C6C;
+      --background: #FAFAFA;
+      --white: #FFFFFF;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+    }
+
+    /* Базовые стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-color);
+      background-color: var(--background);
+      line-height: 1.6;
+    }
+
+    .bloom-container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Hero Header стили */
+    .bloom-hero-header {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background-color: var(--secondary-color);
+      overflow: hidden;
+    }
+
+    .bloom-hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(250,250,250,0.9) 30%, rgba(250,250,250,0) 70%);
+      z-index: 1;
+    }
+
+    .bloom-hero-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .bloom-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .bloom-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+      animation: fadeInUp 1s ease;
+    }
+
+    .bloom-hero-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      color: var(--light-text);
+      animation: fadeInUp 1s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .bloom-hero-buttons {
+      display: flex;
+      gap: 1rem;
+      animation: fadeInUp 1s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .bloom-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .bloom-button-primary {
+      background-color: var(--accent-color);
+      color: var(--white);
+      border: 1px solid var(--accent-color);
+    }
+
+    .bloom-button-primary:hover {
+      background-color: transparent;
+      color: var(--accent-color);
+    }
+
+    .bloom-button-outline {
+      background-color: transparent;
+      color: var(--text-color);
+      border: 1px solid var(--text-color);
+    }
+
+    .bloom-button-outline:hover {
+      background-color: var(--text-color);
+      color: var(--white);
+    }
+
+    /* Анимации */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 992px) {
+      .bloom-hero-title {
+        font-size: 3.5rem;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .bloom-hero-title {
+        font-size: 3rem;
+      }
+
+      .bloom-hero-image {
+        clip-path: none;
+        opacity: 0.2;
+        width: 100%;
+      }
+
+      .bloom-hero-overlay {
+        background: rgba(250,250,250,0.7);
+      }
+
+      .bloom-hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .bloom-hero-buttons {
+        justify-content: center;
+      }
+    }
+
+    @media screen and (max-width: 576px) {
+      .bloom-hero-title {
+        font-size: 2.5rem;
+      }
+
+      .bloom-hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .bloom-hero-buttons {
+        flex-direction: column;
+      }
+
+      .bloom-button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</th:block>
+
+
+
+<
+
+<!-- Пример использования фрагмента -->
+<div th:remove="tag">
+  <!-- Пример 1: Базовое использование с настройками по умолчанию -->
+  <div th:replace="~{::bloom-header}"></div>
+
+  <!-- Пример 2: C передачей параметров -->
+  <div th:replace="~{::bloom-header('/img/custom-hero.webp', 'Ваш заголовок', 'Ваш подзаголовок')}"></div>
+
+
+</div>
+
+</body>
+</html>

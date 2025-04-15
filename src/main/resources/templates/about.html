@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bloom</title>
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/luxe-header ::luxe-header-css}"></style>
+    <link rel="stylesheet" href="/css/about.css">
+
+
+
+    <th:block th:replace="~{client/fragments/bloom-header :: bloom-header-css}"></th:block>
+</head>
+<body>
+
+<!-- Навигация (подключенная извне) -->
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+
+<!--&lt;!&ndash; Базовое использование с настройками по умолчанию &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/bloom-header :: bloom-header}"></div>-->
+
+<!-- С передачей собственных параметров -->
+<!-- Вариант 1: Правильный путь к файлу фрагмента -->
+<div th:replace="~{client/fragments/bloom-header :: bloom-header('/img/IMG_0744.webp', 'Добро пожаловать в BLOOM', 'Откройте для себя наши премиальные букеты')}"></div>
+
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+
+<!-- About Section - Расширенная -->
+<section class="bloom-about-section">
+    <div class="bloom-container">
+        <div class="bloom-about-container">
+            <div class="bloom-about-image"></div>
+            <div class="bloom-about-content">
+                <h2 class="bloom-about-heading">О нашем магазине</h2>
+                <p class="bloom-about-paragraph">BLOOM — это премиальный цветочный бутик, созданный для тех, кто ценит красоту и изысканность. Мы работаем с лучшими поставщиками цветов, чтобы предложить вам только свежие и качественные растения.</p>
+                <p class="bloom-about-paragraph">Наши флористы — настоящие мастера своего дела, которые создают уникальные композиции для любого события: от романтического свидания до корпоративного мероприятия.</p>
+
+                <div class="bloom-features-grid">
+                    <div class="bloom-feature-item">
+                        <div class="bloom-feature-icon"><i class="fas fa-truck"></i></div>
+                        <div class="bloom-feature-content">
+                            <h5>Быстрая доставка</h5>
+                            <p>Доставим ваш заказ в течение 2 часов по городу</p>
+                        </div>
+                    </div>
+
+                    <div class="bloom-feature-item">
+                        <div class="bloom-feature-icon"><i class="fas fa-leaf"></i></div>
+                        <div class="bloom-feature-content">
+                            <h5>Свежие цветы</h5>
+                            <p>Работаем только с проверенными поставщиками</p>
+                        </div>
+                    </div>
+
+                    <div class="bloom-feature-item">
+                        <div class="bloom-feature-icon"><i class="fas fa-paint-brush"></i></div>
+                        <div class="bloom-feature-content">
+                            <h5>Уникальный дизайн</h5>
+                            <p>Создаем авторские букеты для любого события</p>
+                        </div>
+                    </div>
+
+                    <div class="bloom-feature-item">
+                        <div class="bloom-feature-icon"><i class="fas fa-medal"></i></div>
+                        <div class="bloom-feature-content">
+                            <h5>Гарантия качества</h5>
+                            <p>7 дней гарантии свежести на все букеты</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Почему стоит выбрать BLOOM -->
+<section class="section why-choose-us">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают BLOOM</h2>
+        <p class="section-subtitle">Мы делаем всё, чтобы превзойти ваши ожидания</p>
+
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3 class="advantage-title">Премиальное качество</h3>
+                <p class="advantage-text">Мы отбираем только самые свежие и качественные цветы для наших букетов. Каждый цветок проходит тщательный отбор перед тем, как попасть в наш магазин.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="advantage-title">Авторский дизайн</h3>
+                <p class="advantage-text">Флористы BLOOM создают неповторимые композиции, которые становятся настоящими произведениями искусства. Каждый букет уникален и создаётся с любовью к деталям.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3 class="advantage-title">Бережная доставка</h3>
+                <p class="advantage-text">Мы заботимся о сохранности каждого букета. Специальная упаковка и бережная транспортировка гарантируют, что цветы прибудут к вам в идеальном состоянии.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="advantage-title">Персональный подход</h3>
+                <p class="advantage-text">Мы стремимся учесть все ваши пожелания и создать букет, который будет идеально соответствовать поводу и вкусу получателя.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="advantage-title">Оперативность</h3>
+                <p class="advantage-text">Мы ценим ваше время. Заказы принимаются 24/7, а срочная доставка осуществляется в течение 2 часов по всему городу.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="advantage-title">Любовь к своему делу</h3>
+                <p class="advantage-text">Наша команда по-настоящему любит цветы и свою работу. Это чувство мы вкладываем в каждый созданный букет.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- История бренда BLOOM -->
+<section class="section brand-story">
+    <div class="container">
+        <div class="story-container">
+            <div class="story-content">
+                <h2 class="story-title">История BLOOM</h2>
+                <div class="story-divider"></div>
+                <p class="story-text">История BLOOM началась в 2015 году, когда основательница бренда Елена Соколова, профессиональный флорист с более чем 10-летним опытом, решила создать цветочный бутик нового формата, который бы сочетал в себе европейский подход к флористике и уникальный авторский стиль.</p>
+                <p class="story-text">Первый небольшой магазин BLOOM открылся в центре города и сразу привлек внимание ценителей красоты и изысканности. Особый стиль, внимание к деталям и высокое качество цветов быстро сделали BLOOM популярным среди горожан.</p>
+                <p class="story-text">С каждым годом команда BLOOM росла, привлекая лучших флористов города. Мы совершенствовали свое мастерство, экспериментировали с новыми техниками и материалами, создавая уникальные композиции, которые становились частью важных событий в жизни наших клиентов.</p>
+                <p class="story-text">Сегодня BLOOM — это не просто цветочный магазин, а настоящий бренд с собственной философией и ценностями. Мы продолжаем развиваться, сохраняя при этом верность нашему главному принципу — создавать букеты и композиции, которые вызывают искренние эмоции и становятся запоминающимися подарками.</p>
+
+                <div class="story-milestones">
+                    <div class="milestone">
+                        <div class="milestone-year">2015</div>
+                        <div class="milestone-content">
+                            <h4 class="milestone-title">Открытие первого бутика</h4>
+                            <p class="milestone-text">Открытие первого магазина BLOOM в центре города.</p>
+                        </div>
+                    </div>
+
+                    <div class="milestone">
+                        <div class="milestone-year">2017</div>
+                        <div class="milestone-content">
+                            <h4 class="milestone-title">Запуск службы доставки</h4>
+                            <p class="milestone-text">Запуск собственной службы доставки цветов.</p>
+                        </div>
+                    </div>
+
+                    <div class="milestone">
+                        <div class="milestone-year">2019</div>
+                        <div class="milestone-content">
+                            <h4 class="milestone-title">Расширение сети</h4>
+                            <p class="milestone-text">Открытие трех новых бутиков в крупных торговых центрах города.</p>
+                        </div>
+                    </div>
+
+                    <div class="milestone">
+                        <div class="milestone-year">2021</div>
+                        <div class="milestone-content">
+                            <h4 class="milestone-title">Запуск онлайн-магазина</h4>
+                            <p class="milestone-text">Запуск полноценного онлайн-магазина с удобным каталогом.</p>
+                        </div>
+                    </div>
+
+                    <div class="milestone">
+                        <div class="milestone-year">2023</div>
+                        <div class="milestone-content">
+                            <h4 class="milestone-title">Flower School</h4>
+                            <p class="milestone-text">Открытие Школы флористики BLOOM для всех желающих.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="story-image">
+                <img src="/img/wedding-couple.jpg" alt="История бренда BLOOM" class="story-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Наш Сервис -->
+<section class="section our-service">
+    <div class="container">
+        <h2 class="section-title">Наш сервис</h2>
+        <p class="section-subtitle">Мы предлагаем полный спектр флористических услуг</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3 class="service-title">Индивидуальные заказы</h3>
+                <p class="service-text">Создаем букеты и композиции по вашим пожеланиям с учетом бюджета, повода и предпочтений получателя.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3 class="service-title">Оформление подарков</h3>
+                <p class="service-text">Стильная упаковка подарков с использованием премиальных материалов и добавлением цветочных акцентов.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-glass-cheers"></i>
+                </div>
+                <h3 class="service-title">Оформление мероприятий</h3>
+                <p class="service-text">Полное цветочное оформление свадеб, дней рождения, корпоративных и других мероприятий.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3 class="service-title">Оформление интерьеров</h3>
+                <p class="service-text">Создание цветочных композиций для декора домов, офисов, ресторанов и других помещений.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 class="service-title">Мастер-классы</h3>
+                <p class="service-text">Проводим групповые и индивидуальные мастер-классы по флористике для начинающих и продвинутых.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3 class="service-title">Подписка на цветы</h3>
+                <p class="service-text">Регулярная доставка свежих букетов для вашего дома или офиса с индивидуальной периодичностью.</p>
+                <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:fragment="footer-example">
+    <!-- Подключение CSS для футера -->
+    <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+    <!-- Подключение футера -->
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
+</div>
+
+</body>
+</html>
