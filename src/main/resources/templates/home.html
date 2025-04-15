@@ -1237,7 +1237,7 @@
                     <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>
                     <div class="event-footer">
                         <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
-                        <a th:href="@{/events/{id}/booking(id=${event.id})}" class="event-button" th:text="${event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
+                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
                     </div>
                 </div>
             </div>

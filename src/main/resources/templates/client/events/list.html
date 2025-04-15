@@ -1,10 +1,847 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>События и мастер-классы</title>-->
+
+<!--    &lt;!&ndash; Подключение шрифтов &ndash;&gt;-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Font Awesome для иконок &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">-->
+
+<!--    &lt;!&ndash; Подключение стилей навигации &ndash;&gt;-->
+<!--    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>-->
+<!--    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>-->
+<!--    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>-->
+
+<!--    &lt;!&ndash; Собственные стили страницы &ndash;&gt;-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #1a1a1a;-->
+<!--            &#45;&#45;secondary-color: #f5f5f5;-->
+<!--            &#45;&#45;accent-color: #c9a980;-->
+<!--            &#45;&#45;text-color: #333333;-->
+<!--            &#45;&#45;light-gray: #e0e0e0;-->
+<!--            &#45;&#45;transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Montserrat', sans-serif;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            background-color: #ffffff;-->
+<!--            line-height: 1.6;-->
+<!--        }-->
+
+<!--        h1, h2, h3, h4, h5 {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
+
+<!--        /* События */-->
+<!--        .events-section {-->
+<!--            padding: 40px 0 80px;-->
+<!--        }-->
+
+<!--        .section-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 42px;-->
+<!--            font-weight: 500;-->
+<!--            margin-bottom: 15px;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .section-subtitle {-->
+<!--            font-size: 16px;-->
+<!--            color: #777;-->
+<!--            text-align: center;-->
+<!--            max-width: 700px;-->
+<!--            margin: 0 auto 50px;-->
+<!--            font-weight: 300;-->
+<!--            line-height: 1.8;-->
+<!--        }-->
+
+<!--        /* Сетка из 3 колонок */-->
+<!--        .events-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(3, 1fr);-->
+<!--            gap: 30px;-->
+<!--            margin-bottom: 50px;-->
+<!--        }-->
+
+<!--        .event-card {-->
+<!--            background-color: white;-->
+<!--            border-radius: 0;-->
+<!--            overflow: hidden;-->
+<!--            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--            position: relative;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .event-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .event-image-container {-->
+<!--            width: 100%;-->
+<!--            height: 220px;-->
+<!--            position: relative;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .event-image {-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            object-fit: cover;-->
+<!--            transition: transform 0.8s ease;-->
+<!--        }-->
+
+<!--        .event-card:hover .event-image {-->
+<!--            transform: scale(1.05);-->
+<!--        }-->
+
+<!--        .event-date {-->
+<!--            position: absolute;-->
+<!--            bottom: 15px;-->
+<!--            left: 15px;-->
+<!--            background-color: white;-->
+<!--            padding: 12px 15px;-->
+<!--            text-align: center;-->
+<!--            min-width: 70px;-->
+<!--            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .event-day {-->
+<!--            display: block;-->
+<!--            font-size: 22px;-->
+<!--            font-weight: 600;-->
+<!--            line-height: 1;-->
+<!--            margin-bottom: 5px;-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .event-month {-->
+<!--            display: block;-->
+<!--            font-size: 12px;-->
+<!--            text-transform: uppercase;-->
+<!--            letter-spacing: 1px;-->
+<!--            color: #777;-->
+<!--        }-->
+
+<!--        .event-content {-->
+<!--            padding: 25px;-->
+<!--            flex-grow: 1;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .event-meta {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            margin-bottom: 15px;-->
+<!--            font-size: 13px;-->
+<!--            color: #777;-->
+<!--        }-->
+
+<!--        .event-time {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .event-time i {-->
+<!--            margin-right: 6px;-->
+<!--        }-->
+
+<!--        .event-type {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            padding: 4px 10px;-->
+<!--            border-radius: 2px;-->
+<!--            font-weight: 500;-->
+<!--            font-size: 12px;-->
+<!--            text-transform: uppercase;-->
+<!--            letter-spacing: 0.5px;-->
+<!--        }-->
+
+<!--        .event-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 20px;-->
+<!--            margin-bottom: 12px;-->
+<!--            line-height: 1.4;-->
+<!--            font-weight: 500;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .event-description {-->
+<!--            font-size: 14px;-->
+<!--            color: #666;-->
+<!--            margin-bottom: 20px;-->
+<!--            line-height: 1.6;-->
+<!--            flex-grow: 1;-->
+<!--        }-->
+
+<!--        .event-footer {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            padding-top: 15px;-->
+<!--            border-top: 1px solid var(&#45;&#45;light-gray);-->
+<!--            margin-top: auto;-->
+<!--        }-->
+
+<!--        .event-price {-->
+<!--            font-weight: 600;-->
+<!--            font-size: 18px;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .event-button {-->
+<!--            background-color: transparent;-->
+<!--            color: var(&#45;&#45;accent-color);-->
+<!--            border: 1px solid var(&#45;&#45;accent-color);-->
+<!--            padding: 10px 15px;-->
+<!--            font-size: 13px;-->
+<!--            text-transform: uppercase;-->
+<!--            letter-spacing: 1px;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--            text-decoration: none;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .event-button:hover {-->
+<!--            background-color: var(&#45;&#45;accent-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Специальные стили для избранных событий */-->
+<!--        .featured-event {-->
+<!--            grid-column: span 3;-->
+<!--            display: flex;-->
+<!--            flex-direction: row;-->
+<!--            background-color: #faf8f5;-->
+<!--            border-left: 3px solid var(&#45;&#45;accent-color);-->
+<!--        }-->
+
+<!--        .featured-event .event-image-container {-->
+<!--            width: 350px;-->
+<!--            height: 280px;-->
+<!--            flex-shrink: 0;-->
+<!--        }-->
+
+<!--        .featured-event .event-content {-->
+<!--            flex-grow: 1;-->
+<!--            padding: 30px;-->
+<!--        }-->
+
+<!--        /* Pagination */-->
+<!--        .pagination-container {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            margin-top: 50px;-->
+<!--        }-->
+
+<!--        .pagination {-->
+<!--            display: flex;-->
+<!--            list-style: none;-->
+<!--            padding: 0;-->
+<!--            margin: 0;-->
+<!--        }-->
+
+<!--        .page-item {-->
+<!--            margin: 0 5px;-->
+<!--        }-->
+
+<!--        .page-link {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            width: 40px;-->
+<!--            height: 40px;-->
+<!--            border: 1px solid var(&#45;&#45;light-gray);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            text-decoration: none;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .page-link:hover {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--        }-->
+
+<!--        .page-item.active .page-link {-->
+<!--            background-color: var(&#45;&#45;accent-color);-->
+<!--            color: white;-->
+<!--            border-color: var(&#45;&#45;accent-color);-->
+<!--        }-->
+
+<!--        .page-item.disabled .page-link {-->
+<!--            color: #ccc;-->
+<!--            pointer-events: none;-->
+<!--        }-->
+
+<!--        /* Адаптивность */-->
+<!--        @media (max-width: 992px) {-->
+<!--            .events-grid {-->
+<!--                grid-template-columns: repeat(2, 1fr);-->
+<!--            }-->
+
+<!--            .featured-event {-->
+<!--                grid-column: span 2;-->
+<!--            }-->
+
+<!--            .featured-event .event-image-container {-->
+<!--                width: 300px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .section-title {-->
+<!--                font-size: 36px;-->
+<!--            }-->
+
+<!--            .events-grid {-->
+<!--                grid-template-columns: 1fr;-->
+<!--            }-->
+
+<!--            .featured-event {-->
+<!--                grid-column: span 1;-->
+<!--                flex-direction: column;-->
+<!--            }-->
+
+<!--            .featured-event .event-image-container {-->
+<!--                width: 100%;-->
+<!--                height: 230px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 576px) {-->
+<!--            .event-content {-->
+<!--                padding: 20px;-->
+<!--            }-->
+
+<!--            .section-title {-->
+<!--                font-size: 32px;-->
+<!--            }-->
+
+<!--            .event-image-container {-->
+<!--                height: 200px;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash; Навигация &ndash;&gt;-->
+<!--<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>-->
+
+<!--&lt;!&ndash; Героический заголовок &ndash;&gt;-->
+<!--<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}" class="luxe-header centered"></div>-->
+
+<!--&lt;!&ndash; Секция событий &ndash;&gt;-->
+<!--<section class="events-section">-->
+<!--    <div class="container">-->
+<!--        <div class="events-grid">-->
+<!--            <div th:each="event : ${eventListDtos.content}" th:class="${event.isFeatured} ? 'event-card featured-event' : 'event-card'">-->
+<!--                <div class="event-image-container">-->
+<!--                    <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">-->
+<!--                    <div class="event-date">-->
+<!--                        <span class="event-day" th:text="${#temporals.format(event.eventDate, 'd')}">12</span>-->
+<!--                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">мая</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="event-content">-->
+<!--                    <div class="event-meta">-->
+<!--                            <span class="event-time">-->
+<!--                                <i class="far fa-clock"></i>-->
+<!--                                <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>-->
+<!--                            </span>-->
+<!--                        <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h3>-->
+<!--                    <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>-->
+<!--                    <div class="event-footer">-->
+<!--                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>-->
+<!--                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Пагинация &ndash;&gt;-->
+<!--        <div class="pagination-container" th:if="${eventListDtos.totalPages > 1}">-->
+<!--            <ul class="pagination">-->
+<!--                <li class="page-item" th:classappend="${eventListDtos.first} ? 'disabled' : ''">-->
+<!--                    <a class="page-link" th:href="@{/events(page=${eventListDtos.number - 1})}" aria-label="Previous">-->
+<!--                        <i class="fas fa-chevron-left"></i>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:each="i : ${#numbers.sequence(0, eventListDtos.totalPages - 1)}"-->
+<!--                    th:classappend="${i == eventListDtos.number} ? 'active' : ''">-->
+<!--                    <a class="page-link" th:href="@{/events(page=${i})}" th:text="${i + 1}">1</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:classappend="${eventListDtos.last} ? 'disabled' : ''">-->
+<!--                    <a class="page-link" th:href="@{/events(page=${eventListDtos.number + 1})}" aria-label="Next">-->
+<!--                        <i class="fas fa-chevron-right"></i>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; JavaScript для навигации &ndash;&gt;-->
+<!--<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События и мастер-классы</title>
+
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Подключение стилей навигации -->
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+
+    <!-- Собственные стили страницы -->
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #f5f5f5;
+            --accent-color: #c9a980;
+            --text-color: #333333;
+            --light-gray: #e0e0e0;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* События */
+        .events-section {
+            padding: 40px 0 80px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* Сетка из 3 колонок */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .event-card {
+            background-color: white;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-image-container {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .event-card:hover .event-image {
+            transform: scale(1.05);
+        }
+
+        .event-date {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background-color: white;
+            padding: 12px 15px;
+            text-align: center;
+            min-width: 70px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-day {
+            display: block;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+        }
+
+        .event-month {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #777;
+        }
+
+        .event-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .event-time {
+            display: flex;
+            align-items: center;
+        }
+
+        .event-time i {
+            margin-right: 6px;
+        }
+
+        .event-type {
+            background-color: var(--secondary-color);
+            padding: 4px 10px;
+            border-radius: 2px;
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .event-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+        }
+
+        .event-price {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .event-button {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 10px 15px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .event-button:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Специальные стили для избранных событий */
+        .featured-event {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: row;
+            background-color: #faf8f5;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .featured-event .event-image-container {
+            width: 350px;
+            height: 280px;
+            flex-shrink: 0;
+        }
+
+        .featured-event .event-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page-item {
+            margin: 0 5px;
+        }
+
+        .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--light-gray);
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .page-link:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .page-item.disabled .page-link {
+            color: #ccc;
+            pointer-events: none;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .events-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .featured-event {
+                grid-column: span 2;
+            }
+
+            .featured-event .event-image-container {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 36px;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-event {
+                grid-column: span 1;
+                flex-direction: column;
+            }
+
+            .featured-event .event-image-container {
+                width: 100%;
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .event-content {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .event-image-container {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
+<!-- Навигация -->
+<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
 
+<!-- Героический заголовок -->
+<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}" class="luxe-header centered"></div>
+
+<!-- Секция событий -->
+<section class="events-section">
+    <div class="container">
+        <!-- Первые отображаем избранные события, которые занимают всю ширину -->
+        <div class="events-grid">
+            <!-- Сначала отображаем избранные события -->
+            <div th:each="event : ${eventListDtos.content}" th:if="${event.isFeatured}"
+                 class="event-card featured-event">
+                <div class="event-image-container">
+                    <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
+                    <div class="event-date">
+                        <span class="event-day" th:text="${#temporals.format(event.eventDate, 'd')}">12</span>
+                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">мая</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <div class="event-meta">
+                        <span class="event-time">
+                            <i class="far fa-clock"></i>
+                            <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>
+                        </span>
+                        <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
+                    </div>
+                    <h3 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h3>
+                    <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>
+                    <div class="event-footer">
+                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
+                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Затем отображаем обычные события в отдельной сетке -->
+        <div class="events-grid">
+            <div th:each="event : ${eventListDtos.content}" th:unless="${event.isFeatured}"
+                 class="event-card">
+                <div class="event-image-container">
+                    <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
+                    <div class="event-date">
+                        <span class="event-day" th:text="${#temporals.format(event.eventDate, 'd')}">12</span>
+                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">мая</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <div class="event-meta">
+                        <span class="event-time">
+                            <i class="far fa-clock"></i>
+                            <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>
+                        </span>
+                        <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
+                    </div>
+                    <h3 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h3>
+                    <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>
+                    <div class="event-footer">
+                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
+                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пагинация -->
+        <div class="pagination-container" th:if="${eventListDtos.totalPages > 1}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${eventListDtos.first} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/events(page=${eventListDtos.number - 1}, size=${eventListDtos.size})}" aria-label="Previous">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, eventListDtos.totalPages - 1)}"
+                    th:classappend="${i == eventListDtos.number} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/events(page=${i}, size=${eventListDtos.size})}" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${eventListDtos.last} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/events(page=${eventListDtos.number + 1}, size=${eventListDtos.size})}" aria-label="Next">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript для навигации -->
+<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
 </body>
 </html>

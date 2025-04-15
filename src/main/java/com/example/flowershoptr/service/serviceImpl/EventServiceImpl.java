@@ -43,11 +43,6 @@ public class EventServiceImpl implements EventService {
         return eventPage.map(eventMapper::toListDto);
     }
 
-    @Override
-    public List<EventListDto> getAllEvents() {
-        List<Event> events = eventRepository.findAllByIsActiveTrue();
-        return eventMapper.toListDto(events);
-    }
 
     @Override
     public List<EventListDto> getFeaturedEvents(int limit) {

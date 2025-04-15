@@ -17,8 +17,8 @@ public interface EventService {
 
     Page<EventListDto> getFeaturedEvents(Pageable pageable);
 
-    // Сохраним также методы без пагинации для случаев, когда нужны все данные
-    List<EventListDto> getAllEvents();
+//    // Сохраним также методы без пагинации для случаев, когда нужны все данные
+//    List<EventListDto> getAllEvents();
 
     List<EventListDto> getFeaturedEvents(int limit);
 

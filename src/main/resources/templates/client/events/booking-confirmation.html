@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подтверждение бронирования</title>
+
+  <!-- Подключение шрифтов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Подключение стилей навигации -->
+  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+
+  <!-- Собственные стили страницы -->
+  <style>
+    :root {
+      --primary-color: #1a1a1a;
+      --secondary-color: #f5f5f5;
+      --accent-color: #c9a980;
+      --text-color: #333333;
+      --light-gray: #e0e0e0;
+      --success-color: #7ab55c;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      background-color: #ffffff;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .container {
+      max-width: a200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Секция подтверждения */
+    .confirmation-section {
+      padding: 80px 0;
+    }
+
+    .confirmation-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .confirmation-card {
+      background-color: white;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border-top: 3px solid var(--accent-color);
+    }
+
+    .confirmation-header {
+      padding: 30px 35px;
+      text-align: center;
+      background-color: #faf8f5;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .confirmation-icon {
+      width: 70px;
+      height: 70px;
+      background-color: var(--success-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 28px;
+    }
+
+    .confirmation-title {
+      font-size: 28px;
+      margin: 0 0 10px;
+      color: var(--primary-color);
+    }
+
+    .confirmation-subtitle {
+      font-size: 16px;
+      color: #666;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .confirmation-body {
+      padding: 35px;
+    }
+
+    .booking-summary {
+      margin-bottom: 35px;
+    }
+
+    .booking-summary-title {
+      font-size: 20px;
+      margin: 0 0 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+      color: var(--primary-color);
+    }
+
+    .summary-row {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .summary-label {
+      flex: 0 0 180px;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    .summary-value {
+      flex: 1;
+      color: #666;
+    }
+
+    .event-details {
+      margin-bottom: 35px;
+      padding: 25px;
+      background-color: #faf8f5;
+      border-left: 2px solid var(--accent-color);
+    }
+
+    .event-details-title {
+      font-size: 18px;
+      margin: 0 0 15px;
+      color: var(--primary-color);
+    }
+
+    .event-detail-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .event-detail-item i {
+      width: 20px;
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+
+    .confirmation-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 35px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 25px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #b69670;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+    }
+
+    .btn-outline:hover {
+      background-color: #faf8f5;
+    }
+
+    .qr-code-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .qr-code-title {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .qr-code {
+      background-color: white;
+      padding: 15px;
+      display: inline-block;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .qr-code img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .help-text {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      margin-top: 30px;
+    }
+
+    .help-text a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .help-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Alert для флеш-сообщений */
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 2px;
+      font-size: 14px;
+    }
+
+    .alert-success {
+      background-color: rgba(122, 181, 92, 0.1);
+      border-left: 3px solid var(--success-color);
+      color: var(--success-color);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .confirmation-section {
+        padding: 60px 0;
+      }
+
+      .confirmation-header {
+        padding: 25px;
+      }
+
+      .confirmation-body {
+        padding: 25px;
+      }
+
+      .summary-row {
+        flex-direction: column;
+      }
+
+      .summary-label {
+        flex: 0 0 auto;
+        margin-bottom: 5px;
+      }
+
+      .confirmation-title {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .confirmation-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+
+      .confirmation-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Навигация -->
+<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+
+<!-- Секция подтверждения бронирования -->
+<section class="confirmation-section">
+  <div class="container">
+    <div class="confirmation-container">
+      <!-- Сообщение об успешном бронировании, если есть -->
+      <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">
+        Ваше бронирование успешно создано!
+      </div>
+
+      <div class="confirmation-card">
+        <div class="confirmation-header">
+          <div class="confirmation-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <h1 class="confirmation-title">Бронирование подтверждено</h1>
+          <p class="confirmation-subtitle">Спасибо за вашу регистрацию! Детали отправлены на ваш email.</p>
+        </div>
+
+        <div class="confirmation-body">
+          <!-- Информация о бронировании -->
+          <div class="booking-summary">
+            <h2 class="booking-summary-title">Детали бронирования</h2>
+
+            <div class="summary-row">
+              <div class="summary-label">Номер бронирования</div>
+              <div class="summary-value" th:text="${booking.id}">BK12345</div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-label">ФИО</div>
+              <div class="summary-value" th:text="${booking.customerName}">Иванов Иван Иванович</div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-label">Email</div>
+              <div class="summary-value" th:text="${booking.customerEmail}">ivanov@example.com</div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-label">Телефон</div>
+              <div class="summary-value" th:text="${booking.customerPhone}">+7 (999) 123-45-67</div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-label">Количество мест</div>
+              <div class="summary-value" th:text="${booking.numberOfSeats}">2</div>
+            </div>
+
+            <div class="summary-row" th:if="${booking.specialRequests}">
+              <div class="summary-label">Особые пожелания</div>
+              <div class="summary-value" th:text="${booking.specialRequests}">Предпочитаю работать с весенними цветами.</div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-label">Статус</div>
+              <div class="summary-value">
+                                <span th:if="${booking.status == 'CONFIRMED'}" style="color: var(--success-color); font-weight: 500;">
+                                    <i class="fas fa-check-circle" style="margin-right: 5px;"></i>Подтверждено
+                                </span>
+                <span th:if="${booking.status == 'PENDING'}" style="color: #f2c94c; font-weight: 500;">
+                                    <i class="fas fa-clock" style="margin-right: 5px;"></i>Ожидает подтверждения
+                                </span>
+                <span th:if="${booking.status == 'CANCELLED'}" style="color: #d75a4a; font-weight: 500;">
+                                    <i class="fas fa-times-circle" style="margin-right: 5px;"></i>Отменено
+                                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Детали события -->
+          <div class="event-details">
+            <h3 class="event-details-title" th:text="${booking.eventTitle}">Искусство составления весенних букетов</h3>
+
+            <div class="event-detail-item">
+              <i class="far fa-calendar"></i>
+              <span th:text="${#temporals.format(booking.eventDate, 'd MMMM yyyy')}">15 мая 2025</span>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="far fa-clock"></i>
+              <span th:text="${#temporals.format(booking.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(booking.getEventDate(), 'HH:mm')}">15:00 - 18:00</span>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>г. Москва, ул. Цветочная, д. 7</span>
+            </div>
+
+            <div class="event-detail-item" th:if="${booking.getTotalPrice()}">
+              <i class="fas fa-tag"></i>
+              <span th:text="${booking.getTotalPrice() + ' ₽ × ' + booking.numberOfSeats + ' = ' + (booking.getTotalPrice() * booking.numberOfSeats) + ' ₽'}">
+            3 500 ₽ × 2 = 7 000 ₽
+        </span>
+            </div>
+
+            <div class="event-detail-item" th:unless="${booking.getTotalPrice()}">
+              <i class="fas fa-tag"></i>
+              <span>Бесплатно</span>
+            </div>
+          </div>
+
+          <!-- QR-код билета -->
+          <div class="qr-code-container">
+            <div class="qr-code-title">Ваш электронный билет</div>
+            <div class="qr-code">
+              <!-- Плейсхолдер для QR-кода -->
+              <img th:src="@{/img/qr-placeholder.png}" alt="QR-код билета">
+            </div>
+          </div>
+
+          <!-- Кнопки действий -->
+          <div class="confirmation-actions">
+            <a href="#" th:href="@{/events/booking/my(email=${booking.customerEmail})}" class="btn btn-outline">Мои бронирования</a>
+            <a href="#" th:href="@{/events}" class="btn btn-primary">Другие события</a>
+          </div>
+
+          <!-- Текст с информацией -->
+          <div class="help-text">
+            <p>Если у вас возникли вопросы или вам нужно изменить детали бронирования,<br>
+              пожалуйста, свяжитесь с нами по телефону <strong>8 (800) 123-45-67</strong> или напишите на
+              <a href="mailto:info@flowerscool.ru">info@flowerscool.ru</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JavaScript для навигации -->
+<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+</body>
+</html>

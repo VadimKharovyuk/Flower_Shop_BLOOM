@@ -4,6 +4,7 @@ package com.example.flowershoptr.dto.Event;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,12 +13,14 @@ import java.time.LocalDateTime;
 
 @Data
 public class EventCreateUpdateDto {
-    private Long id; // Необходим только для обновления
+    private Long id;
 
     @NotBlank(message = "Название события обязательно")
+    @Size(max = 100 ,message = "Название не должно превышать 100 символов")
     private String title;
 
     @NotBlank(message = "Описание события обязательно")
+    @Size(max = 10000, message = "Название не должно превышать 10 000 символов")
     private String description;
 
     @NotBlank(message = "Тип события обязателен")

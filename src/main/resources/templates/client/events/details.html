@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${event.title} + ' - Описание события'">Искусство составления весенних букетов</title>
+
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Подключение стилей навигации -->
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+
+    <!-- Собственные стили страницы -->
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #f5f5f5;
+            --accent-color: #c9a980;
+            --text-color: #333333;
+            --light-gray: #e0e0e0;
+            --error-color: #d75a4a;
+            --success-color: #7ab55c;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Секция деталей события */
+        .event-details-section {
+            padding: 80px 0;
+        }
+
+        .event-details-container {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 50px;
+        }
+
+        /* Левая колонка с информацией */
+        .event-info {
+            position: relative;
+        }
+
+        .event-featured-tag {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 16px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            margin-bottom: 30px;
+        }
+
+        .event-header {
+            margin-bottom: 25px;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .event-meta-item i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .event-type {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .event-title {
+            font-size: 38px;
+            margin: 0 0 20px;
+            line-height: 1.3;
+            color: var(--primary-color);
+        }
+
+        .event-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .event-details-list {
+            border-top: 1px solid var(--light-gray);
+            padding-top: 30px;
+        }
+
+        .event-details-item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .event-details-label {
+            flex: 0 0 120px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .event-details-value {
+            flex: 1;
+            color: #666;
+        }
+
+        /* Правая колонка с формой бронирования */
+        .booking-form-container {
+            background-color: #faf8f5;
+            padding: 35px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .booking-form-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .booking-info {
+            margin-bottom: 30px;
+        }
+
+        .booking-price {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .booking-availability {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .availability-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .available {
+            background-color: var(--success-color);
+        }
+
+        .limited {
+            background-color: #f2c94c;
+        }
+
+        .full {
+            background-color: var(--error-color);
+        }
+
+        .booking-seats-left {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Стили для формы */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 14px;
+            border: 1px solid var(--light-gray);
+            background-color: white;
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(201, 169, 128, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .seats-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--light-gray);
+            background-color: white;
+        }
+
+        .seats-input-group button {
+            border: none;
+            background: none;
+            width: 40px;
+            height: 44px;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seats-input-group button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .seats-input-group input {
+            border: none;
+            width: 60px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 0;
+            height: 44px;
+        }
+
+        .seats-input-group input:focus {
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: #b69670;
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .text-help {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Сообщения об ошибках и успехе */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 2px;
+            font-size: 14px;
+        }
+
+        .alert-error {
+            background-color: rgba(215, 90, 74, 0.1);
+            border-left: 3px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .alert-success {
+            background-color: rgba(122, 181, 92, 0.1);
+            border-left: 3px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .field-error {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Политика возврата и отмены */
+        .cancellation-policy {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .cancellation-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .cancellation-text {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.6;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .event-details-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .booking-form-container {
+                position: static;
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-details-section {
+                padding: 60px 0;
+            }
+
+            .event-image {
+                height: 350px;
+            }
+
+            .event-title {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .event-image {
+                height: 250px;
+            }
+
+            .event-title {
+                font-size: 28px;
+            }
+
+            .booking-form-container {
+                padding: 25px;
+            }
+
+            .event-meta {
+                flex-direction: column;
+            }
+
+            .event-meta-item {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Навигация -->
+<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+
+<!-- Секция деталей события -->
+<section class="event-details-section">
+    <div class="container">
+        <div class="event-details-container">
+            <!-- Левая колонка с информацией о событии -->
+            <div class="event-info">
+                <div th:if="${event.featured}" class="event-featured-tag">Рекомендуемое</div>
+                <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
+
+                <div class="event-header">
+                    <div class="event-meta">
+                        <div class="event-meta-item">
+                            <i class="far fa-calendar"></i>
+                            <span th:text="${#temporals.format(event.eventDate, 'd MMMM yyyy')}">15 мая 2025</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span th:text="${event.durationMinutes} + ' минут'">180 минут</span>
+                        </div>
+                    </div>
+
+                    <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
+                    <h1 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h1>
+                </div>
+
+                <div class="event-description" th:utext="${event.description}">
+                    <p>Приглашаем вас на увлекательный мастер-класс по составлению весенних букетов. Вы познакомитесь с принципами композиции, научитесь выбирать цветы и зелень, чтобы создать гармоничную и стильную флористическую работу.</p>
+                    <p>Наш опытный флорист поделится секретами профессии и поможет каждому участнику создать уникальную композицию, которую вы сможете забрать с собой.</p>
+                </div>
+
+                <div class="event-details-list">
+                    <div class="event-details-item">
+                        <div class="event-details-label">Тип события</div>
+                        <div class="event-details-value" th:text="${event.eventType}">Мастер-класс</div>
+                    </div>
+                    <div class="event-details-item">
+                        <div class="event-details-label">Стоимость</div>
+                        <div class="event-details-value" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</div>
+                    </div>
+                    <div class="event-details-item">
+                        <div class="event-details-label">Всего мест</div>
+                        <div class="event-details-value" th:text="${event.availableSeats}">15</div>
+                    </div>
+                    <div class="event-details-item">
+                        <div class="event-details-label">Осталось мест</div>
+                        <div class="event-details-value" th:text="${event.remainingSeats}">8</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка с формой бронирования -->
+            <div class="booking-form-container">
+                <h2 class="booking-form-title">Забронировать место</h2>
+
+                <!-- Сообщения об ошибках и успехе -->
+                <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}">
+                    К сожалению, произошла ошибка при бронировании.
+                </div>
+
+                <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">
+                    Ваше бронирование успешно создано!
+                </div>
+
+                <div class="booking-info">
+                    <span class="booking-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
+
+                    <div class="booking-availability" th:with="availability=${event.remainingSeats > event.availableSeats * 0.5 ? 'available' : (event.remainingSeats > 0 ? 'limited' : 'full')}">
+                        <span class="availability-indicator" th:classappend="${availability}"></span>
+                        <span th:text="${availability == 'available' ? 'Места в наличии' : (availability == 'limited' ? 'Осталось мало мест' : 'Нет свободных мест')}">Места в наличии</span>
+                    </div>
+
+                    <div class="booking-seats-left" th:if="${event.remainingSeats > 0}" th:text="'Осталось мест: ' + ${event.remainingSeats}">
+                        Осталось мест: 8
+                    </div>
+                </div>
+
+                <!-- Форма бронирования -->
+                <form th:action="@{/events/booking}" th:object="${bookingForm}" method="post">
+                    <input type="hidden" th:field="*{eventId}" />
+
+                    <div class="form-group">
+                        <label for="customerName" class="form-control-label">Ваше имя</label>
+                        <input type="text" th:field="*{customerName}" id="customerName" class="form-control" placeholder="Введите ваше имя">
+                        <div class="field-error" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}">
+                            Пожалуйста, укажите ваше имя
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerEmail" class="form-control-label">Email</label>
+                        <input type="email" th:field="*{customerEmail}" id="customerEmail" class="form-control" placeholder="example@mail.com">
+                        <div class="field-error" th:if="${#fields.hasErrors('customerEmail')}" th:errors="*{customerEmail}">
+                            Пожалуйста, укажите корректный email
+                        </div>
+                        <div class="text-help">Мы отправим детали бронирования на этот адрес</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone" class="form-control-label">Телефон</label>
+                        <input type="tel" th:field="*{customerPhone}" id="customerPhone" class="form-control" placeholder="+7 (___) ___-__-__">
+                        <div class="field-error" th:if="${#fields.hasErrors('customerPhone')}" th:errors="*{customerPhone}">
+                            Пожалуйста, укажите корректный номер телефона
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numberOfSeats" class="form-control-label">Количество мест</label>
+                        <div class="seats-input-group">
+                            <button type="button" onclick="decrementSeats()" class="decrement-btn"><i class="fas fa-minus"></i></button>
+                            <input type="number" th:field="*{numberOfSeats}" id="numberOfSeats" min="1" th:max="${event.remainingSeats}" readonly>
+                            <button type="button" onclick="incrementSeats()" class="increment-btn"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('numberOfSeats')}" th:errors="*{numberOfSeats}">
+                            Пожалуйста, выберите количество мест от 1 до 100
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialRequests" class="form-control-label">Особые пожелания (необязательно)</label>
+                        <textarea th:field="*{specialRequests}" id="specialRequests" class="form-control" placeholder="Укажите особые пожелания или вопросы"></textarea>
+                        <div class="field-error" th:if="${#fields.hasErrors('specialRequests')}" th:errors="*{specialRequests}">
+                            Текст слишком длинный
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" th:disabled="${event.remainingSeats <= 0}" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</button>
+                </form>
+
+                <div class="cancellation-policy">
+                    <div class="cancellation-title">Политика отмены</div>
+                    <div class="cancellation-text">
+                        Вы можете отменить бронирование не позднее чем за 24 часа до начала события и получить полный возврат средств.
+                        Для отмены отправьте запрос на почту info@flowerscool.ru или позвоните по телефону 8 (800) 123-45-67.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript для навигации -->
+<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+
+<!-- JavaScript для формы бронирования -->
+<script>
+    function incrementSeats() {
+        const input = document.getElementById('numberOfSeats');
+        const maxSeats = parseInt(input.getAttribute('max'));
+        const currentValue = parseInt(input.value);
+
+        if (currentValue < maxSeats) {
+            input.value = currentValue + 1;
+        }
+    }
+
+    function decrementSeats() {
+        const input = document.getElementById('numberOfSeats');
+        const currentValue = parseInt(input.value);
+
+        if (currentValue > 1) {
+            input.value = currentValue - 1;
+        }
+    }
+</script>
+</body>
+</html>
