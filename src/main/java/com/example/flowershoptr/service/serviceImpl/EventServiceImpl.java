@@ -11,6 +11,7 @@ import com.example.flowershoptr.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventListDto> getFeaturedEvents(int limit) {
-        List<Event> events = eventRepository.findByIsFeaturedTrueAndIsActiveTrue();
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Event> events = eventRepository.findByIsFeaturedTrueAndIsActiveTrueOrderByEventDateDesc(pageable);
         return eventMapper.toListDto(events);
     }
 

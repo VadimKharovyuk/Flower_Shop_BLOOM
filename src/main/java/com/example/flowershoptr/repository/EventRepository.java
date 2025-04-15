@@ -18,4 +18,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findAllByIsActiveTrue(Pageable pageable);
 
     Page<Event> findByIsFeaturedTrueAndIsActiveTrue(Pageable pageable);
+
+    List<Event> findByIsFeaturedTrueAndIsActiveTrueOrderByEventDateDesc(Pageable pageable);
+
 }
