@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,24 +58,27 @@ public class FlowerClientController {
     @GetMapping
     public String viewAllFlowers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "true") boolean ascending,
             Model model) {
 
-        log.info("Запрос на просмотр всех цветов: page={}, size={}, sortBy={}, ascending={}",
-                page, size, sortBy, ascending);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(
+                ascending ? Sort.Direction.ASC : Sort.Direction.DESC,
+                sortBy
+        ));
 
-        Pageable pageable = paginationUtils.createPageable(page, size, sortBy, ascending);
         Page<FlowerListDTO> flowers = flowerService.getActiveFlowers(pageable);
 
         model.addAttribute("flowers", flowers);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", flowers.getTotalPages());
+        model.addAttribute("size", size);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("ascending", ascending);
 
         return "client/flowers/list";
     }
-
 
 
     /**

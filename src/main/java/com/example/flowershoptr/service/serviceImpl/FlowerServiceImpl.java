@@ -11,7 +11,9 @@ import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,7 +148,14 @@ public class FlowerServiceImpl implements FlowerService {
         log.info("Получение страницы списка активных цветов. Page: {}, Size: {}",
                 pageable.getPageNumber(), pageable.getPageSize());
 
-        return flowerRepository.findByIsActiveTrue(pageable)
+        // Убедитесь, что используется корректный PageRequest
+        Pageable pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by("name") // Сортировка по умолчанию, если не указана
+        );
+
+        return flowerRepository.findByIsActiveTrue(pageRequest)
                 .map(flowerMapper::toListDTO);
     }
 

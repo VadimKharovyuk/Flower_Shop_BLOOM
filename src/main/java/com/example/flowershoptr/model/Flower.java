@@ -29,11 +29,12 @@ public class Flower {
     private Category category;
 
     private String name;
-
+    @Column(columnDefinition = "TEXT")
     private String fullDescription ;
+
     private String shortDescription;
 
-    @Column(name = "preview_image_url", length = 500)
+    @Column(columnDefinition = "TEXT")
     private String previewImageUrl;
 
     @Column
