@@ -1,11 +1,13 @@
 package com.example.flowershoptr.service;
 
+import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferCreateDTO;
 import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferDetailsDTO;
-import com.example.flowershoptr.dto.SpecialOfferCreateDTO;
+
 
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.model.SpecialOffer;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,10 +16,12 @@ import java.util.Optional;
 
 public interface SpecialOfferService {
 
+
+
     /**
      * Создает новое специальное предложение
      */
-    SpecialOfferDetailsDTO createOffer(SpecialOfferCreateDTO createDto);
+    SpecialOfferDetailsDTO createOffer(SpecialOfferCreateDTO specialOfferCreateDTO, MultipartFile imageFile);
 
     /**
      * Получает все активные специальные предложения

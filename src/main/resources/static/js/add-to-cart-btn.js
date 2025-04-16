@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 (productCard.querySelector('.wishlist') ?
                     productCard.querySelector('.wishlist').getAttribute('data-id') : null);
 
+
             if (!productId) {
                 console.error('Не удалось найти ID товара для добавления в корзину');
                 showNotification('Ошибка при добавлении товара в корзину');

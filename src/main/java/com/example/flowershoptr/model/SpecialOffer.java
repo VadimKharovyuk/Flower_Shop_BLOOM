@@ -34,7 +34,7 @@ public class SpecialOffer {
     private String imageUrl; // URL изображения акции
 
     @Column
-    private Long photoId;
+    private String publicId;
 
     private BigDecimal oldPrice; // Старая цена (до скидки)
 
@@ -46,7 +46,7 @@ public class SpecialOffer {
 
     private String timerDisplayType; // Тип отображения таймера ("days", "countdown")
 
-    private boolean featured; // Переименовано с isFeatured на featured
+    private boolean featured;
 
     private String buttonText; // Текст на кнопке
 

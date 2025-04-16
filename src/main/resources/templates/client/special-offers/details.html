@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Детали акции</title>
+  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+  <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+  <!-- Подключаем красивый шрифт для премиального вида -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Кнопка "Посмотреть больше" */
+    .add-to-cart-btnV {
+      display: inline-block;
+      padding: 14px 32px;
+      background-color: transparent;
+      color: #1a1a1a;
+      border: 1px solid #1a1a1a;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .add-to-cart-btnV::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #1a1a1a;
+      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+      z-index: -1;
+    }
+
+    .add-to-cart-btnV:hover {
+      color: #fff;
+    }
+
+    .add-to-cart-btnV:hover::before {
+      left: 0;
+    }
+
+    .add-to-cart-btnV {
+      margin-left: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .add-to-cart-btnV:hover .add-to-cart-btnV {
+      transform: translateX(5px);
+    }
+  </style>
+</head>
+<body>
+<!-- Шапка сайта -->
+<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+
+<!-- Героический заголовок в минималистичном стиле -->
+<div class="luxe-promo-header">
+  <div class="container">
+    <h1 class="promo-title" th:text="${offer.name}">Название акции</h1>
+    <div class="promo-breadcrumbs">
+      <a href="/">Главная</a> <span class="separator">/</span> <a href="/special-offers">Специальные предложения</a> <span class="separator">/</span> <span th:text="${offer.name}"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Содержимое страницы -->
+<div class="page-content">
+  <div class="container">
+    <div class="offer-detail-wrapper">
+      <!-- Основная информация об акции -->
+      <div class="offer-main-section">
+        <div class="row align-items-center">
+          <!-- Изображение акции -->
+          <div class="col-lg-6">
+            <div class="offer-image-container">
+              <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}"></div>
+              <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акция" class="img-fluid offer-main-image">
+              <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акция" class="img-fluid offer-main-image">
+
+              <!-- Таймер акции -->
+              <div class="offer-timer-wrapper" th:if="${offer.remainingDays > 0}">
+                <div class="offer-timer">
+                  <div class="timer-label">До окончания акции:</div>
+                  <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}"></div>
+                  <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
+                    <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Информация об акции -->
+          <div class="col-lg-6">
+            <div class="offer-info">
+              <div class="offer-description" th:text="${offer.description}">Описание акции</div>
+
+              <div class="offer-price-details">
+                <div class="price-block" th:if="${offer.oldPrice != null && offer.newPrice != null}">
+                  <div class="price-wrapper">
+                    <div class="price-old" th:text="${offer.oldPrice + ' ₽'}">5 400 ₽</div>
+                    <div class="price-new" th:text="${offer.newPrice + ' ₽'}">4 320 ₽</div>
+                  </div>
+                  <div class="discount-info">
+                    <span class="discount-percentage" th:if="${offer.discountPercentage > 0}" th:text="${'Скидка: ' + offer.discountPercentage + '%'}">Скидка: 20%</span>
+                    <span class="discount-value" th:if="${offer.savedAmount > 0}" th:text="${'Экономия: ' + offer.savedAmount + ' ₽'}">Экономия: 1 080 ₽</span>
+                  </div>
+                </div>
+                <div class="special-price" th:if="${offer.specialPriceText}">
+                  <div class="special-price-text" th:text="${offer.specialPriceText}">Третий букет бесплатно</div>
+                </div>
+              </div>
+
+              <div class="offer-meta">
+                <div class="meta-item" th:if="${offer.endDate}">
+                  <i class="meta-icon date-icon"></i>
+                  <span th:text="${'Действует до: ' + #temporals.format(offer.endDate, 'dd.MM.yyyy')}">Действует до: 31.05.2025</span>
+                </div>
+                <div class="meta-item">
+                  <i class="meta-icon flower-icon"></i>
+                  <span th:text="${offer.applicableFlowers.size() + ' видов цветов в акции'}">12 видов цветов в акции</span>
+                </div>
+              </div>
+
+              <div class="offer-cta">
+                <a th:href="${offer.buttonUrl ?: '/catalog'}"
+                   th:class="${'btn-primary ' + (offer.highlightButton ? 'btn-highlight' : '')}"
+                   th:text="${offer.buttonText ?: 'Выбрать букет'}">Выбрать букет</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Цветы, участвующие в акции -->
+      <div class="offer-products-section">
+        <h3 class="section-title">Букеты и цветы, участвующие в акции</h3>
+
+        <div class="products-carousel">
+          <div class="products-wrapper">
+            <div class="product-item" th:each="flower : ${offer.applicableFlowers}">
+              <div class="product-card">
+                <div class="product-thumb">
+                  <div class="discount-badge"
+                       th:if="${flower.regularPrice != null && flower.discountedPrice != null && flower.regularPrice.compareTo(flower.discountedPrice) > 0}"
+                       th:text="${'-' + flower.getDiscountedPrice() + '%'}">-20%</div>
+                  <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Цветок" class="product-image">
+                  <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Цветок" class="product-image">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title" th:text="${flower.name}">Название цветка</h4>
+                  <div class="product-price">
+                    <span class="price-old" th:if="${flower.regularPrice != null && flower.discountedPrice != null && flower.regularPrice.compareTo(flower.discountedPrice) > 0}"
+                          th:text="${flower.regularPrice + ' ₽'}">5 400 ₽</span>
+                    <span class="price-current" th:text="${flower.discountedPrice + ' ₽'}">4 320 ₽</span>
+                  </div>
+                  <button class="add-to-cart-btnV" th:attr="data-id=${flower.id}">Добавить в корзину</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script th:src="@{/js/add-to-cart-btnV.js}"></script>
+      <script th:src="@{/js/cart-utils.js}"></script>
+
+      <!-- Условия акции -->
+      <div class="offer-terms">
+        <div class="terms-container">
+          <h4 class="terms-title">Условия акции</h4>
+          <ul class="terms-list">
+            <li>Акция действует с момента публикации на сайте до даты окончания или до момента отмены.</li>
+            <li>Количество товаров, участвующих в акции, ограничено.</li>
+            <li>Акции не суммируются с другими скидками и специальными предложениями.</li>
+            <li>Для получения скидки необходимо добавить товар в корзину на сайте или оформить заказ по телефону.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Навигация к другим акциям -->
+      <div class="other-offers">
+        <a href="/special-offers" class="back-link">
+          <span class="back-icon"></span>
+          <span>Все специальные предложения</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Подключение скрипта таймера -->
+<script th:src="@{/js/countdown-timer.js}"></script>
+
+<!-- CSS стили для премиального минималистичного дизайна -->
+<style>
+  /* Основные стили и переменные */
+  :root {
+    --primary-color: #c69c6d;
+    --secondary-color: #333333;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #666666;
+    --accent-color: #d2946b;
+    --success-color: #608b2f;
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition-base: all 0.3s ease;
+    --font-primary: 'Playfair Display', serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --spacing-xl: 5rem;
+  }
+
+  body {
+    font-family: var(--font-secondary);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 500;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  /* Стили для заголовка страницы */
+  .luxe-promo-header {
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    background-color: var(--light-gray);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .promo-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary-color);
+    letter-spacing: -0.5px;
+  }
+
+  .promo-breadcrumbs {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+  }
+
+  .promo-breadcrumbs a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition-base);
+  }
+
+  .promo-breadcrumbs a:hover {
+    color: var(--accent-color);
+  }
+
+  .separator {
+    margin: 0 var(--spacing-xs);
+    color: var(--medium-gray);
+  }
+
+  /* Стили для основного контента */
+  .page-content {
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .offer-detail-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .offer-main-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* Стили для изображения акции */
+  .offer-image-container {
+    position: relative;
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .offer-main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .offer-badge {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 2;
+  }
+
+  .offer-timer-wrapper {
+    position: absolute;
+    bottom: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+
+  .offer-timer {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    display: inline-block;
+  }
+
+  .timer-label {
+    margin-bottom: 4px;
+    opacity: 0.8;
+  }
+
+  .timer-value, .timer-countdown {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* Стили для информации об акции */
+  .offer-info {
+    padding: var(--spacing-md);
+  }
+
+  .offer-description {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--dark-gray);
+  }
+
+  .offer-price-details {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+  }
+
+  .price-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .price-old {
+    text-decoration: line-through;
+    color: var(--dark-gray);
+    font-size: 1.1rem;
+    margin-right: var(--spacing-sm);
+  }
+
+  .price-new {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .discount-info {
+    font-size: 0.9rem;
+    margin-top: var(--spacing-xs);
+  }
+
+  .discount-percentage {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .discount-value {
+    display: block;
+    color: var(--success-color);
+  }
+
+  .special-price-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .offer-meta {
+    margin-bottom: var(--spacing-md);
+    border-top: 1px solid var(--medium-gray);
+    padding-top: var(--spacing-sm);
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+  }
+
+  .meta-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .date-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+  }
+
+  .flower-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v.938l.4 1.599a1 1 0 0 0 .3.463c.409.409.418 1.007.296 1.554h-.001l-.717 1.795-.02.004-.05-.05a2.5 2.5 0 0 0-3.536 0l-.05.05-.02-.004-.717-1.795a1.479 1.479 0 0 1 .296-1.554 1 1 0 0 0 .3-.463l.4-1.599V2.5zM7.5 1A1.5 1.5 0 0 0 6 2.5v.563c0 .097-.015.194-.045.286l-.397 1.587-.08.086c-.716.716-.727 1.859-.281 2.702l.833 2.08.14.014a3.5 3.5 0 0 1 4.949 0l.14-.014.833-2.08a2.479 2.479 0 0 0-.281-2.702l-.08-.086-.397-1.587A1.031 1.031 0 0 1 10 3.063V2.5A1.5 1.5 0 0 0 8.5 1h-1z'/%3E%3C/svg%3E");
+  }
+
+  .offer-cta {
+    margin-top: var(--spacing-md);
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 12px 32px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition-base);
+    text-align: center;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-highlight {
+    background-color: var(--accent-color);
+  }
+
+  /* Стили для каталога товаров в акции */
+  .offer-products-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-bottom: var(--spacing-xs);
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: var(--primary-color);
+  }
+
+  .products-carousel {
+    overflow-x: auto;
+    padding: var(--spacing-xs) 0;
+  }
+
+  .products-wrapper {
+    display: flex;
+    gap: 20px;
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .product-item {
+    flex: 0 0 240px;
+  }
+
+  .product-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .product-thumb {
+    position: relative;
+    height: 180px;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .product-info {
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .product-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--secondary-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.5rem;
+  }
+
+  .product-price {
+    margin-bottom: 12px;
+  }
+
+  .price-current {
+    font-weight: 600;
+    color: var(--secondary-color);
+  }
+
+  .btn-add-cart {
+    margin-top: auto;
+    display: inline-block;
+    padding: 8px;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-align: center;
+    text-decoration: none;
+    transition: var(--transition-base);
+  }
+
+  .btn-add-cart:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  /* Стили для условий акции */
+  .offer-terms {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .terms-container {
+    padding: var(--spacing-md);
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+  }
+
+  .terms-title {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary-color);
+  }
+
+  .terms-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .terms-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+  }
+
+  .terms-list li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  /* Стили для ссылки на все акции */
+  .other-offers {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-base);
+  }
+
+  .back-link:hover {
+    color: var(--accent-color);
+  }
+
+  .back-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23c69c6d' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 991px) {
+    .offer-main-image {
+      height: 350px;
+    }
+
+    .product-item {
+      flex: 0 0 220px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .luxe-promo-header {
+      padding: var(--spacing-lg) 0;
+    }
+
+    .promo-title {
+      font-size: 2rem;
+    }
+
+    .offer-main-image {
+      height: 300px;
+    }
+
+    .offer-info {
+      padding: var(--spacing-sm);
+    }
+
+    .price-new {
+      font-size: 1.5rem;
+    }
+
+    .product-item {
+      flex: 0 0 180px;
+    }
+
+    .product-thumb {
+      height: 150px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .luxe-promo-header {
+      padding: var(--spacing-md) 0;
+    }
+
+    .promo-title {
+      font-size: 1.5rem;
+    }
+
+    .offer-main-image {
+      height: 250px;
+    }
+
+    .product-item {
+      flex: 0 0 160px;
+    }
+
+    .product-thumb {
+      height: 130px;
+    }
+  }
+</style>
+
+<div th:fragment="footer-example">
+  <!-- Подключение CSS для футера -->
+  <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+  <!-- Подключение футера -->
+  <div th:replace="~{client/fragments/footer :: footer}"></div>
+</div>
+<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+</body>
+</html>

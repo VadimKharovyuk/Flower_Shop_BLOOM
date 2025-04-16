@@ -1,8 +1,9 @@
 package com.example.flowershoptr.maper;
 
 import com.example.flowershoptr.dto.SpecialOffer.FlowerShortDTO;
+import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferCreateDTO;
 import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferDetailsDTO;
-import com.example.flowershoptr.dto.SpecialOfferCreateDTO;
+
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.model.SpecialOffer;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class SpecialOfferMapper {
+
+
 
     /**
      * Преобразует DTO создания в сущность SpecialOffer
@@ -27,7 +30,7 @@ public class SpecialOfferMapper {
         offer.setDescription(dto.getDescription());
         offer.setBadgeText(dto.getBadgeText());
         offer.setImageUrl(dto.getImageUrl());
-        offer.setPhotoId(dto.getPhotoId());
+        offer.setPublicId(dto.getPublicId());
         offer.setOldPrice(dto.getOldPrice());
         offer.setNewPrice(dto.getNewPrice());
         offer.setSpecialPriceText(dto.getSpecialPriceText());

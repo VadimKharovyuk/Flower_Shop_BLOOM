@@ -64,11 +64,6 @@
                   <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
                 </div>
 
-                <div class="form-group">
-                  <label for="photoId">ID фотографии</label>
-                  <input type="number" class="form-control" id="photoId" th:field="*{photoId}">
-                  <div class="text-danger" th:if="${#fields.hasErrors('photoId')}" th:errors="*{photoId}"></div>
-                </div>
               </div>
 
               <div class="col-md-6">

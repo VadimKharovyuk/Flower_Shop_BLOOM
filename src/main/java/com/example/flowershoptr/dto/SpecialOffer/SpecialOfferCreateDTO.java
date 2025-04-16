@@ -1,4 +1,4 @@
-package com.example.flowershoptr.dto;
+package com.example.flowershoptr.dto.SpecialOffer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class SpecialOfferCreateDTO {
     private String description;
     private String badgeText;
     private String imageUrl;
-    private Long photoId;
+    private String publicId;
     private BigDecimal oldPrice;
     private BigDecimal newPrice;
     private String specialPriceText;

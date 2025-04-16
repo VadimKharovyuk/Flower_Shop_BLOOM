@@ -1,8 +1,8 @@
 package com.example.flowershoptr.controller.admin;
 
 import com.example.flowershoptr.dto.SpecialOffer.FlowerShortDTO;
+import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferCreateDTO;
 import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferDetailsDTO;
-import com.example.flowershoptr.dto.SpecialOfferCreateDTO;
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.service.FlowerService;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -65,9 +66,11 @@ public class AdminSpecialOfferMvcController {
     /**
      * Обработка отправки формы создания специального предложения
      */
+
     @PostMapping("/create")
     public String createOffer(
-            @Valid @ModelAttribute("offerDto") SpecialOfferCreateDTO offerDto,
+            @Valid @ModelAttribute("offerDto") SpecialOfferCreateDTO offerDto ,
+            @RequestParam("image") MultipartFile imageFile,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
 
@@ -76,7 +79,7 @@ public class AdminSpecialOfferMvcController {
         }
 
         // Создание предложения
-        SpecialOfferDetailsDTO createdOffer = specialOfferService.createOffer(offerDto);
+        SpecialOfferDetailsDTO createdOffer = specialOfferService.createOffer(offerDto, imageFile);
         redirectAttributes.addFlashAttribute("successMessage",
                 "Специальное предложение успешно создано");
 

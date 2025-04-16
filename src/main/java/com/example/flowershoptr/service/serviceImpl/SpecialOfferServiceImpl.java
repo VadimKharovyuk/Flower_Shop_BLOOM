@@ -1,8 +1,9 @@
 package com.example.flowershoptr.service.serviceImpl;
 
 import com.example.flowershoptr.dto.SpecialOffer.FlowerShortDTO;
+import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferCreateDTO;
 import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferDetailsDTO;
-import com.example.flowershoptr.dto.SpecialOfferCreateDTO;
+
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.maper.SpecialOfferMapper;
 import com.example.flowershoptr.model.Flower;
@@ -11,11 +12,15 @@ import com.example.flowershoptr.repository.FlowerRepository;
 
 import com.example.flowershoptr.repository.SpecialOfferRepository;
 import com.example.flowershoptr.service.SpecialOfferService;
+import com.example.flowershoptr.service.StorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -26,18 +31,28 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class SpecialOfferServiceImpl implements SpecialOfferService {
-
     private final SpecialOfferRepository specialOfferRepository;
     private final FlowerRepository flowerRepository;
     private final SpecialOfferMapper mapper;
-
-
+    private final StorageService storageService;
 
     @Override
     @Transactional
-    public SpecialOfferDetailsDTO createOffer(SpecialOfferCreateDTO createDto) {
-        // Преобразование DTO в сущность
+    public SpecialOfferDetailsDTO createOffer(SpecialOfferCreateDTO createDto, MultipartFile imageFile) {
+        // Загружаем изображение, если оно предоставлено
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                StorageService.StorageResult uploadResult = storageService.uploadImage(imageFile);
+                createDto.setImageUrl(uploadResult.getUrl());
+                createDto.setPublicId(uploadResult.getImageId());
+            } catch (IOException e) {
+                log.error("Ошибка при загрузке изображения для акции: {}", e.getMessage());
+            }
+        }
+
+        // Преобразование DTO в сущность (теперь с обновленными url и publicId)
         SpecialOffer offer = mapper.toEntity(createDto);
 
         // Сохранение сущности
