@@ -2,6 +2,7 @@ package com.example.flowershoptr.service;
 
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.*;
+import com.example.flowershoptr.model.Flower;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -137,4 +138,7 @@ public interface FlowerService {
 
     List<PopularFlowerDto> getFavoritesFlowersList();
     List<PopularFlowerDto> getPopularFlowersList();
+
+
+    List<Flower> getAllActiveFlowers();
 }

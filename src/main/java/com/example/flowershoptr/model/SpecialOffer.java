@@ -33,6 +33,9 @@ public class SpecialOffer {
     @Column(columnDefinition = "TEXT")
     private String imageUrl; // URL изображения акции
 
+    @Column
+    private Long photoId;
+
     private BigDecimal oldPrice; // Старая цена (до скидки)
 
     private BigDecimal newPrice; // Новая цена (после скидки)
@@ -43,16 +46,13 @@ public class SpecialOffer {
 
     private String timerDisplayType; // Тип отображения таймера ("days", "countdown")
 
-    private boolean isFeatured; // Является ли акция особо выделенной
+    private boolean featured; // Переименовано с isFeatured на featured
 
     private String buttonText; // Текст на кнопке
 
     private String buttonUrl; // URL для кнопки
 
     private boolean highlightButton; // Выделять ли кнопку
-
-    @Column
-    private Long photoId;
 
     @ManyToMany
     @JoinTable(
@@ -62,7 +62,7 @@ public class SpecialOffer {
     )
     private List<Flower> applicableFlowers; // Цветы, к которым применима акция
 
-    private boolean isActive; // Активна ли акция в данный момент
+    private boolean active;
 
     @Column(updatable = false)
     @CreationTimestamp
@@ -71,31 +71,4 @@ public class SpecialOffer {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // Метод для проверки, действует ли еще акция
-    @Transient
-    public boolean isStillValid() {
-        return isActive && (endDate == null || endDate.isAfter(LocalDateTime.now()));
-    }
-
-    // Метод для получения оставшегося времени в днях
-    @Transient
-    public long getRemainingDays() {
-        if (endDate == null) {
-            return 0;
-        }
-        return java.time.Duration.between(LocalDateTime.now(), endDate).toDays();
-    }
-
-    // Метод для вычисления процента скидки
-    @Transient
-    public int getDiscountPercentage() {
-        if (oldPrice == null || newPrice == null || oldPrice.compareTo(BigDecimal.ZERO) <= 0) {
-            return 0;
-        }
-
-        return oldPrice.subtract(newPrice)
-                .multiply(new BigDecimal(100))
-                .divide(oldPrice, 0, java.math.RoundingMode.HALF_UP)
-                .intValue();
-    }
 }

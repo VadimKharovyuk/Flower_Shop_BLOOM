@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/layout :: head('Создание специального предложения')">
+  <title>Создание специального предложения</title>
+</head>
+<body>
+<!-- Подключение боковой панели -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+  <!-- Верхняя панель -->
+  <header class="topbar">
+    <button class="hamburger-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="user-menu">
+      <span class="user-name">Администратор</span>
+      <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </header>
+
+  <!-- Содержимое страницы -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="page-header d-flex justify-content-between align-items-center">
+        <h1 class="page-title">Создание специального предложения</h1>
+        <a th:href="@{/admin/special-offers}" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> Назад к списку
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <form th:action="@{/admin/special-offers/create}" th:object="${offerDto}" method="post">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name">Название акции*</label>
+                  <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                  <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Описание акции</label>
+                  <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+                  <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="badgeText">Текст бейджа (например, -20%, 2+1)</label>
+                  <input type="text" class="form-control" id="badgeText" th:field="*{badgeText}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('badgeText')}" th:errors="*{badgeText}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="imageUrl">URL изображения</label>
+                  <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="photoId">ID фотографии</label>
+                  <input type="number" class="form-control" id="photoId" th:field="*{photoId}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('photoId')}" th:errors="*{photoId}"></div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="oldPrice">Старая цена</label>
+                  <input type="number" step="0.01" class="form-control" id="oldPrice" th:field="*{oldPrice}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="newPrice">Новая цена</label>
+                  <input type="number" step="0.01" class="form-control" id="newPrice" th:field="*{newPrice}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('newPrice')}" th:errors="*{newPrice}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="specialPriceText">Специальный текст для цены (например, "Третий букет бесплатно")</label>
+                  <input type="text" class="form-control" id="specialPriceText" th:field="*{specialPriceText}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('specialPriceText')}" th:errors="*{specialPriceText}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="endDate">Дата окончания акции</label>
+                  <input type="datetime-local" class="form-control" id="endDate" th:field="*{endDate}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="timerDisplayType">Тип отображения таймера</label>
+                  <select class="form-control" id="timerDisplayType" th:field="*{timerDisplayType}">
+                    <option value="days">В днях</option>
+                    <option value="countdown">Обратный отсчет (часы:минуты:секунды)</option>
+                  </select>
+                  <div class="text-danger" th:if="${#fields.hasErrors('timerDisplayType')}" th:errors="*{timerDisplayType}"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="buttonText">Текст кнопки</label>
+                  <input type="text" class="form-control" id="buttonText" th:field="*{buttonText}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('buttonText')}" th:errors="*{buttonText}"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="buttonUrl">URL кнопки</label>
+                  <input type="text" class="form-control" id="buttonUrl" th:field="*{buttonUrl}">
+                  <div class="text-danger" th:if="${#fields.hasErrors('buttonUrl')}" th:errors="*{buttonUrl}"></div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="isFeatured" th:field="*{featured}">
+                  <label class="form-check-label" for="isFeatured">Выделенное предложение</label>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="highlightButton" th:field="*{highlightButton}">
+                  <label class="form-check-label" for="highlightButton">Выделять кнопку</label>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="isActive" th:field="*{active}" checked>
+                  <label class="form-check-label" for="isActive">Активно</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Выберите цветы для акции</label>
+              <select multiple class="form-control" th:field="*{flowerIds}">
+                <option th:each="flower : ${availableFlowers}"
+                        th:value="${flower.id}"
+                        th:text="${flower.name + ' (' + flower.price + ' ₽)'}"></option>
+              </select>
+              <small class="form-text text-muted">Удерживайте Ctrl для выбора нескольких цветов.</small>
+            </div>
+
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-primary btn-lg">Создать предложение</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Подключение скриптов -->
+<div th:replace="admin/fragments/layout :: scripts"></div>
+</body>
+</html>

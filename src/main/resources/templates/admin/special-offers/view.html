@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/layout :: head('Просмотр специального предложения')">
+  <title>Просмотр специального предложения</title>
+</head>
+<body>
+<!-- Подключение боковой панели -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+  <!-- Верхняя панель -->
+  <header class="topbar">
+    <button class="hamburger-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="user-menu">
+      <span class="user-name">Администратор</span>
+      <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </header>
+
+  <!-- Содержимое страницы -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="page-header d-flex justify-content-between align-items-center">
+        <h1 class="page-title">Просмотр специального предложения</h1>
+        <div>
+          <a th:href="@{/admin/special-offers}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Назад к списку
+          </a>
+          <a th:href="@{/admin/special-offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Редактировать
+          </a>
+          <a th:href="@{/admin/special-offers/{id}/manage-flowers(id=${offer.id})}" class="btn btn-success">
+            <i class="fas fa-leaf"></i> Управление цветами
+          </a>
+        </div>
+      </div>
+
+      <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Основная информация</h5>
+              <span th:if="${offer.discountPercentage > 0}" class="badge badge-danger" th:text="${'-' + offer.discountPercentage + '%'}"></span>
+            </div>
+            <div class="card-body">
+              <h3 th:text="${offer.name}"></h3>
+              <p th:text="${offer.description}"></p>
+
+              <div class="row mt-4">
+                <div class="col-md-6">
+                  <p><strong>ID:</strong> <span th:text="${offer.id}"></span></p>
+                  <p><strong>Бейдж:</strong> <span th:text="${offer.badgeText}"></span></p>
+                  <p><strong>Старая цена:</strong> <span th:text="${offer.oldPrice + ' ₽'}"></span></p>
+                  <p><strong>Новая цена:</strong> <span th:text="${offer.newPrice + ' ₽'}"></span></p>
+                  <p><strong>Специальный текст цены:</strong> <span th:text="${offer.specialPriceText}"></span></p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Дата окончания:</strong> <span th:text="${#temporals.format(offer.endDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                  <p><strong>Осталось дней:</strong> <span th:text="${offer.remainingDays}"></span></p>
+                  <p><strong>Тип таймера:</strong> <span th:text="${offer.timerDisplayType == 'days' ? 'В днях' : 'Обратный отсчет'}"></span></p>
+                  <p><strong>Сумма экономии:</strong> <span th:text="${offer.savedAmount + ' ₽'}"></span></p>
+                  <p><strong>Выделенное предложение:</strong> <span th:text="${offer.featured ? 'Да' : 'Нет'}"></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Изображение акции</h5>
+            </div>
+            <div class="card-body text-center">
+              <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Изображение акции"
+                   class="img-fluid rounded" style="max-height: 300px;">
+              <p th:unless="${offer.imageUrl}" class="text-muted">Изображение не добавлено</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Цветы в акции</h5>
+              <span class="badge badge-info" th:text="${offer.applicableFlowers.size() + ' шт.'}"></span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Изображение</th>
+                    <th>Название</th>
+                    <th>Обычная цена</th>
+                    <th>Цена со скидкой</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="flower : ${offer.applicableFlowers}">
+                    <td th:text="${flower.id}"></td>
+                    <td>
+                      <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}"
+                           alt="Цветок" class="img-thumbnail" style="max-height: 50px;">
+                    </td>
+                    <td th:text="${flower.name}"></td>
+                    <td th:text="${flower.regularPrice + ' ₽'}"></td>
+                    <td th:text="${flower.discountedPrice + ' ₽'}"></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Настройки кнопки</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Текст кнопки:</strong> <span th:text="${offer.buttonText}"></span></p>
+              <p><strong>URL кнопки:</strong> <span th:text="${offer.buttonUrl}"></span></p>
+              <p><strong>Выделенная кнопка:</strong> <span th:text="${offer.highlightButton ? 'Да' : 'Нет'}"></span></p>
+
+              <div class="mt-3">
+                <h6>Предпросмотр:</h6>
+                <a href="#" th:class="${'btn ' + (offer.highlightButton ? 'btn-danger' : 'btn-primary')}"
+                   th:text="${offer.buttonText}"></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Действия</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <a th:href="@{/admin/special-offers/{id}/edit(id=${offer.id})}" class="btn btn-primary btn-block mb-2">
+                  <i class="fas fa-edit"></i> Редактировать
+                </a>
+                <a th:href="@{/admin/special-offers/{id}/manage-flowers(id=${offer.id})}" class="btn btn-success btn-block mb-2">
+                  <i class="fas fa-leaf"></i> Управление цветами
+                </a>
+                <form th:action="@{/admin/special-offers/{id}/deactivate(id=${offer.id})}" method="post">
+                  <button type="submit" class="btn btn-danger btn-block"
+                          onclick="return confirm('Вы уверены, что хотите деактивировать это предложение?')">
+                    <i class="fas fa-ban"></i> Деактивировать
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Подключение скриптов -->
+<div th:replace="admin/fragments/layout :: scripts"></div>
+</body>
+</html>

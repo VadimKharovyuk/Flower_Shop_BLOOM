@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/layout :: head('Управление цветами в акции')">
+  <title>Управление цветами в акции</title>
+  <style>
+    .flower-card {
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .flower-card.selected {
+      border: 2px solid #28a745;
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+    .flower-card .form-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+<!-- Подключение боковой панели -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основной контент -->
+<main class="main-content">
+  <!-- Верхняя панель -->
+  <header class="topbar">
+    <button class="hamburger-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="user-menu">
+      <span class="user-name">Администратор</span>
+      <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </header>
+
+  <!-- Содержимое страницы -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="page-header d-flex justify-content-between align-items-center">
+        <h1 class="page-title">Управление цветами в акции</h1>
+        <div>
+          <a th:href="@{/admin/special-offers/{id}(id=${offer.id})}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Назад к предложению
+          </a>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0" th:text="${offer.name}"></h5>
+        </div>
+        <div class="card-body">
+          <p th:text="${offer.description}"></p>
+          <p><strong>Скидка:</strong> <span th:text="${offer.discountPercentage + '%'}"></span></p>
+          <p><strong>Текущее количество цветов в акции:</strong> <span th:text="${offer.applicableFlowers.size()}"></span></p>
+        </div>
+      </div>
+
+      <form th:action="@{/admin/special-offers/{id}/manage-flowers(id=${offer.id})}" method="post">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Выберите цветы для акции</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group mb-4">
+              <input type="text" class="form-control" id="searchFlower" placeholder="Поиск цветов..."
+                     oninput="filterFlowers(this.value)">
+            </div>
+
+            <div class="row" id="flowerContainer">
+              <div th:each="flower : ${availableFlowers}" class="col-md-3 mb-4">
+                <div th:id="'flower-card-' + ${flower.id}"
+                     th:class="'card flower-card ' + (${selectedFlowerIds.contains(flower.id)} ? 'selected' : '')"
+                     th:onclick="'toggleFlowerSelection(' + ${flower.id} + ')'">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox"
+                           th:id="'flower-' + ${flower.id}"
+                           name="flowerIds"
+                           th:value="${flower.id}"
+                           th:checked="${selectedFlowerIds.contains(flower.id)}">
+                  </div>
+                  <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}"
+                       class="card-img-top" alt="Цветок" style="height: 150px; object-fit: cover;">
+                  <div class="card-body">
+                    <h6 class="card-title" th:text="${flower.name}"></h6>
+                    <p class="card-text">
+                      <span class="text-muted" th:text="${flower.price + ' ₽'}"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success btn-lg">Сохранить выбранные цветы</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Подключение стилей для карточек цветов -->
+<style>
+  .flower-card {
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 20px;
+    height: 100%;
+  }
+  .flower-card.selected {
+    border: 2px solid #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  }
+  .flower-card .form-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+  .flower-card .form-check-input {
+    width: 20px;
+    height: 20px;
+  }
+  .flower-card .card-img-top {
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+  }
+  .flower-card .card-body {
+    padding: 1rem;
+  }
+  .flower-card .card-title {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  .flower-card .card-text {
+    margin-bottom: 0;
+  }
+</style>
+
+<!-- Подключение скриптов -->
+<div th:replace="admin/fragments/layout :: scripts"></div>
+
+<!-- Скрипты для управления цветами -->
+<script>
+  function toggleFlowerSelection(flowerId) {
+    const card = document.getElementById('flower-card-' + flowerId);
+    const checkbox = document.getElementById('flower-' + flowerId);
+
+    // Toggle checkbox
+    checkbox.checked = !checkbox.checked;
+
+    // Toggle card selection style
+    card.classList.toggle('selected');
+  }
+
+  function filterFlowers(searchText) {
+    const container = document.getElementById('flowerContainer');
+    const cards = container.getElementsByClassName('col-md-3');
+
+    searchText = searchText.toLowerCase();
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+
+      if (title.indexOf(searchText) > -1) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -143,6 +143,15 @@ public class FlowerServiceImpl implements FlowerService {
                 .map(flowerMapper::toPopularDto)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public List<Flower> getAllActiveFlowers() {
+       return flowerRepository.findByIsActiveTrue()
+               .stream().toList();
+    }
+
+
     @Override
     public Page<FlowerListDTO> getActiveFlowers(Pageable pageable) {
         log.info("Получение страницы списка активных цветов. Page: {}, Size: {}",
