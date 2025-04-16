@@ -2,6 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragments/layout :: head('Список специального предложения')}">
   <title>Специальные предложения</title>
+  <!-- Добавляем Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Добавляем стили для таблицы -->
+  <style>
+    .table-container {
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    .table {
+      margin-bottom: 0;
+    }
+    .table thead th {
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #dee2e6;
+      color: #495057;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+    /* Устанавливаем минимальную ширину для колонки с действиями */
+    .table th.actions-column {
+      min-width: 180px; /* Увеличиваем минимальную ширину */
+    }
+    .table tbody tr:hover {
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+    .badge {
+      padding: 0.35em 0.65em;
+      border-radius: 0.25rem;
+      font-size: 0.75em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge-success {
+      background-color: #28a745;
+      color: white;
+    }
+    .badge-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center; /* Центрируем кнопки по горизонтали */
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; /* Увеличиваем размер кнопок */
+      height: 36px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: white;
+      margin: 0 2px; /* Добавляем отступы между кнопками */
+    }
+    .btn-action.view {
+      background-color: #17a2b8;
+    }
+    .btn-action.edit {
+      background-color: #007bff;
+    }
+    .btn-action.manage {
+      background-color: #28a745;
+    }
+    .btn-action.delete {
+      background-color: #dc3545;
+    }
+    .btn-action:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
 <!-- Подключение боковой панели -->
@@ -23,7 +100,7 @@
   <!-- Содержимое страницы -->
   <div class="content-wrapper">
     <div class="container">
-      <div class="page-header d-flex justify-content-between align-items-center">
+      <div class="page-header d-flex justify-content-between align-items-center mb-4">
         <h1 class="page-title">Специальные предложения</h1>
         <div>
           <a th:href="@{/admin/special-offers/create}" class="btn btn-primary">
@@ -45,64 +122,85 @@
       </div>
 
       <div class="card">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped table-hover">
-              <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Название</th>
-                <th scope="col">Скидка</th>
-                <th scope="col">Цветов в акции</th>
-                <th scope="col">Осталось дней</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Действия</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr th:each="offer : ${offers}">
-                <td th:text="${offer.id}"></td>
-                <td th:text="${offer.name}"></td>
-                <td>
-                    <span th:if="${offer.discountPercentage > 0}"
-                          th:text="${offer.discountPercentage + '%'}"></span>
-                  <span th:if="${offer.specialPriceText}"
-                        th:text="${offer.specialPriceText}"></span>
-                </td>
-                <td th:text="${offer.flowerCount}"></td>
-                <td>
-                  <span th:text="${offer.remainingDays + ' дн.'}"></span>
-                </td>
-                <td>
-                  <span th:if="${offer.remainingDays > 0}" class="badge badge-success">Активно</span>
-                  <span th:unless="${offer.remainingDays > 0}" class="badge badge-danger">Истекло</span>
-                </td>
-                <td>
-                  <div class="action-buttons">
-                    <a th:href="@{/admin/special-offers/{id}(id=${offer.id})}"
-                       class="btn-action view" title="Просмотр">
-                      <i class="fas fa-eye"></i>
-                    </a>
-                    <a th:href="@{/admin/special-offers/{id}/edit(id=${offer.id})}"
-                       class="btn-action edit" title="Редактировать">
-                      <i class="fas fa-edit"></i>
-                    </a>
-                    <a th:href="@{/admin/special-offers/{id}/manage-flowers(id=${offer.id})}"
-                       class="btn-action manage" title="Управление цветами">
-                      <i class="fas fa-leaf"></i>
-                    </a>
-                    <form th:action="@{/admin/special-offers/{id}/deactivate(id=${offer.id})}"
-                          method="post" class="d-inline">
-                      <button type="submit" class="btn-action delete" title="Деактивировать"
-                              onclick="return confirm('Вы уверены, что хотите деактивировать это предложение?')">
-                        <i class="fas fa-ban"></i>
-                      </button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+        <div class="card-body p-0">
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                  <th scope="col" class="text-center" style="width: 50px;">#</th>
+                  <th scope="col">Название</th>
+                  <th scope="col" class="text-center" style="width: 100px;">Скидка</th>
+                  <th scope="col" class="text-center" style="width: 80px;">Цветов</th>
+                  <th scope="col" class="text-center" style="width: 100px;">Осталось</th>
+                  <th scope="col" class="text-center" style="width: 100px;">Статус</th>
+                  <th scope="col" class="text-center actions-column" style="width: 180px;">Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offer : ${offers}">
+                  <td class="text-center" th:text="${offer.id}"></td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="ml-2">
+                        <span class="font-weight-bold" th:text="${offer.name}"></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span th:if="${offer.discountPercentage > 0}" class="text-danger font-weight-bold"
+                          th:text="${'-' + offer.discountPercentage + '%'}"></span>
+                    <span th:if="${offer.specialPriceText}" class="text-primary"
+                          th:text="${offer.specialPriceText}"></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-info text-white" th:text="${offer.flowerCount}"></span>
+                  </td>
+                  <td class="text-center">
+                    <span th:text="${offer.remainingDays + ' дн.'}"></span>
+                  </td>
+                  <td class="text-center">
+                    <span th:if="${offer.remainingDays > 0}" class="badge badge-success">Активно</span>
+                    <span th:unless="${offer.remainingDays > 0}" class="badge badge-danger">Истекло</span>
+                  </td>
+                  <td class="text-center">
+                    <div class="action-buttons">
+                      <a th:href="@{/admin/special-offers/{id}(id=${offer.id})}"
+                         class="btn-action view" title="Просмотр">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a th:href="@{/admin/special-offers/{id}/edit(id=${offer.id})}"
+                         class="btn-action edit" title="Редактировать">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <a th:href="@{/admin/special-offers/{id}/manage-flowers(id=${offer.id})}"
+                         class="btn-action manage" title="Управление цветами">
+                        <i class="fas fa-leaf"></i>
+                      </a>
+                      <form th:action="@{/admin/special-offers/{id}/deactivate(id=${offer.id})}"
+                            method="post" class="d-inline">
+                        <button type="submit" class="btn-action delete" title="Деактивировать"
+                                onclick="return confirm('Вы уверены, что хотите деактивировать это предложение?')">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(offers)}">
+                  <td colspan="7" class="text-center py-5">
+                    <div class="text-muted">
+                      <i class="fas fa-info-circle fa-2x mb-3"></i>
+                      <p>Нет доступных специальных предложений</p>
+                      <a th:href="@{/admin/special-offers/create}" class="btn btn-sm btn-primary mt-2">
+                        Создать новое предложение
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -19,6 +19,14 @@
                 <i class="fas fa-th-large"></i> Категории
             </a>
 
+            <a href="/admin/special-offers" class="nav-link" th:classappend="${currentPage == 'special-offers'} ? 'active' : ''">
+                <i class="fas fa-percentage"></i> Скидки и акции
+            </a>
+
+            <a href="/admin/events" class="nav-link" th:classappend="${currentPage == 'masterclasses'} ? 'active' : ''">
+                <i class="fas fa-chalkboard-teacher"></i> Мастер-классы
+            </a>
+
             <a href="/admin/flowers" class="nav-link" th:classappend="${currentPage == 'flowers'} ? 'active' : ''">
                 <i class="fas fa-leaf"></i> Цветы
             </a>
