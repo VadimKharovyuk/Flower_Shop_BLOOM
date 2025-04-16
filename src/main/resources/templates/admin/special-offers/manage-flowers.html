@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/fragments/layout :: head('Управление цветами в акции')">
+<head th:replace="~{admin/fragments/layout :: head('Список управление  предложения')}">
   <title>Управление цветами в акции</title>
   <style>
     .flower-card {
@@ -145,7 +145,7 @@
 </style>
 
 <!-- Подключение скриптов -->
-<div th:replace="admin/fragments/layout :: scripts"></div>
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
 
 <!-- Скрипты для управления цветами -->
 <script>

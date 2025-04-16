@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/fragments/layout :: head('Специальные предложения')">
+<head th:replace="~{admin/fragments/layout :: head('Список специального предложения')}">
   <title>Специальные предложения</title>
 </head>
 <body>
@@ -111,6 +111,6 @@
 </main>
 
 <!-- Подключение скриптов -->
-<div th:replace="admin/fragments/layout :: scripts"></div>
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
 </body>
 </html>
