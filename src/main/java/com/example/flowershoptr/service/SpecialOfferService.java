@@ -7,6 +7,7 @@ import com.example.flowershoptr.dto.SpecialOffer.SpecialOfferDetailsDTO;
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.model.SpecialOffer;
+import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -77,4 +78,8 @@ public interface SpecialOfferService {
      * Вычисляет процент скидки
      */
     int getDiscountPercentage(SpecialOffer offer);
+
+    SpecialOfferCreateDTO getOfferForEdit(Long id);
+  SpecialOfferDetailsDTO updateOffer(Long id, SpecialOfferCreateDTO offerDto);
+
 }

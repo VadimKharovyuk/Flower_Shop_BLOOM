@@ -89,16 +89,19 @@ public class AdminSpecialOfferMvcController {
     /**
      * Страница с формой редактирования специального предложения
      */
+    /**
+     * Страница с формой редактирования специального предложения
+     */
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
+        // Получаем детали предложения для работы с связанными объектами
         SpecialOfferDetailsDTO offerDetails = specialOfferService.getOfferDetailsDto(id);
 
-        // Преобразуем DTO в форму для редактирования
-        SpecialOfferCreateDTO editDto = new SpecialOfferCreateDTO();
-        // Здесь нужно заполнить editDto данными из offerDetails
-        // (можно реализовать через маппер или вручную)
+        // Получаем предварительно заполненную форму для редактирования
+        SpecialOfferCreateDTO offerDto = specialOfferService.getOfferForEdit(id);
 
-        model.addAttribute("offerDto", editDto);
+        // Добавляем в модель DTO для формы и ID предложения
+        model.addAttribute("offerDto", offerDto);
         model.addAttribute("offerId", id);
 
         // Получаем список всех доступных цветов для выбора
@@ -130,7 +133,7 @@ public class AdminSpecialOfferMvcController {
         }
 
         // Обновление предложения (нужно добавить метод в сервис)
-//         SpecialOfferDetailsDTO updatedOffer = specialOfferService.updateOffer(id, offerDto);
+         SpecialOfferDetailsDTO updatedOffer = specialOfferService.updateOffer(id, offerDto);
 
         redirectAttributes.addFlashAttribute("successMessage",
                 "Специальное предложение успешно обновлено");

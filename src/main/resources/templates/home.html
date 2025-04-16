@@ -999,6 +999,7 @@
 
 
 
+
 <!-- Special Offers Section -->
 <section class="offers-section">
     <div class="container">
@@ -1007,78 +1008,53 @@
             <p class="offers-subtitle">Ограниченные по времени акции и сезонные скидки на премиальные букеты</p>
         </div>
 
-        <div class="offers-grid">
-            <div class="offer-card">
-                <div class="offer-badge">-20%</div>
-                <div class="offer-image-container">
-                    <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Скидка на авторские букеты" class="offer-image">
-                </div>
-                <div class="offer-content">
-                    <h3 class="offer-name">Сезонная коллекция</h3>
-                    <p class="offer-description">Скидка 20% на все букеты из весенней коллекции при заказе до конца недели.</p>
-                    <div class="offer-meta">
-                        <div class="offer-price">
-                            <span class="price-old">5 400 ₽</span>
-                            <span class="price-new">4 320 ₽</span>
-                        </div>
-                        <div class="offer-timer">
-                            <div class="timer-label">До конца акции:</div>
-                            <div class="timer-value">3 дня</div>
-                        </div>
-                    </div>
-                    <a href="#" class="offer-button">Выбрать букет</a>
-                </div>
-            </div>
+        <!-- Сообщение, если нет предложений -->
+        <div th:if="${#lists.isEmpty(offers)}" class="no-offers-message">
+            <p class="text-center">В настоящее время нет активных акций. Пожалуйста, загляните к нам позже или ознакомьтесь с нашей <a href="/catalog">основной коллекцией</a>.</p>
+        </div>
 
-            <div class="offer-card">
-                <div class="offer-badge">2+1</div>
+        <!-- Список предложений -->
+        <div th:unless="${#lists.isEmpty(offers)}" class="offers-grid">
+            <div th:each="offer : ${offers}" class="offer-card" th:classappend="${offer.featured ? 'featured-offer' : ''}">
+                <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}">-20%</div>
                 <div class="offer-image-container">
-                    <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Три по цене двух" class="offer-image">
+                    <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акция" class="offer-image">
+                    <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акция" class="offer-image">
                 </div>
                 <div class="offer-content">
-                    <h3 class="offer-name">Три по цене двух</h3>
-                    <p class="offer-description">При заказе двух монобукетов третий в подарок. Идеально для особенных поводов.</p>
+                    <h3 class="offer-name" th:text="${offer.name}">Сезонная коллекция</h3>
+                    <p class="offer-description" th:text="${offer.getSpecialPriceText() ?: 'Специальное предложение с выгодной ценой'}">Скидка 20% на все букеты из весенней коллекции при заказе до конца недели.</p>
                     <div class="offer-meta">
-                        <div class="offer-price special-offer">
-                            <span class="price-special">Третий букет бесплатно</span>
+                        <div class="offer-price" th:if="${offer.oldPrice != null && offer.newPrice != null}">
+                            <span class="price-old" th:text="${offer.oldPrice + ' ₽'}">5 400 ₽</span>
+                            <span class="price-new" th:text="${offer.newPrice + ' ₽'}">4 320 ₽</span>
                         </div>
-                        <div class="offer-timer">
+                        <div class="offer-price special-offer" th:if="${offer.specialPriceText}">
+                            <span class="price-special" th:text="${offer.specialPriceText}">Третий букет бесплатно</span>
+                        </div>
+                        <div class="offer-timer" th:if="${offer.remainingDays > 0}">
                             <div class="timer-label">До конца акции:</div>
-                            <div class="timer-value">5 дней</div>
-                        </div>
-                    </div>
-                    <a href="#" class="offer-button">Выбрать букет</a>
-                </div>
-            </div>
-
-            <div class="offer-card featured-offer">
-                <div class="offer-badge">-30%</div>
-                <div class="offer-image-container">
-                    <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Скидка дня" class="offer-image">
-                </div>
-                <div class="offer-content">
-                    <h3 class="offer-name">Скидка дня</h3>
-                    <p class="offer-description">Каждый день новый букет со скидкой 30%. Сегодня: букет «Элегантность».</p>
-                    <div class="offer-meta">
-                        <div class="offer-price">
-                            <span class="price-old">6 200 ₽</span>
-                            <span class="price-new">4 340 ₽</span>
-                        </div>
-                        <div class="offer-timer countdown">
-                            <div class="timer-label">До конца акции:</div>
-                            <div class="timer-countdown">
-                                <div class="timer-countdown" data-end-date="2025-05-15T23:59:59">23:45:12</div>
+                            <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}">3 дня</div>
+                            <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
+                                <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="offer-button highlight">Заказать сейчас</a>
+                    <a th:href="@{/special-offers/{id}(id=${offer.id})}"
+                       th:class="${'offer-button ' + (offer.highlightButton ? 'highlight' : '')}"
+                       th:text="${offer.buttonText ?: 'Подробнее'}">Выбрать букет</a>
                 </div>
             </div>
+        </div>
+
+
+        <div class="events-footer">
+            <a th:href="@{/special-offers}" class="view-all-button">Смотреть все акции <i class="fas fa-long-arrow-alt-right"></i></a>
         </div>
     </div>
 </section>
 <!-- Подключение скрипта с обратным отсчетом -->
-<script src="/js/countdown.js"></script>
+<script th:src="@{/js/countdown-timer.js}"></script>
 
 <!-- Custom Bouquet Section -->
 

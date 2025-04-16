@@ -59,9 +59,22 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="imageUrl">URL изображения</label>
-                  <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}">
-                  <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+                  <!-- Текущее изображение -->
+                  <div class="mb-3" th:if="${offerDto.imageUrl != null && !offerDto.imageUrl.isEmpty()}">
+                    <label>Текущее изображение:</label>
+                    <div>
+                      <img th:src="${offerDto.imageUrl}" class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Текущее изображение">
+                    </div>
+                    <input type="hidden" th:field="*{imageUrl}">
+                    <input type="hidden" th:field="*{publicId}">
+                  </div>
+
+                  <!-- Загрузка нового изображения -->
+                  <div class="mb-3">
+                    <label for="imageFile">Загрузить новое изображение</label>
+                    <input type="file" class="form-control-file" id="imageFile" name="image" accept="image/*">
+                    <small class="form-text text-muted">Загрузите новое изображение, если хотите заменить текущее.</small>
+                  </div>
                 </div>
 
               </div>
@@ -158,5 +171,31 @@
 
 <!-- Подключение скриптов -->
 <div th:replace="~{admin/fragments/layout :: scripts}"></div>
+<script>
+  document.getElementById('imageFile').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Если у вас есть блок предпросмотра, обновите его
+        const imagePreview = document.querySelector('img.img-thumbnail');
+        if (imagePreview) {
+          imagePreview.src = e.target.result;
+        } else {
+          // Если блока предпросмотра нет, создайте его
+          const previewDiv = document.createElement('div');
+          previewDiv.innerHTML = `
+          <div class="mt-2">
+            <label>Предпросмотр нового изображения:</label>
+            <img src="${e.target.result}" class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Предпросмотр">
+          </div>
+        `;
+          document.querySelector('.form-group').appendChild(previewDiv);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
 </body>
 </html>

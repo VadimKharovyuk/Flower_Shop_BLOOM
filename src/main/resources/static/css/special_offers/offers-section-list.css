@@ -1,0 +1,608 @@
+/* Улучшенные стили для адаптивности */
+
+/* Основные стили и переменные */
+:root {
+    --primary-color: #c69c6d;
+    --secondary-color: #333333;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #666666;
+    --accent-color: #d2946b;
+    --success-color: #608b2f;
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition-base: all 0.3s ease;
+    --font-primary: 'Playfair Display', serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --spacing-xl: 5rem;
+}
+
+body {
+    font-family: var(--font-secondary);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Стили для заголовка страницы */
+.luxe-promo-header {
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    background-color: var(--light-gray);
+    margin-bottom: var(--spacing-xl);
+}
+
+.promo-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--secondary-color);
+    letter-spacing: -0.5px;
+}
+
+.promo-subtitle {
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    margin-bottom: var(--spacing-sm);
+    font-family: var(--font-secondary);
+    font-weight: 300;
+}
+
+.promo-breadcrumbs {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+}
+
+.promo-breadcrumbs a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition-base);
+}
+
+.promo-breadcrumbs a:hover {
+    color: var(--accent-color);
+}
+
+.separator {
+    margin: 0 var(--spacing-xs);
+    color: var(--medium-gray);
+}
+
+/* Стили для основного контента */
+.page-content {
+    padding-bottom: var(--spacing-xl);
+}
+
+.section-intro {
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl);
+    text-align: center;
+}
+
+.intro-text {
+    color: var(--dark-gray);
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Стили для сетки предложений */
+.offers-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.offer-item {
+    position: relative;
+    width: 100%;
+}
+
+.offer-item.featured-offer::before {
+    content: 'Популярное';
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 2;
+}
+
+.offer-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    height: 100%;
+    transition: var(--transition-base);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
+}
+
+.offer-image {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.offer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-base);
+}
+
+.offer-card:hover .offer-img {
+    transform: scale(1.05);
+}
+
+.offer-badge {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 1;
+}
+
+.offer-timer {
+    position: absolute;
+    bottom: var(--spacing-sm);
+    left: var(--spacing-sm);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.offer-content {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.offer-title {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary-color);
+}
+
+.offer-desc {
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-sm);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.offer-details {
+    margin-bottom: var(--spacing-sm);
+}
+
+.price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.price-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+.price-new {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+}
+
+.discount-badge {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.special-price-text {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.flower-count {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 12px;
+}
+
+.count-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v.938l.4 1.599a1 1 0 0 0 .3.463c.409.409.418 1.007.296 1.554h-.001l-.717 1.795-.02.004-.05-.05a2.5 2.5 0 0 0-3.536 0l-.05.05-.02-.004-.717-1.795a1.479 1.479 0 0 1 .296-1.554 1 1 0 0 0 .3-.463l.4-1.599V2.5zM7.5 1A1.5 1.5 0 0 0 6 2.5v.563c0 .097-.015.194-.045.286l-.397 1.587-.08.086c-.716.716-.727 1.859-.281 2.702l.833 2.08.14.014a3.5 3.5 0 0 1 4.949 0l.14-.014.833-2.08a2.479 2.479 0 0 0-.281-2.702l-.08-.086-.397-1.587A1.031 1.031 0 0 1 10 3.063V2.5A1.5 1.5 0 0 0 8.5 1h-1z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.offer-action {
+    margin-top: auto;
+}
+
+.btn-view {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 0;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 30px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-base);
+}
+
+.btn-view:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-highlight {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-highlight:hover {
+    background-color: var(--accent-color);
+}
+
+/* Стили для пустого состояния */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+}
+
+.empty-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto var(--spacing-md);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' fill='%23999' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.empty-state h3 {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary-color);
+}
+
+.empty-state p {
+    color: var(--dark-gray);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-state a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.empty-state a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для информационного блока */
+.offers-info {
+    margin-top: var(--spacing-xl);
+}
+
+.info-container {
+    padding: var(--spacing-md);
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+}
+
+.info-title {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.info-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.info-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.info-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: var(--dark-gray);
+}
+
+.info-list li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+/* Улучшенная адаптивность */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .offers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+}
+
+@media (max-width: 992px) {
+    .offers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .promo-title {
+        font-size: 2.2rem;
+    }
+
+    .luxe-promo-header {
+        padding: var(--spacing-lg) 0;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .section-intro {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .offer-image {
+        height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .luxe-promo-header {
+        padding: var(--spacing-md) 0;
+    }
+
+    .promo-title {
+        font-size: 1.8rem;
+    }
+
+    .promo-subtitle {
+        font-size: 1rem;
+    }
+
+    .section-intro {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .intro-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+
+    .offers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
+    .offer-image {
+        height: 200px;
+    }
+
+    .offer-title {
+        font-size: 1.3rem;
+    }
+
+    .price-new {
+        font-size: 1.2rem;
+    }
+
+    .special-price-text {
+        font-size: 1rem;
+    }
+
+    .info-title {
+        font-size: 1.3rem;
+    }
+
+    .info-list li {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .offers-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .luxe-promo-header {
+        padding: var(--spacing-sm) 0;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .promo-title {
+        font-size: 1.5rem;
+    }
+
+    .promo-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .promo-breadcrumbs {
+        font-size: 0.8rem;
+    }
+
+    .section-intro {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .intro-text {
+        font-size: 0.9rem;
+    }
+
+    .offer-image {
+        height: 180px;
+    }
+
+    .offer-content {
+        padding: var(--spacing-sm);
+    }
+
+    .offer-title {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .offer-desc {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .price-old {
+        font-size: 0.8rem;
+    }
+
+    .price-new {
+        font-size: 1.1rem;
+    }
+
+    .special-price-text {
+        font-size: 0.95rem;
+    }
+
+    .flower-count {
+        font-size: 0.8rem;
+    }
+
+    .info-container {
+        padding: 15px;
+    }
+
+    .info-title {
+        font-size: 1.2rem;
+    }
+
+    .info-list li {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+
+    .btn-view {
+        padding: 10px 0;
+        font-size: 0.9rem;
+    }
+
+    .empty-state {
+        padding: var(--spacing-md) 0;
+    }
+
+    .empty-state h3 {
+        font-size: 1.2rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .promo-title {
+        font-size: 1.3rem;
+    }
+
+    .promo-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .offer-image {
+        height: 160px;
+    }
+}

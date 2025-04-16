@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class SpecialOfferMapper {
 
 
-
     /**
      * Преобразует DTO создания в сущность SpecialOffer
      */
@@ -134,4 +133,56 @@ public class SpecialOfferMapper {
                 .map(this::toFlowerShortDto)
                 .collect(Collectors.toList());
     }
+
+
+
+    // Преобразование DetailsDTO в CreateDTO для формы редактирования
+    public SpecialOfferCreateDTO toCreateDto(SpecialOfferDetailsDTO details) {
+        SpecialOfferCreateDTO createDto = new SpecialOfferCreateDTO();
+        createDto.setName(details.getName());
+        createDto.setDescription(details.getDescription());
+        createDto.setBadgeText(details.getBadgeText());
+        createDto.setImageUrl(details.getImageUrl());
+        createDto.setOldPrice(details.getOldPrice());
+        createDto.setNewPrice(details.getNewPrice());
+        createDto.setSpecialPriceText(details.getSpecialPriceText());
+        createDto.setEndDate(details.getEndDate());
+        createDto.setTimerDisplayType(details.getTimerDisplayType());
+        createDto.setFeatured(details.isFeatured());
+        createDto.setButtonText(details.getButtonText());
+        createDto.setButtonUrl(details.getButtonUrl());
+        createDto.setHighlightButton(details.isHighlightButton());
+
+        // Обработка списка цветов, если он есть
+        if (details.getApplicableFlowers() != null) {
+            List<Long> flowerIds = details.getApplicableFlowers().stream()
+                    .map(FlowerShortDTO::getId)
+                    .collect(Collectors.toList());
+            createDto.setFlowerIds(flowerIds);
+        }
+
+        return createDto;
+    }
+
+    // Обновление полей сущности из DTO
+    public void updateEntityFromDto(SpecialOfferCreateDTO dto, SpecialOffer entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setBadgeText(dto.getBadgeText());
+        entity.setImageUrl(dto.getImageUrl());
+        entity.setPublicId(dto.getPublicId());
+        entity.setOldPrice(dto.getOldPrice());
+        entity.setNewPrice(dto.getNewPrice());
+        entity.setSpecialPriceText(dto.getSpecialPriceText());
+        entity.setEndDate(dto.getEndDate());
+        entity.setTimerDisplayType(dto.getTimerDisplayType());
+        entity.setFeatured(dto.isFeatured());
+        entity.setButtonText(dto.getButtonText());
+        entity.setButtonUrl(dto.getButtonUrl());
+        entity.setHighlightButton(dto.isHighlightButton());
+        entity.setActive(dto.isActive());
+    }
+
+
+
 }

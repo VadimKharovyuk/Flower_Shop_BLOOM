@@ -11,9 +11,7 @@ public class FlowerShopTrApplication {
     }
 
 
-    ///рекоменодвать товар по полуряность   где продукт id
-
-    ///добавить кнопку _добавить в избарное  в фото по id
+    ///   http://localhost:1634/special-offers/5  убрать каруель для товаров добавить page
 
     ///
 

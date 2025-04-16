@@ -13,6 +13,7 @@ import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.repository.SpecialOfferRepository;
 import com.example.flowershoptr.service.SpecialOfferService;
 import com.example.flowershoptr.service.StorageService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -245,5 +246,29 @@ public class SpecialOfferServiceImpl implements SpecialOfferService {
                 .collect(Collectors.toList());
 
         dto.setApplicableFlowers(flowerDtos);
+    }
+
+
+    public SpecialOfferCreateDTO getOfferForEdit(Long id) {
+        SpecialOfferDetailsDTO detailsDto = getOfferDetailsDto(id);
+        return mapper.toCreateDto(detailsDto);
+    }
+
+    @Transactional
+    public SpecialOfferDetailsDTO updateOffer(Long id, SpecialOfferCreateDTO offerDto) {
+        SpecialOffer existingOffer = specialOfferRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Специальное предложение с ID " + id + " не найдено"));
+
+        // Обновление полей сущности из DTO
+        mapper.updateEntityFromDto(offerDto, existingOffer);
+
+        // Дополнительная бизнес-логика, если нужна
+        // Например, обработка связей с цветами
+
+        // Сохранение обновленной сущности
+        SpecialOffer updatedOffer = specialOfferRepository.save(existingOffer);
+
+        // Преобразование в DTO и возврат
+        return getOfferDetailsDto(updatedOffer.getId());
     }
 }

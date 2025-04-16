@@ -221,6 +221,54 @@
     background-color: rgba(255, 252, 248, 0.5);
 }
 
+/* Дополнительные стили для новых элементов */
+.no-offers-message {
+    padding: 30px;
+    text-align: center;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.flower-count {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.count-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v.938l.4 1.599a1 1 0 0 0 .3.463c.409.409.418 1.007.296 1.554h-.001l-.717 1.795-.02.004-.05-.05a2.5 2.5 0 0 0-3.536 0l-.05.05-.02-.004-.717-1.795a1.479 1.479 0 0 1 .296-1.554 1 1 0 0 0 .3-.463l.4-1.599V2.5zM7.5 1A1.5 1.5 0 0 0 6 2.5v.563c0 .097-.015.194-.045.286l-.397 1.587-.08.086c-.716.716-.727 1.859-.281 2.702l.833 2.08.14.014a3.5 3.5 0 0 1 4.949 0l.14-.014.833-2.08a2.479 2.479 0 0 0-.281-2.702l-.08-.086-.397-1.587A1.031 1.031 0 0 1 10 3.063V2.5A1.5 1.5 0 0 0 8.5 1h-1z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.btn-view {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 0;
+    text-align: center;
+    background-color: transparent;
+    color: #c69c6d;
+    border: 1px solid #c69c6d;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+    background-color: #c69c6d;
+    color: white;
+}
+
+.btn-highlight {
+    background-color: #c69c6d;
+    color: white;
+}
 .featured-offer::before {
     content: '';
     position: absolute;
