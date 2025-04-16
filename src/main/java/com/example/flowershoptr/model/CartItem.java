@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -32,8 +33,15 @@ public class CartItem  implements Serializable {
 
     private Integer quantity;
 
-    private BigDecimal price;
+    private BigDecimal price;// Обычная цена без скидки
 
     @Column(name = "item_total")
     private BigDecimal itemTotal;
+
+    // Новые поля для работы со скидками
+    private BigDecimal DiscountPrice;
+    private boolean hasDiscount;      // Флаг наличия скидки
+    private LocalDateTime discountExpiryDate;
+
+
 }

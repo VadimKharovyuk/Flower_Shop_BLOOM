@@ -133,25 +133,31 @@ public class SpecialOfferServiceImpl implements SpecialOfferService {
     @Transactional
     public void deactivateExpiredOffers() {
         LocalDateTime now = LocalDateTime.now();
+        log.info("Проверка на истекшие скидки начата. Текущее время: {}", now);
 
-        // Получаем все активные предложения (используем метод репозитория)
         List<SpecialOffer> activeOffers = specialOfferRepository.findByActiveTrue();
+        log.info("Найдено активных предложений: {}", activeOffers.size());
 
         List<SpecialOffer> expiredOffers = new ArrayList<>();
 
-        // Проверяем каждое предложение в цикле, избегая stream и лямбд
         for (SpecialOffer offer : activeOffers) {
             LocalDateTime endDate = offer.getEndDate();
+            log.debug("Проверка предложения ID={}, дата окончания: {}", offer.getId(), endDate);
+
             if (endDate != null && endDate.isBefore(now)) {
-                // Устанавливаем флаг активности напрямую
+                log.info("Предложение ID={} истекло. Деактивируем...", offer.getId());
                 offer.setActive(false);
                 expiredOffers.add(offer);
             }
         }
 
-        // Сохраняем изменения только если есть истекшие предложения
         if (!expiredOffers.isEmpty()) {
             specialOfferRepository.saveAll(expiredOffers);
+            log.info("Сохранены деактивированные предложения: {}", expiredOffers.stream()
+                    .map(SpecialOffer::getId)
+                    .toList());
+        } else {
+            log.info("Истекших предложений не найдено.");
         }
     }
 

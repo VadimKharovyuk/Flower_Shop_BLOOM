@@ -211,14 +211,14 @@
         }
 
         .cart-items {
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
 
         .cart-item {
             display: flex;
             padding: 1.5rem 0;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .cart-item-image {
@@ -307,7 +307,7 @@
             margin-left: auto;
             background: none;
             border: none;
-            color: rgba(0,0,0,0.4);
+            color: rgba(0, 0, 0, 0.4);
             font-size: 1rem;
             cursor: pointer;
             padding: 0.5rem;
@@ -316,11 +316,11 @@
         }
 
         .cart-item-remove:hover {
-            color: rgba(0,0,0,0.7);
+            color: rgba(0, 0, 0, 0.7);
         }
 
         .cart-summary {
-            background-color: rgba(0,0,0,0.03);
+            background-color: rgba(0, 0, 0, 0.03);
             border-radius: 8px;
             padding: 2rem;
         }
@@ -343,7 +343,7 @@
             font-size: 1.2rem;
             padding-top: 1.5rem;
             margin-top: 1.5rem;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .checkout-btn {
@@ -397,7 +397,7 @@
         }
 
         .clear-cart-btn:hover {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(0, 0, 0, 0.05);
         }
 
         .notification {
@@ -413,7 +413,7 @@
             z-index: 1000;
             opacity: 1;
             transition: opacity 0.5s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .notification.error {
@@ -443,7 +443,7 @@
         .empty-cart p {
             margin-bottom: 2rem;
             font-size: 1.1rem;
-            color: rgba(0,0,0,0.6);
+            color: rgba(0, 0, 0, 0.6);
         }
 
         .shop-now-btn {
@@ -511,7 +511,6 @@
 <!--<link rel="stylesheet" href="/css/favorites-banner.css">-->
 
 
-
 <!-- Секция корзины -->
 <section class="cart-section">
     <div class="container">
@@ -528,6 +527,7 @@
             <div class="cart-grid">
                 <div class="cart-items">
                     <!-- Перебираем элементы корзины -->
+
                     <div class="cart-item" th:each="item : ${cart.items}">
                         <div class="cart-item-image">
                             <img th:src="${item.flowerImageUrl}" alt="Цветок">
@@ -535,24 +535,72 @@
                         <div class="cart-item-details">
                             <div>
                                 <div class="cart-item-name" th:text="${item.flowerName}">Название букета</div>
-                                <div class="cart-item-price" th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</div>
+
+                                <div class="cart-item-price">
+    <span th:if="${item.hasDiscount}">
+        <span class="text-danger fw-bold">
+            <span>Цена со скидкой: </span>
+            <span th:text="${#numbers.formatDecimal(item.discountPrice, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'"></span>
+        </span>
+        <br>
+        <span class="text-muted text-decoration-line-through">
+            <span>Старая цена: </span>
+            <span th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'"></span>
+        </span>
+    </span>
+
+                                    <span th:unless="${item.hasDiscount}" class="fw-bold">
+        <span>Цена: </span>
+        <span th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'"></span>
+    </span>
+                                </div>
                             </div>
+
                             <div class="cart-item-quantity">
                                 <form class="form-update" th:action="@{/cart/update}" method="post">
                                     <input type="hidden" name="flowerId" th:value="${item.flowerId}">
                                     <div class="quantity-control">
                                         <button type="button" class="quantity-btn decrement">-</button>
-                                        <input type="number" class="quantity-input" name="quantity" min="1" th:value="${item.quantity}" readonly>
+                                        <input type="number" class="quantity-input" name="quantity" min="1"
+                                               th:value="${item.quantity}" readonly>
                                         <button type="button" class="quantity-btn increment">+</button>
                                         <button type="submit" class="d-none update-btn"></button>
                                     </div>
                                 </form>
                             </div>
                         </div>
+
                         <button class="cart-item-remove" th:data-id="${item.id}" onclick="removeItem(this)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
+
+
+                    <!--                    <div class="cart-item" th:each="item : ${cart.items}">-->
+                    <!--                        <div class="cart-item-image">-->
+                    <!--                            <img th:src="${item.flowerImageUrl}" alt="Цветок">-->
+                    <!--                        </div>-->
+                    <!--                        <div class="cart-item-details">-->
+                    <!--                            <div>-->
+                    <!--                                <div class="cart-item-name" th:text="${item.flowerName}">Название букета</div>-->
+                    <!--                                <div class="cart-item-price" th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</div>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="cart-item-quantity">-->
+                    <!--                                <form class="form-update" th:action="@{/cart/update}" method="post">-->
+                    <!--                                    <input type="hidden" name="flowerId" th:value="${item.flowerId}">-->
+                    <!--                                    <div class="quantity-control">-->
+                    <!--                                        <button type="button" class="quantity-btn decrement">-</button>-->
+                    <!--                                        <input type="number" class="quantity-input" name="quantity" min="1" th:value="${item.quantity}" readonly>-->
+                    <!--                                        <button type="button" class="quantity-btn increment">+</button>-->
+                    <!--                                        <button type="submit" class="d-none update-btn"></button>-->
+                    <!--                                    </div>-->
+                    <!--                                </form>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <button class="cart-item-remove" th:data-id="${item.id}" onclick="removeItem(this)">-->
+                    <!--                            <i class="fas fa-times"></i>-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
                 </div>
 
                 <div class="cart-summary">
@@ -655,7 +703,7 @@
     }
 
     // Инициализация обработчиков событий при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Настройка форм обновления количества
         const forms = document.querySelectorAll('.form-update');
 
@@ -665,7 +713,7 @@
             const quantityInput = form.querySelector('.quantity-input');
             const updateBtn = form.querySelector('.update-btn');
 
-            decrementBtn.addEventListener('click', function() {
+            decrementBtn.addEventListener('click', function () {
                 let value = parseInt(quantityInput.value);
                 if (value > 1) {
                     quantityInput.value = value - 1;
@@ -673,7 +721,7 @@
                 }
             });
 
-            incrementBtn.addEventListener('click', function() {
+            incrementBtn.addEventListener('click', function () {
                 let value = parseInt(quantityInput.value);
                 quantityInput.value = value + 1;
                 updateBtn.click();

@@ -25,6 +25,8 @@ public class CartMapper {
         cartDto.setCreatedAt(cart.getCreatedAt());
         cartDto.setUpdatedAt(cart.getUpdatedAt());
 
+
+
         if (cart.getItems() != null) {
             Set<CartItemDto> itemDtos = cart.getItems().stream()
                     .map(this::toDto)
@@ -50,11 +52,15 @@ public class CartMapper {
         }
 
         dto.setQuantity(cartItem.getQuantity());
-        dto.setPrice(cartItem.getPrice());
+        dto.setPrice(cartItem.getPrice()); // обычная цена
+        dto.setDiscountPrice(cartItem.getDiscountPrice()); // цена со скидкой (если есть)
+        dto.setHasDiscount(cartItem.isHasDiscount());
+        dto.setDiscountExpiryDate(cartItem.getDiscountExpiryDate());
         dto.setItemTotal(cartItem.getItemTotal());
 
         return dto;
     }
+
 
     // Этот метод будет использоваться только когда все объекты уже загружены
     public Cart toEntity(CartDto cartDto, Set<Flower> flowers) {

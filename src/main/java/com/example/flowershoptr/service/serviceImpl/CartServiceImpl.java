@@ -3,14 +3,11 @@ package com.example.flowershoptr.service.serviceImpl;
 import com.example.flowershoptr.dto.cart.CartDto;
 import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.maper.CartMapper;
-import com.example.flowershoptr.model.Cart;
-import com.example.flowershoptr.model.CartItem;
-import com.example.flowershoptr.model.Flower;
-import com.example.flowershoptr.model.Order;
-import com.example.flowershoptr.model.OrderItem;
+import com.example.flowershoptr.model.*;
 import com.example.flowershoptr.repository.CartRepository;
 import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.service.CartService;
+import com.example.flowershoptr.service.SpecialOfferService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +33,7 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final FlowerRepository flowerRepository;
     private final CartMapper cartMapper;
+    private final SpecialOfferService specialOfferService ;
 
 
     @Override
@@ -63,57 +61,125 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public CartDto addFlowerToCart(HttpSession session, Long flowerId, Integer quantity) {
-        Cart cart = (Cart) session.getAttribute(CART_SESSION_KEY);
-        if (cart == null) {
-            // Создаем корзину только при добавлении товара
-            cart = new Cart();
-            session.setAttribute(CART_SESSION_KEY, cart);
-        }
+        Cart cart = getOrCreateCart(session);
 
-        // Проверяем наличие цветка
         Flower flower = flowerRepository.findById(flowerId)
                 .orElseThrow(() -> new RuntimeException("Flower not found with ID: " + flowerId));
 
-        // Проверяем, достаточно ли цветков в наличии
-        if (flower.getCount() < quantity) {
-            throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
-        }
-       incrementPopularity(flower);
-        incrementFlowerFavorites(flowerId, quantity);
+        validateStockAvailability(flower, quantity);
 
-        flower.setCartAddCount(flower.getCartAddCount() + 1);
-        flowerRepository.save(flower);
+        incrementStats(flower, flowerId, quantity);
 
-        // Проверяем, есть ли уже такой цветок в корзине
+        // Получаем ценовую информацию
+        PriceInfo priceInfo = getPriceInfo(flower);
+
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(item -> item.getFlower().getId().equals(flowerId))
                 .findFirst();
 
         if (existingItem.isPresent()) {
-            // Обновляем количество
-            CartItem item = existingItem.get();
-            int newQuantity = item.getQuantity() + quantity;
-
-            // Проверяем снова на общее количество
-            if (flower.getCount() < newQuantity) {
-                throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
-            }
-
-            updateCartItem(item, newQuantity);
+            updateExistingCartItem(existingItem.get(), quantity, flower.getCount(), priceInfo);
         } else {
-            // Создаем новый элемент
-            CartItem newItem = createCartItem(cart, flower, quantity);
+            CartItem newItem = createNewCartItem(flower, quantity, priceInfo);
             cart.getItems().add(newItem);
         }
 
-        // Пересчитываем общую стоимость
         recalculateTotalPrice(cart);
 
-        // Обновляем сессию
         session.setAttribute(CART_SESSION_KEY, cart);
 
         return cartMapper.toDto(cart);
     }
+
+
+    private Cart getOrCreateCart(HttpSession session) {
+        Cart cart = (Cart) session.getAttribute(CART_SESSION_KEY);
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute(CART_SESSION_KEY, cart);
+        }
+        return cart;
+    }
+
+    private void validateStockAvailability(Flower flower, int quantity) {
+        if (flower.getCount() < quantity) {
+            throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
+        }
+    }
+
+    private void incrementStats(Flower flower, Long flowerId, int quantity) {
+        incrementPopularity(flower);
+        incrementFlowerFavorites(flowerId, quantity);
+        flower.setCartAddCount(flower.getCartAddCount() + 1);
+        flowerRepository.save(flower);
+    }
+    private static class PriceInfo {
+        BigDecimal regularPrice;
+        BigDecimal finalPrice;
+        boolean hasDiscount;
+        LocalDateTime discountExpiry;
+
+        public PriceInfo(BigDecimal regularPrice, BigDecimal finalPrice, boolean hasDiscount, LocalDateTime discountExpiry) {
+            this.regularPrice = regularPrice;
+            this.finalPrice = finalPrice;
+            this.hasDiscount = hasDiscount;
+            this.discountExpiry = discountExpiry;
+        }
+    }
+
+    private PriceInfo getPriceInfo(Flower flower) {
+        BigDecimal regularPrice = flower.getPrice();
+        if (specialOfferService.hasActiveDiscount(flower)) {
+            Optional<SpecialOffer> offer = specialOfferService.getBestOffer(flower);
+            if (offer.isPresent()) {
+                return new PriceInfo(
+                        regularPrice,
+                        specialOfferService.getDiscountedPrice(flower),
+                        true,
+                        offer.get().getEndDate()
+                );
+            }
+        }
+        return new PriceInfo(regularPrice, regularPrice, false, null);
+    }
+
+    private void updateExistingCartItem(CartItem item, int addQuantity, int stockAvailable, PriceInfo priceInfo) {
+        int newQuantity = item.getQuantity() + addQuantity;
+
+        if (stockAvailable < newQuantity) {
+            throw new RuntimeException("Not enough flowers in stock. Available: " + stockAvailable);
+        }
+
+        item.setQuantity(newQuantity);
+        item.setItemTotal(priceInfo.finalPrice.multiply(BigDecimal.valueOf(newQuantity)));
+
+        item.setPrice(priceInfo.regularPrice); // обычная цена всегда
+
+        if (priceInfo.hasDiscount) {
+            item.setDiscountPrice(priceInfo.finalPrice); // скидочная
+            item.setHasDiscount(true);
+            item.setDiscountExpiryDate(priceInfo.discountExpiry);
+        } else {
+            item.setDiscountPrice(null);
+            item.setHasDiscount(false);
+            item.setDiscountExpiryDate(null);
+        }// текущая цена, которая идёт в расчёт
+    }
+
+    private CartItem createNewCartItem(Flower flower, int quantity, PriceInfo priceInfo) {
+        CartItem item = new CartItem();
+        item.setFlower(flower);
+        item.setQuantity(quantity);
+
+        item.setPrice(priceInfo.regularPrice); // сохраняем обычную цену
+        item.setDiscountPrice(priceInfo.finalPrice); // сохраняем цену со скидкой (если есть)
+        item.setHasDiscount(priceInfo.hasDiscount);
+        item.setDiscountExpiryDate(priceInfo.discountExpiry);
+        item.setItemTotal(priceInfo.finalPrice.multiply(BigDecimal.valueOf(quantity)));
+
+        return item;
+    }
+
 
     @Override
     @Transactional
@@ -124,7 +190,6 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = getOrCreateCartFromSession(session);
 
-        // Находим элемент корзины
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(item -> item.getFlower().getId().equals(flowerId))
                 .findFirst();
@@ -133,20 +198,43 @@ public class CartServiceImpl implements CartService {
             CartItem item = existingItem.get();
             Flower flower = item.getFlower();
 
-            // Проверяем, достаточно ли цветков в наличии
             if (flower.getCount() < quantity) {
                 throw new RuntimeException("Not enough flowers in stock. Available: " + flower.getCount());
             }
 
-            // Обновляем количество
-            updateCartItem(item, quantity);
+            item.setQuantity(quantity);
 
-            // Пересчитываем общую стоимость
-            recalculateTotalPrice(cart);
+            BigDecimal currentPrice = flower.getPrice();
+            boolean hasDiscount = false;
+            BigDecimal discountedPrice = null;
+            LocalDateTime discountExpiry = null;
 
-            // Обновляем сессию
-            session.setAttribute(CART_SESSION_KEY, cart);
+            if (specialOfferService.hasActiveDiscount(flower)) {
+                Optional<SpecialOffer> bestOffer = specialOfferService.getBestOffer(flower);
+                if (bestOffer.isPresent()) {
+                    hasDiscount = true;
+                    discountedPrice = specialOfferService.getDiscountedPrice(flower);
+                    discountExpiry = bestOffer.get().getEndDate();
+                }
+            }
+
+            if (hasDiscount) {
+                item.setDiscountPrice(discountedPrice);  // сохраняем цену со скидкой
+                item.setPrice(discountedPrice);          // используем в расчётах
+                item.setHasDiscount(true);
+                item.setDiscountExpiryDate(discountExpiry);
+            } else {
+                item.setDiscountPrice(null);
+                item.setPrice(currentPrice);
+                item.setHasDiscount(false);
+                item.setDiscountExpiryDate(null);
+            }
+
+            item.setItemTotal(item.getPrice().multiply(BigDecimal.valueOf(quantity)));
         }
+
+        recalculateTotalPrice(cart);
+        session.setAttribute(CART_SESSION_KEY, cart);
 
         return cartMapper.toDto(cart);
     }

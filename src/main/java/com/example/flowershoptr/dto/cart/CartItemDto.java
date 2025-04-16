@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +18,11 @@ public class CartItemDto {
     private String flowerName;
     private String flowerImageUrl;
     private Integer quantity;
-    private BigDecimal price;
-    private BigDecimal itemTotal;
+
+    private BigDecimal price;               // Обычная цена (без скидки)
+    private BigDecimal discountPrice;       // Цена со скидкой (если есть)
+    private boolean hasDiscount;
+    private LocalDateTime discountExpiryDate;
+
+    private BigDecimal itemTotal;           // Суммарная стоимость
 }

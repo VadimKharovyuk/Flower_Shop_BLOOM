@@ -102,7 +102,7 @@ public class FlowerMapper {
         flower.setAverageRating(0.0);
 
 
-        // Категория будет установлена в сервисе после поиска по ID
+
 
         return flower;
     }
