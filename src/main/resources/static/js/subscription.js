@@ -71,14 +71,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Очищаем поле ввода
                         form.querySelector('input[type="email"]').value = '';
 
-                        // Показываем сообщение об успехе
-                        showMessage(form, 'Спасибо за подписку! Проверьте вашу почту.', 'success');
+                        // Проверяем, является ли это случаем уже существующей подписки
+                        if (data.alreadySubscribed) {
+                            showMessage(form, data.message, 'info');
+                        } else {
+                            // Показываем сообщение об успехе
+                            showMessage(form, 'Спасибо за подписку! Проверьте вашу почту.', 'success');
 
-                        // Если на странице есть счетчик подписчиков, обновляем его
-                        const subscriberCountElement = document.querySelector('.subscriber-count span');
-                        if (subscriberCountElement) {
-                            const currentCount = parseInt(subscriberCountElement.textContent);
-                            subscriberCountElement.textContent = currentCount + 1;
+                            // Если на странице есть счетчик подписчиков, обновляем его
+                            const subscriberCountElement = document.querySelector('.subscriber-count span');
+                            if (subscriberCountElement) {
+                                const currentCount = parseInt(subscriberCountElement.textContent);
+                                subscriberCountElement.textContent = currentCount + 1;
+                            }
                         }
 
                         return data;
@@ -105,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * Показывает сообщение под формой
      * @param {HTMLElement} form - Форма, для которой показывается сообщение
      * @param {string} text - Текст сообщения
-     * @param {string} type - Тип сообщения ('success' или 'error')
+     * @param {string} type - Тип сообщения ('success', 'error' или 'info')
      */
     function showMessage(form, text, type) {
         // Ищем существующий элемент сообщения или создаем новый
@@ -120,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
         messageElement.className = 'newsletter-message ' + type;
         messageElement.textContent = text;
 
-        // Автоматически скрываем сообщение об успехе через 5 секунд
-        if (type === 'success') {
+        // Автоматически скрываем сообщение об успехе и информационное через 5 секунд
+        if (type === 'success' || type === 'info') {
             setTimeout(() => {
                 messageElement.style.opacity = '0';
                 setTimeout(() => {

@@ -1,75 +1,295 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Подтверждение подписки</title>-->
+<!--  <style>-->
+<!--    body {-->
+<!--      font-family: Arial, sans-serif;-->
+<!--      line-height: 1.6;-->
+<!--      color: #333;-->
+<!--      max-width: 600px;-->
+<!--      margin: 0 auto;-->
+<!--      padding: 20px;-->
+<!--    }-->
+<!--    .header {-->
+<!--      background-color: #4CAF50;-->
+<!--      color: white;-->
+<!--      padding: 10px 20px;-->
+<!--      text-align: center;-->
+<!--      border-radius: 5px 5px 0 0;-->
+<!--    }-->
+<!--    .content {-->
+<!--      padding: 20px;-->
+<!--      background-color: #f9f9f9;-->
+<!--      border: 1px solid #ddd;-->
+<!--      border-top: none;-->
+<!--      border-radius: 0 0 5px 5px;-->
+<!--    }-->
+<!--    .footer {-->
+<!--      margin-top: 20px;-->
+<!--      font-size: 12px;-->
+<!--      text-align: center;-->
+<!--      color: #777;-->
+<!--    }-->
+<!--    .button {-->
+<!--      display: inline-block;-->
+<!--      padding: 10px 20px;-->
+<!--      background-color: #4CAF50;-->
+<!--      color: white;-->
+<!--      text-decoration: none;-->
+<!--      border-radius: 5px;-->
+<!--      margin-top: 15px;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="header">-->
+<!--  <h1>Подписка подтверждена!</h1>-->
+<!--</div>-->
+<!--<div class="content">-->
+<!--  <h2>Спасибо за подписку на новости Flower Shop!</h2>-->
+
+<!--  <p>Вы успешно подписались на нашу рассылку и теперь будете получать:</p>-->
+<!--  <ul>-->
+<!--    <li>Новые посты из нашего блога</li>-->
+<!--    <li>Информацию о специальных предложениях</li>-->
+<!--    <li>Важные новости и обновления магазина</li>-->
+<!--  </ul>-->
+
+<!--  <p>Ваш email: <span th:text="${recipientEmail}">example@email.com</span></p>-->
+
+<!--  <p>Мы рады, что вы с нами!</p>-->
+
+<!--  <a href="#" class="button">Посетить наш сайт</a>-->
+
+<!--  <p>С уважением,<br>Команда Flower Shop</p>-->
+<!--</div>-->
+<!--<div class="footer">-->
+<!--  <p>Вы получили это письмо, потому что подписались на новости Flower Shop.</p>-->
+<!--  <p>Если вы не хотите получать рассылку, <a href="#">нажмите здесь для отписки</a>.</p>-->
+<!--  <p>&copy; 2025 Flower Shop. Все права защищены.</p>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Подтверждение подписки</title>
+  <title>Підтвердження підписки</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.8;
       color: #333;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+    .container {
+      background-color: #ffffff;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 30px 15px;
     }
     .header {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
+      background-color: #1c3144;
+      padding: 28px 35px;
       text-align: center;
-      border-radius: 5px 5px 0 0;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 0.5px;
     }
     .content {
-      padding: 20px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-top: none;
-      border-radius: 0 0 5px 5px;
+      padding: 40px 35px;
     }
-    .footer {
-      margin-top: 20px;
-      font-size: 12px;
+    .thank-you {
+      font-family: 'Playfair Display', serif;
+      color: #1c3144;
+      font-size: 30px;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 20px;
+      line-height: 1.3;
       text-align: center;
-      color: #777;
     }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #4CAF50;
+    .intro {
+      font-size: 16px;
+      color: #4a4a4a;
+      margin-bottom: 25px;
+      text-align: center;
+      font-weight: 400;
+      line-height: 1.6;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    .benefits {
+      background-color: #f9f9f9;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 25px 0;
+    }
+    .benefits h3 {
+      color: #1c3144;
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    .benefits ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    .benefits li {
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .benefits li::before {
+      content: "✓";
+      color: #1c3144;
+      position: absolute;
+      left: -20px;
+      font-weight: bold;
+    }
+    .email-info {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      margin: 25px 0;
+      font-size: 14px;
+    }
+    .email-info strong {
+      color: #1c3144;
+      font-weight: 500;
+    }
+    .cta-button {
+      display: block;
+      width: 200px;
+      padding: 12px 30px;
+      background-color: #1c3144;
       color: white;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 15px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin: 30px auto;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      background-color: #2c4c6c;
+    }
+    .signature {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+    }
+    .signature strong {
+      color: #333;
+      display: block;
+      margin-top: 5px;
+    }
+    .footer {
+      background-color: #f5f5f5;
+      padding: 25px 35px;
+      font-size: 12px;
+      text-align: center;
+      color: #888;
+      border-top: 1px solid #eee;
+    }
+    .footer a {
+      color: #1c3144;
+      text-decoration: none;
+    }
+    .social-links {
+      margin: 15px 0;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 0 8px;
+      color: #1c3144;
+      text-decoration: none;
+    }
+    .unsubscribe-link {
+      color: #888;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 22px;
+      }
+      .thank-you {
+        font-size: 24px;
+      }
+      .content {
+        padding: 30px 25px;
+      }
+      .benefits {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="header">
-  <h1>Подписка подтверждена!</h1>
-</div>
-<div class="content">
-  <h2>Спасибо за подписку на новости Flower Shop!</h2>
+<div class="container">
+  <div class="header">
+    <h1>Підписку підтверджено!</h1>
+  </div>
 
-  <p>Вы успешно подписались на нашу рассылку и теперь будете получать:</p>
-  <ul>
-    <li>Новые посты из нашего блога</li>
-    <li>Информацию о специальных предложениях</li>
-    <li>Важные новости и обновления магазина</li>
-  </ul>
+  <div class="content">
+    <h2 class="thank-you">Дякуємо за підписку!</h2>
 
-  <p>Ваш email: <span th:text="${recipientEmail}">example@email.com</span></p>
+    <p class="intro">
+      Ми вдячні, що Ви вирішили приєднатися до нашої спільноти та бути в курсі всіх новин Flower Shop.
+    </p>
 
-  <p>Мы рады, что вы с нами!</p>
+    <div class="benefits">
+      <h3>Тепер Ви будете отримувати:</h3>
+      <ul>
+        <li>Нові статті з нашого блогу про догляд за квітами</li>
+        <li>Ексклюзивні пропозиції та знижки для підписників</li>
+        <li>Сезонні поради та ідеї для оформлення інтер'єру</li>
+        <li>Анонси нових колекцій та важливі новини</li>
+      </ul>
+    </div>
 
-  <a href="#" class="button">Посетить наш сайт</a>
+    <div class="email-info">
+      Ваш email: <strong th:text="${recipientEmail}">example@email.com</strong>
+    </div>
 
-  <p>С уважением,<br>Команда Flower Shop</p>
-</div>
-<div class="footer">
-  <p>Вы получили это письмо, потому что подписались на новости Flower Shop.</p>
-  <p>Если вы не хотите получать рассылку, <a href="#">нажмите здесь для отписки</a>.</p>
-  <p>&copy; 2025 Flower Shop. Все права защищены.</p>
+    <p style="text-align: center;">Ми раді, що Ви з нами! Завітайте на наш сайт, щоб ознайомитися з асортиментом.</p>
+
+    <a href="#" class="cta-button">Відвідати наш сайт</a>
+
+    <div class="signature">
+      З повагою,
+      <strong>Команда Flower Shop</strong>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="social-links">
+      <a href="https://www.facebook.com/profile.php?id=100009226154613">Facebook</a> •
+      <a href="https://www.instagram.com/name_lucky_lucky_/">Instagram</a> •
+      <a href="https://t.me/name_lucky_lucky" target="_blank">Telegram</a>
+
+    <p>Ви отримали цей лист, тому що підписалися на новини Flower Shop.</p>
+    <p>© 2025 Flower Shop. Всі права захищені.</p>
+    <p><a href="#" class="unsubscribe-link">Відписатися від розсилки</a></p>
+  </div>
 </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.example.flowershoptr.service;
 import com.example.flowershoptr.dto.Subscrip.SubscriptionDto;
+import com.example.flowershoptr.exception.AlreadySubscribedException;
 import com.example.flowershoptr.model.Subscription;
 import com.example.flowershoptr.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,21 +39,10 @@ public class SubscriptionService {
         return subscriptionRepository.findByActiveTrue();
     }
 
-    /**
-     * Получает список email-адресов всех активных подписчиков
-     *
-     * @return Список email-адресов
-     */
     public List<String> getActiveSubscriberEmails() {
         return subscriptionRepository.findAllActiveEmails();
     }
 
-    /**
-     * Создает новую подписку или активирует существующую
-     *
-     * @param subscriptionDto DTO с данными подписки
-     * @return Объект созданной или обновленной подписки, или null в случае ошибки
-     */
     @Transactional
     public Subscription subscribe(SubscriptionDto subscriptionDto) {
         String email = subscriptionDto.getEmail();
@@ -67,10 +57,11 @@ public class SubscriptionService {
                     subscriptionRepository.save(subscription);
                     sendWelcomeEmail(email);
                     log.info("Повторная активация подписки для: {}", email);
+                    return subscription;
                 } else {
                     log.info("Попытка подписки уже активного пользователя: {}", email);
+                    throw new AlreadySubscribedException("Этот email уже подписан на рассылку");
                 }
-                return subscription;
             } else {
                 Subscription newSubscription = Subscription.builder()
                         .email(email)
@@ -82,18 +73,15 @@ public class SubscriptionService {
                 log.info("Создана новая подписка для: {}", email);
                 return savedSubscription;
             }
+        } catch (AlreadySubscribedException e) {
+            // Пробрасываем наше специальное исключение дальше
+            throw e;
         } catch (Exception e) {
             log.error("Ошибка при создании подписки для {}: {}", email, e.getMessage());
             return null;
         }
     }
 
-    /**
-     * Отписывает пользователя (делает подписку неактивной)
-     *
-     * @param email Email для отписки
-     * @return true, если отписка прошла успешно
-     */
     @Transactional
     public boolean unsubscribe(String email) {
         Optional<Subscription> subscription = subscriptionRepository.findByEmail(email);
@@ -110,11 +98,6 @@ public class SubscriptionService {
         return false;
     }
 
-    /**
-     * Отправляет приветственное письмо новому подписчику
-     *
-     * @param email Email подписчика
-     */
     private void sendWelcomeEmail(String email) {
         try {
             Map<String, Object> context = new HashMap<>();
@@ -131,11 +114,6 @@ public class SubscriptionService {
         }
     }
 
-    /**
-     * Проверяет количество активных подписчиков
-     *
-     * @return Количество активных подписчиков
-     */
     public long getActiveSubscriberCount() {
         return subscriptionRepository.findByActiveTrue().size();
     }
