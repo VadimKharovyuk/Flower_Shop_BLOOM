@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- Элегантный заголовок с настраиваемой компоновкой -->
+<div th:fragment="elegant-header(title, subtitle, imagePath, align, textColor)" class="elegant-header" th:classappend="${align == 'right' ? 'image-left' : align == 'center' ? 'text-center' : ''}">
+    <div class="elegant-header-container">
+        <div class="elegant-header-content" th:classappend="${textColor == 'light' ? 'light-text' : 'dark-text'}">
+            <div class="elegant-content-inner">
+                <div class="elegant-divider"></div>
+                <h1 class="elegant-title" th:text="${title}">Заголовок страницы</h1>
+                <p class="elegant-subtitle" th:text="${subtitle}">Подзаголовок страницы с описанием</p>
+                <div class="elegant-divider elegant-divider-bottom"></div>
+            </div>
+        </div>
+        <div class="elegant-header-image">
+            <img th:src="${imagePath}" alt="Header image">
+        </div>
+    </div>
+</div>
+
+<!-- CSS для элегантного заголовка -->
+<style th:fragment="elegant-header-css">
+    .elegant-header {
+        padding: 60px 0;
+        overflow: hidden;
+        background-color: #f9f9f9;
+    }
+
+    .elegant-header-container {
+        max-width: var(--content-width, 1240px);
+        margin: 0 auto;
+        padding: 0 30px;
+        display: flex;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .elegant-header-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .elegant-content-inner {
+        max-width: 550px;
+    }
+
+    .elegant-divider {
+        width: 50px;
+        height: 2px;
+        background-color: var(--accent-color, #ecdcdc);
+        margin-bottom: 30px;
+    }
+
+    .elegant-divider-bottom {
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+
+    .elegant-title {
+        font-family: var(--font-serif, 'Playfair Display', serif);
+        font-size: 46px;
+        font-weight: 500;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .elegant-subtitle {
+        font-family: var(--font-sans, 'Montserrat', sans-serif);
+        font-size: 18px;
+        line-height: 1.7;
+        font-weight: 300;
+    }
+
+    .elegant-header-image {
+        flex: 1;
+        height: 450px;
+        border-radius: 3px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        position: relative;
+    }
+
+    .elegant-header-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+    }
+
+    .elegant-header-image::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .elegant-header:hover .elegant-header-image img {
+        transform: scale(1.05);
+    }
+
+    .elegant-header:hover .elegant-header-image::before {
+        opacity: 1;
+    }
+
+    /* Варианты выравнивания */
+    .elegant-header.image-left .elegant-header-container {
+        flex-direction: row-reverse;
+    }
+
+    .elegant-header.text-center {
+        text-align: center;
+    }
+
+    .elegant-header.text-center .elegant-header-container {
+        flex-direction: column;
+    }
+
+    .elegant-header.text-center .elegant-content-inner {
+        max-width: 700px;
+    }
+
+    .elegant-header.text-center .elegant-divider {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .elegant-header.text-center .elegant-header-image {
+        width: 100%;
+        max-width: 900px;
+    }
+
+    /* Варианты цвета текста */
+    .elegant-header-content.light-text .elegant-title {
+        color: #ffffff;
+    }
+
+    .elegant-header-content.light-text .elegant-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .elegant-header-content.light-text .elegant-divider {
+        background-color: #ffffff;
+    }
+
+    .elegant-header-content.dark-text .elegant-title {
+        color: var(--primary-color, #1a1a1a);
+    }
+
+    .elegant-header-content.dark-text .elegant-subtitle {
+        color: var(--text-color, #333333);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 992px) {
+        .elegant-header {
+            padding: 50px 0;
+        }
+
+        .elegant-header-container {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .elegant-header.image-left .elegant-header-container {
+            flex-direction: column;
+        }
+
+        .elegant-header-image {
+            width: 100%;
+            height: 350px;
+        }
+
+        .elegant-title {
+            font-size: 38px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .elegant-header {
+            padding: 40px 0;
+        }
+
+        .elegant-header-container {
+            padding: 0 20px;
+            gap: 30px;
+        }
+
+        .elegant-header-image {
+            height: 280px;
+        }
+
+        .elegant-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .elegant-subtitle {
+            font-size: 16px;
+        }
+
+        .elegant-divider {
+            margin-bottom: 20px;
+        }
+
+        .elegant-divider-bottom {
+            margin-top: 20px;
+        }
+    }
+</style>
+
+
+</body>
+</html>
+
+
+
+<!--&lt;!&ndash; Подключение CSS в head &ndash;&gt;-->
+<!--<style th:replace="~{client/fragments/elegant-header :: elegant-header-css}"></style>-->
+
+<!--&lt;!&ndash; Базовый вариант с текстом слева и изображением справа &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/elegant-header :: elegant-header(-->
+<!--    'Коллекция букетов',-->
+<!--    'Исследуйте наш ассортимент уникальных композиций, созданных опытными флористами',-->
+<!--    '/img/bouquets-collection.jpg',-->
+<!--    'left',-->
+<!--    'dark'-->
+<!--)}"></div>-->
+
+<!--&lt;!&ndash; Вариант с текстом справа и изображением слева &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/elegant-header :: elegant-header(-->
+<!--    'Мастер-классы',-->
+<!--    'Погрузитесь в искусство флористики на наших профессиональных мастер-классах',-->
+<!--    '/img/workshops.jpg',-->
+<!--    'right',-->
+<!--    'dark'-->
+<!--)}"></div>-->
+
+<!--&lt;!&ndash; Вариант с центрированным текстом и изображением снизу &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/elegant-header :: elegant-header(-->
+<!--    'О нашей студии',-->
+<!--    'Мы создаем уникальные цветочные композиции, вдохновленные красотой природы и современными тенденциями',-->
+<!--    '/img/studio.jpg',-->
+<!--    'center',-->
+<!--    'dark'-->
+<!--)}"></div>-->
+
+<!--&lt;!&ndash; Вариант со светлым текстом (для темных изображений) &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/elegant-header :: elegant-header(-->
+<!--    'Свадебная флористика',-->
+<!--    'Создаем волшебную атмосферу для вашего особенного дня с помощью эксклюзивных цветочных решений',-->
+<!--    '/img/wedding-flowers.jpg',-->
+<!--    'left',-->
+<!--    'light'-->
+<!--)}"></div>-->
+

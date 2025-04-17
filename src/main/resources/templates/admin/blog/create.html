@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Категории')}">
+<body>
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+
+<div class="main-content">
+    <div class="header">
+        <h1 class="page-title">Создание поста</h1>
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name">Admin</span>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Произошла ошибка!</span>
+    </div>
+
+    <div class="content-section">
+        <form th:action="@{/admin/blog/create}" method="post" enctype="multipart/form-data">
+            <div class="form-section">
+                <h3>Основная информация</h3>
+                <div class="form-group">
+                    <label for="title" class="form-label">Заголовок</label>
+                    <input type="text" id="title" name="title" class="form-control" th:value="${blogPost.title}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type" class="form-label">Тип поста</label>
+                    <select id="type" name="type" class="form-control" required>
+                        <option value="">Выберите тип</option>
+                        <option th:each="postType : ${postTypes}"
+                                th:value="${postType}"
+                                th:text="${postType.getDisplayName()}"
+                                th:selected="${blogPost.type == postType}">
+                            Тип поста
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="shortDescription" class="form-label">Краткое описание</label>
+                    <textarea id="shortDescription" name="shortDescription" class="form-control" rows="3" th:text="${blogPost.shortDescription}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullContent" class="form-label">Полное содержание</label>
+                    <textarea id="fullContent" name="fullContent" class="form-control" rows="10" th:text="${blogPost.fullContent}" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Изображение</h3>
+                <div class="form-group">
+                    <label class="form-label">Загрузить изображение</label>
+                    <div class="image-upload" id="imageUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Перетащите изображение сюда или кликните для выбора</p>
+                        <input type="file" name="image" id="imageInput" accept="image/*">
+                    </div>
+                    <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+                        <img src="" alt="Preview" id="imagePreview" class="image-preview">
+                        <div class="image-preview-remove" id="removeImage">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <a th:href="@{/admin/blog}" class="btn btn-outline">Отмена</a>
+                <button type="submit" class="btn btn-success">Создать пост</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Предварительный просмотр изображения
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imageUpload = document.getElementById('imageUpload');
+    const removeImage = document.getElementById('removeImage');
+
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'block';
+                imageUpload.style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    removeImage.addEventListener('click', function() {
+        imageInput.value = '';
+        imagePreviewContainer.style.display = 'none';
+        imageUpload.style.display = 'flex';
+    });
+</script>
+</body>
+</html>

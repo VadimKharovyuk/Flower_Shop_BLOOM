@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Категории')}">
+<body>
+<button class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
+
+<aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+
+<div class="main-content">
+  <div class="header">
+    <h1 class="page-title">Удаление поста</h1>
+    <div class="user-menu">
+      <div class="avatar">A</div>
+      <span class="user-name">Admin</span>
+      <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="alert alert-danger">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Вы уверены, что хотите удалить этот пост? Это действие нельзя отменить.</span>
+    </div>
+
+    <div class="form-section">
+      <h3 th:text="${blogPost.title}">Заголовок поста</h3>
+      <p th:text="${blogPost.shortDescription}">Краткое описание поста</p>
+
+      <div th:if="${blogPost.previewImageUrl}" class="mt-2">
+        <img th:src="${blogPost.previewImageUrl}" alt="Preview" style="max-width: 300px; border-radius: 5px;">
+      </div>
+
+      <div class="mt-2">
+        <p><strong>Тип:</strong> <span th:text="${blogPost.type.getDisplayName()}">Тип поста</span></p>
+        <p><strong>Просмотры:</strong> <span th:text="${blogPost.viewCount}">123</span></p>
+        <p><strong>Дата создания:</strong> <span th:text="${#temporals.format(blogPost.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025</span></p>
+      </div>
+    </div>
+
+    <div class="form-buttons">
+      <a th:href="@{/admin/blog}" class="btn btn-outline">Отмена</a>
+      <form th:action="@{/admin/blog/{id}/delete(id=${blogPost.id})}" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

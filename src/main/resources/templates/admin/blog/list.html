@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Категории')}">
+<body>
+<button class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
+
+<aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+
+<div class="main-content">
+  <div class="header">
+    <h1 class="page-title">Управление блогом</h1>
+    <div class="user-menu">
+      <div class="avatar">A</div>
+      <span class="user-name">Admin</span>
+      <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${success}" class="alert alert-success">
+    <i class="fas fa-check-circle"></i>
+    <span th:text="${success}">Операция выполнена успешно!</span>
+  </div>
+
+  <div th:if="${error}" class="alert alert-danger">
+    <i class="fas fa-exclamation-circle"></i>
+    <span th:text="${error}">Произошла ошибка!</span>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header">
+      <h2 class="section-title">Список постов блога</h2>
+      <a th:href="@{/admin/blog/create}" class="btn">
+        <i class="fas fa-plus"></i> Создать пост
+      </a>
+    </div>
+
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Изображение</th>
+        <th>Заголовок</th>
+        <th>Тип</th>
+        <th>Просмотры</th>
+        <th>Дата создания</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="post : ${blogPosts}">
+        <td th:text="${post.id}">1</td>
+        <td>
+          <img th:if="${post.previewImageUrl}" th:src="${post.previewImageUrl}"
+               alt="Preview" style="width: 60px; height: 40px; object-fit: cover; border-radius: 3px;">
+          <span th:unless="${post.previewImageUrl}">Нет изображения</span>
+        </td>
+        <td th:text="${post.title}">Заголовок поста</td>
+        <td>
+          <span th:text="${post.type.getDisplayName()}">Тип поста</span>
+        </td>
+        <td th:text="${post.viewCount}">123</td>
+        <td th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025</td>
+        <td class="actions">
+          <a th:href="@{/admin/blog/{id}(id=${post.id})}" class="action-btn view-btn" title="Просмотр">
+            <i class="fas fa-eye"></i>
+          </a>
+          <a th:href="@{/admin/blog/{id}/edit(id=${post.id})}" class="action-btn edit-btn" title="Редактировать">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a th:href="@{/admin/blog/{id}/delete(id=${post.id})}" class="action-btn delete-btn" title="Удалить">
+            <i class="fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      <tr th:if="${blogPosts.empty}">
+        <td colspan="7" class="text-center">Посты не найдены</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div th:if="${blogPosts.totalPages > 1}" class="pagination">
+      <ul>
+        <li th:class="${currentPage == 0} ? 'disabled' : ''">
+          <a th:if="${currentPage > 0}" th:href="@{/admin/blog(page=${currentPage-1}, size=${blogPosts.size}, sortBy=${sortBy}, direction=${direction})}">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+          <span th:unless="${currentPage > 0}"><i class="fas fa-chevron-left"></i></span>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, blogPosts.totalPages-1)}" th:class="${currentPage == i} ? 'active' : ''">
+          <a th:href="@{/admin/blog(page=${i}, size=${blogPosts.size}, sortBy=${sortBy}, direction=${direction})}" th:text="${i+1}">1</a>
+        </li>
+        <li th:class="${currentPage+1 == blogPosts.totalPages} ? 'disabled' : ''">
+          <a th:if="${currentPage+1 < blogPosts.totalPages}" th:href="@{/admin/blog(page=${currentPage+1}, size=${blogPosts.size}, sortBy=${sortBy}, direction=${direction})}">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <span th:unless="${currentPage+1 < blogPosts.totalPages}"><i class="fas fa-chevron-right"></i></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

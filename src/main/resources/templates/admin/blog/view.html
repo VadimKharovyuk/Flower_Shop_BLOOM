@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/layout :: head('Категории')}">
+<body>
+<button class="hamburger-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+
+<div class="main-content">
+    <div class="header">
+        <h1 class="page-title">Просмотр поста</h1>
+        <div class="user-menu">
+            <div class="avatar">A</div>
+            <span class="user-name">Admin</span>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-header">
+            <h2 class="section-title" th:text="${blogPost.title}">Заголовок поста</h2>
+            <div>
+                <a th:href="@{/admin/blog/{id}/edit(id=${blogPost.id})}" class="btn btn-outline">
+                    <i class="fas fa-edit"></i> Редактировать
+                </a>
+                <a th:href="@{/admin/blog/{id}/delete(id=${blogPost.id})}" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Удалить
+                </a>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label">Тип поста</label>
+                        <p th:text="${blogPost.type.getDisplayName()}">Тип поста</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Просмотры</label>
+                        <p th:text="${blogPost.viewCount}">123</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Дата создания</label>
+                        <p th:text="${#temporals.format(blogPost.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025</p>
+                    </div>
+                    <div class="form-group" th:if="${blogPost.updatedAt}">
+                        <label class="form-label">Дата обновления</label>
+                        <p th:text="${#temporals.format(blogPost.updatedAt, 'dd.MM.yyyy HH:mm')}">01.01.2025</p>
+                    </div>
+                </div>
+                <div class="col" th:if="${blogPost.previewImageUrl}">
+                    <img th:src="${blogPost.previewImageUrl}" alt="Preview" style="max-width: 100%; border-radius: 5px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Краткое описание</h3>
+            <p th:text="${blogPost.shortDescription}">Краткое описание поста</p>
+        </div>
+
+        <div class="form-section">
+            <h3>Полное содержание</h3>
+            <div th:utext="${blogPost.fullContent}">Полное содержание поста</div>
+        </div>
+
+        <div class="form-buttons">
+            <a th:href="@{/admin/blog}" class="btn btn-outline">Назад к списку</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

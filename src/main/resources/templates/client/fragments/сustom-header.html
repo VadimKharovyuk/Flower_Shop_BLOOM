@@ -1,0 +1,132 @@
+<!-- File: client/fragments/custom-header.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- Кастомный заголовок страницы с фото и описанием -->
+<div th:fragment="custom-header(title, description, imagePath, additionalText)" class="custom-page-header">
+    <div class="custom-header-container">
+        <div class="custom-header-content">
+            <h1 class="custom-header-title" th:text="${title}">Заголовок страницы</h1>
+            <p class="custom-header-description" th:text="${description}">Описание страницы</p>
+
+            <!-- Дополнительный текст, если он предоставлен -->
+            <p th:if="${additionalText != null && !additionalText.isEmpty()}"
+               class="custom-header-additional" th:text="${additionalText}">
+                Дополнительная информация
+            </p>
+        </div>
+        <div class="custom-header-image">
+            <img th:src="${imagePath}" alt="Header image">
+        </div>
+    </div>
+</div>
+
+<!-- CSS для кастомного заголовка -->
+<style th:fragment="custom-header-css">
+    .custom-page-header {
+        padding: 80px 0;
+        background-color: var(--secondary-color);
+        overflow: hidden;
+    }
+
+    .custom-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: var(--content-width);
+        margin: 0 auto;
+        padding: 0 30px;
+        gap: 50px;
+    }
+
+    .custom-header-content {
+        flex: 1;
+        max-width: 600px;
+    }
+
+    .custom-header-title {
+        font-family: var(--font-serif);
+        font-size: 42px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        color: var(--primary-color);
+    }
+
+    .custom-header-description {
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--medium-gray);
+        margin-bottom: 25px;
+    }
+
+    .custom-header-additional {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--text-color);
+        font-style: italic;
+        border-left: 3px solid var(--accent-color);
+        padding-left: 15px;
+    }
+
+    .custom-header-image {
+        flex: 1;
+        max-width: 500px;
+        height: 350px;
+        border-radius: 3px;
+        overflow: hidden;
+        box-shadow: var(--shadow-medium);
+    }
+
+    .custom-header-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .custom-header-image:hover img {
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 992px) {
+        .custom-header-container {
+            flex-direction: column-reverse;
+            gap: 30px;
+        }
+
+        .custom-header-content,
+        .custom-header-image {
+            max-width: 100%;
+        }
+
+        .custom-header-image {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .custom-page-header {
+            padding: 50px 0;
+        }
+
+        .custom-header-title {
+            font-size: 32px;
+        }
+
+        .custom-header-description {
+            font-size: 16px;
+        }
+
+        .custom-header-image {
+            height: 250px;
+        }
+    }
+</style>
+
+</body>
+</html>
