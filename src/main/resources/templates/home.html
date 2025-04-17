@@ -1515,54 +1515,56 @@
 <!-- В конце вашего HTML, перед закрывающим тегом </body> -->
 <script src="/js/seasonal-tabs.js"></script>
 
-<!-- Testimonials Section -->
+
+<!-- Секция отзывов для главной страницы -->
 <section class="section testimonials-section">
     <div class="container">
         <h2 class="section-title">Отзывы наших клиентов</h2>
         <p class="section-subtitle">Что говорят о нас те, кто уже заказывал наши букеты</p>
 
-        <div class="testimonials-container">
-            <div class="testimonial-card">
-                <p class="testimonial-text">Заказывала букет на день рождения мамы, доставили вовремя. Цветы потрясающе свежие и красивые, мама была в восторге! Обязательно буду заказывать еще.</p>
-                <div class="testimonial-author">
-                    <div class="author-image">
-                        <img src="/api/placeholder/100/100" alt="Анна Смирнова">
-                    </div>
-                    <div class="author-info">
-                        <h5>Анна Смирнова</h5>
-                        <p>Москва</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Если отзывов нет -->
+        <div class="no-reviews" th:if="${shopReviewList == null || shopReviewList.empty}"
+             style="text-align: center; padding: 40px; background-color: white; border-radius: 8px; margin-bottom: 40px;">
+            <p>Пока отзывов нет. Станьте первым, кто оставит отзыв о нашем магазине!</p>
+        </div>
 
-            <div class="testimonial-card">
-                <p class="testimonial-text">Очень понравилось обслуживание и качество букетов. Флористы настоящие профессионалы, создают шедевры! Теперь всегда буду заказывать только здесь.</p>
-                <div class="testimonial-author">
-                    <div class="author-image">
-                        <img src="/api/placeholder/100/100" alt="Иван Петров">
-                    </div>
-                    <div class="author-info">
-                        <h5>Иван Петров</h5>
-                        <p>Санкт-Петербург</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Список всех отзывов -->
+        <div class="testimonials-container" th:if="${shopReviewList != null && !shopReviewList.empty}">
+            <div class="testimonial-card" th:each="review : ${shopReviewList}">
+                <div class="testimonial-rating">
+                    <span th:with="rating=${review.rating != null ? review.rating : 0}">
+                        <i class="fas fa-star" th:if="${rating >= 1}"></i>
+                        <i class="fas fa-star" th:if="${rating >= 2}"></i>
+                        <i class="fas fa-star" th:if="${rating >= 3}"></i>
+                        <i class="fas fa-star" th:if="${rating >= 4}"></i>
+                        <i class="fas fa-star" th:if="${rating >= 5}"></i>
 
-            <div class="testimonial-card">
-                <p class="testimonial-text">Заказывала букет на свадьбу подруги, получилось просто невероятно! Все гости спрашивали, где я нашла такую красоту. Спасибо за ваш талант и внимание к деталям!</p>
+                        <i class="far fa-star" th:if="${rating < 5}"></i>
+                        <i class="far fa-star" th:if="${rating < 4}"></i>
+                        <i class="far fa-star" th:if="${rating < 3}"></i>
+                        <i class="far fa-star" th:if="${rating < 2}"></i>
+                        <i class="far fa-star" th:if="${rating < 1}"></i>
+                    </span>
+                </div>
+
+                <p class="testimonial-text" th:text="${review.shoutDescription}">Текст отзыва</p>
+
                 <div class="testimonial-author">
                     <div class="author-image">
-                        <img src="/api/placeholder/100/100" alt="Елена Козлова">
+                        <img th:if="${review.imageUrl != null}" th:src="${review.imageUrl}" th:alt="${review.userName}">
+                        <img th:if="${review.imageUrl == null}" src="/api/placeholder/100/100" th:alt="${review.userName}">
                     </div>
                     <div class="author-info">
-                        <h5>Елена Козлова</h5>
-                        <p>Екатеринбург</p>
+                        <h5 th:text="${review.userName}">Имя пользователя</h5>
+                        <p th:text="${review.city != null && !review.city.isEmpty() ? review.city : 'Харьков'}">Город</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </section>
+
 
 <!-- Instagram Feed -->
 <section class="section instagram-section">

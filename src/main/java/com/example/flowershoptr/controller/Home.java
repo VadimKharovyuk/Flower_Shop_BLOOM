@@ -1,15 +1,13 @@
 package com.example.flowershoptr.controller;
 
 import com.example.flowershoptr.dto.Event.EventListDto;
+import com.example.flowershoptr.dto.ShopReview.ShopReviewListDTO;
 import com.example.flowershoptr.dto.SpecialOfferListDTO;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.FlowerSearchDTO;
 import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.model.Flower;
-import com.example.flowershoptr.service.CategoryService;
-import com.example.flowershoptr.service.EventService;
-import com.example.flowershoptr.service.FlowerService;
-import com.example.flowershoptr.service.SpecialOfferService;
+import com.example.flowershoptr.service.*;
 import com.example.flowershoptr.util.PaginationUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,7 @@ public class Home {
     private final CategoryService categoryService;
     private final EventService eventService;
     private final SpecialOfferService specialOfferService;
+    private final ShopReviewService shopReviewService;
 
 
 
@@ -71,6 +70,11 @@ public class Home {
             activeOffers = activeOffers.subList(0, 3);
         }
         model.addAttribute("offers", activeOffers);
+
+
+
+        List<ShopReviewListDTO> shopReviewListDTOS = shopReviewService.listShopReviews(5);
+        model.addAttribute("shopReviewList", shopReviewListDTOS);
 
 
         return "home";

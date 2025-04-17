@@ -1,295 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Отзывы о магазине BLOOM</title>-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
-<!--    &lt;!&ndash; Подключаем стили CSS для хедера и навигации &ndash;&gt;-->
-<!--    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>-->
-<!--    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>-->
-<!--    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>-->
-
-<!--    <style>-->
-<!--        /* Дополнительные стили для страницы отзывов */-->
-<!--        :root {-->
-<!--            &#45;&#45;primary-color: #9A8478;-->
-<!--            &#45;&#45;secondary-color: #E8E4E0;-->
-<!--            &#45;&#45;accent-color: #D6AD60;-->
-<!--            &#45;&#45;text-color: #2C2C2C;-->
-<!--            &#45;&#45;light-text: #6C6C6C;-->
-<!--            &#45;&#45;background: #FAFAFA;-->
-<!--            &#45;&#45;white: #FFFFFF;-->
-<!--            &#45;&#45;shadow: 0 4px 20px rgba(0, 0, 0, 0.05);-->
-<!--            &#45;&#45;transition: all 0.3s ease;-->
-<!--        }-->
-
-<!--        .reviews-section {-->
-<!--            padding: 80px 0;-->
-<!--            background-color: var(&#45;&#45;background);-->
-<!--        }-->
-
-<!--        .section-title {-->
-<!--            font-family: 'Cormorant Garamond', serif;-->
-<!--            font-size: 2.8rem;-->
-<!--            font-weight: 600;-->
-<!--            text-align: center;-->
-<!--            margin-bottom: 20px;-->
-<!--            color: var(&#45;&#45;text-color);-->
-<!--        }-->
-
-<!--        .section-subtitle {-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-size: 1rem;-->
-<!--            font-weight: 400;-->
-<!--            text-align: center;-->
-<!--            margin-bottom: 60px;-->
-<!--            color: var(&#45;&#45;light-text);-->
-<!--            max-width: 700px;-->
-<!--            margin-left: auto;-->
-<!--            margin-right: auto;-->
-<!--        }-->
-
-<!--        .reviews-grid {-->
-<!--            display: grid;-->
-<!--            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));-->
-<!--            gap: 30px;-->
-<!--            margin-bottom: 50px;-->
-<!--        }-->
-
-<!--        .review-card {-->
-<!--            background-color: var(&#45;&#45;white);-->
-<!--            border-radius: 8px;-->
-<!--            overflow: hidden;-->
-<!--            box-shadow: var(&#45;&#45;shadow);-->
-<!--            transition: var(&#45;&#45;transition);-->
-<!--            height: 100%;-->
-<!--            display: flex;-->
-<!--            flex-direction: column;-->
-<!--        }-->
-
-<!--        .review-card:hover {-->
-<!--            transform: translateY(-5px);-->
-<!--            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);-->
-<!--        }-->
-
-<!--        .review-image {-->
-<!--            width: 100%;-->
-<!--            height: 200px;-->
-<!--            object-fit: cover;-->
-<!--        }-->
-
-<!--        .review-content {-->
-<!--            padding: 25px;-->
-<!--            flex-grow: 1;-->
-<!--            display: flex;-->
-<!--            flex-direction: column;-->
-<!--        }-->
-
-<!--        .review-rating {-->
-<!--            margin-bottom: 15px;-->
-<!--            color: var(&#45;&#45;accent-color);-->
-<!--        }-->
-
-<!--        .review-shout {-->
-<!--            font-family: 'Cormorant Garamond', serif;-->
-<!--            font-size: 1.4rem;-->
-<!--            font-weight: 600;-->
-<!--            margin-bottom: 15px;-->
-<!--            color: var(&#45;&#45;text-color);-->
-<!--        }-->
-
-<!--        .review-text {-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-size: 0.95rem;-->
-<!--            line-height: 1.7;-->
-<!--            color: var(&#45;&#45;light-text);-->
-<!--            margin-bottom: 20px;-->
-<!--            flex-grow: 1;-->
-<!--        }-->
-
-<!--        .review-author {-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-weight: 600;-->
-<!--            font-size: 1rem;-->
-<!--            margin-bottom: 5px;-->
-<!--            color: var(&#45;&#45;text-color);-->
-<!--        }-->
-
-<!--        .review-location {-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-size: 0.9rem;-->
-<!--            color: var(&#45;&#45;light-text);-->
-<!--            font-style: italic;-->
-<!--        }-->
-
-<!--        .pagination {-->
-<!--            display: flex;-->
-<!--            justify-content: center;-->
-<!--            margin-top: 40px;-->
-<!--            gap: 8px;-->
-<!--        }-->
-
-<!--        .page-item {-->
-<!--            list-style-type: none;-->
-<!--        }-->
-
-<!--        .page-link {-->
-<!--            display: flex;-->
-<!--            align-items: center;-->
-<!--            justify-content: center;-->
-<!--            width: 40px;-->
-<!--            height: 40px;-->
-<!--            border-radius: 50%;-->
-<!--            background-color: var(&#45;&#45;white);-->
-<!--            color: var(&#45;&#45;text-color);-->
-<!--            text-decoration: none;-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-size: 0.9rem;-->
-<!--            transition: var(&#45;&#45;transition);-->
-<!--            border: 1px solid transparent;-->
-<!--        }-->
-
-<!--        .page-link:hover {-->
-<!--            background-color: var(&#45;&#45;secondary-color);-->
-<!--        }-->
-
-<!--        .page-item.active .page-link {-->
-<!--            background-color: var(&#45;&#45;accent-color);-->
-<!--            color: var(&#45;&#45;white);-->
-<!--        }-->
-
-<!--        .page-item.disabled .page-link {-->
-<!--            color: #ccc;-->
-<!--            pointer-events: none;-->
-<!--        }-->
-
-<!--        .add-review-button {-->
-<!--            display: block;-->
-<!--            width: fit-content;-->
-<!--            margin: 60px auto 0;-->
-<!--            padding: 15px 40px;-->
-<!--            background-color: var(&#45;&#45;accent-color);-->
-<!--            color: var(&#45;&#45;white);-->
-<!--            text-decoration: none;-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            font-size: 1rem;-->
-<!--            font-weight: 500;-->
-<!--            text-transform: uppercase;-->
-<!--            letter-spacing: 1px;-->
-<!--            border-radius: 2px;-->
-<!--            transition: var(&#45;&#45;transition);-->
-<!--            text-align: center;-->
-<!--        }-->
-
-<!--        .add-review-button:hover {-->
-<!--            background-color: transparent;-->
-<!--            color: var(&#45;&#45;accent-color);-->
-<!--            border: 1px solid var(&#45;&#45;accent-color);-->
-<!--        }-->
-
-<!--        .no-reviews {-->
-<!--            text-align: center;-->
-<!--            padding: 60px 20px;-->
-<!--            font-family: 'Montserrat', sans-serif;-->
-<!--            color: var(&#45;&#45;light-text);-->
-<!--        }-->
-
-<!--        @media screen and (max-width: 768px) {-->
-<!--            .reviews-grid {-->
-<!--                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));-->
-<!--            }-->
-
-<!--            .section-title {-->
-<!--                font-size: 2.3rem;-->
-<!--            }-->
-
-<!--            .reviews-section {-->
-<!--                padding: 60px 0;-->
-<!--            }-->
-<!--        }-->
-
-<!--        @media screen and (max-width: 576px) {-->
-<!--            .reviews-grid {-->
-<!--                grid-template-columns: 1fr;-->
-<!--            }-->
-
-<!--            .section-title {-->
-<!--                font-size: 2rem;-->
-<!--            }-->
-
-<!--            .reviews-section {-->
-<!--                padding: 40px 0;-->
-<!--            }-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--&lt;!&ndash; Навигация &ndash;&gt;-->
-<!--<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>-->
-
-<!--&lt;!&ndash; Героический заголовок &ndash;&gt;-->
-<!--<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}" class="luxe-header centered"></div>-->
-
-<!--&lt;!&ndash; Секция с отзывами &ndash;&gt;-->
-<!--<section class="reviews-section">-->
-<!--    <div class="bloom-container">-->
-<!--        <h2 class="section-title">Что о нас говорят клиенты</h2>-->
-<!--        <p class="section-subtitle">Мы ценим каждое мнение и стремимся сделать наш сервис еще лучше. Спасибо, что делитесь своими впечатлениями о нашей работе.</p>-->
-
-<!--        &lt;!&ndash; Если отзывов нет &ndash;&gt;-->
-<!--        <div class="no-reviews" th:if="${listDTO.empty}">-->
-<!--            <p>Пока нет отзывов. Станьте первым, кто оставит отзыв о нашем магазине!</p>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Сетка отзывов &ndash;&gt;-->
-<!--        <div class="reviews-grid" th:if="${!listDTO.empty}">-->
-<!--            <div class="review-card" th:each="review : ${listDTO}">-->
-<!--                <img th:if="${review.imageUrl != null}" th:src="${review.imageUrl}" class="review-image" alt="Фото к отзыву">-->
-<!--                <div class="review-content">-->
-<!--                    <div class="review-rating">-->
-<!--                        <i class="fas fa-star" th:each="i : ${#numbers.sequence(1, review.rating)}"></i>-->
-<!--                        <i class="far fa-star" th:each="i : ${#numbers.sequence(review.rating + 1, 5)}"></i>-->
-<!--                    </div>-->
-<!--                    <h3 class="review-shout" th:text="${review.shoutDescription}">Прекрасные букеты!</h3>-->
-<!--                    <p class="review-author" th:text="${review.userName}">Иван Петров</p>-->
-<!--                    <p class="review-location" th:text="${review.city}">Санкт-Петербург</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Пагинация &ndash;&gt;-->
-<!--        <div th:if="${!listDTO.empty}">-->
-<!--            <ul class="pagination">-->
-<!--                <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">-->
-<!--                    <a class="page-link" th:href="@{/review(page=${currentPage - 1}, size=10)}" aria-label="Previous">-->
-<!--                        <i class="fas fa-chevron-left"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
-
-<!--                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"-->
-<!--                    th:classappend="${currentPage == i ? 'active' : ''}">-->
-<!--                    <a class="page-link" th:href="@{/review(page=${i}, size=10)}" th:text="${i + 1}">1</a>-->
-<!--                </li>-->
-
-<!--                <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">-->
-<!--                    <a class="page-link" th:href="@{/review(page=${currentPage + 1}, size=10)}" aria-label="Next">-->
-<!--                        <i class="fas fa-chevron-right"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Кнопка добавления отзыва &ndash;&gt;-->
-<!--        <a href="/review/create" class="add-review-button">Оставить отзыв</a>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!--&lt;!&ndash; JavaScript для навигации &ndash;&gt;-->
-<!--<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -298,9 +6,9 @@
     <title>Отзывы клиентов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-        <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
-        <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
-        <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
 
     <style>
         :root {
@@ -490,12 +198,14 @@
 <body>
 <nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
 <!-- Героический заголовок -->
-<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}" class="luxe-header centered"></div>
+<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}"
+     class="luxe-header centered"></div>
 
 <section class="reviews-section">
     <div class="bloom-container">
         <h2 class="section-title">Что о нас говорят клиенты</h2>
-        <p class="section-subtitle">Мы ценим каждое мнение и стремимся сделать наш сервис еще лучше. Спасибо, что делитесь своими впечатлениями о нашей работе.</p>
+        <p class="section-subtitle">Мы ценим каждое мнение и стремимся сделать наш сервис еще лучше. Спасибо, что
+            делитесь своими впечатлениями о нашей работе.</p>
 
         <!-- Если отзывов нет -->
         <div class="no-reviews" th:if="${listDTO.empty}">
@@ -505,7 +215,8 @@
         <!-- Сетка отзывов -->
         <div class="reviews-grid" th:if="${!listDTO.empty}">
             <div class="review-card" th:each="review : ${listDTO}">
-                <img th:if="${review.imageUrl != null}" th:src="${review.imageUrl}" class="review-image" alt="Фото к отзыву">
+                <img th:if="${review.imageUrl != null}" th:src="${review.imageUrl}" class="review-image"
+                     alt="Фото к отзыву">
                 <div class="review-content">
                     <div class="review-rating">
                         <!-- Явно задаем рейтинг и количество звезд -->
@@ -558,6 +269,7 @@
         <a href="/review/create" class="add-review-button">Оставить отзыв</a>
     </div>
 </section>
+
 <script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
 </body>
 </html>
