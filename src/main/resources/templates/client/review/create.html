@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание отзыва</title>
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+
+    <!-- Google Fonts: Playfair Display (serif) и Montserrat (sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #313131;
+            --secondary-color: #9a8a78;
+            --background-color: #f8f8f8;
+            --light-accent: #e6e6e6;
+            --error-color: #d85a5a;
+            --success-color: #6a994e;
+            --text-color: #333333;
+            --border-radius: 4px;
+            --spacing-unit: 8px;
+            --transition-time: 0.3s;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .review-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 300;
+            font-size: 16px;
+        }
+
+        .required-note {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 30px;
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            box-sizing: border-box;
+            border: 1px solid var(--light-accent);
+            border-radius: var(--border-radius);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            color: var(--text-color);
+            transition: border-color var(--transition-time), box-shadow var(--transition-time);
+            background-color: white;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(154, 138, 120, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .error {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e0e0e0'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 24px;
+            transition: background-image var(--transition-time);
+        }
+
+        .rating-stars input:checked ~ label,
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239a8a78'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E");
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .file-upload-btn {
+            border: 1px dashed var(--secondary-color);
+            color: var(--primary-color);
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            cursor: pointer;
+            transition: all var(--transition-time);
+        }
+
+        .file-upload-btn:hover {
+            background-color: rgba(154, 138, 120, 0.1);
+        }
+
+        .file-upload input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .selected-file {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+            display: none;
+        }
+
+        .submit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-time), transform var(--transition-time);
+            margin-top: 20px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            background-color: #8a7b6a;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .alert-error {
+            background-color: rgba(216, 90, 90, 0.1);
+            border-left: 4px solid var(--error-color);
+            color: #9c4141;
+        }
+
+        .alert-icon {
+            margin-right: 12px;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .alert-message {
+            font-weight: 400;
+        }
+
+        .alert-list {
+            margin-top: 10px;
+            padding-left: 15px;
+        }
+
+        .alert-list li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .review-container {
+                padding: 20px;
+                margin: 20px;
+                width: auto;
+            }
+        }
+
+        .error-marker {
+            border-color: var(--error-color) !important;
+        }
+    </style>
+</head>
+<body>
+<div class="review-container">
+    <h1>Поделитесь своим мнением</h1>
+    <p class="intro-text">Ваш отзыв поможет нам стать лучше и будет полезен другим клиентам</p>
+    <p class="required-note">* обязательные поля</p>
+
+    <!-- Сообщение об ошибке -->
+    <div id="js-validation-alert" class="alert alert-error" style="display: none;">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+            <div class="alert-title">Пожалуйста, исправьте следующие ошибки:</div>
+            <ul id="js-validation-errors" class="alert-list">
+            </ul>
+        </div>
+    </div>
+
+    <form th:action="@{/review/add}" method="post" enctype="multipart/form-data" id="review-form">
+        <div class="form-group">
+            <label for="userName">Имя пользователя *</label>
+            <input type="text" id="userName" name="userName" placeholder="Введите ваше имя" required minlength="2" maxlength="50"/>
+            <div class="error error-userName"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="city">Город</label>
+            <input type="text" id="city" name="city" placeholder="Укажите ваш город"/>
+        </div>
+
+        <div class="form-group">
+            <label for="shoutDescription">Краткое описание *</label>
+            <textarea id="shoutDescription" name="shoutDescription" rows="3" placeholder="Поделитесь своим опытом" required minlength="5" maxlength="60"></textarea>
+            <div class="error error-shoutDescription"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Оценка *</label>
+            <div class="rating-container">
+                <div class="rating-stars">
+                    <input type="radio" id="star5" name="rating" value="5" />
+                    <label for="star5" title="5 звезд"></label>
+                    <input type="radio" id="star4" name="rating" value="4" />
+                    <label for="star4" title="4 звезды"></label>
+                    <input type="radio" id="star3" name="rating" value="3" />
+                    <label for="star3" title="3 звезды"></label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label for="star2" title="2 звезды"></label>
+                    <input type="radio" id="star1" name="rating" value="1" />
+                    <label for="star1" title="1 звезда"></label>
+                </div>
+                <select id="rating" name="rating" style="display: none;" required>
+                    <option value="">Выберите оценку</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="error error-rating"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="file">Изображение</label>
+            <div class="file-upload">
+                <span class="file-upload-btn">Выберите изображение</span>
+                <input type="file" id="file" name="file" accept="image/*"/>
+            </div>
+            <span class="selected-file" id="selected-file-name"></span>
+        </div>
+
+        <button type="submit" class="submit-btn">Отправить отзыв</button>
+    </form>
+</div>
+
+<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+<script th:replace="~{/js/shopReviewValidForm.js}"></script>
+
+</body>
+</html>

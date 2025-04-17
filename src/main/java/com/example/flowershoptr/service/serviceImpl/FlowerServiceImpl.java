@@ -220,6 +220,7 @@ public class FlowerServiceImpl implements FlowerService {
     public FlowerDetailsDTO createFlowerWithImage(CreateFlowerDTO createFlowerDTO, Long categoryId, MultipartFile imageFile) {
         log.info("Создание нового цветка с изображением в категории с ID: {}", categoryId);
 
+
         try {
             // Загрузка изображения в Cloudinary
             if (imageFile != null && !imageFile.isEmpty()) {
