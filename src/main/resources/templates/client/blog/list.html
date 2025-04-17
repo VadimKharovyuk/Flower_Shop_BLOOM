@@ -151,6 +151,16 @@
   </div>
 </div>
 
+<div th:fragment="footer-example">
+  <!-- Подключение CSS для футера -->
+  <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+  <!-- Подключение футера -->
+  <div th:replace="~{client/fragments/footer :: footer}"></div>
+</div>
+
+<script th:src="@{/js/subscribe-form.js}"></script>
+
 <script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
 
 </body>

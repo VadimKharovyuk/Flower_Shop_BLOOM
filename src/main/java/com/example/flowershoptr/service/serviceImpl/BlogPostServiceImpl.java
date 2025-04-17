@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -101,6 +103,7 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .orElseThrow(() -> new EntityNotFoundException("Blog post not found with id: " + id));
         return blogPostMapper.toDetailsDto(blogPost);
     }
+
     @Override
     @Transactional
     public BlogPostDetailsDto incrementViewCount(Long id) {
@@ -141,5 +144,23 @@ public class BlogPostServiceImpl implements BlogPostService {
     public Page<BlogPostListDto> getMostPopularBlogPosts(Pageable pageable) {
         return blogPostRepository.findAllByOrderByViewCountDesc(pageable)
                 .map(blogPostMapper::toListDto);
+    }
+
+    @Override
+    public List<BlogPost> getAllBlogPosts() {
+    return   blogPostRepository.findAll();
+
+    }
+
+    @Override
+    public List<BlogPost> searchBlogPostsByTitle(String title) {
+        return blogPostRepository.findAll().stream()
+                .filter(post -> post.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .toList();
+    }
+
+    @Override
+    public Optional<BlogPost> getBlogPostByIdOptional(Long id) {
+       return blogPostRepository.findById(id);
     }
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title}">Название поста блога</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .post-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .post-title {
+            color: #333;
+            margin-top: 0;
+        }
+        .post-description {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .read-more {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Новый пост в блоге Flower Shop</h1>
+</div>
+<div class="content">
+    <img th:if="${post.previewImageUrl}" th:src="${post.previewImageUrl}" class="post-image" alt="Изображение блога">
+
+    <h2 class="post-title" th:text="${post.title}">Название поста</h2>
+
+    <p class="post-description" th:text="${post.shortDescription}">Краткое описание поста</p>
+
+    <p th:utext="${#strings.abbreviate(post.fullContent, 200) + '...'}">Начало текста поста...</p>
+
+    <a th:href="${postUrl}" class="read-more">Читать полностью</a>
+
+    <p>С уважением,<br>Команда Flower Shop</p>
+</div>
+<div class="footer">
+    <p>Вы получили это письмо, потому что подписаны на новости Flower Shop.</p>
+    <p>Если вы не хотите получать рассылку, <a href="#">нажмите здесь для отписки</a>.</p>
+    <p>&copy; 2025 Flower Shop. Все права защищены.</p>
+</div>
+</body>
+</html>

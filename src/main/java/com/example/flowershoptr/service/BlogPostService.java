@@ -3,8 +3,12 @@ package com.example.flowershoptr.service;
 import com.example.flowershoptr.dto.BlogPost.BlogPostCreateUpdateDto;
 import com.example.flowershoptr.dto.BlogPost.BlogPostDetailsDto;
 import com.example.flowershoptr.dto.BlogPost.BlogPostListDto;
+import com.example.flowershoptr.model.BlogPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface BlogPostService {
 
@@ -24,4 +28,11 @@ public interface BlogPostService {
 
 
     Page<BlogPostListDto> getMostPopularBlogPosts(Pageable pageable);
+
+    List<BlogPost> getAllBlogPosts();
+
+    List<BlogPost> searchBlogPostsByTitle(String query);
+
+    Optional<BlogPost> getBlogPostByIdOptional(Long id);
+
 }

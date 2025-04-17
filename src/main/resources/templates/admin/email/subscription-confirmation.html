@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подтверждение подписки</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      border-radius: 5px 5px 0 0;
+    }
+    .content {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      text-align: center;
+      color: #777;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>Подписка подтверждена!</h1>
+</div>
+<div class="content">
+  <h2>Спасибо за подписку на новости Flower Shop!</h2>
+
+  <p>Вы успешно подписались на нашу рассылку и теперь будете получать:</p>
+  <ul>
+    <li>Новые посты из нашего блога</li>
+    <li>Информацию о специальных предложениях</li>
+    <li>Важные новости и обновления магазина</li>
+  </ul>
+
+  <p>Ваш email: <span th:text="${recipientEmail}">example@email.com</span></p>
+
+  <p>Мы рады, что вы с нами!</p>
+
+  <a href="#" class="button">Посетить наш сайт</a>
+
+  <p>С уважением,<br>Команда Flower Shop</p>
+</div>
+<div class="footer">
+  <p>Вы получили это письмо, потому что подписались на новости Flower Shop.</p>
+  <p>Если вы не хотите получать рассылку, <a href="#">нажмите здесь для отписки</a>.</p>
+  <p>&copy; 2025 Flower Shop. Все права защищены.</p>
+</div>
+</body>
+</html>

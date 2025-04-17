@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список подписчиков - Flower Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+        crossorigin="anonymous">
+  <style>
+    .page-header {
+      margin-bottom: 30px;
+    }
+    .alert {
+      margin-top: 20px;
+    }
+    .table-container {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .export-btn {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <h1>Список подписчиков</h1>
+    <a href="/admin/newsletter" class="btn btn-outline-primary">Вернуться к рассылкам</a>
+  </div>
+
+  <!-- Уведомления -->
+  <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+
+  <div class="export-btn">
+    <button id="exportCSV" class="btn btn-success">Экспорт в CSV</button>
+  </div>
+
+  <div class="table-container">
+    <div th:if="${#lists.isEmpty(subscribers)}" class="alert alert-info">
+      Нет активных подписчиков.
+    </div>
+
+    <table class="table table-striped" id="subscribersTable" th:if="${not #lists.isEmpty(subscribers)}">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Дата подписки</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="subscriber : ${subscribers}">
+        <td th:text="${subscriber.id}">1</td>
+        <td th:text="${subscriber.email}">example@email.com</td>
+        <td th:text="${#temporals.format(subscriber.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2023 12:00</td>
+        <td>
+          <form th:action="@{/api/subscriptions/unsubscribe}" method="post" class="d-inline">
+            <input type="hidden" name="email" th:value="${subscriber.email}">
+            <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Вы уверены, что хотите отписать этого пользователя?')">
+              Отписать
+            </button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- JavaScript для Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+<!-- JavaScript для экспорта в CSV -->
+<script>
+  document.getElementById('exportCSV').addEventListener('click', function() {
+    const table = document.getElementById('subscribersTable');
+    if (!table) return;
+
+    const rows = table.querySelectorAll('tr');
+    const csvContent = [];
+
+    // Заголовок CSV
+    csvContent.push('ID,Email,Дата подписки');
+
+    // Данные из таблицы
+    rows.forEach(function(row, index) {
+      if (index === 0) return; // Пропускаем заголовок таблицы
+
+      const cells = row.querySelectorAll('td');
+      const rowData = [
+        cells[0].textContent.trim(),
+        cells[1].textContent.trim(),
+        cells[2].textContent.trim()
+      ].join(',');
+
+      csvContent.push(rowData);
+    });
+
+    // Создаем файл CSV для скачивания
+    const csvString = csvContent.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'subscribers.csv');
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+</script>
+</body>
+</html>
