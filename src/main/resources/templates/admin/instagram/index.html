@@ -1,0 +1,124 @@
+<!-- admin/instagram/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление Instagram - Admin Panel</title>
+  <!-- Подключение Bootstrap и Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Включаем шапку админки -->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Боковое меню админки -->
+
+
+    <!-- Основной контент -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1>Управление постами Instagram</h1>
+      </div>
+
+      <!-- Уведомления -->
+      <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <!-- Форма добавления нового поста -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Добавить новый пост</h5>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/admin/instagram/save}" method="post" th:object="${newPost}">
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">URL изображения*</label>
+              <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
+              <small class="text-muted">Ссылка на изображение (рекомендуемый размер 300×300px)</small>
+            </div>
+            <div class="mb-3">
+              <label for="postUrl" class="form-label">URL поста в Instagram</label>
+              <input type="text" class="form-control" id="postUrl" th:field="*{postUrl}">
+              <small class="text-muted">Ссылка на оригинальный пост в Instagram</small>
+            </div>
+            <div class="mb-3">
+              <label for="caption" class="form-label">Подпись</label>
+              <input type="text" class="form-control" id="caption" th:field="*{caption}">
+              <small class="text-muted">Краткое описание или подпись к фото</small>
+            </div>
+            <div class="mb-3">
+              <label for="displayOrder" class="form-label">Порядок отображения</label>
+              <input type="number" class="form-control" id="displayOrder" th:field="*{displayOrder}" min="0">
+              <small class="text-muted">Порядок отображения (меньшие значения показываются первыми)</small>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="active" th:field="*{active}" checked>
+              <label class="form-check-label" for="active">Активный</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Таблица существующих постов -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Существующие посты</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Изображение</th>
+                <th>Подпись</th>
+                <th>Порядок</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:if="${#lists.isEmpty(posts)}">
+                <td colspan="6" class="text-center">Нет доступных постов</td>
+              </tr>
+              <tr th:each="post : ${posts}">
+                <td th:text="${post.id}">1</td>
+                <td>
+                  <img th:src="${post.imageUrl}" class="img-thumbnail" style="max-width: 100px;" alt="Instagram Photo">
+                </td>
+                <td th:text="${post.caption ?: 'Без подписи'}">Подпись к фото</td>
+                <td th:text="${post.displayOrder}">1</td>
+                <td>
+                  <span th:if="${post.active}" class="badge bg-success">Активный</span>
+                  <span th:unless="${post.active}" class="badge bg-secondary">Неактивный</span>
+                </td>
+                <td>
+                  <a th:href="@{/admin/instagram/edit/{id}(id=${post.id})}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a th:href="@{/admin/instagram/delete/{id}(id=${post.id})}" class="btn btn-sm btn-danger"
+                     onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- JavaScript для Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

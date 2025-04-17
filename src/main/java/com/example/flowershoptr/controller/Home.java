@@ -30,6 +30,7 @@ public class Home {
     private final EventService eventService;
     private final SpecialOfferService specialOfferService;
     private final ShopReviewService shopReviewService;
+    private final InstagramService instagramService;
 
 
 
@@ -75,6 +76,11 @@ public class Home {
 
         List<ShopReviewListDTO> shopReviewListDTOS = shopReviewService.listShopReviews(5);
         model.addAttribute("shopReviewList", shopReviewListDTOS);
+
+
+
+
+        model.addAttribute("instagramPosts", instagramService.getActivePostsLimited(6));
 
 
         return "home";

@@ -1566,6 +1566,8 @@
 </section>
 
 
+
+
 <!-- Instagram Feed -->
 <section class="section instagram-section">
     <div class="container">
@@ -1573,47 +1575,34 @@
         <p class="section-subtitle">Присоединяйтесь к нам в Instagram для вдохновения и новых идей</p>
 
         <div class="instagram-feed">
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
+            <!-- Проверяем, есть ли посты для отображения -->
+            <th:block th:if="${not #lists.isEmpty(instagramPosts)}">
+                <!-- Перебираем посты Instagram -->
+                <div th:each="post : ${instagramPosts}" class="instagram-item">
+                    <a th:href="${post.postUrl}" target="_blank" rel="noopener noreferrer">
+                        <img th:src="${post.imageUrl}" th:alt="${post.caption}" alt="Instagram photo">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram instagram-icon"></i>
+                        </div>
+                    </a>
                 </div>
-            </div>
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
+            </th:block>
+
+            <!-- Если постов нет, показываем заглушки -->
+            <th:block th:if="${#lists.isEmpty(instagramPosts)}">
+                <div th:each="i : ${#numbers.sequence(1, 6)}" class="instagram-item">
+                    <img src="/api/placeholder/300/300" alt="Instagram photo">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram instagram-icon"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
-                </div>
-            </div>
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
-                </div>
-            </div>
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
-                </div>
-            </div>
-            <div class="instagram-item">
-                <img src="/api/placeholder/300/300" alt="Instagram photo">
-                <div class="instagram-overlay">
-                    <i class="fab fa-instagram instagram-icon"></i>
-                </div>
-            </div>
+            </th:block>
         </div>
 
-        <a href="#" class="instagram-link">Подписаться на Instagram <i class="fas fa-long-arrow-alt-right"></i></a>
+        <a href="https://www.instagram.com/name_lucky_lucky_/" target="_blank" class="instagram-link">Подписаться на Instagram <i class="fas fa-long-arrow-alt-right"></i></a>
     </div>
 </section>
+
 
 
 <!-- Location Section -->
@@ -2019,10 +2008,10 @@
                 <a href="#" class="footer-logo">BLOOM</a>
                 <p class="footer-about">Премиальный цветочный бутик, специализирующийся на создании уникальных букетов и композиций. Мы работаем с 2015 года и радуем своих клиентов ежедневно.</p>
                 <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=100009226154613" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/https://www.instagram.com/name_lucky_lucky_/" class="social-link"><i class="fab fa-instagram"></i></a>
+<!--                    <a href="#" class="social-link"><i class="fab fa-vk"></i></a>-->
+                    <a href="https://t.me/name_lucky_lucky" class="social-link"><i class="fab fa-telegram"></i></a>
                 </div>
             </div>
 
