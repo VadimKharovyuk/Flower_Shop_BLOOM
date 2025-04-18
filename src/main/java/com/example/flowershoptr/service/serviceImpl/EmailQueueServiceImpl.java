@@ -254,4 +254,6 @@ public class EmailQueueServiceImpl implements EmailService {
         executorService.shutdownNow();
         serviceAvailable = false;
     }
+
+
 }

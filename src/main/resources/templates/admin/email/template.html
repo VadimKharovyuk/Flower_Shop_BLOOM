@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Уведомление</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #4a7c59;
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 0 20px;
+        }
+        .message {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .order-details {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .order-details h2 {
+            margin-top: 0;
+            color: #4a7c59;
+        }
+        .detail-row {
+            margin-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4a7c59;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Flower Shop</h1>
+    </div>
+
+    <div class="content">
+        <!-- Основное сообщение -->
+        <div class="message" th:text="${message}">
+            Здесь будет содержимое сообщения.
+        </div>
+
+        <!-- Информация о заказе (отображается только если передан объект заказа) -->
+        <div class="order-details" th:if="${order != null}">
+            <h2>Информация о заказе</h2>
+
+            <div class="detail-row">
+                <span class="detail-label">Номер заказа:</span>
+                <span th:text="${order.id}">12345</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Дата заказа:</span>
+                <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Статус заказа:</span>
+                <span th:text="${order.orderStatus}">Новый</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Статус оплаты:</span>
+                <span th:text="${order.paymentStatus}">Ожидает оплаты</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Сумма заказа:</span>
+                <span th:text="${order.total}">1000.00</span>
+            </div>
+
+            <div class="detail-row" th:if="${orderUrl != null}">
+                <a class="button" th:href="'http://example.com' + ${orderUrl}" target="_blank">Посмотреть заказ</a>
+            </div>
+        </div>
+
+        <!-- Информация о блог-посте (отображается только если передан объект поста) -->
+        <div class="order-details" th:if="${post != null}">
+            <h2>Новая публикация в блоге</h2>
+
+            <div class="detail-row">
+                <span class="detail-label">Заголовок:</span>
+                <span th:text="${post.title}">Название поста</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Дата публикации:</span>
+                <span th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy')}">01.01.2025</span>
+            </div>
+
+            <div class="detail-row" th:if="${post.description != null}">
+                <span class="detail-label">Описание:</span>
+                <span th:text="${post.description}">Краткое описание поста</span>
+            </div>
+
+            <div class="detail-row" th:if="${postUrl != null}">
+                <a class="button" th:href="'http://example.com' + ${postUrl}" target="_blank">Читать полностью</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Вы получили это письмо, потому что являетесь клиентом или подписчиком Flower Shop.</p>
+        <p>© 2025 Flower Shop. Все права защищены.</p>
+    </div>
+</div>
+</body>
+</html>

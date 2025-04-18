@@ -14,8 +14,10 @@ import com.example.flowershoptr.model.OrderItem;
 import com.example.flowershoptr.repository.OrderRepository;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.OrderService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -186,6 +188,16 @@ public class OrderServiceImpl implements OrderService {
         return order.map(orderMapper::orderToOrderDetailsDTO);
     }
 
+    @Override
+    public void updateOrderEmail(Long orderId, String email) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Заказ с ID " + orderId + " не найден"));
+
+        order.setClientEmail(email);
+        orderRepository.save(order);
+
+        log.info("Email для заказа ID {} обновлен на {}", orderId, email);
+    }
 
 
     private String generateOrderNumber() {

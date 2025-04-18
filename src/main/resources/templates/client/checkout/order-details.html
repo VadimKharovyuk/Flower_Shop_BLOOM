@@ -618,6 +618,23 @@
                 </div>
             </div>
 
+
+            <div class="email-order-section">
+                <h3>Отправить детали заказа на email</h3>
+
+                <form th:action="@{/checkout/order/{id}/send-email(id=${order.id})}" method="post">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control"
+                               th:value="${order.clientEmail}" placeholder="Введите email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+
+                <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+            </div>
+
             <!-- Контактная информация -->
             <div class="card mb-4 animate-fade-in">
                 <div class="card-header">

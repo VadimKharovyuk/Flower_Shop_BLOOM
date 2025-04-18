@@ -43,5 +43,6 @@ public interface OrderService {
     Optional<OrderDetailsDTO> getOrderByNumber(String orderNumber);
 
 
+    void updateOrderEmail(Long orderId, String email);
 
 }
