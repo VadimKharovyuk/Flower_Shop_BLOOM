@@ -1566,45 +1566,6 @@
 
 </section>
 
-
-
-
-<!-- Instagram Feed -->
-<section class="section instagram-section">
-    <div class="container">
-        <h2 class="section-title">BLOOM в Instagram</h2>
-        <p class="section-subtitle">Присоединяйтесь к нам для эксклюзивных коллекций и вдохновения</p>
-
-        <div class="instagram-feed">
-            <!-- Проверяем, есть ли посты для отображения -->
-            <th:block th:if="${not #lists.isEmpty(instagramPosts)}">
-                <!-- Перебираем посты Instagram -->
-                <div th:each="post : ${instagramPosts}" class="instagram-item">
-                    <a th:href="${post.postUrl}" target="_blank" rel="noopener noreferrer">
-                        <img th:src="${post.imageUrl}" th:alt="${post.caption}" alt="Instagram photo">
-                        <div class="instagram-overlay">
-                            <i class="fab fa-instagram instagram-icon"></i>
-                        </div>
-                    </a>
-                </div>
-            </th:block>
-
-            <!-- Если постов нет, показываем заглушки -->
-            <th:block th:if="${#lists.isEmpty(instagramPosts)}">
-                <div th:each="i : ${#numbers.sequence(1, 6)}" class="instagram-item">
-                    <img src="/api/placeholder/300/300" alt="Instagram photo">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram instagram-icon"></i>
-                    </div>
-                </div>
-            </th:block>
-        </div>
-
-        <a href="https://www.instagram.com/name_lucky_lucky_/" target="_blank" class="instagram-link">
-            Подписаться на Instagram <i class="fas fa-arrow-right"></i>
-        </a>
-    </div>
-</section>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -2023,11 +1984,11 @@
             <div class="footer-nav">
                 <h4 class="footer-title">Навигация</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Каталог</a></li>
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Доставка и оплата</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/categories">Каталог</a></li>
+                    <li><a href="/about">О нас</a></li>
+                    <li><a href="/order-tracking">Доставка и оплата</a></li>
+                    <li><a href="/blog">Блог</a></li>
                 </ul>
             </div>
 
@@ -2043,22 +2004,22 @@
             </div>
 
             <div class="footer-contact">
-                <h4 class="footer-title">Контакты</h4>
+                <h4 class="footer-title">Контакти</h4>
                 <div class="contact-info">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span>г. Москва, ул. Цветочная, 123</span>
+                    <span>м. Київ, вул. Квіткова, 123</span>
                 </div>
                 <div class="contact-info">
                     <i class="fas fa-phone"></i>
-                    <span>+7 (999) 123-45-67</span>
+                    <span>+38 (044) 123-45-67</span>
                 </div>
                 <div class="contact-info">
                     <i class="fas fa-envelope"></i>
-                    <span>info@bloom-flowers.ru</span>
+                    <span>info@bloom-flowers.ua</span>
                 </div>
                 <div class="contact-info">
                     <i class="fas fa-clock"></i>
-                    <span>Ежедневно: 9:00 - 21:00</span>
+                    <span>Щоденно: 9:00 - 21:00</span>
                 </div>
             </div>
         </div>

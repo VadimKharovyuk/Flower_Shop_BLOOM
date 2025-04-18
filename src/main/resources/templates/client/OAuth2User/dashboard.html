@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | Flower Boutique</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap">
+    <style>
+        /* Основные стили */
+        :root {
+            --color-primary: #3d3d3d;
+            --color-secondary: #767676;
+            --color-accent: #d4a977;
+            --color-accent-hover: #c69b69;
+            --color-background: #f8f8f8;
+            --color-card: #ffffff;
+            --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            width: 280px;
+            background-color: var(--color-card);
+            box-shadow: var(--shadow-soft);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .brand {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .brand h1 {
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .brand p {
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+            font-style: italic;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .user-avatar span {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            text-align: center;
+        }
+
+        .user-info p {
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--color-primary);
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(212, 169, 119, 0.1);
+            color: var(--color-accent);
+        }
+
+        .nav-link i {
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+            background-color: transparent;
+            color: var(--color-secondary);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background-color: #f8f8f8;
+            color: #d05353;
+        }
+
+        /* Основное содержимое */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 280px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--color-primary);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+
+        .card {
+            background-color: var(--color-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Информация о профиле */
+        .profile-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1rem;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        /* История заказов */
+        .order-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem;
+            background-color: rgba(0,0,0,0.02);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .order-item:hover {
+            background-color: rgba(0,0,0,0.04);
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-id {
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .order-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .order-date {
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background-color: rgba(52, 199, 89, 0.1);
+            color: #34c759;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 204, 0, 0.1);
+            color: #ffcc00;
+        }
+
+        .status-processing {
+            background-color: rgba(0, 122, 255, 0.1);
+            color: #007aff;
+        }
+
+        .order-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-left: 2rem;
+        }
+
+        /* Избранные товары */
+        .favorites-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--color-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-name {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product-actions button {
+            padding: 0.5rem;
+            background-color: transparent;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .product-actions button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 1200px) {
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1.5rem;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+            .user-profile {
+                flex-direction: row;
+                align-items: center;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .user-avatar {
+                margin-bottom: 0;
+                margin-right: 1rem;
+                width: 60px;
+                height: 60px;
+            }
+            .user-info {
+                text-align: left;
+            }
+            .user-avatar span {
+                font-size: 1.8rem;
+            }
+            .nav-menu {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .nav-item {
+                margin-right: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .favorites-list {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .order-price {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <!-- Боковая панель -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h1>Flower Boutique</h1>
+            <p>Премиальные цветочные композиции</p>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-avatar">
+                <span th:text="${name != null ? name.substring(0, 1).toUpperCase() : 'U'}">U</span>
+            </div>
+            <div class="user-info">
+                <h3 th:text="${name}">Имя пользователя</h3>
+                <p th:text="${email}">email@example.com</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-user"></i> Мой профиль
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-bag"></i> Мои заказы
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-heart"></i> Избранное
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-address-book"></i> Адреса доставки
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i> Уведомления
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i> Настройки
+                </a>
+            </li>
+        </ul>
+
+        <a href="/logout" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+        </a>
+    </aside>
+
+    <!-- Основное содержимое -->
+    <main class="main-content">
+        <div class="header">
+            <h1>Личный кабинет</h1>
+            <div class="date" th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}">19 апреля 2025</div>
+        </div>
+
+        <!-- Информация о профиле -->
+        <section class="card">
+            <h2 class="section-title">Личная информация</h2>
+            <div class="profile-info">
+                <div class="info-item">
+                    <label>Имя</label>
+                    <p th:text="${name}">Имя пользователя</p>
+                </div>
+                <div class="info-item">
+                    <label>Email</label>
+                    <p th:text="${email}">email@example.com</p>
+                </div>
+                <div class="info-item">
+                    <label>Телефон</label>
+                    <p>Не указан</p>
+                </div>
+                <div class="info-item">
+                    <label>Дата регистрации</label>
+                    <p th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">19.04.2025</p>
+                </div>
+            </div>
+            <div class="card-actions">
+                <a href="#" class="btn btn-primary">Редактировать профиль</a>
+            </div>
+        </section>
+
+        <!-- История заказов -->
+        <section class="card">
+            <h2 class="section-title">Последние заказы</h2>
+            <div class="order-list">
+                <!-- Заказ 1 -->
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-id">Заказ #FL-2025-1234</div>
+                        <div class="order-name">Весенний букет с розами и лилиями</div>
+                        <div class="order-date">15 апреля 2025</div>
+                    </div>
+                    <div class="order-status status-completed">Доставлен</div>
+                    <div class="order-price">5 900 ₽</div>
+                </div>
+
+                <!-- Заказ 2 -->
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-id">Заказ #FL-2025-1209</div>
+                        <div class="order-name">Композиция "Элегантность" с орхидеями</div>
+                        <div class="order-date">2 апреля 2025</div>
+                    </div>
+                    <div class="order-status status-processing">В пути</div>
+                    <div class="order-price">7 200 ₽</div>
+                </div>
+
+                <!-- Заказ 3 -->
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-id">Заказ #FL-2025-1187</div>
+                        <div class="order-name">Букет "Нежность" с пионами</div>
+                        <div class="order-date">25 марта 2025</div>
+                    </div>
+                    <div class="order-status status-completed">Доставлен</div>
+                    <div class="order-price">4 800 ₽</div>
+                </div>
+            </div>
+            <div class="card-actions">
+                <a href="#" class="btn btn-outline">Посмотреть все заказы</a>
+            </div>
+        </section>
+
+        <!-- Избранные товары -->
+        <section class="card">
+            <h2 class="section-title">Избранное</h2>
+            <div class="favorites-list">
+                <!-- Товар 1 -->
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Букет роз" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Букет "Розовое облако"</h3>
+                        <div class="product-price">6 200 ₽</div>
+                        <div class="product-actions">
+                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
+                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 2 -->
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Композиция с орхидеями" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Композиция "Орхидея"</h3>
+                        <div class="product-price">8 500 ₽</div>
+                        <div class="product-actions">
+                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
+                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 3 -->
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Букет с лилиями" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Букет "Белые лилии"</h3>
+                        <div class="product-price">5 300 ₽</div>
+                        <div class="product-actions">
+                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
+                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 4 -->
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Букет с пионами" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Букет "Пионы"</h3>
+                        <div class="product-price">7 800 ₽</div>
+                        <div class="product-actions">
+                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
+                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-actions">
+                <a href="#" class="btn btn-outline">Перейти в каталог</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
