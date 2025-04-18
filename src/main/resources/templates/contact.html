@@ -546,7 +546,9 @@
       <p class="form-subtitle">Если у вас есть вопросы или предложения, заполните форму ниже, и мы свяжемся с вами в ближайшее время.</p>
     </div>
 
-    <form class="contact-form" th:action="@{/contact/submit}" method="post">
+
+
+    <form id="supportForm" class="contact-form">
       <div class="form-group">
         <label for="name" class="form-label">Ваше имя</label>
         <input type="text" id="name" name="name" class="form-control" required>
@@ -558,22 +560,25 @@
       </div>
 
       <div class="form-group">
-        <label for="phone" class="form-label">Телефон</label>
-        <input type="tel" id="phone" name="phone" class="form-control">
+        <label for="phoneNumber" class="form-label">Телефон</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control">
       </div>
 
       <div class="form-group">
-        <label for="subject" class="form-label">Тема</label>
-        <input type="text" id="subject" name="subject" class="form-control" required>
+        <label for="topic" class="form-label">Тема</label>
+        <input type="text" id="topic" name="topic" class="form-control" required>
       </div>
 
       <div class="form-group full-width">
-        <label for="message" class="form-label">Сообщение</label>
-        <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
+        <label for="content" class="form-label">Сообщение</label>
+        <textarea id="content" name="content" class="form-control" rows="5" required></textarea>
       </div>
 
       <button type="submit" class="btn-submit">Отправить сообщение</button>
     </form>
+
+    <!-- Для отображения ответа -->
+    <div id="responseMessage" class="mt-3 text-success text-center fw-semibold"></div>
   </div>
 </section>
 
@@ -684,6 +689,52 @@
 <!-- Футер -->
 <div th:replace="~{client/fragments/footer :: footer}"></div>
 <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("supportForm");
+    const responseMessage = document.getElementById("responseMessage");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // предотвращаем стандартную отправку формы
+
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        topic: document.getElementById("topic").value,
+        content: document.getElementById("content").value,
+      };
+
+      fetch("/support", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Ошибка при отправке формы");
+                }
+                return response.text();
+              })
+              .then((message) => {
+                responseMessage.textContent = message;
+                responseMessage.classList.remove("text-danger");
+                responseMessage.classList.add("text-success");
+                form.reset(); // очищаем форму после отправки
+              })
+              .catch((error) => {
+                responseMessage.textContent = "Произошла ошибка. Пожалуйста, попробуйте позже.";
+                responseMessage.classList.remove("text-success");
+                responseMessage.classList.add("text-danger");
+              });
+    });
+  });
+</script>
 
 <!-- JavaScript для функциональности страницы -->
 <script>

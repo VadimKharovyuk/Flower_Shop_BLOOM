@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Детали заявки</title>
+</head>
+<body>
+<h2>Заявка от <span th:text="${request.name}"></span></h2>
+<p><strong>Email:</strong> <span th:text="${request.email}"></span></p>
+<p><strong>Телефон:</strong> <span th:text="${request.phoneNumber}"></span></p>
+<p><strong>Тема:</strong> <span th:text="${request.topic}"></span></p>
+<p><strong>Сообщение:</strong></p>
+<p th:text="${request.content}"></p>
+<p><strong>Создано:</strong> <span th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm')}"></span></p>
+
+<a href="/admin/support-requests">← Назад к списку</a>
+</body>
+</html>

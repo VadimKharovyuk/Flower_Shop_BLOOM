@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Обращения в поддержку</title>
+
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- (необязательно) немного стилизации -->
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: #c00;
+      cursor: pointer;
+    }
+
+    a {
+      margin-right: 10px;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover, button:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Заявки в поддержку (последние 7 дней)</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Имя</th>
+    <th>Email</th>
+    <th>Тема</th>
+    <th>Дата</th>
+    <th>Действия</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="req : ${requests}">
+    <td th:text="${req.id}"></td>
+    <td th:text="${req.name}"></td>
+    <td th:text="${req.email}"></td>
+    <td th:text="${req.topic}"></td>
+    <td th:text="${#temporals.format(req.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+    <td>
+      <a th:href="@{'/admin/support-requests/' + ${req.id}}" title="Просмотреть">
+        <i class="bi bi-eye"></i>
+      </a>
+      <form th:action="@{'/admin/support-requests/' + ${req.id} + '/delete'}" method="post" style="display:inline;">
+        <button type="submit" onclick="return confirm('Удалить заявку?')" title="Удалить">
+          <i class="bi bi-trash"></i>
+        </button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
