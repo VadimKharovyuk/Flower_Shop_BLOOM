@@ -38,6 +38,9 @@ public class Payment implements Serializable {
     @Column(name = "transaction_id", length = 4000) // или даже больше, если необходимо
     private String transactionId;
 
+    @Column(name = "payment_url", length = 500)
+    private String paymentUrl;
+
     @Column(nullable = false)
     private BigDecimal amount;
 

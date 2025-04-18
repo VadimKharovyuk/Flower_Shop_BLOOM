@@ -10,7 +10,10 @@ public enum PaymentMethod {
     DEBIT_CARD("Дебетовая карта"),
     CASH_ON_DELIVERY("Наличными при доставке"),
     BANK_TRANSFER("Банковский перевод"),
-    ELECTRONIC_WALLET("Электронный кошелёк");
+    ELECTRONIC_WALLET("Электронный кошелёк"),
+    MONOBANK("Monobank"),
+    LIQPAY("LiqPay"),
+    PAYPAL("PayPal");
 
     private final String description;
 

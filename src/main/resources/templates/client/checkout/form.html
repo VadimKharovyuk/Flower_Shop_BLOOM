@@ -301,6 +301,14 @@
                                 <span>Электронный кошелёк</span>
                             </label>
                         </div>
+                        <div class="payment-method" onclick="selectPayment('monobank')">
+                            <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
+                                   id="monobank" th:field="*{paymentMethod}" value="MONOBANK">
+                            <label class="payment-method-label" for="monobank">
+                                <i class="bi bi-credit-card fs-4 me-3 text-primary"></i>
+                                <span>Monobank</span>
+                            </label>
+                        </div>
 
                         <div class="text-danger mt-2" th:if="${#fields.hasErrors('paymentMethod')}" th:errors="*{paymentMethod}"></div>
                     </div>

@@ -1,4 +1,4 @@
-package com.example.flowershoptr.service.serviceImpl;
+package com.example.flowershoptr.service.payment;
 
 import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Order;
@@ -97,4 +97,7 @@ public class LiqPayPaymentServiceImpl implements PaymentService {
         return Base64.getEncoder().encodeToString(
                 org.apache.commons.codec.digest.DigestUtils.sha1(signString));
     }
+
+
+
 }
