@@ -1,5 +1,8 @@
 package com.example.flowershoptr.model;
 
+import com.example.flowershoptr.enums.OrderStatus;
+import com.example.flowershoptr.enums.PaymentMethod;
+import com.example.flowershoptr.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,18 +42,27 @@ public class Order {
     @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
 
+    @Column
+    private String notes;
+
     private BigDecimal total;
 
-    private String status = "NEW"; // NEW, PROCESSING, DELIVERING, COMPLETED, CANCELLED
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
-    @Column(name = "payment_status")
-    private String paymentStatus = "PENDING"; // PENDING, PAID, FAILED
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus ;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> items = new HashSet<>();
+
+    @Column(name = "order_number", unique = true, nullable = false)
+    private String orderNumber;
+
+
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -59,3 +71,4 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
+

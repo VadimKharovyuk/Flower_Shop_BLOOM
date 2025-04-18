@@ -270,44 +270,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Order createOrderFromCart(HttpSession session, String clientName, String clientPhone,
-                                     String clientEmail, String deliveryAddress, String paymentMethod) {
-        Cart cart = getOrCreateCartFromSession(session);
-
-        if (cart.getItems().isEmpty()) {
-            throw new RuntimeException("Cannot create order from empty cart");
-        }
-
-        // Создаем новый заказ
-        Order order = new Order();
-        order.setClientName(clientName);
-        order.setClientPhone(clientPhone);
-        order.setClientEmail(clientEmail);
-        order.setDeliveryAddress(deliveryAddress);
-        order.setPaymentMethod(paymentMethod);
-        order.setStatus("NEW");
-        order.setPaymentStatus("PENDING");
-        order.setTotal(cart.getTotalPrice());
-
-        // Копируем товары из корзины в заказ
-        for (CartItem cartItem : cart.getItems()) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setFlower(cartItem.getFlower());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(cartItem.getPrice());
-            orderItem.setItemTotal(cartItem.getItemTotal());
-            order.getItems().add(orderItem);
-        }
-
-        // Очищаем корзину после создания заказа
-        clearCart(session);
-
-        return order;
-    }
-
-    @Override
-    @Transactional
     public CartDto assignCartToUser(HttpSession session, Long userId) {
         Cart sessionCart = getOrCreateCartFromSession(session);
 
@@ -423,5 +385,8 @@ public class CartServiceImpl implements CartService {
         flower.setFavoritesCount(flower.getFavoritesCount() + incrementValue);
         flowerRepository.save(flower);
     }
+
+
+
 
 }

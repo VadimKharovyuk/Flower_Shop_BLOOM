@@ -3,7 +3,6 @@ package com.example.flowershoptr.controller;
 import com.example.flowershoptr.dto.cart.CartDto;
 import com.example.flowershoptr.model.Order;
 import com.example.flowershoptr.service.CartService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,6 @@ public class CartController {
     private final CartService cartService;
 //    private final OrderService orderService;
 
-
-
-
     /**
      * AJAX-метод для добавления товара в корзину
      */
@@ -35,10 +31,6 @@ public class CartController {
 
         return cartService.addFlowerToCart(session, flowerId, quantity);
     }
-
-
-
-
 
     /**
      * Добавление цветка в корзину
@@ -70,14 +62,6 @@ public class CartController {
 
 
 
-
-
-
-
-
-
-
-
     /**
      * AJAX-метод для получения текущей корзины в формате JSON
      */
@@ -86,8 +70,6 @@ public class CartController {
     public CartDto getCartInfo(HttpSession session) {
         return cartService.getCartDto(session);
     }
-
-
 
 
     /**
@@ -173,54 +155,32 @@ public class CartController {
     /**
      * Обработка формы оформления заказа
      */
-    @PostMapping("/checkout")
-    public String processCheckout(
-            HttpSession session,
-            @RequestParam String clientName,
-            @RequestParam String clientPhone,
-            @RequestParam String clientEmail,
-            @RequestParam String deliveryAddress,
-            @RequestParam String paymentMethod,
-            RedirectAttributes redirectAttributes) {
-
-        try {
-            // Создаем заказ из корзины
-            Order order = cartService.createOrderFromCart(session, clientName, clientPhone,
-                    clientEmail, deliveryAddress, paymentMethod);
-
-//            // Сохраняем заказ
-//            Order savedOrder = orderService.saveOrder(order);
-//
-//            // Добавляем ID заказа для использования на странице подтверждения
-//            redirectAttributes.addAttribute("orderId", savedOrder.getId());
-
-            return "redirect:/order/confirmation";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/cart/checkout";
-        }
-    }
-
-//    /**
-//     * AJAX-метод для получения текущей корзины в формате JSON
-//     */
-//    @GetMapping("/api/info")
-//    @ResponseBody
-//    public CartDto getCartInfo(HttpSession session) {
-//        return cartService.getCartDto(session);
-//    }
-
-//    /**
-//     * AJAX-метод для добавления товара в корзину
-//     */
-//    @PostMapping("/api/add")
-//    @ResponseBody
-//    public CartDto apiAddToCart(
+//    @PostMapping("/checkout")
+//    public String processCheckout(
 //            HttpSession session,
-//            @RequestParam Long flowerId,
-//            @RequestParam(defaultValue = "1") Integer quantity) {
+//            @RequestParam String clientName,
+//            @RequestParam String clientPhone,
+//            @RequestParam String clientEmail,
+//            @RequestParam String deliveryAddress,
+//            @RequestParam String paymentMethod,
+//            RedirectAttributes redirectAttributes) {
 //
-//        return cartService.addFlowerToCart(session, flowerId, quantity);
+//        try {
+//            // Создаем заказ из корзины
+//            Order order = cartService.createOrderFromCart(session, clientName, clientPhone,
+//                    clientEmail, deliveryAddress, paymentMethod);
+//
+////            // Сохраняем заказ
+////            Order savedOrder = orderService.saveOrder(order);
+//
+////            // Добавляем ID заказа для использования на странице подтверждения
+////            redirectAttributes.addAttribute("orderId", savedOrder.getId());
+//
+//            return "redirect:/order/confirmation";
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+//            return "redirect:/cart/checkout";
+//        }
 //    }
 
 

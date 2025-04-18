@@ -58,30 +58,12 @@ public interface CartService {
      */
     void clearCart(HttpSession session);
 
-    /**
-     * Преобразовать корзину в заказ
-     * @param session HTTP сессия пользователя
-     * @param clientName Имя клиента
-     * @param clientPhone Телефон клиента
-     * @param clientEmail Email клиента
-     * @param deliveryAddress Адрес доставки
-     * @param paymentMethod Способ оплаты
-     * @return Созданный заказ
-     */
-    Order createOrderFromCart(HttpSession session, String clientName, String clientPhone,
-                              String clientEmail, String deliveryAddress, String paymentMethod);
 
-    /**
-     * Привязать анонимную корзину к пользователю после авторизации
-     * @param session HTTP сессия пользователя
-     * @param userId ID пользователя
-     * @return Обновленное DTO корзины
-     */
+
     CartDto assignCartToUser(HttpSession session, Long userId);
 
 
     Integer getCartItemCount(HttpSession session);
-
 
 
 }

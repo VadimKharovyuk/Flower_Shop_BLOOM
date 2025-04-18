@@ -43,7 +43,7 @@ public class CustomOrder {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private OrderStatus status = OrderStatus.NEW;
+    private OrderStatus status = OrderStatus.PENDING;
 
     @CreationTimestamp
     @Column(updatable = false)

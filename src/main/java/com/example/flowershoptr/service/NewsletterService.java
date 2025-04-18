@@ -110,4 +110,8 @@ public class NewsletterService {
             return false;
         }
     }
+
+
+
+
 }

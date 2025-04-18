@@ -3,12 +3,18 @@ package com.example.flowershoptr.enums;
 import lombok.Getter;
 
 
+import lombok.Getter;
+
 @Getter
 public enum OrderStatus {
-    NEW("Новый"),
+    PENDING("Ожидает оплаты"),
+    PAID("Оплачен"),
     PROCESSING("В обработке"),
-    COMPLETED("Выполнен"),
-    CANCELLED("Отменен");
+    SHIPPED("Отправлен"),
+    DELIVERED("Доставлен"),
+    COMPLETED("Завершен"),
+    CANCELED("Отменен"),
+    REFUNDED("Возвращен");
 
     private final String displayName;
 

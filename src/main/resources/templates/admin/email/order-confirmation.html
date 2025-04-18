@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Информация о заказе</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap');
+
+    body {
+      font-family: 'Raleway', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .email-header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .email-header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .email-content {
+      padding: 30px;
+    }
+
+    .thank-you {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .order-summary {
+      margin-bottom: 30px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .summary-header {
+      background-color: #f5f5f5;
+      padding: 12px 15px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .summary-header h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      margin: 0;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .order-number {
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-top: 5px;
+      color: #2c3e50;
+    }
+
+    .order-details {
+      padding: 15px;
+    }
+
+    .detail-item {
+      margin-bottom: 15px;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #6c757d;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      color: #333;
+    }
+
+    .order-items {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .order-items th {
+      background-color: #f5f5f5;
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e5e5e5;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .order-items td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .order-items tr:last-child td {
+      border-bottom: none;
+    }
+
+    .item-name {
+      font-weight: 600;
+    }
+
+    .item-quantity {
+      color: #6c757d;
+    }
+
+    .item-price {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .total-row {
+      background-color: #f9f9f9;
+      font-weight: 700;
+    }
+
+    .delivery-section {
+      margin-bottom: 30px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .tracking-info {
+      background-color: #edf7ed;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 6px;
+      border-left: 4px solid #28a745;
+    }
+
+    .tracking-info p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .tracking-code {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 18px;
+      background-color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+
+    .payment-info {
+      background-color: #e8f4fd;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 6px;
+      border-left: 4px solid #0d6efd;
+    }
+
+    .contact-section {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .contact-section h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #2c3e50;
+      margin-top: 0;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #2c3e50;
+      color: white;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-paid {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-processing {
+      background-color: #cff4fc;
+      color: #055160;
+    }
+
+    .email-footer {
+      background-color: #f5f5f5;
+      padding: 20px;
+      text-align: center;
+      color: #6c757d;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="email-container">
+  <div class="email-header">
+    <h1>Ваш заказ подтвержден</h1>
+  </div>
+
+  <div class="email-content">
+    <p class="thank-you">Спасибо за ваш заказ!</p>
+
+    <p>Уважаемый(ая) <span th:text="${order.clientName}">Имя клиента</span>,</p>
+
+    <p>Мы рады сообщить, что ваш заказ успешно оформлен и принят в обработку. Ниже вы найдете всю необходимую информацию о вашем заказе.</p>
+
+    <div class="order-summary">
+      <div class="summary-header">
+        <h2>Информация о заказе</h2>
+        <div class="order-number" th:text="'Заказ №' + ${order.orderNumber}">Заказ №ORD-12345</div>
+      </div>
+
+      <div class="order-details">
+        <div class="detail-item">
+          <div class="detail-label">Статус заказа</div>
+          <div class="detail-value">
+                            <span class="status-badge"
+                                  th:classappend="${'status-' + order.orderStatus.toString().toLowerCase()}"
+                                  th:text="${order.orderStatus.displayName}">Ожидает оплаты</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Дата заказа</div>
+          <div class="detail-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy, HH:mm')}">01.05.2025, 14:30</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Способ оплаты</div>
+          <div class="detail-value" th:text="${order.paymentMethod.description}">Кредитная карта</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Статус оплаты</div>
+          <div class="detail-value" th:text="${order.paymentStatus.displayName}">Ожидает оплаты</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="delivery-section">
+      <div class="summary-header">
+        <h2>Информация о доставке</h2>
+      </div>
+
+      <div class="order-details">
+        <div class="detail-item">
+          <div class="detail-label">Получатель</div>
+          <div class="detail-value" th:text="${order.clientName}">Иван Иванов</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Телефон</div>
+          <div class="detail-value" th:text="${order.clientPhone}">+7 (123) 456-78-90</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Адрес доставки</div>
+          <div class="detail-value" th:text="${order.deliveryAddress}">ул. Примерная, д. 123, кв. 45, г. Москва, 123456</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Дата и время доставки</div>
+          <div class="detail-value" th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy, HH:mm')}">02.05.2025, 12:00-14:00</div>
+        </div>
+
+        <div class="detail-item" th:if="${order.notes != null && !order.notes.isEmpty()}">
+          <div class="detail-label">Примечания</div>
+          <div class="detail-value" th:text="${order.notes}">Позвонить за час до доставки</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-header">
+      <h2>Товары в заказе</h2>
+    </div>
+
+    <table class="order-items">
+      <thead>
+      <tr>
+        <th>Товар</th>
+        <th>Количество</th>
+        <th>Цена</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${order.items}">
+        <td class="item-name" th:text="${item.flowerName}">Розы красные</td>
+        <td class="item-quantity" th:text="${item.quantity} + ' шт.'">5 шт.</td>
+        <td class="item-price" th:text="${#numbers.formatDecimal(item.itemTotal, 0, 'COMMA', 2, 'POINT')} + ' ₽'">2500.00 ₽</td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="2">Итого:</td>
+        <td class="item-price" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')} + ' ₽'">2500.00 ₽</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Код отслеживания заказа -->
+    <div class="tracking-info">
+      <p><strong>Используйте этот код для отслеживания вашего заказа на нашем сайте:</strong></p>
+      <div class="tracking-code" th:text="${orderNumber}">ABC123456</div>
+    </div>
+
+    <!-- Информация о платеже (если нужно оплатить) -->
+    <div class="payment-info" th:if="${order.paymentStatus.toString() == 'PENDING' && order.paymentMethod.toString() == 'BANK_TRANSFER'}">
+      <h3>Информация для оплаты</h3>
+      <p>Пожалуйста, произведите оплату по следующим реквизитам:</p>
+      <p><strong>Получатель:</strong> ООО "Цветочный рай"</p>
+      <p><strong>ИНН:</strong> 7712345678</p>
+      <p><strong>КПП:</strong> 771201001</p>
+      <p><strong>Р/с:</strong> 40702810123450001234</p>
+      <p><strong>Банк:</strong> АО "Пример Банк", БИК 044525000</p>
+      <p><strong>Назначение платежа:</strong> Оплата заказа №<span th:text="${order.orderNumber}">ORD-12345</span></p>
+    </div>
+
+    <div class="contact-section">
+      <h3>Нужна помощь?</h3>
+      <p>Если у вас возникли вопросы по заказу, пожалуйста, свяжитесь с нами:</p>
+      <p><strong>Email:</strong> support@flowerstore.com</p>
+      <p><strong>Телефон:</strong> +7 (123) 456-78-90</p>
+
+      <a href="https://yourflowerstore.com/order-tracking" class="button">Отследить заказ на сайте</a>
+    </div>
+
+    <p>С уважением,<br>Команда Цветочного магазина</p>
+  </div>
+
+  <div class="email-footer">
+    <p>© 2025 Цветочный магазин. Все права защищены.</p>
+    <p>Этот email был отправлен на <span th:text="${order.clientEmail}">client@example.com</span> в связи с оформлением заказа на нашем сайте.</p>
+  </div>
+</div>
+</body>
+</html>

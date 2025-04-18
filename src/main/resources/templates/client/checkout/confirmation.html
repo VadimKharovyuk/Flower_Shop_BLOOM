@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение заказа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .confirmation-container {
+            padding: 60px 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px 24px;
+        }
+
+        .card-header h5 {
+            font-weight: 700;
+            margin-bottom: 0;
+            color: #2c3e50;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .success-header {
+            background-color: #f8f9fa;
+            padding: 40px 0;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #28a745;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .order-number {
+            display: inline-block;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-top: 8px;
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            letter-spacing: 1px;
+        }
+
+        .detail-header {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .detail-header:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: #2c3e50;
+            bottom: 0;
+            left: 0;
+        }
+
+        .detail-item {
+            margin-bottom: 24px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-paid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-processing {
+            background-color: #cff4fc;
+            color: #055160;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 30px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 16px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .item-price {
+            font-size: 15px;
+        }
+
+        .item-total {
+            font-weight: 600;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .action-buttons {
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            background-color: #2c3e50;
+            border-color: #2c3e50;
+            padding: 12px 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e2b37;
+            border-color: #1e2b37;
+        }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            padding: 12px 24px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+<div class="success-header">
+    <div class="container">
+        <div class="success-icon">✓</div>
+        <h1 class="serif">Заказ успешно оформлен!</h1>
+        <p>Благодарим за ваш заказ. Вся информация о заказе приведена ниже.</p>
+        <div class="order-number" th:text="'Номер заказа: ' + ${order.id}"></div>
+    </div>
+</div>
+
+<div class="container confirmation-container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto animate-fade-in">
+            <!-- Информация о заказе -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="serif">Детали заказа</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Информация о получателе -->
+                        <div class="col-md-6">
+                            <h6 class="detail-header serif">Информация о получателе</h6>
+
+                            <div class="detail-item">
+                                <div class="detail-label">ФИО</div>
+                                <div class="detail-value" th:text="${order.clientName}"></div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">Телефон</div>
+                                <div class="detail-value" th:text="${order.clientPhone}"></div>
+                            </div>
+
+                            <div class="detail-item" th:if="${order.clientEmail != null && !order.clientEmail.isEmpty()}">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value" th:text="${order.clientEmail}"></div>
+                            </div>
+                        </div>
+
+                        <!-- Информация о доставке -->
+                        <div class="col-md-6">
+                            <h6 class="detail-header serif">Информация о доставке</h6>
+
+                            <div class="detail-item">
+                                <div class="detail-label">Адрес доставки</div>
+                                <div class="detail-value" th:text="${order.deliveryAddress}"></div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">Дата и время доставки</div>
+                                <div class="detail-value"
+                                     th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy, HH:mm')}"></div>
+                            </div>
+
+                            <div class="detail-item" th:if="${order.notes != null && !order.notes.isEmpty()}">
+                                <div class="detail-label">Примечания</div>
+                                <div class="detail-value" th:text="${order.notes}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Статусы заказа -->
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="detail-label">Статус заказа</div>
+                            <div class="mt-2">
+                                    <span class="status-badge"
+                                          th:classappend="${'status-' + order.orderStatus.toString().toLowerCase()}"
+                                          th:text="${order.orderStatus.displayName}"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="detail-label">Статус оплаты</div>
+                            <div class="mt-2">
+                                    <span class="status-badge"
+                                          th:classappend="${'status-' + order.paymentStatus.toString().toLowerCase()}"
+                                          th:text="${order.paymentStatus.displayName}"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="detail-label">Способ оплаты</div>
+                            <div class="mt-2" th:text="${order.paymentMethod.description}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товары в заказе -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="serif">Товары в заказе</h5>
+                </div>
+                <div class="card-body">
+                    <div th:if="${order.items != null && !order.items.empty}">
+                        <div th:each="item : ${order.items}" class="order-item">
+                            <img th:if="${item != null && item.flowerImage != null}" th:src="${item.flowerImage}" alt="Flower" class="item-image">
+                            <div th:if="${item == null || item.flowerImage == null}" class="item-image bg-light d-flex align-items-center justify-content-center">
+                                <span class="text-muted">Нет фото</span>
+                            </div>
+
+                            <div class="item-details">
+                                <div class="item-name" th:text="${item != null ? item.flowerName : ''}"></div>
+                                <div class="item-price">
+                                    <span th:if="${item != null}" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')} + ' ₽ x ' + ${item.quantity}"></span>
+                                </div>
+                            </div>
+
+                            <div class="item-total" th:if="${item != null}" th:text="${#numbers.formatDecimal(item.itemTotal, 0, 'COMMA', 2, 'POINT')} + ' ₽'"></div>
+                        </div>
+                    </div>
+
+                    <div th:if="${order.items == null || order.items.empty}" class="text-center py-3">
+                        <div class="text-muted">Нет товаров в заказе</div>
+                    </div>
+            </div>
+
+            <!-- Блок оплаты, если заказ ожидает оплаты -->
+            <div th:if="${order.paymentStatus.toString() == 'PENDING' &&
+                            (order.paymentMethod.toString() == 'CREDIT_CARD' ||
+                             order.paymentMethod.toString() == 'DEBIT_CARD' ||
+                             order.paymentMethod.toString() == 'ELECTRONIC_WALLET')}"
+                 class="card mb-4 animate-fade-in">
+                <div class="card-header">
+                    <h5 class="serif">Оплата заказа</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Для завершения заказа, пожалуйста, произведите оплату.</p>
+
+                    <form th:action="@{/checkout/order/{orderId}/pay(orderId=${order.id})}" method="post">
+                        <button type="submit" class="btn btn-primary">Перейти к оплате</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Инструкции для оплаты банковским переводом -->
+            <div th:if="${order.paymentStatus.toString() == 'PENDING' &&
+                            order.paymentMethod.toString() == 'BANK_TRANSFER'}"
+                 class="card mb-4 animate-fade-in">
+                <div class="card-header">
+                    <h5 class="serif">Инструкции по оплате</h5>
+                </div>
+                <div class="card-body">
+                    <p>Пожалуйста, выполните банковский перевод по следующим реквизитам:</p>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">Получатель</div>
+                                <div class="detail-value">ООО "Цветочный рай"</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">ИНН</div>
+                                <div class="detail-value">7712345678</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">КПП</div>
+                                <div class="detail-value">771201001</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">Банк</div>
+                                <div class="detail-value">АО "Пример Банк"</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">БИК</div>
+                                <div class="detail-value">044525000</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">Р/с</div>
+                                <div class="detail-value">40702810123450001234</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning mt-3">
+                        <strong>Важно!</strong> В назначении платежа укажите: Оплата заказа №<span th:text="${order.id}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Инструкции для оплаты наличными -->
+            <div th:if="${order.paymentMethod.toString() == 'CASH_ON_DELIVERY'}"
+                 class="card mb-4 animate-fade-in">
+                <div class="card-header">
+                    <h5 class="serif">Оплата при получении</h5>
+                </div>
+                <div class="card-body">
+                    <p>Вы выбрали оплату наличными при получении. Пожалуйста, подготовьте указанную сумму к приезду курьера.</p>
+
+                    <div class="alert alert-info mt-3">
+                        <strong>Примечание:</strong> Курьер свяжется с вами перед доставкой для уточнения деталей.
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons d-flex justify-content-between">
+                <a href="/" class="btn btn-outline-secondary">Вернуться на главную</a>
+                <a th:href="@{/checkout/order/{orderId}(orderId=${order.id})}" class="btn btn-primary">Подробности заказа</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
