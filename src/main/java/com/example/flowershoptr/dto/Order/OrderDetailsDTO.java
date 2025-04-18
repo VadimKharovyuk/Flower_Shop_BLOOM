@@ -29,4 +29,5 @@ public class OrderDetailsDTO {
     private List<OrderItemDTO> items;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String order_number ;
 }

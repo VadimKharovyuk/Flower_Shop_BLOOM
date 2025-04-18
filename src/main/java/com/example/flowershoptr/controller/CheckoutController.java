@@ -64,6 +64,7 @@ public class CheckoutController {
         }
     }
 
+
     // Страница подтверждения заказа
     @GetMapping("/confirmation/{orderId}")
     public String orderConfirmation(@PathVariable Long orderId, Model model) {

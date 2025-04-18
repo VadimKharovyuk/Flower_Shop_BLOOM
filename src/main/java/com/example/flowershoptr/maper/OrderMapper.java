@@ -33,6 +33,7 @@ public class OrderMapper {
         dto.setOrderStatus(order.getOrderStatus());
         dto.setCreatedAt(order.getCreatedAt());
         dto.setUpdatedAt(order.getUpdatedAt());
+        dto.setOrder_number(order.getOrderNumber());
 
         // Преобразование элементов заказа
         if (order.getItems() != null) {
@@ -78,6 +79,7 @@ public class OrderMapper {
         dto.setOrderStatus(order.getOrderStatus());
         dto.setPaymentStatus(order.getPaymentStatus());
         dto.setCreatedAt(order.getCreatedAt());
+
 
         // Количество позиций в заказе
         if (order.getItems() != null) {

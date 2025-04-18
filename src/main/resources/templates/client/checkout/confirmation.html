@@ -235,6 +235,8 @@
         <h1 class="serif">Заказ успешно оформлен!</h1>
         <p>Благодарим за ваш заказ. Вся информация о заказе приведена ниже.</p>
         <div class="order-number" th:text="'Номер заказа: ' + ${order.id}"></div>
+
+        <div class="order-number" th:text="'ID  заказа: ' + ${order.getOrder_number()}"></div>
     </div>
 </div>
 

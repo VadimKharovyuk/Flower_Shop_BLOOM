@@ -575,6 +575,11 @@
             </div>
 
             <div class="detail-row">
+                <div class="detail-label">ID заказа</div>
+                <div class="detail-value" th:text="${order.getOrder_number()}">ORD-FWU6DH</div>
+            </div>
+
+            <div class="detail-row">
                 <div class="detail-label">Дата заказа</div>
                 <div class="detail-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</div>
             </div>
