@@ -4,12 +4,16 @@ import com.example.flowershoptr.dto.Order.CreateOrderDTO;
 import com.example.flowershoptr.dto.Order.OrderDetailsDTO;
 import com.example.flowershoptr.dto.cart.CartDto;
 import com.example.flowershoptr.enums.OrderStatus;
+import com.example.flowershoptr.enums.PaymentMethod;
 import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Cart;
 import com.example.flowershoptr.model.Order;
+import com.example.flowershoptr.model.Payment;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.NotificationEmailService;
 import com.example.flowershoptr.service.OrderService;
+import com.example.flowershoptr.service.serviceImpl.LiqPayPaymentServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +33,15 @@ public class CheckoutController {
     private final CartService cartService;
     private final NotificationEmailService notificationEmailService;
 
-    @GetMapping
-    public String showCheckoutForm(Model model , HttpSession session) {
-        model.addAttribute("orderDTO", new CreateOrderDTO());
+        @GetMapping
+        public String showCheckoutForm(Model model, HttpSession session) {
+            model.addAttribute("orderDTO", new CreateOrderDTO());
 
-        CartDto cart = cartService.getCartDto(session);
-        model.addAttribute("item", cart);
+            CartDto cart = cartService.getCartDto(session);
+            model.addAttribute("item", cart);
 
-        return "client/checkout/form";
-    }
+            return "client/checkout/form";
+        }
 
     // Обработка отправки формы
     @PostMapping
@@ -47,6 +51,8 @@ public class CheckoutController {
                                Model model) {
         // Проверка на ошибки валидации
         if (bindingResult.hasErrors()) {
+            CartDto cart = cartService.getCartDto(session);
+            model.addAttribute("item", cart);
             return "client/checkout/form";
         }
 
@@ -54,27 +60,23 @@ public class CheckoutController {
             // Создаем заказ
             Order order = orderService.createOrder(orderDTO, session);
 
-
-            // Перенаправляем на страницу подтверждения заказа
-            return "redirect:/checkout/confirmation/" + order.getId();
+            // Проверяем метод оплаты
+            if (order.getPaymentMethod() == PaymentMethod.CREDIT_CARD ||
+                    order.getPaymentMethod() == PaymentMethod.DEBIT_CARD) {
+                // Для платежей картой перенаправляем на страницу оплаты
+                return "redirect:/payment/process/" + order.getId();
+            } else {
+                // Для других типов оплаты (наличными при доставке и т.д.)
+                // сразу переходим на страницу подтверждения
+                cartService.clearCart(session);
+                return "redirect:/checkout/confirmation/" + order.getId();
+            }
         } catch (Exception e) {
             // В случае ошибки добавляем сообщение об ошибке и возвращаемся к форме
             model.addAttribute("errorMessage", "Ошибка при оформлении заказа: " + e.getMessage());
+            CartDto cart = cartService.getCartDto(session);
+            model.addAttribute("item", cart);
             return "client/checkout/form";
-        }
-    }
-
-
-    // Страница подтверждения заказа
-    @GetMapping("/confirmation/{orderId}")
-    public String orderConfirmation(@PathVariable Long orderId, Model model) {
-        try {
-            OrderDetailsDTO orderDetails = orderService.getOrderDetails(orderId);
-            model.addAttribute("order", orderDetails); // Передаем весь объект OrderDetailsDTO
-            return "client/checkout/confirmation";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Заказ не найден");
-            return "error";
         }
     }
 
@@ -90,6 +92,7 @@ public class CheckoutController {
             return "error";
         }
     }
+
 
 
     @PostMapping("/order/{orderId}/send-email")
@@ -130,6 +133,12 @@ public class CheckoutController {
             return "client/checkout/order-details";
         }
     }
+
+
+
+
+
+
 
     // Обработка оплаты (простой пример)
     @PostMapping("/order/{orderId}/pay")

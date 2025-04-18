@@ -186,7 +186,13 @@
         }
     </style>
 </head>
+<style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+<style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+
 <body>
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+
 <div class="orders-header">
     <div class="container">
         <div class="orders-icon">

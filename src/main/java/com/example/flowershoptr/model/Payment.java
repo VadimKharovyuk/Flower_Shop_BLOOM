@@ -35,7 +35,7 @@ public class Payment implements Serializable {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    @Column(name = "transaction_id")
+    @Column(name = "transaction_id", length = 4000) // или даже больше, если необходимо
     private String transactionId;
 
     @Column(nullable = false)

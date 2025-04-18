@@ -11,16 +11,17 @@ public class FlowerShopTrApplication {
     }
 
 
-    ///   http://localhost:1634/special-offers/5  убрать каруель для товаров добавить page
-
-    ///
-
-
-    ///      docker-compose up -d
-
-    ///   mvn clean package -DskipTests
-
-
 
 
 }
+
+
+
+///   http://localhost:1634/special-offers/5  убрать каруель для товаров добавить page
+
+///
+
+
+///      docker-compose up -d
+
+///   mvn clean package -DskipTests

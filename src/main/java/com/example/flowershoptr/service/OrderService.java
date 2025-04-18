@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface OrderService {
     Order createOrder(CreateOrderDTO createOrderDTO, HttpSession session);
 
-    Optional<Order> getOrderById(Long id);
+  Order getOrderById(Long id);
 
     List<Order> getOrdersByClientPhone(String phone);
 

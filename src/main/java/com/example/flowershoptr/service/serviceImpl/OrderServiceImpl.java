@@ -92,8 +92,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

@@ -143,8 +143,15 @@
       animation: fadeIn 0.5s ease-out forwards;
     }
   </style>
+  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
 </head>
+
+
+
 <body>
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 <div class="tracking-header">
   <div class="container">
     <div class="tracking-icon">

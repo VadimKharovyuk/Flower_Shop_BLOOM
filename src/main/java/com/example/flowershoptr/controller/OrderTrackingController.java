@@ -21,11 +21,12 @@ import java.util.Optional;
 public class OrderTrackingController {
     private final OrderService orderService;
 
-    // Отображение формы поиска заказа
+
     @GetMapping
     public String orderTracking() {
         return "client/checkout/order-tracking";
     }
+
 
     // Обработка поиска по номеру заказа
     @GetMapping("/by-number")

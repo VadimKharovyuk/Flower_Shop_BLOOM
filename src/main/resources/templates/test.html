@@ -1,516 +1,546 @@
+<!--&lt;!&ndash;&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<html lang="ru">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<head>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <meta charset="UTF-8">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <title>Премиальный минимализм - Тестовая страница</title>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <style>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    /* Общие стили */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    :root {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      &#45;&#45;primary-color: #1a1a1a;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      &#45;&#45;secondary-color: #f5f5f5;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      &#45;&#45;accent-color: #c9a980;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      &#45;&#45;text-color: #333333;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      &#45;&#45;transition: all 0.3s ease;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    * {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      box-sizing: border-box;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-family: 'Helvetica Neue', Arial, sans-serif;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    body {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;text-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      line-height: 1.6;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Стили для основного контента */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .main-content {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      max-width: 1200px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin: 0 auto;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 60px 40px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .section-title {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 2rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 40px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-align: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .products-grid {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: grid;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      gap: 40px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 60px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-card {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: white;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-card:hover {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transform: translateY(-5px);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-image {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 300px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      object-fit: cover;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-info {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-name {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 1.2rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 400;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 10px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .product-price {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 1.1rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 400;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* =====================================================&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ НАВИГАЦИИ&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;       ===================================================== */&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Стили навигации */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-container {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: fixed;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      top: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      left: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      z-index: 1000;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-wrapper {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      max-width: 1200px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin: 0 auto;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      justify-content: space-between;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      align-items: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 20px 40px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .brand-logo {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 24px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-decoration: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-menu {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      list-style: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-item {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin: 0 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-link {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-decoration: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 16px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 1px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: relative;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-link:after {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      content: '';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: absolute;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 1px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      bottom: -3px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      left: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;accent-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-link:hover {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-link:hover:after {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .nav-icons {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      align-items: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .icon-link {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-left: 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 18px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .icon-link:hover {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Стили для мобильной навигации */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .mobile-menu-btn {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      border: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      cursor: pointer;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 24px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    @media screen and (max-width: 768px) {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      .nav-menu {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        display: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        flex-direction: column;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        position: absolute;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        top: 60px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        left: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        background-color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        padding: 20px 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .nav-menu.active {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .nav-item {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        margin: 10px 40px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .mobile-menu-btn {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        display: block;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .nav-icons {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        display: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* =====================================================&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ ШАПКИ&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;       ===================================================== */&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Стили для шапки */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .header-section {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-top: 80px; /* Отступ для фиксированной навигации */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: relative;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      overflow: hidden;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Вариант 1: Полноэкранная шапка с изображением и центрированным текстом */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .header-hero {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: relative;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 80vh;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      align-items: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      justify-content: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      overflow: hidden;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-image {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: absolute;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      top: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      left: 0;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      object-fit: cover;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      opacity: 0.8;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-content {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      position: relative;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      z-index: 2;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      max-width: 800px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-align: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 0 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-title {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 3.5rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 4px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-subtitle {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 1.2rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      line-height: 1.6;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 30px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      max-width: 600px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-left: auto;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-right: auto;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-btn {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: inline-block;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 12px 30px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      border: 1px solid var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background: transparent;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-decoration: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 0.9rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-top: 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-btn:hover {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Вариант 2: Шапка с изображением и текстом в колонках */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      flex-direction: row;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 80vh;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split-image {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      flex: 1;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      overflow: hidden;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split-image img {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      height: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      object-fit: cover;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split-content {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      flex: 1;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      display: flex;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      flex-direction: column;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      justify-content: center;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      padding: 60px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split-title {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 2.5rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      letter-spacing: 3px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    .header-split-subtitle {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-size: 1.1rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      font-weight: 300;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      line-height: 1.6;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      margin-bottom: 30px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      color: var(&#45;&#45;text-color);&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    /* Адаптивность для мобильных устройств */&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    @media screen and (max-width: 768px) {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      .header-title {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        font-size: 2rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-subtitle {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        font-size: 1rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-split {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        flex-direction: column;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        height: auto;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-split-image, .header-split-content {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        flex: none;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        width: 100%;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-split-image {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        height: 50vh;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-split-content {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        padding: 40px 20px;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;      .header-split-title {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        font-size: 1.8rem;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      }&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  </style>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</head>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<body>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Навигационное меню &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<nav class="nav-container">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <div class="nav-wrapper">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <a href="/" class="brand-logo">LUXE</a>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    <button class="mobile-menu-btn">☰</button>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    <ul class="nav-menu">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </ul>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="nav-icons">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <a href="/search" class="icon-link">⌕</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <a href="/account" class="icon-link">◯</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <a href="/cart" class="icon-link">☐</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</nav>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Навигационное меню &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Шапка сайта (Вариант 1) &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<header class="header-section">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <div class="header-hero">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <img src="/img/bucketMain.webp" alt="Премиальный продукт" class="header-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="header-content">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <h1 class="header-title">Премиальный минимализм</h1>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <p class="header-subtitle">Уникальная коллекция стильных и элегантных предметов, созданных с заботой о каждой детали. Минималистичный дизайн и непревзойденное качество для тех, кто ценит совершенство.</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <a href="/collection" class="header-btn">Открыть коллекцию</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</header>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Шапка сайта (Вариант 1) &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Шапка сайта (Вариант 2) - по умолчанию скрыта &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<header class="header-section" style="display: none;">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <div class="header-split">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="header-split-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Премиальный продукт">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="header-split-content">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <h1 class="header-split-title">Элегантность в простоте</h1>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <p class="header-split-subtitle">Наша новая коллекция подчеркивает истинную красоту чистых линий и безупречных форм. Каждый предмет — воплощение философии, где совершенство достигается не тогда, когда нечего добавить, а когда нечего убрать.</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <a href="/collection" class="header-btn" style="color: var(&#45;&#45;primary-color); border-color: var(&#45;&#45;primary-color);">Исследовать</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</header>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Шапка сайта (Вариант 2) &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; Дополнительный контент страницы для демонстрации &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;<main class="main-content">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  <h2 class="section-title">Популярные товары</h2>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;  <div class="products-grid">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    &lt;!&ndash; Товар 1 &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="product-card">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Товар 1" class="product-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <div class="product-info">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <h3 class="product-name">Минималистичная ваза</h3>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <p class="product-price">5 900 ₽</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    &lt;!&ndash; Товар 2 &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="product-card">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Товар 2" class="product-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <div class="product-info">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <h3 class="product-name">Керамическая чаша</h3>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <p class="product-price">3 200 ₽</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    &lt;!&ndash; Товар 3 &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="product-card">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <img src="/api/placeholder/400/500" alt="Товар 3" class="product-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <div class="product-info">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <h3 class="product-name">Деревянная полка</h3>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <p class="product-price">12 500 ₽</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;    &lt;!&ndash; Товар 4 &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div class="product-card">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <img src="/api/placeholder/400/500" alt="Товар 4" class="product-image">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <div class="product-info">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <h3 class="product-name">Настольная лампа</h3>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <p class="product-price">8 900 ₽</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</main>&ndash;&gt;&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;&lt;!&ndash;<script>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  // Скрипт для мобильного меню&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  document.querySelector('.mobile-menu-btn').addEventListener('click', function() {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    document.querySelector('.nav-menu').classList.toggle('active');&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  });&ndash;&gt;&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;&lt;!&ndash;  const toggleBtn = document.createElement('button');&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.textContent = 'Переключить стиль шапки';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.position = 'fixed';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.bottom = '20px';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.right = '20px';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.padding = '10px';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.zIndex = '1000';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.background = 'white';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.border = '1px solid #ddd';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.borderRadius = '4px';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.style.cursor = 'pointer';&ndash;&gt;&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;&lt;!&ndash;  toggleBtn.addEventListener('click', function() {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      const headers = document.querySelectorAll('.header-section');&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      headers.forEach(header => {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          if (header.style.display === 'none') {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;              header.style.display = 'block';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          } else {&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;              header.style.display = 'none';&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          }&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      });&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  });&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;  // Добавляем кнопку на страницу&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  document.body.appendChild(toggleBtn);&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;</script>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</body>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</html>&ndash;&gt;&ndash;&gt;-->
+
+
+
+
+
 <!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
-<!--&lt;!&ndash;<html lang="ru">&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
 <!--&lt;!&ndash;<head>&ndash;&gt;-->
 <!--&lt;!&ndash;  <meta charset="UTF-8">&ndash;&gt;-->
 <!--&lt;!&ndash;  <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
-<!--&lt;!&ndash;  <title>Премиальный минимализм - Тестовая страница</title>&ndash;&gt;-->
-<!--&lt;!&ndash;  <style>&ndash;&gt;-->
-<!--&lt;!&ndash;    /* Общие стили */&ndash;&gt;-->
-<!--&lt;!&ndash;    :root {&ndash;&gt;-->
-<!--&lt;!&ndash;      &#45;&#45;primary-color: #1a1a1a;&ndash;&gt;-->
-<!--&lt;!&ndash;      &#45;&#45;secondary-color: #f5f5f5;&ndash;&gt;-->
-<!--&lt;!&ndash;      &#45;&#45;accent-color: #c9a980;&ndash;&gt;-->
-<!--&lt;!&ndash;      &#45;&#45;text-color: #333333;&ndash;&gt;-->
-<!--&lt;!&ndash;      &#45;&#45;transition: all 0.3s ease;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;  <title>Название страницы | LUXE</title>&ndash;&gt;-->
 
-<!--&lt;!&ndash;    * {&ndash;&gt;-->
-<!--&lt;!&ndash;      margin: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      box-sizing: border-box;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-family: 'Helvetica Neue', Arial, sans-serif;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;  &lt;!&ndash; Подключение иконок Font Awesome &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">&ndash;&gt;-->
 
-<!--&lt;!&ndash;    body {&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;text-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      line-height: 1.6;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;  &lt;!&ndash; Подключение CSS для навигации &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>&ndash;&gt;-->
+<!--&lt;!&ndash;  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>&ndash;&gt;-->
 
-<!--&lt;!&ndash;    /* Стили для основного контента */&ndash;&gt;-->
-<!--&lt;!&ndash;    .main-content {&ndash;&gt;-->
-<!--&lt;!&ndash;      max-width: 1200px;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin: 0 auto;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 60px 40px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .section-title {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 2rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 40px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-align: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .products-grid {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: grid;&ndash;&gt;-->
-<!--&lt;!&ndash;      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));&ndash;&gt;-->
-<!--&lt;!&ndash;      gap: 40px;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 60px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-card {&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: white;&ndash;&gt;-->
-<!--&lt;!&ndash;      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);&ndash;&gt;-->
-<!--&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-card:hover {&ndash;&gt;-->
-<!--&lt;!&ndash;      transform: translateY(-5px);&ndash;&gt;-->
-<!--&lt;!&ndash;      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-image {&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 300px;&ndash;&gt;-->
-<!--&lt;!&ndash;      object-fit: cover;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-info {&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-name {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 1.2rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 400;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 10px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .product-price {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 1.1rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 400;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-
-
-<!--&lt;!&ndash;    /* =====================================================&ndash;&gt;-->
-<!--&lt;!&ndash;       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ НАВИГАЦИИ&ndash;&gt;-->
-<!--&lt;!&ndash;       ===================================================== */&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Стили навигации */&ndash;&gt;-->
-<!--&lt;!&ndash;    .nav-container {&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      position: fixed;&ndash;&gt;-->
-<!--&lt;!&ndash;      top: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      left: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      z-index: 1000;&ndash;&gt;-->
-<!--&lt;!&ndash;      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-wrapper {&ndash;&gt;-->
-<!--&lt;!&ndash;      max-width: 1200px;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin: 0 auto;&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      justify-content: space-between;&ndash;&gt;-->
-<!--&lt;!&ndash;      align-items: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 20px 40px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .brand-logo {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 24px;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      text-decoration: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-menu {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      list-style: none;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-item {&ndash;&gt;-->
-<!--&lt;!&ndash;      margin: 0 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-link {&ndash;&gt;-->
-<!--&lt;!&ndash;      text-decoration: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 16px;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 1px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;      position: relative;&ndash;&gt;-->
-<!--&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-link:after {&ndash;&gt;-->
-<!--&lt;!&ndash;      content: '';&ndash;&gt;-->
-<!--&lt;!&ndash;      position: absolute;&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 1px;&ndash;&gt;-->
-<!--&lt;!&ndash;      bottom: -3px;&ndash;&gt;-->
-<!--&lt;!&ndash;      left: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;accent-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-link:hover {&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-link:hover:after {&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .nav-icons {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      align-items: center;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .icon-link {&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-left: 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 18px;&ndash;&gt;-->
-<!--&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .icon-link:hover {&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;accent-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Стили для мобильной навигации */&ndash;&gt;-->
-<!--&lt;!&ndash;    .mobile-menu-btn {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      background: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      border: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      cursor: pointer;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 24px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    @media screen and (max-width: 768px) {&ndash;&gt;-->
-<!--&lt;!&ndash;      .nav-menu {&ndash;&gt;-->
-<!--&lt;!&ndash;        display: none;&ndash;&gt;-->
-<!--&lt;!&ndash;        flex-direction: column;&ndash;&gt;-->
-<!--&lt;!&ndash;        position: absolute;&ndash;&gt;-->
-<!--&lt;!&ndash;        top: 60px;&ndash;&gt;-->
-<!--&lt;!&ndash;        left: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;        width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;        background-color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;        padding: 20px 0;&ndash;&gt;-->
-<!--&lt;!&ndash;        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .nav-menu.active {&ndash;&gt;-->
-<!--&lt;!&ndash;        display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .nav-item {&ndash;&gt;-->
-<!--&lt;!&ndash;        margin: 10px 40px;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .mobile-menu-btn {&ndash;&gt;-->
-<!--&lt;!&ndash;        display: block;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .nav-icons {&ndash;&gt;-->
-<!--&lt;!&ndash;        display: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* =====================================================&ndash;&gt;-->
-<!--&lt;!&ndash;       ЗДЕСЬ НАЧИНАЮТСЯ СТИЛИ ДЛЯ ШАПКИ&ndash;&gt;-->
-<!--&lt;!&ndash;       ===================================================== */&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Стили для шапки */&ndash;&gt;-->
-<!--&lt;!&ndash;    .header-section {&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-top: 80px; /* Отступ для фиксированной навигации */&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      position: relative;&ndash;&gt;-->
-<!--&lt;!&ndash;      overflow: hidden;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Вариант 1: Полноэкранная шапка с изображением и центрированным текстом */&ndash;&gt;-->
-<!--&lt;!&ndash;    .header-hero {&ndash;&gt;-->
-<!--&lt;!&ndash;      position: relative;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 80vh;&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      align-items: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      justify-content: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      overflow: hidden;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-image {&ndash;&gt;-->
-<!--&lt;!&ndash;      position: absolute;&ndash;&gt;-->
-<!--&lt;!&ndash;      top: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      left: 0;&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      object-fit: cover;&ndash;&gt;-->
-<!--&lt;!&ndash;      opacity: 0.8;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-content {&ndash;&gt;-->
-<!--&lt;!&ndash;      position: relative;&ndash;&gt;-->
-<!--&lt;!&ndash;      z-index: 2;&ndash;&gt;-->
-<!--&lt;!&ndash;      max-width: 800px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-align: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 0 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-title {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 3.5rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 4px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-subtitle {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 1.2rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;-->
-<!--&lt;!&ndash;      line-height: 1.6;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 30px;&ndash;&gt;-->
-<!--&lt;!&ndash;      max-width: 600px;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-left: auto;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-right: auto;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-btn {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: inline-block;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 12px 30px;&ndash;&gt;-->
-<!--&lt;!&ndash;      border: 1px solid var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      background: transparent;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      text-decoration: none;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 2px;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 0.9rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      transition: var(&#45;&#45;transition);&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-top: 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-btn:hover {&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Вариант 2: Шапка с изображением и текстом в колонках */&ndash;&gt;-->
-<!--&lt;!&ndash;    .header-split {&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      flex-direction: row;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 80vh;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-split-image {&ndash;&gt;-->
-<!--&lt;!&ndash;      flex: 1;&ndash;&gt;-->
-<!--&lt;!&ndash;      overflow: hidden;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-split-image img {&ndash;&gt;-->
-<!--&lt;!&ndash;      width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      height: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      object-fit: cover;&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-split-content {&ndash;&gt;-->
-<!--&lt;!&ndash;      flex: 1;&ndash;&gt;-->
-<!--&lt;!&ndash;      display: flex;&ndash;&gt;-->
-<!--&lt;!&ndash;      flex-direction: column;&ndash;&gt;-->
-<!--&lt;!&ndash;      justify-content: center;&ndash;&gt;-->
-<!--&lt;!&ndash;      padding: 60px;&ndash;&gt;-->
-<!--&lt;!&ndash;      background-color: var(&#45;&#45;secondary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-split-title {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 2.5rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      letter-spacing: 3px;&ndash;&gt;-->
-<!--&lt;!&ndash;      text-transform: uppercase;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;primary-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    .header-split-subtitle {&ndash;&gt;-->
-<!--&lt;!&ndash;      font-size: 1.1rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      font-weight: 300;&ndash;&gt;-->
-<!--&lt;!&ndash;      line-height: 1.6;&ndash;&gt;-->
-<!--&lt;!&ndash;      margin-bottom: 30px;&ndash;&gt;-->
-<!--&lt;!&ndash;      color: var(&#45;&#45;text-color);&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<!--&lt;!&ndash;    /* Адаптивность для мобильных устройств */&ndash;&gt;-->
-<!--&lt;!&ndash;    @media screen and (max-width: 768px) {&ndash;&gt;-->
-<!--&lt;!&ndash;      .header-title {&ndash;&gt;-->
-<!--&lt;!&ndash;        font-size: 2rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-subtitle {&ndash;&gt;-->
-<!--&lt;!&ndash;        font-size: 1rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-split {&ndash;&gt;-->
-<!--&lt;!&ndash;        flex-direction: column;&ndash;&gt;-->
-<!--&lt;!&ndash;        height: auto;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-split-image, .header-split-content {&ndash;&gt;-->
-<!--&lt;!&ndash;        flex: none;&ndash;&gt;-->
-<!--&lt;!&ndash;        width: 100%;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-split-image {&ndash;&gt;-->
-<!--&lt;!&ndash;        height: 50vh;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-split-content {&ndash;&gt;-->
-<!--&lt;!&ndash;        padding: 40px 20px;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-
-<!--&lt;!&ndash;      .header-split-title {&ndash;&gt;-->
-<!--&lt;!&ndash;        font-size: 1.8rem;&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-<!--&lt;!&ndash;  </style>&ndash;&gt;-->
+<!--&lt;!&ndash;  &lt;!&ndash; Другие стили страницы &ndash;&gt;&ndash;&gt;-->
 <!--&lt;!&ndash;</head>&ndash;&gt;-->
 <!--&lt;!&ndash;<body>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Навигационное меню &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<nav class="nav-container">&ndash;&gt;-->
-<!--&lt;!&ndash;  <div class="nav-wrapper">&ndash;&gt;-->
-<!--&lt;!&ndash;    <a href="/" class="brand-logo">LUXE</a>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash; Подключение навигации &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div th:replace="~{client/fragments/navigation :: navigation}"></div>&ndash;&gt;-->
 
-<!--&lt;!&ndash;    <button class="mobile-menu-btn">☰</button>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <ul class="nav-menu">&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/collection" class="nav-link">Коллекция</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/new" class="nav-link">Новинки</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/bestsellers" class="nav-link">Бестселлеры</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/about" class="nav-link">О нас</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;      <li class="nav-item"><a href="/contacts" class="nav-link">Контакты</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <div class="nav-icons">&ndash;&gt;-->
-<!--&lt;!&ndash;      <a href="/search" class="icon-link">⌕</a>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a href="/account" class="icon-link">◯</a>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a href="/cart" class="icon-link">☐</a>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;</nav>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Навигационное меню &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Шапка сайта (Вариант 1) &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<header class="header-section">&ndash;&gt;-->
-<!--&lt;!&ndash;  <div class="header-hero">&ndash;&gt;-->
-<!--&lt;!&ndash;    <img src="/img/bucketMain.webp" alt="Премиальный продукт" class="header-image">&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="header-content">&ndash;&gt;-->
-<!--&lt;!&ndash;      <h1 class="header-title">Премиальный минимализм</h1>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p class="header-subtitle">Уникальная коллекция стильных и элегантных предметов, созданных с заботой о каждой детали. Минималистичный дизайн и непревзойденное качество для тех, кто ценит совершенство.</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a href="/collection" class="header-btn">Открыть коллекцию</a>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;</header>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Шапка сайта (Вариант 1) &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;&lt;!&ndash; НАЧАЛО: Шапка сайта (Вариант 2) - по умолчанию скрыта &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<header class="header-section" style="display: none;">&ndash;&gt;-->
-<!--&lt;!&ndash;  <div class="header-split">&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="header-split-image">&ndash;&gt;-->
-<!--&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Премиальный продукт">&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="header-split-content">&ndash;&gt;-->
-<!--&lt;!&ndash;      <h1 class="header-split-title">Элегантность в простоте</h1>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p class="header-split-subtitle">Наша новая коллекция подчеркивает истинную красоту чистых линий и безупречных форм. Каждый предмет — воплощение философии, где совершенство достигается не тогда, когда нечего добавить, а когда нечего убрать.</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a href="/collection" class="header-btn" style="color: var(&#45;&#45;primary-color); border-color: var(&#45;&#45;primary-color);">Исследовать</a>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;</header>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash; КОНЕЦ: Шапка сайта (Вариант 2) &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;&lt;!&ndash; Дополнительный контент страницы для демонстрации &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<main class="main-content">&ndash;&gt;-->
-<!--&lt;!&ndash;  <h2 class="section-title">Популярные товары</h2>&ndash;&gt;-->
-
-<!--&lt;!&ndash;  <div class="products-grid">&ndash;&gt;-->
-<!--&lt;!&ndash;    &lt;!&ndash; Товар 1 &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="product-card">&ndash;&gt;-->
-<!--&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Товар 1" class="product-image">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="product-info">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h3 class="product-name">Минималистичная ваза</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <p class="product-price">5 900 ₽</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    &lt;!&ndash; Товар 2 &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="product-card">&ndash;&gt;-->
-<!--&lt;!&ndash;      <img src="/img/bucketMain.webp" alt="Товар 2" class="product-image">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="product-info">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h3 class="product-name">Керамическая чаша</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <p class="product-price">3 200 ₽</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    &lt;!&ndash; Товар 3 &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="product-card">&ndash;&gt;-->
-<!--&lt;!&ndash;      <img src="/api/placeholder/400/500" alt="Товар 3" class="product-image">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="product-info">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h3 class="product-name">Деревянная полка</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <p class="product-price">12 500 ₽</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    &lt;!&ndash; Товар 4 &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="product-card">&ndash;&gt;-->
-<!--&lt;!&ndash;      <img src="/api/placeholder/400/500" alt="Товар 4" class="product-image">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="product-info">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h3 class="product-name">Настольная лампа</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <p class="product-price">8 900 ₽</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash; Основное содержимое страницы &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<main>&ndash;&gt;-->
+<!--&lt;!&ndash;  &lt;!&ndash; Контент страницы &ndash;&gt;&ndash;&gt;-->
 <!--&lt;!&ndash;</main>&ndash;&gt;-->
 
-
-<!--&lt;!&ndash;<script>&ndash;&gt;-->
-<!--&lt;!&ndash;  // Скрипт для мобильного меню&ndash;&gt;-->
-<!--&lt;!&ndash;  document.querySelector('.mobile-menu-btn').addEventListener('click', function() {&ndash;&gt;-->
-<!--&lt;!&ndash;    document.querySelector('.nav-menu').classList.toggle('active');&ndash;&gt;-->
-<!--&lt;!&ndash;  });&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;  const toggleBtn = document.createElement('button');&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.textContent = 'Переключить стиль шапки';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.position = 'fixed';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.bottom = '20px';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.right = '20px';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.padding = '10px';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.zIndex = '1000';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.background = 'white';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.border = '1px solid #ddd';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.borderRadius = '4px';&ndash;&gt;-->
-<!--&lt;!&ndash;  toggleBtn.style.cursor = 'pointer';&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;  toggleBtn.addEventListener('click', function() {&ndash;&gt;-->
-<!--&lt;!&ndash;      const headers = document.querySelectorAll('.header-section');&ndash;&gt;-->
-<!--&lt;!&ndash;      headers.forEach(header => {&ndash;&gt;-->
-<!--&lt;!&ndash;          if (header.style.display === 'none') {&ndash;&gt;-->
-<!--&lt;!&ndash;              header.style.display = 'block';&ndash;&gt;-->
-<!--&lt;!&ndash;          } else {&ndash;&gt;-->
-<!--&lt;!&ndash;              header.style.display = 'none';&ndash;&gt;-->
-<!--&lt;!&ndash;          }&ndash;&gt;-->
-<!--&lt;!&ndash;      });&ndash;&gt;-->
-<!--&lt;!&ndash;  });&ndash;&gt;-->
-
-<!--&lt;!&ndash;  // Добавляем кнопку на страницу&ndash;&gt;-->
-<!--&lt;!&ndash;  document.body.appendChild(toggleBtn);&ndash;&gt;-->
-
-<!--&lt;!&ndash;</script>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash; Подключение скриптов для навигации &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>&ndash;&gt;-->
 <!--&lt;!&ndash;</body>&ndash;&gt;-->
 <!--&lt;!&ndash;</html>&ndash;&gt;-->
-
-
-
-
 
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
@@ -519,59 +549,31 @@
 <!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 <!--  <title>Название страницы | LUXE</title>-->
 
-<!--  &lt;!&ndash; Подключение иконок Font Awesome &ndash;&gt;-->
-<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">-->
+<!--  &lt;!&ndash; Подключение шрифтов (рекомендуемые для премиального минимализма) &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap">-->
 
-<!--  &lt;!&ndash; Подключение CSS для навигации &ndash;&gt;-->
-<!--  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>-->
-<!--  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>-->
+<!--  &lt;!&ndash; Подключение CSS для заголовков &ndash;&gt;-->
+<!--  <style th:replace="~{client/fragments/header :: header-css}"></style>-->
 
-<!--  &lt;!&ndash; Другие стили страницы &ndash;&gt;-->
+<!--  &lt;!&ndash; Остальные стили страницы &ndash;&gt;-->
 <!--</head>-->
 <!--<body>-->
 <!--&lt;!&ndash; Подключение навигации &ndash;&gt;-->
 <!--<div th:replace="~{client/fragments/navigation :: navigation}"></div>-->
 
-<!--&lt;!&ndash; Основное содержимое страницы &ndash;&gt;-->
+<!--&lt;!&ndash; Подключение заголовка страницы (выберите один из трех вариантов) &ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash; Вариант 1: Обычный заголовок страницы &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div th:replace="~{client/fragments/header :: page-header('О нас', 'Узнайте больше о нашей компании и нашей страсти к цветам', '/img/bucketMain.webp')}"></div>&ndash;&gt;-->
+
+<!--&lt;!&ndash; ИЛИ Вариант 2: Заголовок с кнопкой &ndash;&gt;-->
+<!-- <div th:replace="~{client/fragments/header :: page-header-with-button('Наша коллекция', 'Откройте для себя уникальные цветочные композиции', 'Смотреть все', '/catalog', '/img/bucketMain.webp')}"></div>-->
+
+
 <!--<main>-->
 <!--  &lt;!&ndash; Контент страницы &ndash;&gt;-->
 <!--</main>-->
-
-<!--&lt;!&ndash; Подключение скриптов для навигации &ndash;&gt;-->
-<!--<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>-->
 <!--</body>-->
 <!--</html>-->
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Название страницы | LUXE</title>
 
-  <!-- Подключение шрифтов (рекомендуемые для премиального минимализма) -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap">
-
-  <!-- Подключение CSS для заголовков -->
-  <style th:replace="~{client/fragments/header :: header-css}"></style>
-
-  <!-- Остальные стили страницы -->
-</head>
-<body>
-<!-- Подключение навигации -->
-<div th:replace="~{client/fragments/navigation :: navigation}"></div>
-
-<!-- Подключение заголовка страницы (выберите один из трех вариантов) -->
-
-<!--&lt;!&ndash;&lt;!&ndash; Вариант 1: Обычный заголовок страницы &ndash;&gt;&ndash;&gt;-->
-<!--<div th:replace="~{client/fragments/header :: page-header('О нас', 'Узнайте больше о нашей компании и нашей страсти к цветам', '/img/bucketMain.webp')}"></div>-->
-
-<!-- ИЛИ Вариант 2: Заголовок с кнопкой -->
- <div th:replace="~{client/fragments/header :: page-header-with-button('Наша коллекция', 'Откройте для себя уникальные цветочные композиции', 'Смотреть все', '/catalog', '/img/bucketMain.webp')}"></div>
-
-
-<main>
-  <!-- Контент страницы -->
-</main>
-</body>
-</html>
