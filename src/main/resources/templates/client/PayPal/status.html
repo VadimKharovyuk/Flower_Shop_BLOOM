@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статус платежа</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .payment-status-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .status-label {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-processing { background-color: #d1ecf1; color: #0c5460; }
+        .status-completed { background-color: #d4edda; color: #155724; }
+        .status-failed { background-color: #f8d7da; color: #721c24; }
+        .status-refunded { background-color: #e2e3e5; color: #383d41; }
+        .status-cancelled { background-color: #f8d7da; color: #721c24; }
+
+        .payment-details, .order-details {
+            margin-bottom: 30px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            width: 40%;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .detail-value {
+            width: 60%;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-primary:hover { background-color: #0069d9; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-danger:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+<div class="payment-status-container">
+    <div class="status-header">
+        <h1>Информация о платеже</h1>
+        <div th:if="${payment != null}">
+                <span th:class="'status-label status-' + ${#strings.toLowerCase(payment.status)}"
+                      th:text="${payment.status.displayName}">Статус</span>
+        </div>
+    </div>
+
+    <div class="payment-details" th:if="${payment != null}">
+        <h2>Детали платежа</h2>
+
+        <div class="detail-row">
+            <div class="detail-label">ID платежа:</div>
+            <div class="detail-value" th:text="${payment.id}">123</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Способ оплаты:</div>
+            <div class="detail-value" th:text="${payment.paymentMethod.description}">PayPal</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Сумма:</div>
+            <div class="detail-value" th:text="${payment.amount + ' грн'}">1500 грн</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">ID транзакции:</div>
+            <div class="detail-value" th:text="${payment.transactionId != null ? payment.transactionId : 'Не доступно'}">
+                TR123456789
+            </div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Дата создания:</div>
+            <div class="detail-value" th:text="${#temporals.format(payment.createdAt, 'dd.MM.yyyy HH:mm')}">
+                01.01.2023 12:30
+            </div>
+        </div>
+
+        <div class="detail-row" th:if="${payment.paidAt != null}">
+            <div class="detail-label">Дата оплаты:</div>
+            <div class="detail-value" th:text="${#temporals.format(payment.paidAt, 'dd.MM.yyyy HH:mm')}">
+                01.01.2023 12:35
+            </div>
+        </div>
+    </div>
+
+    <div class="order-details" th:if="${order != null}">
+        <h2>Информация о заказе</h2>
+
+        <div class="detail-row">
+            <div class="detail-label">Номер заказа:</div>
+            <div class="detail-value" th:text="${order.id}">10001</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Статус заказа:</div>
+            <div class="detail-value" th:text="${order.status.displayName}">Оплачен</div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Дата заказа:</div>
+            <div class="detail-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">
+                01.01.2023 12:00
+            </div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Итоговая сумма:</div>
+            <div class="detail-value" th:text="${order.totalAmount + ' грн'}">1500 грн</div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <!-- Показываем разные кнопки в зависимости от статуса -->
+        <a th:if="${payment != null && payment.status.name() == 'PENDING'}"
+           th:href="@{/payment/paypal/{orderId}(orderId=${order.id})}"
+           class="btn btn-primary">Повторить оплату</a>
+
+        <a th:href="@{/order/details/{orderId}(orderId=${order.id})}"
+           class="btn btn-secondary">Детали заказа</a>
+
+        <a th:href="@{/order/history}" class="btn btn-secondary">История заказов</a>
+
+        <a th:if="${payment != null && payment.status.name() == 'PENDING'}"
+           th:href="@{/order/cancel/{orderId}(orderId=${order.id})}"
+           class="btn btn-danger"
+           onclick="return confirm('Вы уверены, что хотите отменить заказ?')">Отменить заказ</a>
+
+        <a th:href="@{/}" class="btn btn-secondary">На главную</a>
+    </div>
+</div>
+</body>
+</html>

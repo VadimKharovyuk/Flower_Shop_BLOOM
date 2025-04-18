@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Платеж отменен</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <div class="cancelled-payment">
+        <h1>Платеж отменен</h1>
+        <p>Вы отменили процесс оплаты через PayPal.</p>
+        <p>Ваш заказ сохранен в статусе "Ожидает оплаты".</p>
+        <p>Вы можете:</p>
+        <ul>
+            <li>Попробовать оплатить заказ снова</li>
+            <li>Выбрать другой метод оплаты</li>
+            <li>Связаться с нашей службой поддержки</li>
+        </ul>
+
+        <a th:href="@{/checkout}" class="btn">Вернуться к оформлению заказа</a>
+        <a th:href="@{/}" class="btn btn-secondary">Вернуться на главную</a>
+    </div>
+</div>
+</body>
+</html>

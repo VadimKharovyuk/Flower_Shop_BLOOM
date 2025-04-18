@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Оплата успешно выполнена</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <div class="success-payment">
+    <h1>Оплата успешно выполнена!</h1>
+    <p>Ваш заказ <span th:text="${payment.order.id}"></span> успешно оплачен.</p>
+    <p>Номер транзакции: <span th:text="${payment.transactionId}"></span></p>
+    <p>Сумма: <span th:text="${payment.amount}"></span> USD</p>
+    <p>Дата и время оплаты: <span th:text="${#temporals.format(payment.paidAt, 'dd.MM.yyyy HH:mm')}"></span></p>
+
+    <a th:href="@{/order/history}" class="btn">Перейти к истории заказов</a>
+    <a th:href="@{/}" class="btn btn-secondary">Вернуться на главную</a>
+  </div>
+</div>
+</body>
+</html>

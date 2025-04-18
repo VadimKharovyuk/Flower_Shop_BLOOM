@@ -53,7 +53,7 @@ public class CheckoutController {
             Order order = orderService.createOrder(orderDTO, session);
 
             // Проверяем метод оплаты
-            if (order.getPaymentMethod() == PaymentMethod.LIQPAY ) {
+            if (order.getPaymentMethod() == PaymentMethod.LIQPAY) {
                 // Для платежей картой перенаправляем на страницу оплаты
                 return "redirect:/payment/process/" + order.getId();
             } else if (order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
@@ -64,6 +64,9 @@ public class CheckoutController {
             } else if (order.getPaymentMethod() == PaymentMethod.MONOBANK) {
                 // Для Monobank оплаты перенаправляем на контроллер оплаты
                 return "redirect:/payment/monobank/process/" + order.getId();
+            } else if (order.getPaymentMethod() == PaymentMethod.PAYPAL) {
+                // Для PayPal перенаправляем на контроллер PayPal
+                return "redirect:/payment/paypal/" + order.getId();
             } else {
                 // Для всех остальных методов оплаты
                 cartService.clearCart(session);
@@ -76,46 +79,6 @@ public class CheckoutController {
             return "client/checkout/form";
         }
     }
-//
-//    // Обработка отправки формы
-//    @PostMapping
-//    public String processOrder(@Valid @ModelAttribute("orderDTO") CreateOrderDTO orderDTO,
-//                               BindingResult bindingResult,
-//                               HttpSession session,
-//                               Model model) {
-//        // Проверка на ошибки валидации
-//        if (bindingResult.hasErrors()) {
-//            CartDto cart = cartService.getCartDto(session);
-//            model.addAttribute("item", cart);
-//            return "client/checkout/form";
-//        }
-//
-//        try {
-//            // Создаем заказ
-//            Order order = orderService.createOrder(orderDTO, session);
-//
-//            // Проверяем метод оплаты
-//            if (order.getPaymentMethod() == PaymentMethod.CREDIT_CARD ||
-//                    order.getPaymentMethod() == PaymentMethod.DEBIT_CARD) {
-//                // Для платежей картой перенаправляем на страницу оплаты
-//                return "redirect:/payment/process/" + order.getId();
-//            } else if (order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
-//                // Для оплаты наличными при доставке
-//                // сразу переходим на страницу подтверждения
-//                cartService.clearCart(session);
-//                return "redirect:/checkout/confirmation/" + order.getId();
-//            } else {
-//                // Для всех остальных методов оплаты
-//                cartService.clearCart(session);
-//                return "redirect:/checkout/confirmation/" + order.getId();
-//            }
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Ошибка при оформлении заказа: " + e.getMessage());
-//            CartDto cart = cartService.getCartDto(session);
-//            model.addAttribute("item", cart);
-//            return "client/checkout/form";
-//        }
-//    }
 
     // Страница подтверждения заказа
     @GetMapping("/confirmation/{orderId}")
