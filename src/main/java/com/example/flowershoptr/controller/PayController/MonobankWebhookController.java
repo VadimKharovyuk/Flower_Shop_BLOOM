@@ -1,12 +1,10 @@
-package com.example.flowershoptr.controller.admin;
+package com.example.flowershoptr.controller.PayController;
 
 import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Order;
 import com.example.flowershoptr.model.Payment;
 import com.example.flowershoptr.repository.OrderRepository;
 import com.example.flowershoptr.repository.PaymentRepository;
-import com.example.flowershoptr.service.PaymentService;
-import com.example.flowershoptr.service.payment.MonobankPaymentService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;

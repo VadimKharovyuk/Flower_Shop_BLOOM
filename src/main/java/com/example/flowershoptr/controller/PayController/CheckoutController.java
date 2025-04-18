@@ -1,4 +1,4 @@
-package com.example.flowershoptr.controller;
+package com.example.flowershoptr.controller.PayController;
 
 import com.example.flowershoptr.dto.Order.CreateOrderDTO;
 import com.example.flowershoptr.dto.Order.OrderDetailsDTO;
@@ -53,8 +53,7 @@ public class CheckoutController {
             Order order = orderService.createOrder(orderDTO, session);
 
             // Проверяем метод оплаты
-            if (order.getPaymentMethod() == PaymentMethod.CREDIT_CARD ||
-                    order.getPaymentMethod() == PaymentMethod.DEBIT_CARD) {
+            if (order.getPaymentMethod() == PaymentMethod.LIQPAY ) {
                 // Для платежей картой перенаправляем на страницу оплаты
                 return "redirect:/payment/process/" + order.getId();
             } else if (order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {

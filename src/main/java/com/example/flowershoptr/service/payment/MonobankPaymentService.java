@@ -29,6 +29,7 @@ public class MonobankPaymentService implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
+
     @Override
     public Payment processPayment(Order order, String returnUrl, String cancelUrl) {
         try {
@@ -103,4 +104,7 @@ public class MonobankPaymentService implements PaymentService {
         return null;
     }
 
+    public Payment findByTransactionId(String invoiceId) {
+        return paymentRepository.findByTransactionId(invoiceId);
+    }
 }

@@ -257,21 +257,12 @@
                         <h5 class="serif">Способ оплаты</h5>
                     </div>
                     <div class="card-body">
-                        <div class="payment-method" onclick="selectPayment('creditCard')">
+                        <div class="payment-method" onclick="selectPayment('liqpay')">
                             <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
-                                   id="creditCard" th:field="*{paymentMethod}" value="CREDIT_CARD">
-                            <label class="payment-method-label" for="creditCard">
+                                   id="liqpay" th:field="*{paymentMethod}" value="LIQPAY">
+                            <label class="payment-method-label" for="liqpay">
                                 <i class="bi bi-credit-card-2-front fs-4 me-3 text-primary"></i>
-                                <span>Кредитная карта</span>
-                            </label>
-                        </div>
-
-                        <div class="payment-method" onclick="selectPayment('debitCard')">
-                            <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
-                                   id="debitCard" th:field="*{paymentMethod}" value="DEBIT_CARD">
-                            <label class="payment-method-label" for="debitCard">
-                                <i class="bi bi-credit-card fs-4 me-3 text-primary"></i>
-                                <span>Дебетовая карта</span>
+                                <span>Приват Банк</span>
                             </label>
                         </div>
 
@@ -293,14 +284,15 @@
                             </label>
                         </div>
 
-                        <div class="payment-method" onclick="selectPayment('eWallet')">
+                        <div class="payment-method" onclick="selectPayment('electronicWallet')">
                             <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
-                                   id="eWallet" th:field="*{paymentMethod}" value="ELECTRONIC_WALLET">
-                            <label class="payment-method-label" for="eWallet">
+                                   id="electronicWallet" th:field="*{paymentMethod}" value="ELECTRONIC_WALLET">
+                            <label class="payment-method-label" for="electronicWallet">
                                 <i class="bi bi-wallet2 fs-4 me-3 text-primary"></i>
                                 <span>Электронный кошелёк</span>
                             </label>
                         </div>
+
                         <div class="payment-method" onclick="selectPayment('monobank')">
                             <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
                                    id="monobank" th:field="*{paymentMethod}" value="MONOBANK">
@@ -310,9 +302,17 @@
                             </label>
                         </div>
 
+                        <div class="payment-method" onclick="selectPayment('paypal')">
+                            <input class="form-check-input visually-hidden" type="radio" name="paymentMethod"
+                                   id="paypal" th:field="*{paymentMethod}" value="PAYPAL">
+                            <label class="payment-method-label" for="paypal">
+                                <i class="bi bi-paypal fs-4 me-3 text-primary"></i>
+                                <span>PayPal</span>
+                            </label>
+                        </div>
+
                         <div class="text-danger mt-2" th:if="${#fields.hasErrors('paymentMethod')}" th:errors="*{paymentMethod}"></div>
                     </div>
-                </div>
 
                 <div class="d-grid gap-2 mb-5">
                     <button type="submit" class="btn btn-primary btn-lg">Оформить заказ</button>
