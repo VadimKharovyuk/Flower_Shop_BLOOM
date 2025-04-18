@@ -40,7 +40,6 @@ public class NotificationEmailService {
             List<String> recipients = new ArrayList<>();
             recipients.add(orderDetails.getClientEmail());
 
-            // Формируем контекст так же, как в sendCustomNewsletter
             Map<String, Object> context = new HashMap<>();
             context.put("message", "Ваш заказ №" + orderDetails.getId() + " успешно оформлен и принят в обработку.");
             context.put("subscriberCount", 1);
@@ -56,7 +55,7 @@ public class NotificationEmailService {
             emailService.sendBulkEmail(
                     recipients,
                     "Подтверждение заказа #" + orderDetails.getId(),
-                    "template",
+                    "order-confirmations",
                     context
             );
 
