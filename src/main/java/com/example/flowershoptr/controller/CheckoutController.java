@@ -36,7 +36,6 @@ public class CheckoutController {
         @GetMapping
         public String showCheckoutForm(Model model, HttpSession session) {
             model.addAttribute("orderDTO", new CreateOrderDTO());
-
             CartDto cart = cartService.getCartDto(session);
             model.addAttribute("item", cart);
 
@@ -65,18 +64,34 @@ public class CheckoutController {
                     order.getPaymentMethod() == PaymentMethod.DEBIT_CARD) {
                 // Для платежей картой перенаправляем на страницу оплаты
                 return "redirect:/payment/process/" + order.getId();
-            } else {
-                // Для других типов оплаты (наличными при доставке и т.д.)
+            } else if (order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
+                // Для оплаты наличными при доставке
                 // сразу переходим на страницу подтверждения
+                cartService.clearCart(session);
+                return "redirect:/checkout/confirmation/" + order.getId();
+            } else {
+                // Для всех остальных методов оплаты
                 cartService.clearCart(session);
                 return "redirect:/checkout/confirmation/" + order.getId();
             }
         } catch (Exception e) {
-            // В случае ошибки добавляем сообщение об ошибке и возвращаемся к форме
             model.addAttribute("errorMessage", "Ошибка при оформлении заказа: " + e.getMessage());
             CartDto cart = cartService.getCartDto(session);
             model.addAttribute("item", cart);
             return "client/checkout/form";
+        }
+    }
+
+    // Страница подтверждения заказа
+    @GetMapping("/confirmation/{orderId}")
+    public String orderConfirmation(@PathVariable Long orderId, Model model) {
+        try {
+            OrderDetailsDTO orderDetails = orderService.getOrderDetails(orderId);
+            model.addAttribute("order", orderDetails); // Передаем весь объект OrderDetailsDTO
+            return "client/checkout/confirmation";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Заказ не найден");
+            return "error";
         }
     }
 
