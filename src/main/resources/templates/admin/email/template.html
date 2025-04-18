@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Уведомление</title>
+    <title>Подтверждение заказа</title>
     <meta charset="UTF-8">
     <style>
         body {
@@ -38,21 +38,29 @@
             margin-bottom: 20px;
             line-height: 1.6;
         }
-        .order-details {
+        .section {
             background-color: #f5f5f5;
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
-        .order-details h2 {
+        .section h2 {
             margin-top: 0;
             color: #4a7c59;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
         .detail-row {
             margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
         }
         .detail-label {
             font-weight: bold;
+            width: 180px;
+        }
+        .detail-value {
+            flex: 1;
         }
         .footer {
             text-align: center;
@@ -71,6 +79,68 @@
             border-radius: 5px;
             margin-top: 15px;
         }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .items-table th {
+            background-color: #f0f0f0;
+            text-align: left;
+            padding: 8px;
+            border-bottom: 2px solid #ddd;
+        }
+        .items-table td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .items-table tr:last-child td {
+            border-bottom: none;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-new {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+        .status-processing {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        .status-shipped {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .status-delivered {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .status-canceled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .payment-pending {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        .payment-paid {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .payment-refunded {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
     </style>
 </head>
 <body>
@@ -82,70 +152,120 @@
     <div class="content">
         <!-- Основное сообщение -->
         <div class="message" th:text="${message}">
-            Здесь будет содержимое сообщения.
+            Ваш заказ успешно оформлен и принят в обработку.
         </div>
 
-        <!-- Информация о заказе (отображается только если передан объект заказа) -->
-        <div class="order-details" th:if="${order != null}">
+        <!-- Информация о заказе -->
+        <div class="section" th:if="${order != null}">
             <h2>Информация о заказе</h2>
 
             <div class="detail-row">
-                <span class="detail-label">Номер заказа:</span>
-                <span th:text="${order.id}">12345</span>
+                <div class="detail-label">Номер заказа:</div>
+                <div class="detail-value" th:text="${order.id}">12345</div>
             </div>
 
             <div class="detail-row">
-                <span class="detail-label">Дата заказа:</span>
-                <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</span>
+                <div class="detail-label">Дата заказа:</div>
+                <div class="detail-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</div>
             </div>
 
             <div class="detail-row">
-                <span class="detail-label">Статус заказа:</span>
-                <span th:text="${order.orderStatus}">Новый</span>
+                <div class="detail-label">Статус заказа:</div>
+                <div class="detail-value">
+                    <span class="status-badge" th:classappend="${'status-' + order.orderStatus.toString().toLowerCase()}" th:text="${order.orderStatus}">Новый</span>
+                </div>
             </div>
 
             <div class="detail-row">
-                <span class="detail-label">Статус оплаты:</span>
-                <span th:text="${order.paymentStatus}">Ожидает оплаты</span>
+                <div class="detail-label">Статус оплаты:</div>
+                <div class="detail-value">
+                    <span class="status-badge" th:classappend="${'payment-' + order.paymentStatus.toString().toLowerCase()}" th:text="${order.paymentStatus}">Ожидает оплаты</span>
+                </div>
             </div>
 
             <div class="detail-row">
-                <span class="detail-label">Сумма заказа:</span>
-                <span th:text="${order.total}">1000.00</span>
+                <div class="detail-label">Способ оплаты:</div>
+                <div class="detail-value" th:text="${order.paymentMethod}">Банковская карта</div>
             </div>
 
-            <div class="detail-row" th:if="${orderUrl != null}">
-                <a class="button" th:href="'http://example.com' + ${orderUrl}" target="_blank">Посмотреть заказ</a>
+            <div class="detail-row">
+                <div class="detail-label">Сумма заказа:</div>
+                <div class="detail-value" th:text="${order.total + ' ₽'}">1000.00 ₽</div>
             </div>
         </div>
 
-        <!-- Информация о блог-посте (отображается только если передан объект поста) -->
-        <div class="order-details" th:if="${post != null}">
-            <h2>Новая публикация в блоге</h2>
+        <!-- Информация о доставке -->
+        <div class="section" th:if="${order != null}">
+            <h2>Информация о доставке</h2>
 
             <div class="detail-row">
-                <span class="detail-label">Заголовок:</span>
-                <span th:text="${post.title}">Название поста</span>
+                <div class="detail-label">Получатель:</div>
+                <div class="detail-value" th:text="${order.clientName}">Иван Иванов</div>
             </div>
 
             <div class="detail-row">
-                <span class="detail-label">Дата публикации:</span>
-                <span th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy')}">01.01.2025</span>
+                <div class="detail-label">Телефон:</div>
+                <div class="detail-value" th:text="${order.clientPhone}">+7 123 456 78 90</div>
             </div>
 
-            <div class="detail-row" th:if="${post.description != null}">
-                <span class="detail-label">Описание:</span>
-                <span th:text="${post.description}">Краткое описание поста</span>
+            <div class="detail-row">
+                <div class="detail-label">Email:</div>
+                <div class="detail-value" th:text="${order.clientEmail}">ivan@example.com</div>
             </div>
 
-            <div class="detail-row" th:if="${postUrl != null}">
-                <a class="button" th:href="'http://example.com' + ${postUrl}" target="_blank">Читать полностью</a>
+            <div class="detail-row">
+                <div class="detail-label">Адрес доставки:</div>
+                <div class="detail-value" th:text="${order.deliveryAddress}">ул. Цветочная, д. 1, кв. 123</div>
             </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Дата доставки:</div>
+                <div class="detail-value" th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy HH:mm')}">02.01.2025 12:00</div>
+            </div>
+
+            <div class="detail-row" th:if="${order.notes != null && !order.notes.isEmpty()}">
+                <div class="detail-label">Примечания:</div>
+                <div class="detail-value" th:text="${order.notes}">Позвонить за час до доставки</div>
+            </div>
+        </div>
+
+        <!-- Таблица товаров -->
+        <div class="section" th:if="${order != null && order.items != null && !order.items.isEmpty()}">
+            <h2>Товары в заказе</h2>
+
+            <table class="items-table">
+                <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Сумма</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${order.items}">
+                    <td th:text="${item.flowerName}">Розы красные</td>
+                    <td th:text="${item.quantity + ' шт.'}">5 шт.</td>
+                    <td th:text="${item.price + ' ₽'}">250.00 ₽</td>
+                    <td th:text="${item.itemTotal + ' ₽'}">1250.00 ₽</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="3" style="text-align: right;">Итого:</td>
+                    <td th:text="${order.total + ' ₽'}">1250.00 ₽</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Кнопка для перехода на страницу заказа -->
+        <div style="text-align: center;" th:if="${orderUrl != null}">
+            <a class="button" th:href="'http://localhost:1634' + ${orderUrl}" target="_blank">Перейти к деталям заказа</a>
         </div>
     </div>
 
     <div class="footer">
-        <p>Вы получили это письмо, потому что являетесь клиентом или подписчиком Flower Shop.</p>
+        <p>Спасибо за ваш заказ!</p>
+        <p>Если у вас возникли вопросы, свяжитесь с нами по телефону +7 (123) 456-78-90</p>
         <p>© 2025 Flower Shop. Все права защищены.</p>
     </div>
 </div>
