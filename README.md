@@ -100,11 +100,11 @@ boom-flower-shop/
 
 ## Команда
 
-- Front-end разработчики
-- Back-end разработчики
-- UI/UX дизайнеры
-- Тестировщики
-- Менеджеры проекта
+- Front-end я
+- Back-end я
+- UI/UX я
+- Тестировщики тоже я 
+- Менеджеры проекта я 
 
 ## Лицензия
 
@@ -114,9 +114,8 @@ boom-flower-shop/
 
 Если у вас есть вопросы или предложения, свяжитесь с нами:
 
-- Email: info@boom-flowers.com
-- Сайт: [www.boom-flowers.com](http://www.boom-flowers.com)
-- Телефон: +38 (050) 123-45-67
+- Email: vadimkh17@gmail.com
+- Телефон: ‭+380 (63) 843 85 65‬
 
 ---
 
