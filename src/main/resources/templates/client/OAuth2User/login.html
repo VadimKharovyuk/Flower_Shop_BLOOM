@@ -503,10 +503,10 @@
         :root {
             --color-primary: #3d3d3d;
             --color-secondary: #767676;
-            --color-accent: #d4a977;
-            --color-accent-light: rgba(212, 169, 119, 0.1);
+            --color-accent-dark: #a57742;
+            --color-accent-light: rgba(212, 169, 119, 0.8);
             --color-background: #f8f8f8;
-            --color-card: rgba(255, 255, 255, 0.85);
+            --color-card: rgba(255, 255, 255, 0.35);
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s ease;
         }
@@ -533,7 +533,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('/img/wedding-couple.jpg');
+            background-image: url('https://scontent.fayt2-3.fna.fbcdn.net/v/t39.30808-6/469006080_18336436216196404_7641428199119897005_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=2PltOROognYQ7kNvwEgt9_T&_nc_oc=AdlDKfIii9QTSu8DbRB2D2kbNXSprwelhSpXdGbIFXxjlJaWDmDIqSq04-vL7Tsbekw&_nc_zt=23&_nc_ht=scontent.fayt2-3.fna&_nc_gid=hx-ZTIUjZ8kD57dgwfR8IQ&oh=00_AfFpaDqXv-mjFixsTW6G5EtjaKXrP6Isx5x6EeI885pKQA&oe=6808AE85');
             background-size: cover;
             background-position: center;
             filter: brightness(0.85);
@@ -626,19 +626,38 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);  /* При наведении добавляет более выраженную тень */
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 500;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--color-primary);
-        }
-
         .subtitle {
             font-size: 1rem;
-            color: var(--color-secondary);
+            color: #333333; /* Темнее для лучшей контрастности */
             margin-bottom: 2.5rem;
             line-height: 1.6;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3); /* Легкая тень для улучшения читабельности */
+        }
+
+        .benefits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a; /* Темнее для лучшей контрастности */
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            color: #333333; /* Темнее для лучшей контрастности */
+            font-size: 0.95rem;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #444444; /* Темнее для лучшей контрастности */
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
         }
 
         .login-button {
@@ -662,7 +681,7 @@
         .login-button:hover {
             background-color: var(--color-accent-light);
             border-color: var(--color-accent);
-            color: var(--color-accent);
+            color: #a57742; /* Более темный цвет текста при наведении */
             transform: translateY(-2px);
         }
 
@@ -693,28 +712,6 @@
             list-style: none;
         }
 
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            color: var(--color-secondary);
-            font-size: 0.95rem;
-        }
-
-        .benefit-item i {
-            color: var(--color-accent);
-            margin-right: 0.8rem;
-            font-size: 1rem;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: var(--color-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
 
         .back-link:hover {
             color: var(--color-accent);
@@ -780,7 +777,7 @@
         <p class="subtitle">Войдите, чтобы управлять заказами, сохранять избранные букеты и получать персональные скидки</p>
 
         <a th:href="@{/oauth2/authorization/google}" class="login-button">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+            <img src="/img/google-logo.png" alt="Google logo">
             <span class="button-text">Войти с помощью Google</span>
         </a>
 
