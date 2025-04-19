@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр заказа</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .customer-info, .delivery-info, .order-info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .info-row {
+      margin-bottom: 10px;
+    }
+
+    .info-label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .total-row {
+      font-weight: bold;
+    }
+
+    .status-pending {
+      color: #ff9800;
+    }
+
+    .status-processing {
+      color: #2196F3;
+    }
+
+    .status-completed {
+      color: #4CAF50;
+    }
+
+    .status-canceled {
+      color: #f44336;
+    }
+
+    .payment-paid {
+      color: #4CAF50;
+    }
+
+    .payment-pending {
+      color: #ff9800;
+    }
+
+    .payment-canceled {
+      color: #f44336;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-back {
+      background-color: #607D8B;
+    }
+
+    .btn-cancel {
+      background-color: #f44336;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .status-form {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .status-form h3 {
+      margin-top: 0;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .form-row label {
+      margin-right: 10px;
+      min-width: 120px;
+    }
+
+    select, button {
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+<h1>Заказ #<span th:text="${order.id}"></span> <span th:if="${order.order_number}" th:text="'(' + ${order.order_number} + ')'"></span></h1>
+
+<div class="actions">
+  <a href="/admin/orders" class="btn btn-back">← Назад к списку</a>
+  <form th:if="${order.orderStatus.name() != 'CANCELED'}"
+        th:action="@{/admin/orders/{id}/cancel(id=${order.id})}"
+        method="post"
+        onsubmit="return confirm('Вы уверены, что хотите отменить заказ?');">
+    <button type="submit" class="btn btn-cancel">Отменить заказ</button>
+  </form>
+</div>
+
+<div class="status-form">
+  <h3>Управление статусами</h3>
+  <div class="flex-container">
+    <!-- Форма обновления статуса заказа -->
+    <div class="form-section">
+      <form th:action="@{/admin/orders/{id}/status(id=${order.id})}" method="post">
+        <div class="form-row">
+          <label>Статус заказа:</label>
+          <select name="status" th:disabled="${order.orderStatus.name() == 'CANCELED'}">
+            <option th:each="status : ${T(com.example.flowershoptr.enums.OrderStatus).values()}"
+                    th:value="${status}"
+                    th:text="${status.name()}"
+                    th:selected="${status == order.orderStatus}">
+            </option>
+          </select>
+          <button type="submit" th:disabled="${order.orderStatus.name() == 'CANCELED'}">Обновить</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Форма обновления статуса оплаты -->
+    <div class="form-section">
+      <form th:action="@{/admin/orders/{id}/payment(id=${order.id})}" method="post">
+        <div class="form-row">
+          <label>Статус оплаты:</label>
+          <select name="status" th:disabled="${order.orderStatus.name() == 'CANCELED'}">
+            <option th:each="status : ${T(com.example.flowershoptr.enums.PaymentStatus).values()}"
+                    th:value="${status}"
+                    th:text="${status.name()}"
+                    th:selected="${status == order.paymentStatus}">
+            </option>
+          </select>
+          <button type="submit" th:disabled="${order.orderStatus.name() == 'CANCELED'}">Обновить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="flex-container">
+  <!-- Информация о клиенте -->
+  <div class="section customer-info">
+    <h2>Информация о клиенте</h2>
+    <div class="info-row">
+      <span class="info-label">Имя:</span>
+      <span th:text="${order.clientName}"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Телефон:</span>
+      <span th:text="${order.clientPhone}"></span>
+    </div>
+    <div class="info-row" th:if="${order.clientEmail}">
+      <span class="info-label">Email:</span>
+      <span th:text="${order.clientEmail}"></span>
+    </div>
+  </div>
+
+  <!-- Информация о доставке -->
+  <div class="section delivery-info">
+    <h2>Информация о доставке</h2>
+    <div class="info-row">
+      <span class="info-label">Адрес:</span>
+      <span th:text="${order.deliveryAddress}"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Дата доставки:</span>
+      <span th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy HH:mm')}"></span>
+    </div>
+  </div>
+
+  <!-- Информация о заказе -->
+  <div class="section order-info">
+    <h2>Информация о заказе</h2>
+    <div class="info-row">
+      <span class="info-label">Статус заказа:</span>
+      <span th:class="${'status-' + order.orderStatus.name().toLowerCase()}"
+            th:text="${order.orderStatus.name()}"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Статус оплаты:</span>
+      <span th:class="${'payment-' + order.paymentStatus.name().toLowerCase()}"
+            th:text="${order.paymentStatus.name()}"></span>
+    </div>
+    <div class="info-row" th:if="${order.paymentMethod}">
+      <span class="info-label">Способ оплаты:</span>
+      <span th:text="${order.paymentMethod.description}"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Дата создания:</span>
+      <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+    </div>
+    <div class="info-row" th:if="${order.updatedAt}">
+      <span class="info-label">Дата обновления:</span>
+      <span th:text="${#temporals.format(order.updatedAt, 'dd.MM.yyyy HH:mm')}"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Информация о примечаниях -->
+<div class="section" th:if="${order.notes}">
+  <h2>Примечания к заказу</h2>
+  <p th:text="${order.notes}"></p>
+</div>
+
+<!-- Товары в заказе -->
+<div class="section">
+  <h2>Товары в заказе</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Название</th>
+      <th>Цена</th>
+      <th>Количество</th>
+      <th>Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${order.items}">
+      <td th:text="${item.getFlowerName()}"></td>
+      <td th:text="${#numbers.formatDecimal(item.price, 0, 'WHITESPACE', 2, 'POINT') + ' ₽'}"></td>
+      <td th:text="${item.quantity}"></td>
+      <td th:text="${#numbers.formatDecimal(item.price * item.quantity, 0, 'WHITESPACE', 2, 'POINT') + ' ₽'}"></td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr class="total-row">
+      <td colspan="3" style="text-align: right;">Итого:</td>
+      <td th:text="${#numbers.formatDecimal(order.total, 0, 'WHITESPACE', 2, 'POINT') + ' ₽'}"></td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div class="actions">
+  <a th:href="@{/admin/orders/{id}/print(id=${order.id})}" class="btn" target="_blank">Печать заказа</a>
+  <a th:href="@{/admin/orders/{id}/invoice(id=${order.id})}" class="btn" target="_blank">Печать чека</a>
+</div>
+</body>
+</html>

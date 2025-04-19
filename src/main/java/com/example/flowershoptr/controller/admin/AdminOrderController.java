@@ -28,7 +28,30 @@ public class AdminOrderController {
     @GetMapping
     public String listOrders(Model model) {
         List<OrderListDTO> orders = orderService.getAllOrders();
+
+        // Подсчет заказов по статусам для панели статистики
+        long pendingCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.PENDING)
+                .count();
+
+        long processingCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.PROCESSING)
+                .count();
+
+        long completedCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.COMPLETED)
+                .count();
+
+        long canceledCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.CANCELED)
+                .count();
+
         model.addAttribute("orders", orders);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("processingCount", processingCount);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("canceledCount", canceledCount);
+
         return "admin/orders/list";
     }
 
@@ -36,8 +59,31 @@ public class AdminOrderController {
     @GetMapping("/filter")
     public String filterOrders(@RequestParam OrderStatus status, Model model) {
         List<OrderListDTO> orders = orderService.getOrdersByStatus(status);
+
+        // Подсчет заказов по статусам для панели статистики
+        long pendingCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.PENDING)
+                .count();
+
+        long processingCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.PROCESSING)
+                .count();
+
+        long completedCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.COMPLETED)
+                .count();
+
+        long canceledCount = orders.stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.CANCELED)
+                .count();
+
         model.addAttribute("orders", orders);
         model.addAttribute("currentStatus", status);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("processingCount", processingCount);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("canceledCount", canceledCount);
+
         return "admin/orders/list";
     }
 

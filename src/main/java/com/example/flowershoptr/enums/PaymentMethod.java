@@ -11,7 +11,8 @@ public enum PaymentMethod {
     BANK_TRANSFER("Банковский перевод"),
     ELECTRONIC_WALLET("Электронный кошелёк"),
     MONOBANK("Monobank"),
-    PAYPAL("PayPal");
+    PAYPAL("PayPal"),
+    CREDIT_CARD("Кредитная карта");
 
     private final String description;
 
