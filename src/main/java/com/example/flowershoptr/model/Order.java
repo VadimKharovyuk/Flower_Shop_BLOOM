@@ -63,6 +63,9 @@ public class Order {
     private String orderNumber;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user; // Может быть null для анонимных заказов
 
     @CreationTimestamp
     @Column(updatable = false)

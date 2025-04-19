@@ -28,14 +28,14 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> items = new HashSet<>();
 
     @Column(name = "total_price")
     private BigDecimal totalPrice = BigDecimal.ZERO;
+
+    @OneToOne(mappedBy = "cart")
+    private User user;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -43,7 +43,6 @@ public class Cart implements Serializable {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
 
 
 

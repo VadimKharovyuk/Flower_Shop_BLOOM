@@ -39,7 +39,6 @@ public class CreateOrderDTO {
     @NotNull(message = "ID корзины обязателен")
     private String sessionId;
 
-//    @NotNull
-//    private String orderNumber;
+
 
 }

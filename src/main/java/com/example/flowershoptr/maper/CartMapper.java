@@ -20,7 +20,6 @@ public class CartMapper {
 
         CartDto cartDto = new CartDto();
         cartDto.setId(cart.getId());
-        cartDto.setUserId(cart.getUserId());
         cartDto.setTotalPrice(cart.getTotalPrice());
         cartDto.setCreatedAt(cart.getCreatedAt());
         cartDto.setUpdatedAt(cart.getUpdatedAt());
@@ -70,7 +69,6 @@ public class CartMapper {
 
         Cart cart = new Cart();
         cart.setId(cartDto.getId());
-        cart.setUserId(cartDto.getUserId());
         cart.setTotalPrice(cartDto.getTotalPrice());
 
         if (cartDto.getItems() != null) {

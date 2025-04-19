@@ -31,11 +31,9 @@ public class CartServiceImpl implements CartService {
 
     private static final String CART_SESSION_KEY = "user_cart";
 
-    private final CartRepository cartRepository;
     private final FlowerRepository flowerRepository;
     private final CartMapper cartMapper;
     private final SpecialOfferService specialOfferService ;
-    private final UserRepository userRepository;
 
 
     @Override
@@ -271,62 +269,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
-    public CartDto assignCartToUser(HttpSession session, Long userId) {
-        Cart sessionCart = getOrCreateCartFromSession(session);
-
-        // Проверяем, есть ли у пользователя сохраненная корзина в БД
-        Optional<Cart> existingUserCart = cartRepository.findByUserId(userId);
-
-        if (existingUserCart.isPresent()) {
-            Cart userCart = existingUserCart.get();
-
-            // Если в сессии есть товары, переносим их в корзину пользователя
-            if (!sessionCart.getItems().isEmpty()) {
-                for (CartItem sessionItem : sessionCart.getItems()) {
-                    // Ищем такой же товар в корзине пользователя
-                    Optional<CartItem> existingItem = userCart.getItems().stream()
-                            .filter(item -> item.getFlower().getId().equals(sessionItem.getFlower().getId()))
-                            .findFirst();
-
-                    if (existingItem.isPresent()) {
-                        // Обновляем количество
-                        CartItem item = existingItem.get();
-                        updateCartItem(item, item.getQuantity() + sessionItem.getQuantity());
-                    } else {
-                        // Создаем новый элемент
-                        CartItem newItem = createCartItem(userCart, sessionItem.getFlower(), sessionItem.getQuantity());
-                        userCart.getItems().add(newItem);
-                    }
-                }
-
-                // Пересчитываем общую стоимость
-                recalculateTotalPrice(userCart);
-            }
-
-            // Обновляем корзину в БД
-            Cart savedCart = cartRepository.save(userCart);
-
-            // Обновляем сессию
-            session.setAttribute(CART_SESSION_KEY, savedCart);
-
-            return cartMapper.toDto(savedCart);
-        } else {
-            // Привязываем текущую корзину к пользователю
-            sessionCart.setUserId(userId);
-
-            // Сохраняем корзину в БД
-            Cart savedCart = cartRepository.save(sessionCart);
-
-            // Обновляем сессию
-            session.setAttribute(CART_SESSION_KEY, savedCart);
-
-            return cartMapper.toDto(savedCart);
-        }
-    }
-
-
-    @Override
     public Integer getCartItemCount(HttpSession session) {
         Cart cart = (Cart) session.getAttribute(CART_SESSION_KEY);
         if (cart == null) {
@@ -335,85 +277,6 @@ public class CartServiceImpl implements CartService {
         return cart.getItems().stream()
                 .mapToInt(CartItem::getQuantity)
                 .sum();
-    }
-
-    @Override
-    @Transactional
-    public void transferCartFromSessionToUser(User user, HttpSession session) {
-        // Получаем корзину из сессии
-        Cart sessionCart = (Cart) session.getAttribute(CART_SESSION_KEY);
-
-        if (sessionCart == null || sessionCart.getItems().isEmpty()) {
-            // Если корзина в сессии пуста, ничего не делаем
-            return;
-        }
-
-        // Проверяем, есть ли у пользователя уже корзина
-        if (user.getCart() == null) {
-            // Если у пользователя нет корзины, просто присваиваем ему корзину из сессии
-            user.setCart(sessionCart);
-        } else {
-            // Если у пользователя уже есть корзина, объединяем их
-            Cart userCart = user.getCart();
-
-            // Копируем все товары из сессионной корзины в корзину пользователя
-            for (CartItem sessionItem : sessionCart.getItems()) {
-                // Проверяем, есть ли такой товар уже в корзине пользователя
-                boolean itemExists = false;
-
-                for (CartItem userItem : userCart.getItems()) {
-                    if (userItem.getFlower().getId().equals(sessionItem.getFlower().getId())) {
-                        // Если товар уже есть, увеличиваем количество
-                        userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
-                        itemExists = true;
-                        break;
-                    }
-                }
-
-                // Если товара нет в корзине пользователя, добавляем его
-                if (!itemExists) {
-                    userCart.getItems().add(sessionItem);
-                    sessionItem.setCart(userCart);
-                }
-            }
-
-            // Пересчитываем общую стоимость
-            recalculateCartTotal(userCart);
-        }
-
-        // Сохраняем пользователя с обновленной корзиной
-        userRepository.save(user);
-
-        // Очищаем корзину в сессии
-        session.removeAttribute(CART_SESSION_KEY);
-    }
-    private void recalculateCartTotal(Cart cart) {
-        // Здесь реализуйте логику пересчета общей стоимости корзины
-        // в зависимости от вашей модели данных
-    }
-
-
-    // Вспомогательные методы
-
-    /**
-     * Создает новый CartItem из данных запроса
-     */
-    private CartItem createCartItem(Cart cart, Flower flower, Integer quantity) {
-        CartItem item = new CartItem();
-        item.setCart(cart);
-        item.setFlower(flower);
-        item.setQuantity(quantity);
-        item.setPrice(flower.getPrice());
-        item.setItemTotal(flower.getPrice().multiply(new BigDecimal(quantity)));
-        return item;
-    }
-
-    /**
-     * Обновляет существующий CartItem
-     */
-    private void updateCartItem(CartItem item, Integer quantity) {
-        item.setQuantity(quantity);
-        item.setItemTotal(item.getPrice().multiply(new BigDecimal(quantity)));
     }
 
     /**

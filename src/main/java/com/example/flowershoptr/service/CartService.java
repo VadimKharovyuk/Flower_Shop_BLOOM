@@ -51,6 +51,7 @@ public interface CartService {
      * @param flowerId ID цветка
      * @return Обновленное DTO корзины
      */
+
     CartDto removeFlowerFromCart(HttpSession session, Long flowerId);
 
     /**
@@ -60,12 +61,6 @@ public interface CartService {
     void clearCart(HttpSession session);
 
 
-
-    CartDto assignCartToUser(HttpSession session, Long userId);
-
-
     Integer getCartItemCount(HttpSession session);
 
-
-    void transferCartFromSessionToUser(User user, HttpSession httpSession);
 }

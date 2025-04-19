@@ -533,7 +533,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://scontent.fayt2-3.fna.fbcdn.net/v/t39.30808-6/469006080_18336436216196404_7641428199119897005_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=2PltOROognYQ7kNvwEgt9_T&_nc_oc=AdlDKfIii9QTSu8DbRB2D2kbNXSprwelhSpXdGbIFXxjlJaWDmDIqSq04-vL7Tsbekw&_nc_zt=23&_nc_ht=scontent.fayt2-3.fna&_nc_gid=hx-ZTIUjZ8kD57dgwfR8IQ&oh=00_AfFpaDqXv-mjFixsTW6G5EtjaKXrP6Isx5x6EeI885pKQA&oe=6808AE85');
+            background-image: url('/img/wedding-couple.jpg');
             background-size: cover;
             background-position: center;
             filter: brightness(0.85);
@@ -811,18 +811,17 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    // Particles.js Config
     particlesJS("particles-js", {
         "particles": {
             "number": {
-                "value": 50,
+                "value": 100, // было 50
                 "density": {
                     "enable": true,
                     "value_area": 800
                 }
             },
             "color": {
-                "value": "#d4a977"
+                "value": ["#d4a977", "#f9c74f", "#f9844a"] // яркие оттенки
             },
             "shape": {
                 "type": "circle",
@@ -835,35 +834,35 @@
                 }
             },
             "opacity": {
-                "value": 0.3,
+                "value": 0.6, // было 0.3
                 "random": true,
                 "anim": {
                     "enable": true,
-                    "speed": 0.5,
-                    "opacity_min": 0.1,
+                    "speed": 1,
+                    "opacity_min": 0.2,
                     "sync": false
                 }
             },
             "size": {
-                "value": 3,
+                "value": 4, // чуть больше
                 "random": true,
                 "anim": {
                     "enable": true,
-                    "speed": 2,
-                    "size_min": 0.1,
+                    "speed": 3,
+                    "size_min": 0.3,
                     "sync": false
                 }
             },
             "line_linked": {
                 "enable": true,
-                "distance": 150,
+                "distance": 120,
                 "color": "#ffffff",
-                "opacity": 0.2,
+                "opacity": 0.4, // чуть ярче
                 "width": 1
             },
             "move": {
                 "enable": true,
-                "speed": 1,
+                "speed": 2.5, // было 1
                 "direction": "none",
                 "random": true,
                 "straight": false,
@@ -881,34 +880,34 @@
             "events": {
                 "onhover": {
                     "enable": true,
-                    "mode": "bubble"
+                    "mode": "grab" // было bubble
                 },
                 "onclick": {
                     "enable": true,
-                    "mode": "push"
+                    "mode": "repulse" // было push
                 },
                 "resize": true
             },
             "modes": {
                 "grab": {
-                    "distance": 400,
+                    "distance": 250,
                     "line_linked": {
-                        "opacity": 1
+                        "opacity": 0.8
                     }
                 },
                 "bubble": {
                     "distance": 200,
-                    "size": 4,
+                    "size": 6,
                     "duration": 2,
-                    "opacity": 0.8,
+                    "opacity": 1,
                     "speed": 3
                 },
                 "repulse": {
-                    "distance": 200,
-                    "duration": 0.4
+                    "distance": 300,
+                    "duration": 0.6
                 },
                 "push": {
-                    "particles_nb": 4
+                    "particles_nb": 6
                 },
                 "remove": {
                     "particles_nb": 2

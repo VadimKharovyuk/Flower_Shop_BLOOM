@@ -63,14 +63,11 @@ public class AuthenticationSuccessHandler {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationSuccessHandler.class);
 
     private final UserService userService;
-    private final CartService cartService;
-    private final HttpSession httpSession;
+
 
     @Autowired
     public AuthenticationSuccessHandler(UserService userService, CartService cartService, HttpSession httpSession) {
         this.userService = userService;
-        this.cartService = cartService;
-        this.httpSession = httpSession;
     }
 
     @EventListener
@@ -84,9 +81,6 @@ public class AuthenticationSuccessHandler {
                 User user = userService.processOAuthPostLogin(oauth2User);
                 logger.info("User saved/updated in database with ID: {}", user.getId());
 
-                // Переносим корзину из сессии в корзину пользователя
-                cartService.transferCartFromSessionToUser(user, httpSession);
-                logger.info("Cart transferred from session to user");
             } catch (Exception e) {
                 logger.error("Error during authentication success processing", e);
             }
