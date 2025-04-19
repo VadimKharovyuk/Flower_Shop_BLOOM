@@ -7,6 +7,7 @@ import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.dto.flower.FlowerSearchDTO;
 import com.example.flowershoptr.dto.flower.PopularFlowerDto;
 import com.example.flowershoptr.model.Flower;
+import com.example.flowershoptr.model.User;
 import com.example.flowershoptr.service.*;
 import com.example.flowershoptr.util.PaginationUtils;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +32,7 @@ public class Home {
     private final SpecialOfferService specialOfferService;
     private final ShopReviewService shopReviewService;
     private final InstagramService instagramService;
+    private final UserService userService;
 
 
 

@@ -9,6 +9,7 @@ import com.example.flowershoptr.util.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 @RequiredArgsConstructor
 @Controller
+//@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/admin")
 public class AdminDashboard {
 

@@ -1,13 +1,9 @@
 package com.example.flowershoptr.service;
-
-import com.example.flowershoptr.config.AuthenticationSuccessHandler;
 import com.example.flowershoptr.model.User;
 import com.example.flowershoptr.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,5 +53,10 @@ public class UserService {
 
     public User getUserByGoogleId(String googleId) {
         return userRepository.findByGoogleId(googleId).orElse(null);
+    }
+
+    @Transactional
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 }

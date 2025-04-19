@@ -1,8 +1,12 @@
 package com.example.flowershoptr.model;
 
 
+import com.example.flowershoptr.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,11 +25,16 @@ public class User {
     private String googleId;
     private String pictureUrl;
 
-    // Дополнительные поля, которые вы можете захотеть добавить
-    private String role = "USER"; // Роль по умолчанию
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER;
+
     private boolean enabled = true;
 
-      @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "cart_id")
-        private Cart cart;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+
+
 }

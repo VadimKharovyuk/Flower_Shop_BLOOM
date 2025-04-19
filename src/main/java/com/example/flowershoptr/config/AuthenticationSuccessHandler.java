@@ -44,6 +44,7 @@ package com.example.flowershoptr.config;//package com.example.flowershoptr.confi
 //    }
 //}
 
+import com.example.flowershoptr.enums.UserRole;
 import com.example.flowershoptr.model.User;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.UserService;
@@ -59,9 +60,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationSuccessHandler {
-
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationSuccessHandler.class);
-
     private final UserService userService;
 
 
@@ -72,20 +70,25 @@ public class AuthenticationSuccessHandler {
 
     @EventListener
     public void onAuthenticationSuccess(AuthenticationSuccessEvent event) {
-        logger.info("Authentication success event triggered");
-
         if (event.getAuthentication() instanceof OAuth2LoginAuthenticationToken) {
             OAuth2LoginAuthenticationToken oauth2Token = (OAuth2LoginAuthenticationToken) event.getAuthentication();
             OAuth2User oauth2User = oauth2Token.getPrincipal();
-            try {
-                User user = userService.processOAuthPostLogin(oauth2User);
-                logger.info("User saved/updated in database with ID: {}", user.getId());
 
-            } catch (Exception e) {
-                logger.error("Error during authentication success processing", e);
+            String email = oauth2User.getAttribute("email");
+            String googleId = oauth2User.getAttribute("sub");
+
+            User user = userService.getUserByGoogleId(googleId);
+            if (user == null) {
+                user = userService.getUserByEmail(email);
             }
-        } else {
-            logger.info("Authentication is not OAuth2Login: {}", event.getAuthentication().getClass().getName());
+
+            if (user != null) {
+                // Если email администраторский, устанавливаем роль ADMIN
+                if ("vadimkh17@gmail.com".equals(email)) {
+                    user.setRole(UserRole.ADMIN);
+                    userService.saveUser(user);
+                }
+            }
         }
     }
 }
