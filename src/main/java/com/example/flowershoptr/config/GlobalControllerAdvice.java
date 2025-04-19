@@ -3,6 +3,7 @@ package com.example.flowershoptr.config;
 import com.example.flowershoptr.dto.category.CategoryListDTO;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.CategoryService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,19 +20,14 @@ import java.util.List;
 @Slf4j
 public class GlobalControllerAdvice {
 
-    private final CategoryService categoryService;
     private final CartService cartService; // Предполагаем, что у вас есть такой сервис
 
-//    /**
-//     * Добавляет список избранных категорий во все модели
-//     */
-//    @ModelAttribute("featuredCategories")
-//    public List<CategoryListDTO> getFeaturedCategories() {
-//        log.debug("Загрузка избранных категорий для глобального использования");
-//        PageRequest pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.ASC, "name"));
-//        Page<CategoryListDTO> categories = categoryService.getFeaturedCategories(pageable);
-//        return categories.getContent();
-//    }
+
+
+    @ModelAttribute("currentUri")
+    public String getCurrentUri(HttpServletRequest request) {
+        return request.getRequestURI();
+    }
 
     /**
      * Добавляет количество товаров в корзине во все модели

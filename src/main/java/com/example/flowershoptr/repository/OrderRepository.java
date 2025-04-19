@@ -5,6 +5,7 @@ import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -24,5 +25,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     Optional<Order> findByOrderNumber(String orderNumber);
+
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId OR (o.user IS NULL AND o.clientEmail = :email)")
+    List<Order> findAllByUserIdOrEmail(Long userId, String email);
+
+    @Query("SELECT o FROM Order o WHERE o.id = :orderId AND (o.user.id = :userId OR (o.user IS NULL AND o.clientEmail = :email))")
+    Optional<Order> findByIdAndUserIdOrEmail(Long orderId, Long userId, String email);
 
 }

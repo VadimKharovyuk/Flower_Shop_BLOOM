@@ -7,11 +7,9 @@ import com.example.flowershoptr.enums.OrderStatus;
 import com.example.flowershoptr.enums.PaymentStatus;
 
 import com.example.flowershoptr.maper.OrderMapper;
-import com.example.flowershoptr.model.Cart;
-import com.example.flowershoptr.model.CartItem;
-import com.example.flowershoptr.model.Order;
-import com.example.flowershoptr.model.OrderItem;
+import com.example.flowershoptr.model.*;
 import com.example.flowershoptr.repository.OrderRepository;
+import com.example.flowershoptr.repository.UserRepository;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +17,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     private static final SecureRandom random = new SecureRandom();
 
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
     private final CartService cartService;
     private final OrderMapper orderMapper;
 
@@ -53,8 +57,24 @@ public class OrderServiceImpl implements OrderService {
         if (cart == null || cart.getItems().isEmpty()) {
             throw new RuntimeException("Корзина пуста или не найдена");
         }
+        // Создаем заказ с помощью выделенного метода
+        Order order = createOrderFromCart(createOrderDTO, cart);
 
-        // Создаем заказ
+        // Получаем текущего пользователя, если авторизован
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+            // Связываем заказ с пользователем
+            associateOrderWithUser(order, auth);
+        }
+
+        // Сохраняем заказ
+        Order savedOrder = orderRepository.save(order);
+
+        return savedOrder;
+    }
+
+    // Выделенный метод для создания заказа из корзины
+    private Order createOrderFromCart(CreateOrderDTO createOrderDTO, Cart cart) {
         Order order = new Order();
         order.setClientName(createOrderDTO.getClientName());
         order.setClientPhone(createOrderDTO.getClientPhone());
@@ -82,13 +102,28 @@ public class OrderServiceImpl implements OrderService {
 
         order.setTotal(total);
         order.setOrderNumber(generateOrderNumber());
-        // Сохраняем заказ
-        Order savedOrder = orderRepository.save(order);
 
-        // НЕ очищаем корзину из сессии здесь
-        // cartService.clearCart(session);
+        return order;
+    }
 
-        return savedOrder;
+    // Метод для связывания заказа с авторизованным пользователем
+    private void associateOrderWithUser(Order order, Authentication auth) {
+        String email = null;
+
+        if (auth instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) auth;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else {
+            email = auth.getName();
+        }
+
+        if (email != null) {
+            User user = userRepository.findByEmail(email).orElse(null);
+            if (user != null) {
+                order.setUser(user);
+            }
+        }
     }
 
     @Override
@@ -197,6 +232,22 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         log.info("Email для заказа ID {} обновлен на {}", orderId, email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderListDTO> getAllOrdersByUserIdOrEmail(Long userId, String email) {
+        List<Order> orders = orderRepository.findAllByUserIdOrEmail(userId, email);
+        return orders.stream()
+                .map(orderMapper::orderToOrderListDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderDetailsDTO getOrderDetailsByIdAndUserIdOrEmail(Long orderId, Long userId, String email) {
+        Optional<Order> orderOpt = orderRepository.findByIdAndUserIdOrEmail(orderId, userId, email);
+        return orderOpt.map(orderMapper::orderToOrderDetailsDTO).orElse(null);
     }
 
 

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали заказа | Flower Boutique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Основные стили */
+        :root {
+            --color-primary: #3d3d3d;
+            --color-secondary: #767676;
+            --color-accent: #d4a977;
+            --color-accent-hover: #c69b69;
+            --color-background: #f8f8f8;
+            --color-card: #ffffff;
+            --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+
+        .wrapper {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Стили для профиля */
+        .profile-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            gap: 2rem;
+        }
+
+        .profile-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-content {
+            flex-grow: 1;
+            padding: 2rem;
+            background-color: var(--color-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .profile-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent);
+        }
+
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+
+        .order-status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .order-status-badge.pending {
+            background-color: rgba(255, 204, 0, 0.15);
+            color: #e6b800;
+        }
+
+        .order-status-badge.completed {
+            background-color: rgba(0, 200, 83, 0.15);
+            color: #00c853;
+        }
+
+        .order-status-badge.cancelled {
+            background-color: rgba(244, 67, 54, 0.15);
+            color: #f44336;
+        }
+
+        .order-status-badge.processing {
+            background-color: rgba(3, 169, 244, 0.15);
+            color: #03a9f4;
+        }
+
+        .order-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-number {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-date {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-actions {
+            margin-left: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-hover);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .order-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .detail-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-group h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-label {
+            width: 40%;
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            width: 60%;
+            font-weight: 500;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .payment-badge.pending {
+            background-color: rgba(255, 204, 0, 0.15);
+            color: #e6b800;
+        }
+
+        .payment-badge.paid {
+            background-color: rgba(0, 200, 83, 0.15);
+            color: #00c853;
+        }
+
+        .payment-badge.cancelled {
+            background-color: rgba(244, 67, 54, 0.15);
+            color: #f44336;
+        }
+
+        .order-section-title {
+            font-size: 1.4rem;
+            margin: 2rem 0 1.5rem;
+            color: var(--color-primary);
+        }
+
+        .order-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .order-items-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: rgba(0,0,0,0.02);
+            font-weight: 500;
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+        }
+
+        .order-items-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            vertical-align: middle;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .item-price {
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .item-quantity {
+            background-color: rgba(0,0,0,0.03);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .item-total {
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .order-summary {
+            background-color: rgba(0,0,0,0.02);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .summary-label {
+            color: var(--color-secondary);
+        }
+
+        .summary-value {
+            font-weight: 500;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .summary-total-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .summary-total-value {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: var(--color-accent);
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 992px) {
+            .profile-container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .profile-sidebar {
+                width: 100%;
+            }
+
+            .profile-content {
+                padding: 1.5rem;
+            }
+
+            .order-header {
+                flex-direction: column;
+            }
+
+            .order-actions {
+                margin-left: 0;
+                margin-top: 1rem;
+                display: flex;
+                gap: 1rem;
+            }
+
+            .order-details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-items-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="profile-container">
+        <div class="profile-sidebar">
+            <div th:replace="~{/client/fragments/sidebarUser :: sidebarUser}"></div>
+        </div>
+
+        <div class="profile-content">
+            <a href="/profile/order" class="back-link">
+                <i class="fas fa-arrow-left"></i> Вернуться к списку заказов
+            </a>
+
+            <div class="profile-title">
+                Заказ №<span th:text="${order.order_number}">ORD12345</span>
+                <span class="order-status-badge" th:classappend="${order.orderStatus.name().toLowerCase()}" th:text="${order.orderStatus}">В обработке</span>
+            </div>
+
+            <div class="order-header">
+                <div class="order-info">
+                    <div class="order-date">
+                        <i class="far fa-calendar-alt"></i>
+                        Дата заказа: <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.04.2025 15:30</span>
+                    </div>
+                </div>
+
+                <div class="order-actions">
+                    <a href="#" class="btn btn-outline" th:if="${order.orderStatus.name() == 'PENDING'}">Отменить заказ</a>
+                    <a href="#" class="btn btn-primary" th:if="${order.orderStatus.name() == 'COMPLETED'}">Повторить заказ</a>
+                </div>
+            </div>
+
+            <div class="order-details-grid">
+                <div class="detail-group">
+                    <h3>Информация о заказе</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Статус:</div>
+                        <div class="detail-value">
+                            <span class="order-status-badge" th:classappend="${order.orderStatus.name().toLowerCase()}" th:text="${order.orderStatus}">В обработке</span>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата заказа:</div>
+                        <div class="detail-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">01.04.2025 15:30</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Способ оплаты:</div>
+                        <div class="detail-value" th:text="${order.paymentMethod}">Банковская карта</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Статус оплаты:</div>
+                        <div class="detail-value">
+                            <span class="payment-badge" th:classappend="${order.paymentStatus.name().toLowerCase()}" th:text="${order.paymentStatus}">Оплачено</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h3>Данные получателя</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Имя:</div>
+                        <div class="detail-value" th:text="${order.clientName}">Иван Иванов</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Телефон:</div>
+                        <div class="detail-value" th:text="${order.clientPhone}">+7 (900) 123-45-67</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Email:</div>
+                        <div class="detail-value" th:text="${order.clientEmail}">example@mail.ru</div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <h3>Информация о доставке</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Адрес:</div>
+                        <div class="detail-value" th:text="${order.deliveryAddress}">ул. Пушкина, д. 10, кв. 5</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата доставки:</div>
+                        <div class="detail-value" th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy HH:mm')}">03.04.2025 12:00</div>
+                    </div>
+                </div>
+
+                <div class="detail-group" th:if="${order.notes != null && !order.notes.isEmpty()}">
+                    <h3>Примечания к заказу</h3>
+                    <div class="detail-row">
+                        <div class="detail-value" th:text="${order.notes}">Оставить у двери, код 1234.</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="order-section-title">Товары в заказе</h2>
+
+            <table class="order-items-table">
+                <thead>
+                <tr>
+                    <th style="width: 80px">Фото</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${order.items}">
+                    <td>
+                        <img th:if="${item.flowerImage != null}" th:src="${item.flowerImage}" alt="Товар" class="item-image">
+                        <div th:unless="${item.flowerImage != null}" class="item-image" style="background-color: #f1f1f1; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-image" style="color: #ccc;"></i>
+                        </div>
+                    </td>
+                    <td class="item-name" th:text="${item.flowerName}">Букет "Весеннее настроение"</td>
+                    <td class="item-price" th:text="${item.price + ' ₽'}">1 200 ₽</td>
+                    <td><span class="item-quantity" th:text="${item.quantity}">2</span></td>
+                    <td class="item-total" th:text="${item.itemTotal + ' ₽'}">2 400 ₽</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="order-summary">
+                <div class="summary-total">
+                    <div class="summary-total-label">Итого:</div>
+                    <div class="summary-total-value" th:text="${order.total + ' ₽'}">2 400 ₽</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

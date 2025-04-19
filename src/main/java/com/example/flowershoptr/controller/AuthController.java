@@ -32,7 +32,7 @@ public class AuthController {
             String googleId = principal.getAttribute("sub");
 
             // Получаем пользователя из базы данных
-            User user = userService.getUserByGoogleId(googleId);
+            User user = userService.getUserByEmail(googleId);
 
             if (user != null) {
                 model.addAttribute("user", user);

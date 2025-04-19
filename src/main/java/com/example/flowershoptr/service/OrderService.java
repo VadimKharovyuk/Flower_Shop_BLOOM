@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
+
 public interface OrderService {
     Order createOrder(CreateOrderDTO createOrderDTO, HttpSession session);
 
@@ -44,5 +46,10 @@ public interface OrderService {
 
 
     void updateOrderEmail(Long orderId, String email);
+
+
+  List<OrderListDTO> getAllOrdersByUserIdOrEmail(Long id, String email);
+
+OrderDetailsDTO getOrderDetailsByIdAndUserIdOrEmail(Long orderId, Long userId, String email) ;
 
 }
