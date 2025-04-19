@@ -7,17 +7,17 @@ import com.example.flowershoptr.enums.OrderStatus;
 import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Order;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 
-
 public interface OrderService {
     Order createOrder(CreateOrderDTO createOrderDTO, HttpSession session);
 
-  Order getOrderById(Long id);
+    Order getOrderById(Long id);
 
     List<Order> getOrdersByClientPhone(String phone);
 
@@ -48,8 +48,9 @@ public interface OrderService {
     void updateOrderEmail(Long orderId, String email);
 
 
-  List<OrderListDTO> getAllOrdersByUserIdOrEmail(Long id, String email);
+    List<OrderListDTO> getAllOrdersByUserIdOrEmail(Long id, String email);
 
-OrderDetailsDTO getOrderDetailsByIdAndUserIdOrEmail(Long orderId, Long userId, String email) ;
+    OrderDetailsDTO getOrderDetailsByIdAndUserIdOrEmail(Long orderId, Long userId, String email);
 
+    List<OrderListDTO> getPageOrderClientByMail(String email, Long id);
 }

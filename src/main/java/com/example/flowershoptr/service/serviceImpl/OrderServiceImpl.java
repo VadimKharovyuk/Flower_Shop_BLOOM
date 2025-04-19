@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,10 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
@@ -248,6 +246,19 @@ public class OrderServiceImpl implements OrderService {
     public OrderDetailsDTO getOrderDetailsByIdAndUserIdOrEmail(Long orderId, Long userId, String email) {
         Optional<Order> orderOpt = orderRepository.findByIdAndUserIdOrEmail(orderId, userId, email);
         return orderOpt.map(orderMapper::orderToOrderDetailsDTO).orElse(null);
+    }
+
+    @Override
+    public List<OrderListDTO> getPageOrderClientByMail(String email, Long id) {
+        // Получаем все заказы пользователя по email или id
+        List<Order> orders = orderRepository.findByUserEmailOrUserId(email, id);
+
+        // Сортируем по дате создания (от новых к старым) и берём только 5
+        return orders.stream()
+                .sorted(Comparator.comparing(Order::getCreatedAt).reversed())
+                .limit(5)
+                .map(orderMapper::orderToOrderListDTO)
+                .collect(Collectors.toList());
     }
 
 

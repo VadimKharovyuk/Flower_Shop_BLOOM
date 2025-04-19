@@ -1,11 +1,15 @@
 package com.example.flowershoptr.repository;
 
+import com.example.flowershoptr.dto.Order.OrderListDTO;
 import com.example.flowershoptr.enums.OrderStatus;
 import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.model.Order;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -31,5 +35,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o WHERE o.id = :orderId AND (o.user.id = :userId OR (o.user IS NULL AND o.clientEmail = :email))")
     Optional<Order> findByIdAndUserIdOrEmail(Long orderId, Long userId, String email);
+
+    List<Order> findByUserEmailOrUserId(String email, Long id);
 
 }

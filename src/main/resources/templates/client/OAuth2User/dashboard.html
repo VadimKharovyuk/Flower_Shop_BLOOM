@@ -469,6 +469,45 @@
                 margin-top: 1rem;
             }
         }
+        /* Дополнительные стили для карточек */
+        .card-content {
+            margin-bottom: 1.5rem;
+            color: var(--color-secondary);
+            line-height: 1.7;
+        }
+
+        .card-content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-actions {
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary:after {
+            content: "\f105";
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.5rem;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -491,7 +530,14 @@
             </div>
         </div>
 
+
         <ul class="nav-menu">
+
+            <li class="nav-item">
+                <a href="/" class="nav-link">
+                    <i class="fas fa-seedling"></i> На главную
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="#" class="nav-link active">
                     <i class="fas fa-user"></i> Мой профиль
@@ -522,11 +568,7 @@
                     <i class="fas fa-bell"></i> Уведомления
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-cog"></i> Настройки
-                </a>
-            </li>
+
 
             <a href="/logout" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
@@ -537,13 +579,14 @@
     </aside>
 
     <!-- Основное содержимое -->
+    <!-- Основное содержимое -->
     <main class="main-content">
         <div class="header">
             <h1>Личный кабинет</h1>
             <div class="date" th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}">19 апреля 2025</div>
         </div>
 
-        <!-- Информация о профиле -->
+        <!-- Информация о профиле - оставляем без изменений -->
         <section class="card">
             <h2 class="section-title">Личная информация</h2>
             <div class="profile-info">
@@ -569,67 +612,56 @@
             </div>
         </section>
 
-        <!-- История заказов -->
+        <!-- Заказы - заменяем на карточку с описанием -->
         <section class="card">
-            <h2 class="section-title">Последние заказы</h2>
-            <div class="order-list">
-                <!-- Заказ 1 -->
-                <div class="order-item">
-                    <div class="order-info">
-                        <div class="order-id">Заказ #FL-2025-1234</div>
-                        <div class="order-name">Весенний букет с розами и лилиями</div>
-                        <div class="order-date">15 апреля 2025</div>
-                    </div>
-                    <div class="order-status status-completed">Доставлен</div>
-                    <div class="order-price">5 900 ₽</div>
-                </div>
-
-                <!-- Заказ 2 -->
-
-                <!-- Заказ 3 -->
+            <h2 class="section-title">Мои заказы</h2>
+            <div class="card-content">
+                <p>Здесь вы можете просмотреть статус ваших заказов, историю покупок и отследить доставку.</p>
+                <p>Вы можете видеть информацию о каждом заказе, включая статус, дату заказа и сумму.</p>
             </div>
             <div class="card-actions">
-                <a href="#" class="btn btn-outline">Посмотреть все заказы</a>
+                <a href="/profile/orders" class="btn btn-primary">Перейти к заказам</a>
             </div>
         </section>
 
-        <!-- Избранные товары -->
+        <!-- Избранное - заменяем на карточку с описанием -->
         <section class="card">
-            <h2 class="section-title">Избранное</h2>
-            <div class="favorites-list">
-                <!-- Товар 1 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Букет роз" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-name">Букет "Розовое облако"</h3>
-                        <div class="product-price">6 200 ₽</div>
-                        <div class="product-actions">
-                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
-                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Товар 2 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Композиция с орхидеями" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-name">Композиция "Орхидея"</h3>
-                        <div class="product-price">8 500 ₽</div>
-                        <div class="product-actions">
-                            <button title="Убрать из избранного"><i class="fas fa-heart"></i></button>
-                            <button title="Добавить в корзину"><i class="fas fa-shopping-cart"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-
+            <h2 class="section-title">Избранные товары</h2>
+            <div class="card-content">
+                <p>В этом разделе хранятся все товары, которые вы отметили как понравившиеся.</p>
+                <p>Добавляйте товары в избранное, чтобы не потерять их и быстро оформить заказ в любое время.</p>
             </div>
             <div class="card-actions">
-                <a href="#" class="btn btn-outline">Перейти в каталог</a>
+                <a href="/favorites" class="btn btn-primary">Перейти к избранному</a>
+            </div>
+        </section>
+
+        <!-- Корзина - добавляем новую карточку -->
+        <section class="card">
+            <h2 class="section-title">Корзина</h2>
+            <div class="card-content">
+                <p>Здесь вы можете просмотреть товары, добавленные в корзину, и оформить заказ.</p>
+                <p>Изменяйте количество товаров и применяйте промокоды для получения скидок.</p>
+            </div>
+            <div class="card-actions">
+                <a href="/cart" class="btn btn-primary">Перейти в корзину</a>
+            </div>
+        </section>
+
+        <!-- Адреса доставки - добавляем новую карточку -->
+        <section class="card">
+            <h2 class="section-title">Адреса доставки</h2>
+            <div class="card-content">
+                <p>Управляйте сохраненными адресами доставки для более быстрого оформления заказов.</p>
+                <p>Добавляйте новые адреса и редактируйте существующие.</p>
+            </div>
+            <div class="card-actions">
+                <a href="#" class="btn btn-primary">Управление адресами</a>
             </div>
         </section>
     </main>
+
+
 </div>
 </body>
 </html>

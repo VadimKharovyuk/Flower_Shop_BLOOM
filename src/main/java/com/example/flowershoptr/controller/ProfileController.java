@@ -27,20 +27,6 @@ public class ProfileController {
     private final AuthService authService;
 
 
-//    @GetMapping("/use")
-//    public String viewProfile(Model model, Authentication authentication) {
-//        User user = authService.getCurrentUser(authentication);
-//        if (user != null) {
-//            model.addAttribute("user", user);
-//            List<OrderListDTO> orders = orderService.getAllOrdersByUserIdOrEmail(user.getId(), user.getEmail());
-//            model.addAttribute("orders", orders);
-//            return "client/profile/index";
-//
-//        }
-//        return "redirect:/aut/login";
-//    }
-
-
     @GetMapping()
     public String viewOrders(Model model, Authentication authentication) {
         User user = authService.getCurrentUser(authentication);
