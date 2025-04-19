@@ -1,17 +1,289 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Детали заявки</title>
+<head th:replace="~{admin/fragments/layout :: head('Детали заявки')}">
+  <!-- Этот блок будет заменен содержимым фрагмента head -->
 </head>
 <body>
-<h2>Заявка от <span th:text="${request.name}"></span></h2>
-<p><strong>Email:</strong> <span th:text="${request.email}"></span></p>
-<p><strong>Телефон:</strong> <span th:text="${request.phoneNumber}"></span></p>
-<p><strong>Тема:</strong> <span th:text="${request.topic}"></span></p>
-<p><strong>Сообщение:</strong></p>
-<p th:text="${request.content}"></p>
-<p><strong>Создано:</strong> <span th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm')}"></span></p>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
 
-<a href="/admin/support-requests">← Назад к списку</a>
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+<!-- Основное содержимое -->
+<div class="main-content">
+  <div class="container">
+    <div class="content-header">
+      <h1>Заявка #<span th:text="${request.id}"></span></h1>
+      <div class="actions-group">
+        <a th:href="@{/admin/support-requests}" class="btn-secondary">
+          <i class="fas fa-arrow-left"></i> Назад к списку
+        </a>
+        <form th:action="@{/admin/support-requests/{id}/delete(id=${request.id})}" method="post" class="delete-form">
+          <button type="submit" class="btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')">
+            <i class="fas fa-trash"></i> Удалить
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h2>Информация о заявке</h2>
+          </div>
+          <div class="card-body">
+            <div class="info-group">
+              <div class="info-label">Тема:</div>
+              <div class="info-value" th:text="${request.topic}"></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Дата создания:</div>
+              <div class="info-value" th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm')}"></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Имя:</div>
+              <div class="info-value" th:text="${request.name}"></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Email:</div>
+              <div class="info-value" th:text="${request.email}"></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Телефон:</div>
+              <div class="info-value" th:text="${request.phoneNumber}"></div>
+            </div>
+            <div class="message-content">
+              <h3>Сообщение:</h3>
+              <div class="message-text" th:text="${request.content}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h2>Комментарий администратора</h2>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/admin/support-requests/{id}/comment(id=${request.id})}" method="post">
+<!--              <div class="form-group">-->
+<!--                <textarea name="adminComment" class="form-control" rows="5" th:text="${request.adminComment}"></textarea>-->
+<!--              </div>-->
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i> Сохранить комментарий
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Скрипты -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<style>
+  /* Стили для премиального минимализма */
+  .main-content {
+    margin-left: 250px;
+    padding: 30px;
+    transition: all 0.3s;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f1f1f1;
+    background: #fcfcfc;
+  }
+
+  .card-header h2 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .card-body {
+    padding: 25px;
+  }
+
+  .content-header {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .content-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .actions-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-secondary, .btn-danger, .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background-color: #f0f2f5;
+    color: #595959;
+  }
+
+  .btn-secondary:hover {
+    background-color: #e6e6e6;
+  }
+
+  .btn-danger {
+    background-color: #ff4d4f;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #ff7875;
+  }
+
+  .btn-primary {
+    background-color: #1890ff;
+    color: #fff;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .btn-primary:hover {
+    background-color: #40a9ff;
+  }
+
+  .info-group {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 15px;
+  }
+
+  .info-label {
+    width: 150px;
+    font-weight: 500;
+    color: #595959;
+  }
+
+  .info-value {
+    flex: 1;
+    color: #262626;
+  }
+
+  .message-content {
+    margin-top: 20px;
+  }
+
+  .message-content h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .message-text {
+    padding: 20px;
+    background-color: #f9f9fa;
+    border-radius: 6px;
+    white-space: pre-line;
+    color: #262626;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    resize: vertical;
+    transition: border-color 0.3s;
+    font-family: inherit;
+  }
+
+  .form-control:focus {
+    border-color: #40a9ff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+  }
+
+  .col-lg-8 {
+    width: 66.666667%;
+    padding: 0 15px;
+  }
+
+  .col-lg-4 {
+    width: 33.333333%;
+    padding: 0 15px;
+  }
+
+  @media (max-width: 992px) {
+    .col-lg-8, .col-lg-4 {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 20px;
+    }
+
+    .content-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .actions-group {
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .btn-secondary, .btn-danger {
+      flex: 1;
+    }
+  }
+
+  i.fas {
+    margin-right: 5px;
+  }
+</style>
 </body>
 </html>

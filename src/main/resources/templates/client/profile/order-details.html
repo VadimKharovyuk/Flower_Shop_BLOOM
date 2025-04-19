@@ -428,6 +428,10 @@
                         <div class="detail-value" th:text="${order.paymentMethod}">Банковская карта</div>
                     </div>
                     <div class="detail-row">
+                        <div class="detail-label">ID заказа :</div>
+                        <div class="detail-value" th:text="${order.getOrder_number()}">ID заказа</div>
+                    </div>
+                    <div class="detail-row">
                         <div class="detail-label">Статус оплаты:</div>
                         <div class="detail-value">
                             <span class="payment-badge" th:classappend="${order.paymentStatus.name().toLowerCase()}" th:text="${order.paymentStatus}">Оплачено</span>

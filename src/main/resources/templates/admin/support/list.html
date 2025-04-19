@@ -1,82 +1,199 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Обращения в поддержку</title>
-
-  <!-- Bootstrap Icons CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-  <!-- (необязательно) немного стилизации -->
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f5f5f5;
-    }
-
-    button {
-      background: none;
-      border: none;
-      color: #c00;
-      cursor: pointer;
-    }
-
-    a {
-      margin-right: 10px;
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover, button:hover {
-      text-decoration: underline;
-    }
-  </style>
+<head th:replace="~{admin/fragments/layout :: head('Заявки в поддержку')}">
+  <!-- Этот блок будет заменен содержимым фрагмента head -->
 </head>
 <body>
+<!-- Кнопка для мобильного меню -->
+<button class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
 
-<h2>Заявки в поддержку (последние 7 дней)</h2>
+<!-- Боковое меню -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Имя</th>
-    <th>Email</th>
-    <th>Тема</th>
-    <th>Дата</th>
-    <th>Действия</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="req : ${requests}">
-    <td th:text="${req.id}"></td>
-    <td th:text="${req.name}"></td>
-    <td th:text="${req.email}"></td>
-    <td th:text="${req.topic}"></td>
-    <td th:text="${#temporals.format(req.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
-    <td>
-      <a th:href="@{'/admin/support-requests/' + ${req.id}}" title="Просмотреть">
-        <i class="bi bi-eye"></i>
-      </a>
-      <form th:action="@{'/admin/support-requests/' + ${req.id} + '/delete'}" method="post" style="display:inline;">
-        <button type="submit" onclick="return confirm('Удалить заявку?')" title="Удалить">
-          <i class="bi bi-trash"></i>
-        </button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<!-- Основное содержимое -->
+<div class="main-content">
+  <div class="container">
+    <div class="content-header">
+      <h1>Заявки в поддержку</h1>
+    </div>
 
+    <div class="card">
+      <div class="card-header">
+        <h2>Список заявок</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Имя</th>
+              <th>Email</th>
+              <th>Телефон</th>
+              <th>Тема</th>
+              <th>Дата создания</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="request : ${requests}">
+              <td th:text="${request.id}"></td>
+              <td th:text="${request.name}"></td>
+              <td th:text="${request.email}"></td>
+              <td th:text="${request.phoneNumber}"></td>
+              <td th:text="${request.topic}"></td>
+              <td th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+              <td class="actions">
+                <a th:href="@{/admin/support-requests/{id}(id=${request.id})}" class="btn btn-view">
+                  <i class="fas fa-eye"></i>
+                </a>
+                <form th:action="@{/admin/support-requests/{id}/delete(id=${request.id})}" method="post" class="delete-form">
+                  <button type="submit" class="btn btn-delete" onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <tr th:if="${requests.empty}">
+              <td colspan="7" class="text-center">Заявок не найдено</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Скрипты -->
+<div th:replace="~{admin/fragments/layout :: scripts}"></div>
+
+<style>
+  /* Стили для премиального минимализма */
+  .main-content {
+    margin-left: 250px;
+    padding: 30px;
+    transition: all 0.3s;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f1f1f1;
+    background: #fcfcfc;
+  }
+
+  .card-header h2 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .card-body {
+    padding: 25px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th {
+    text-align: left;
+    padding: 15px 10px;
+    font-weight: 500;
+    color: #555;
+    border-bottom: 2px solid #f1f1f1;
+  }
+
+  .table td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    vertical-align: middle;
+  }
+
+  .table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 5px;
+  }
+
+  .btn-view {
+    background-color: #e6f7ff;
+    color: #1890ff;
+  }
+
+  .btn-view:hover {
+    background-color: #bae7ff;
+  }
+
+  .btn-delete {
+    background-color: #fff2f0;
+    color: #ff4d4f;
+  }
+
+  .btn-delete:hover {
+    background-color: #ffccc7;
+  }
+
+  .actions {
+    white-space: nowrap;
+    display: flex;
+  }
+
+  .delete-form {
+    display: inline;
+  }
+
+  .content-header {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .content-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .commented {
+    background-color: #f9f9fa;
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 20px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+</style>
 </body>
 </html>
