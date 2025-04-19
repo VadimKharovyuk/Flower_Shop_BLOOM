@@ -25,5 +25,7 @@ public class User {
     private String role = "USER"; // Роль по умолчанию
     private boolean enabled = true;
 
-    // Конструкторы, геттеры и сеттеры если не используете Lombok
+      @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "cart_id")
+        private Cart cart;
 }

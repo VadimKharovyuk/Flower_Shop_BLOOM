@@ -789,11 +789,36 @@
         .wishlist .fas.fa-heart {
             color: var(--accent-color, #ff6b6b);
         }
+        .account-icon {
+            position: relative;
+        }
+
+        .account-icon i {
+            font-size: 22px;
+            transition: color 0.3s ease;
+        }
+
+        /* Для авторизованного пользователя используем заполненную иконку */
+        .fa-user-circle {
+            color: var(--color-accent);
+        }
+
+        /* Для неавторизованного пользователя используем контурную иконку */
+        .far.fa-user-circle:hover {
+            color: var(--color-accent);
+        }
+
+        /* Добавьте в мобильную версию */
+        @media (max-width: 768px) {
+            .account-icon {
+                margin-right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 <!-- Header & Navigation -->
-<header class="header">
+<<header class="header">
     <div class="container">
         <div class="nav-wrapper">
             <a href="/" class="logo">BLOOM</a>
@@ -817,10 +842,19 @@
                         </a>
                     </form>
                 </div>
+
                 <a href="/favorites" class="nav-icon"><i class="far fa-heart"></i></a>
                 <a href="/cart" class="nav-icon cart-icon">
                     <i class="fas fa-shopping-bag"></i>
                     <span th:text="${cartCount ?: 0}">0</span>
+                </a>
+
+                <!-- Добавляем иконку аккаунта -->
+                <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Личный кабинет">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+                <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Войти">
+                    <i class="far fa-user-circle"></i>
                 </a>
 
                 <button class="mobile-menu-btn">

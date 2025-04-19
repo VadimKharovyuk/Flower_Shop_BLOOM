@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CartController {
 
     private final CartService cartService;
-//    private final OrderService orderService;
 
     /**
      * AJAX-метод для добавления товара в корзину

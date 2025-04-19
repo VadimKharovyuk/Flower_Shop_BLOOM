@@ -5,6 +5,7 @@ import com.example.flowershoptr.dto.cart.CartDto;
 import com.example.flowershoptr.model.Cart;
 import com.example.flowershoptr.model.Order;
 
+import com.example.flowershoptr.model.User;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -66,4 +67,5 @@ public interface CartService {
     Integer getCartItemCount(HttpSession session);
 
 
+    void transferCartFromSessionToUser(User user, HttpSession httpSession);
 }

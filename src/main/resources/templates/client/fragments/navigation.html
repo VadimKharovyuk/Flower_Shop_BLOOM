@@ -31,6 +31,13 @@
           <i class="fas fa-shopping-bag"></i>
           <span th:text="${cartCount ?: 0}">0</span>
         </a>
+        <!-- Добавляем иконку аккаунта -->
+        <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Личный кабинет">
+          <i class="fas fa-user-circle"></i>
+        </a>
+        <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Войти">
+          <i class="far fa-user-circle"></i>
+        </a>
         <button class="mobile-menu-btn">
           <span></span>
           <span></span>
@@ -52,7 +59,8 @@
         <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакты</a>
 
         <div class="mobile-secondary">
-          <a href="/account" class="secondary-link">Личный кабинет</a>
+          <a th:if="${user != null}" href="/aut/dashboard" class="secondary-link">Личный кабинет</a>
+          <a th:unless="${user != null}" href="/aut/login" class="secondary-link">Войти через Google</a>
           <a href="/order-tracking" class="secondary-link">Доставка</a>
           <a href="/favorites" class="secondary-link">Избранное</a>
         </div>
@@ -60,6 +68,8 @@
     </div>
   </div>
 </nav>
+
+
 
 <!-- CSS для навигации (можно вынести в отдельный файл) -->
 <style th:fragment="navigation-css">
@@ -391,6 +401,38 @@
       font-size: 14px;
     }
   }
+
+  /* Добавляем стили для иконки аккаунта */
+  .account-icon {
+    position: relative;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+
+  .account-icon i {
+    font-size: 18px;
+  }
+
+  .account-icon:hover {
+    color: var(--accent-color);
+  }
+
+  /* Для авторизованного пользователя используем заполненную иконку */
+  .fa-user-circle {
+    color: var(--text-color);
+  }
+
+  /* Смена цвета при наведении */
+  .account-icon:hover .fa-user-circle {
+    color: var(--accent-color);
+  }
+
+  /* Добавляем стиль для мобильной версии */
+  @media (max-width: 768px) {
+    .nav-actions .nav-icon.account-icon {
+      display: block; /* Показываем иконку аккаунта даже на мобильных */
+    }
+  }
 </style>
 
 <!-- JavaScript для навигации (можно вынести в отдельный файл) -->
@@ -434,6 +476,8 @@
   .site-header.nav-hidden {
     transform: translateY(-100%);
   }
+
+
 </style>
 </body>
 </html>

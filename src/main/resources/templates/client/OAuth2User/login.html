@@ -1,63 +1,925 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Вход в аккаунт | BLOOM</title>-->
+<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;color-primary: #3d3d3d;-->
+<!--            &#45;&#45;color-secondary: #767676;-->
+<!--            &#45;&#45;color-accent: #d4a977;-->
+<!--            &#45;&#45;color-accent-light: rgba(212, 169, 119, 0.1);-->
+<!--            &#45;&#45;color-background: #f8f8f8;-->
+<!--            &#45;&#45;color-card: #ffffff;-->
+<!--            &#45;&#45;shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);-->
+<!--            &#45;&#45;transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Montserrat', sans-serif;-->
+<!--            margin: 0;-->
+<!--            min-height: 100vh;-->
+<!--            background-color: var(&#45;&#45;color-background);-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--            position: relative;-->
+<!--            overflow-x: hidden;-->
+<!--        }-->
+
+<!--        /* Header section with photo */-->
+<!--        .login-header {-->
+<!--            position: relative;-->
+<!--            height: 50vh;-->
+<!--            min-height: 400px;-->
+<!--            width: 100%;-->
+<!--            overflow: hidden;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--        }-->
+
+<!--        .header-bg {-->
+<!--            position: absolute;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-image: url('/img/wedding-couple.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            transition: transform 0.8s ease;-->
+<!--            transform: scale(1.03);-->
+<!--            filter: brightness(0.8);-->
+<!--        }-->
+
+<!--        .login-header:hover .header-bg {-->
+<!--            transform: scale(1);-->
+<!--        }-->
+
+<!--        .header-overlay {-->
+<!--            position: absolute;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-color: rgba(0, 0, 0, 0.4);-->
+<!--            z-index: 1;-->
+<!--        }-->
+
+<!--        .header-content {-->
+<!--            position: relative;-->
+<!--            z-index: 2;-->
+<!--            max-width: 800px;-->
+<!--            padding: 0 2rem;-->
+<!--            text-align: center;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .header-logo {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 3.5rem;-->
+<!--            letter-spacing: 2px;-->
+<!--            margin-bottom: 1rem;-->
+<!--            position: relative;-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        .header-logo::after {-->
+<!--            content: '';-->
+<!--            position: absolute;-->
+<!--            bottom: -10px;-->
+<!--            left: 50%;-->
+<!--            transform: translateX(-50%);-->
+<!--            width: 80px;-->
+<!--            height: 2px;-->
+<!--            background-color: var(&#45;&#45;color-accent);-->
+<!--        }-->
+
+<!--        .header-tagline {-->
+<!--            font-size: 1.2rem;-->
+<!--            font-weight: 300;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            opacity: 0.9;-->
+<!--        }-->
+
+<!--        .header-description {-->
+<!--            font-size: 1rem;-->
+<!--            max-width: 600px;-->
+<!--            margin: 0 auto;-->
+<!--            line-height: 1.6;-->
+<!--            opacity: 0.85;-->
+<!--        }-->
+
+<!--        /* Main content */-->
+<!--        .main-content {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            padding: 4rem 2rem;-->
+<!--            position: relative;-->
+<!--            z-index: 2;-->
+<!--            margin-top: -80px;-->
+<!--        }-->
+
+<!--        #particles-js {-->
+<!--            position: fixed;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            z-index: 1;-->
+<!--        }-->
+
+<!--        .login-container {-->
+<!--            position: relative;-->
+<!--            z-index: 2;-->
+<!--            background-color: var(&#45;&#45;color-card);-->
+<!--            border-radius: 12px;-->
+<!--            box-shadow: var(&#45;&#45;shadow-soft);-->
+<!--            padding: 3.5rem;-->
+<!--            max-width: 460px;-->
+<!--            width: 90%;-->
+<!--            text-align: center;-->
+<!--            transition: transform 0.5s ease, box-shadow 0.5s ease;-->
+<!--        }-->
+
+<!--        .login-container:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .logo {-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 2.5rem;-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--            letter-spacing: 1px;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-weight: 500;-->
+<!--            font-size: 1.8rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--        }-->
+
+<!--        .subtitle {-->
+<!--            font-size: 1rem;-->
+<!--            color: var(&#45;&#45;color-secondary);-->
+<!--            margin-bottom: 2.5rem;-->
+<!--            line-height: 1.6;-->
+<!--        }-->
+
+<!--        .divider {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            margin: 2rem 0;-->
+<!--        }-->
+
+<!--        .divider::before, .divider::after {-->
+<!--            content: "";-->
+<!--            flex: 1;-->
+<!--            height: 1px;-->
+<!--            background-color: rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .divider-text {-->
+<!--            padding: 0 1rem;-->
+<!--            color: var(&#45;&#45;color-secondary);-->
+<!--            font-size: 0.9rem;-->
+<!--        }-->
+
+<!--        .login-button {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background-color: var(&#45;&#45;color-card);-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--            border: 1px solid rgba(0, 0, 0, 0.1);-->
+<!--            border-radius: 8px;-->
+<!--            padding: 1rem 1.5rem;-->
+<!--            font-size: 1rem;-->
+<!--            font-weight: 500;-->
+<!--            cursor: pointer;-->
+<!--            width: 100%;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--            text-decoration: none;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .login-button:hover {-->
+<!--            background-color: var(&#45;&#45;color-accent-light);-->
+<!--            border-color: var(&#45;&#45;color-accent);-->
+<!--            color: var(&#45;&#45;color-accent);-->
+<!--            transform: translateY(-2px);-->
+<!--        }-->
+
+<!--        .login-button img {-->
+<!--            margin-right: 0.8rem;-->
+<!--            width: 22px;-->
+<!--            height: 22px;-->
+<!--        }-->
+
+<!--        .login-button .button-text {-->
+<!--            flex: 1;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .benefits {-->
+<!--            margin-top: 2.5rem;-->
+<!--            text-align: left;-->
+<!--        }-->
+
+<!--        .benefits-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 1.2rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--        }-->
+
+<!--        .benefits-list {-->
+<!--            list-style: none;-->
+<!--        }-->
+
+<!--        .benefit-item {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 0.8rem;-->
+<!--            color: var(&#45;&#45;color-secondary);-->
+<!--            font-size: 0.95rem;-->
+<!--        }-->
+
+<!--        .benefit-item i {-->
+<!--            color: var(&#45;&#45;color-accent);-->
+<!--            margin-right: 0.8rem;-->
+<!--            font-size: 1rem;-->
+<!--        }-->
+
+<!--        .back-link {-->
+<!--            display: inline-block;-->
+<!--            margin-top: 2rem;-->
+<!--            color: var(&#45;&#45;color-secondary);-->
+<!--            text-decoration: none;-->
+<!--            font-size: 0.9rem;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .back-link:hover {-->
+<!--            color: var(&#45;&#45;color-accent);-->
+<!--        }-->
+
+<!--        .back-link i {-->
+<!--            margin-right: 0.5rem;-->
+<!--            font-size: 0.8rem;-->
+<!--        }-->
+
+<!--        /* Адаптивность */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .login-header {-->
+<!--                height: 40vh;-->
+<!--                min-height: 300px;-->
+<!--            }-->
+
+<!--            .header-logo {-->
+<!--                font-size: 2.8rem;-->
+<!--            }-->
+
+<!--            .header-tagline {-->
+<!--                font-size: 1rem;-->
+<!--            }-->
+
+<!--            .main-content {-->
+<!--                margin-top: -50px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 576px) {-->
+<!--            .login-container {-->
+<!--                padding: 2rem;-->
+<!--                width: 95%;-->
+<!--            }-->
+
+<!--            .logo {-->
+<!--                font-size: 2rem;-->
+<!--            }-->
+
+<!--            h1 {-->
+<!--                font-size: 1.5rem;-->
+<!--            }-->
+
+<!--            .header-logo {-->
+<!--                font-size: 2.2rem;-->
+<!--            }-->
+
+<!--            .header-tagline {-->
+<!--                font-size: 0.9rem;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash; Эффектный заголовок с фото &ndash;&gt;-->
+<!--<header class="login-header">-->
+<!--    <div class="header-bg"></div>-->
+<!--    <div class="header-overlay"></div>-->
+<!--    <div class="header-content">-->
+<!--        <h1 class="header-logo">BLOOM</h1>-->
+<!--        <p class="header-tagline">Премиальные цветочные композиции</p>-->
+<!--        <p class="header-description">Мы создаем уникальные букеты, которые станут идеальным выражением ваших чувств и эмоций. Каждая композиция — произведение цветочного искусства.</p>-->
+<!--    </div>-->
+<!--</header>-->
+
+<!--<div id="particles-js"></div>-->
+
+<!--<main class="main-content">-->
+<!--    <div class="login-container">-->
+<!--        <h1>Личный кабинет</h1>-->
+<!--        <p class="subtitle">Войдите, чтобы управлять заказами, сохранять избранные букеты и получать персональные скидки</p>-->
+
+<!--        <a th:href="@{/oauth2/authorization/google}" class="login-button">-->
+<!--            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">-->
+<!--            <span class="button-text">Войти с помощью Google</span>-->
+<!--        </a>-->
+
+<!--        <div class="benefits">-->
+<!--            <h3 class="benefits-title">Преимущества личного кабинета</h3>-->
+<!--            <ul class="benefits-list">-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-history"></i>-->
+<!--                    <span>История и отслеживание ваших заказов</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-heart"></i>-->
+<!--                    <span>Сохранение избранных букетов и композиций</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-gift"></i>-->
+<!--                    <span>Персональные скидки и специальные предложения</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-truck"></i>-->
+<!--                    <span>Быстрое оформление заказов с сохраненными адресами</span>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+<!--        <a href="/" class="back-link">-->
+<!--            <i class="fas fa-arrow-left"></i> Вернуться на главную-->
+<!--        </a>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>-->
+<!--<script>-->
+<!--    // Particles.js Config-->
+<!--    particlesJS("particles-js", {-->
+<!--        "particles": {-->
+<!--            "number": {-->
+<!--                "value": 50,-->
+<!--                "density": {-->
+<!--                    "enable": true,-->
+<!--                    "value_area": 800-->
+<!--                }-->
+<!--            },-->
+<!--            "color": {-->
+<!--                "value": "#d4a977"-->
+<!--            },-->
+<!--            "shape": {-->
+<!--                "type": "circle",-->
+<!--                "stroke": {-->
+<!--                    "width": 0,-->
+<!--                    "color": "#000000"-->
+<!--                },-->
+<!--                "polygon": {-->
+<!--                    "nb_sides": 5-->
+<!--                }-->
+<!--            },-->
+<!--            "opacity": {-->
+<!--                "value": 0.2,-->
+<!--                "random": true,-->
+<!--                "anim": {-->
+<!--                    "enable": true,-->
+<!--                    "speed": 0.5,-->
+<!--                    "opacity_min": 0.1,-->
+<!--                    "sync": false-->
+<!--                }-->
+<!--            },-->
+<!--            "size": {-->
+<!--                "value": 3,-->
+<!--                "random": true,-->
+<!--                "anim": {-->
+<!--                    "enable": true,-->
+<!--                    "speed": 2,-->
+<!--                    "size_min": 0.1,-->
+<!--                    "sync": false-->
+<!--                }-->
+<!--            },-->
+<!--            "line_linked": {-->
+<!--                "enable": true,-->
+<!--                "distance": 150,-->
+<!--                "color": "#d4a977",-->
+<!--                "opacity": 0.1,-->
+<!--                "width": 1-->
+<!--            },-->
+<!--            "move": {-->
+<!--                "enable": true,-->
+<!--                "speed": 1,-->
+<!--                "direction": "none",-->
+<!--                "random": true,-->
+<!--                "straight": false,-->
+<!--                "out_mode": "out",-->
+<!--                "bounce": false,-->
+<!--                "attract": {-->
+<!--                    "enable": false,-->
+<!--                    "rotateX": 600,-->
+<!--                    "rotateY": 1200-->
+<!--                }-->
+<!--            }-->
+<!--        },-->
+<!--        "interactivity": {-->
+<!--            "detect_on": "canvas",-->
+<!--            "events": {-->
+<!--                "onhover": {-->
+<!--                    "enable": true,-->
+<!--                    "mode": "bubble"-->
+<!--                },-->
+<!--                "onclick": {-->
+<!--                    "enable": true,-->
+<!--                    "mode": "push"-->
+<!--                },-->
+<!--                "resize": true-->
+<!--            },-->
+<!--            "modes": {-->
+<!--                "grab": {-->
+<!--                    "distance": 400,-->
+<!--                    "line_linked": {-->
+<!--                        "opacity": 1-->
+<!--                    }-->
+<!--                },-->
+<!--                "bubble": {-->
+<!--                    "distance": 200,-->
+<!--                    "size": 4,-->
+<!--                    "duration": 2,-->
+<!--                    "opacity": 0.8,-->
+<!--                    "speed": 3-->
+<!--                },-->
+<!--                "repulse": {-->
+<!--                    "distance": 200,-->
+<!--                    "duration": 0.4-->
+<!--                },-->
+<!--                "push": {-->
+<!--                    "particles_nb": 4-->
+<!--                },-->
+<!--                "remove": {-->
+<!--                    "particles_nb": 2-->
+<!--                }-->
+<!--            }-->
+<!--        },-->
+<!--        "retina_detect": true-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в аккаунт</title>
+    <title>Вход в аккаунт | BLOOM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --color-primary: #3d3d3d;
+            --color-secondary: #767676;
+            --color-accent: #d4a977;
+            --color-accent-light: rgba(212, 169, 119, 0.1);
+            --color-background: #f8f8f8;
+            --color-card: rgba(255, 255, 255, 0.85);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--color-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Полноэкранное фоновое изображение */
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/img/wedding-couple.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.85);
+            z-index: -1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+            z-index: -1;
+        }
+
+        /* Заголовок сверху */
+        .site-header {
+            position: relative;
+            text-align: center;
+            padding: 3rem 2rem;
+            color: white;
+            z-index: 2;
+        }
+
+        .site-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .site-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--color-accent);
+        }
+
+        .site-tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        /* Основной контент */
+        .main-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
+            min-height: calc(100vh - 220px);
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
-        .login-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
+
+        #particles-js {
+            position: fixed;
             width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
+
+        .login-container {
+            position: relative;        /* Устанавливает относительное позиционирование элемента */
+            z-index: 3;                /* Определяет порядок наложения элементов, 3 - выше, чем элементы с z-index 1 и 2 */
+            background-color: var(--color-card);  /* Цвет фона, берется из CSS-переменной --color-card */
+            backdrop-filter: blur(5px);  /* Добавляет размытие того, что находится под элементом (для современных браузеров) */
+            -webkit-backdrop-filter: blur(8px);  /* То же самое, но префикс для Safari */
+            border-radius: 12px;       /* Округляет углы элемента с радиусом 12 пикселей */
+            box-shadow: var(--shadow-soft);  /* Добавляет тень вокруг элемента, значение из CSS-переменной */
+            padding: 3.5rem;           /* Внутренний отступ вокруг содержимого (3.5 единицы rem) */
+            max-width: 480px;          /* Максимальная ширина элемента - 480 пикселей */
+            width: 90%;                /* Ширина элемента - 90% от ширины родительского элемента */
+            text-align: center;        /* Выравнивает текст по центру внутри элемента */
+            transition: transform 0.5s ease, box-shadow 0.5s ease;  /* Определяет плавные анимации для transform и box-shadow */
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);  /* При наведении поднимает элемент на 5 пикселей вверх */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);  /* При наведении добавляет более выраженную тень */
+        }
+
         h1 {
-            margin-bottom: 30px;
-            color: #333;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
         }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--color-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
         .login-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #fff;
-            color: #757575;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 10px 15px;
-            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--color-primary);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s;
+            transition: var(--transition);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
         }
+
         .login-button:hover {
-            background-color: #f1f1f1;
+            background-color: var(--color-accent-light);
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            transform: translateY(-2px);
         }
+
         .login-button img {
-            margin-right: 10px;
-            width: 24px;
-            height: 24px;
+            margin-right: 0.8rem;
+            width: 22px;
+            height: 22px;
+        }
+
+        .login-button .button-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .benefits {
+            margin-top: 2.5rem;
+            text-align: left;
+        }
+
+        .benefits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            color: var(--color-secondary);
+            font-size: 0.95rem;
+        }
+
+        .benefit-item i {
+            color: var(--color-accent);
+            margin-right: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--color-accent);
+        }
+
+        .back-link i {
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .site-logo {
+                font-size: 2.8rem;
+            }
+
+            .site-tagline {
+                font-size: 1rem;
+            }
+
+            .site-header {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 2rem;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .site-logo {
+                font-size: 2.2rem;
+            }
+
+            .site-tagline {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <h1>Вход в личный кабинет</h1>
-    <a th:href="@{/oauth2/authorization/google}" class="login-button">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
-        Войти с помощью Google
-    </a>
-</div>
+<!-- Фоновое изображение -->
+<div class="page-background"></div>
+<div class="overlay"></div>
+
+<!-- Заголовок -->
+<header class="site-header">
+    <h1 class="site-logo">BLOOM</h1>
+    <p class="site-tagline">Премиальные цветочные композиции</p>
+</header>
+
+<div id="particles-js"></div>
+
+<!-- Форма входа -->
+<main class="main-content">
+    <div class="login-container">
+        <h1>Личный кабинет</h1>
+        <p class="subtitle">Войдите, чтобы управлять заказами, сохранять избранные букеты и получать персональные скидки</p>
+
+        <a th:href="@{/oauth2/authorization/google}" class="login-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+            <span class="button-text">Войти с помощью Google</span>
+        </a>
+
+        <div class="benefits">
+            <h3 class="benefits-title">Преимущества личного кабинета</h3>
+            <ul class="benefits-list">
+                <li class="benefit-item">
+                    <i class="fas fa-history"></i>
+                    <span>История и отслеживание ваших заказов</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Сохранение избранных букетов и композиций</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-gift"></i>
+                    <span>Персональные скидки и специальные предложения</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Быстрое оформление заказов с сохраненными адресами</span>
+                </li>
+            </ul>
+        </div>
+
+        <a href="/" class="back-link">
+            <i class="fas fa-arrow-left"></i> Вернуться на главную
+        </a>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    // Particles.js Config
+    particlesJS("particles-js", {
+        "particles": {
+            "number": {
+                "value": 50,
+                "density": {
+                    "enable": true,
+                    "value_area": 800
+                }
+            },
+            "color": {
+                "value": "#d4a977"
+            },
+            "shape": {
+                "type": "circle",
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
+                "polygon": {
+                    "nb_sides": 5
+                }
+            },
+            "opacity": {
+                "value": 0.3,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 0.5,
+                    "opacity_min": 0.1,
+                    "sync": false
+                }
+            },
+            "size": {
+                "value": 3,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 2,
+                    "size_min": 0.1,
+                    "sync": false
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#ffffff",
+                "opacity": 0.2,
+                "width": 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 1,
+                "direction": "none",
+                "random": true,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "bubble"
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                },
+                "resize": true
+            },
+            "modes": {
+                "grab": {
+                    "distance": 400,
+                    "line_linked": {
+                        "opacity": 1
+                    }
+                },
+                "bubble": {
+                    "distance": 200,
+                    "size": 4,
+                    "duration": 2,
+                    "opacity": 0.8,
+                    "speed": 3
+                },
+                "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                },
+                "push": {
+                    "particles_nb": 4
+                },
+                "remove": {
+                    "particles_nb": 2
+                }
+            }
+        },
+        "retina_detect": true
+    });
+</script>
 </body>
 </html>

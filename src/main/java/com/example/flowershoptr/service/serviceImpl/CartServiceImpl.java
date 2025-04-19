@@ -6,6 +6,7 @@ import com.example.flowershoptr.maper.CartMapper;
 import com.example.flowershoptr.model.*;
 import com.example.flowershoptr.repository.CartRepository;
 import com.example.flowershoptr.repository.FlowerRepository;
+import com.example.flowershoptr.repository.UserRepository;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.SpecialOfferService;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +35,7 @@ public class CartServiceImpl implements CartService {
     private final FlowerRepository flowerRepository;
     private final CartMapper cartMapper;
     private final SpecialOfferService specialOfferService ;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -333,6 +335,61 @@ public class CartServiceImpl implements CartService {
         return cart.getItems().stream()
                 .mapToInt(CartItem::getQuantity)
                 .sum();
+    }
+
+    @Override
+    @Transactional
+    public void transferCartFromSessionToUser(User user, HttpSession session) {
+        // Получаем корзину из сессии
+        Cart sessionCart = (Cart) session.getAttribute(CART_SESSION_KEY);
+
+        if (sessionCart == null || sessionCart.getItems().isEmpty()) {
+            // Если корзина в сессии пуста, ничего не делаем
+            return;
+        }
+
+        // Проверяем, есть ли у пользователя уже корзина
+        if (user.getCart() == null) {
+            // Если у пользователя нет корзины, просто присваиваем ему корзину из сессии
+            user.setCart(sessionCart);
+        } else {
+            // Если у пользователя уже есть корзина, объединяем их
+            Cart userCart = user.getCart();
+
+            // Копируем все товары из сессионной корзины в корзину пользователя
+            for (CartItem sessionItem : sessionCart.getItems()) {
+                // Проверяем, есть ли такой товар уже в корзине пользователя
+                boolean itemExists = false;
+
+                for (CartItem userItem : userCart.getItems()) {
+                    if (userItem.getFlower().getId().equals(sessionItem.getFlower().getId())) {
+                        // Если товар уже есть, увеличиваем количество
+                        userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
+                        itemExists = true;
+                        break;
+                    }
+                }
+
+                // Если товара нет в корзине пользователя, добавляем его
+                if (!itemExists) {
+                    userCart.getItems().add(sessionItem);
+                    sessionItem.setCart(userCart);
+                }
+            }
+
+            // Пересчитываем общую стоимость
+            recalculateCartTotal(userCart);
+        }
+
+        // Сохраняем пользователя с обновленной корзиной
+        userRepository.save(user);
+
+        // Очищаем корзину в сессии
+        session.removeAttribute(CART_SESSION_KEY);
+    }
+    private void recalculateCartTotal(Cart cart) {
+        // Здесь реализуйте логику пересчета общей стоимости корзины
+        // в зависимости от вашей модели данных
     }
 
 
