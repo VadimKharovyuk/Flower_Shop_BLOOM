@@ -1,3 +1,4 @@
+
 FROM maven:3.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
@@ -28,8 +29,9 @@ RUN mkdir -p /app/config
 # Определение переменной окружения для Spring профиля
 ENV SPRING_PROFILES_ACTIVE=prod
 
-# Экспозиция порта
-EXPOSE 1634
+# Используем PORT переменную от Render
+ENV PORT=1634
+EXPOSE ${PORT}
 
-# Запуск приложения
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Запуск приложения с динамическим портом
+ENTRYPOINT ["sh", "-c", "java -jar /app/app.jar --server.port=${PORT}"]
