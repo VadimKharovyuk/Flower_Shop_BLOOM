@@ -17,8 +17,8 @@
     <div th:if="${#lists.isEmpty(favoritesItems)}" class="empty-favorites">
       <div class="empty-favorites-content">
         <i class="far fa-heart fa-5x"></i>
-        <h2>Ваш список избранных товаров пуст</h2>
-        <p>Добавьте товары в избранное, нажав на иконку сердечка в карточке товара.</p>
+        <h2>Ваш список обраних товарів порожній</h2>
+        <p>Додайте товари в обране, натиснувши на іконку серця в картці товару.</p>
         <a href="/categories" class="btn-primary">Перейти в каталог</a>
       </div>
     </div>
@@ -27,8 +27,8 @@
     <div th:if="${not #lists.isEmpty(favoritesItems)}" class="favorites-list">
       <!-- Кнопка очистки избранного -->
       <div class="favorites-actions">
-        <button class="clear-favorites">Очистить избранное</button>
-      </div>
+      <button class="clear-favorites">Очистити обране</button>
+    </div>
 
       <!-- Список товаров в избранном -->
       <div class="favorites-items">
@@ -41,7 +41,7 @@
               <a th:href="@{'/flowers/' + ${item.id}}" th:text="${item.name}"></a>
             </h3>
             <p class="favorites-item-description" th:text="${item.shortDescription}"></p>
-            <div class="favorites-item-price" th:text="${item.price} + ' ₽'"></div>
+            <div class="favorites-item-price" th:text="${item.price} + ' ₴'"></div>
           </div>
         </div>
       </div>

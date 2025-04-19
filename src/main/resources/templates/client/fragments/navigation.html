@@ -8,19 +8,18 @@
       <a href="/" class="logo">BLOOM</a>
 
       <nav class="main-nav">
-        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Главная</a>
+        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>
         <a href="/categories" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>
-        <a href="/flowers" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букеты</a>
-        <a href="/order-tracking" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Отследить заказ</a>
-        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">О нас</a>
+        <a href="/flowers" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>
+        <a href="/order-tracking" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Відстежити замовлення</a>
+        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>
         <a href="/blog" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Блог</a>
       </nav>
-
 
       <div class="nav-actions">
         <div class="search-container">
           <form action="/categories/search" method="get">
-            <input type="text" name="query" placeholder="Search flowers...">
+            <input type="text" name="query" placeholder="Пошук квітів...">
             <a href="#" onclick="this.closest('form').submit(); return false;" class="nav-icon">
               <i class="fas fa-search"></i>
             </a>
@@ -31,11 +30,11 @@
           <i class="fas fa-shopping-bag"></i>
           <span th:text="${cartCount ?: 0}">0</span>
         </a>
-        <!-- Добавляем иконку аккаунта -->
-        <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Личный кабинет">
+        <!-- Додаємо іконку акаунту -->
+        <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Особистий кабінет">
           <i class="fas fa-user-circle"></i>
         </a>
-        <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Войти">
+        <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Увійти">
           <i class="far fa-user-circle"></i>
         </a>
         <button class="mobile-menu-btn">
@@ -47,22 +46,22 @@
     </div>
   </div>
 
-  <!-- Мобильное меню -->
+  <!-- Мобільне меню -->
   <div class="mobile-menu">
     <div class="container">
       <div class="mobile-nav">
-        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Главная</a>
+        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>
         <a href="/catalog" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>
-        <a href="/bouquets" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букеты</a>
-        <a href="/collections" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Коллекции</a>
-        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">О нас</a>
-        <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакты</a>
+        <a href="/bouquets" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>
+        <a href="/collections" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Колекції</a>
+        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>
+        <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакти</a>
 
         <div class="mobile-secondary">
-          <a th:if="${user != null}" href="/aut/dashboard" class="secondary-link">Личный кабинет</a>
-          <a th:unless="${user != null}" href="/aut/login" class="secondary-link">Войти через Google</a>
+          <a th:if="${user != null}" href="/aut/dashboard" class="secondary-link">Особистий кабінет</a>
+          <a th:unless="${user != null}" href="/aut/login" class="secondary-link">Увійти через Google</a>
           <a href="/order-tracking" class="secondary-link">Доставка</a>
-          <a href="/favorites" class="secondary-link">Избранное</a>
+          <a href="/favorites" class="secondary-link">Обране</a>
         </div>
       </div>
     </div>
@@ -437,34 +436,152 @@
 
 <!-- JavaScript для навигации (можно вынести в отдельный файл) -->
 <script th:fragment="navigation-js">
+  // Улучшенный JavaScript для работы мобильного меню
   document.addEventListener('DOMContentLoaded', function() {
-    // Мобильное меню
+    // Мобильное меню с улучшенной обработкой
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const body = document.body;
 
     if(mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', function() {
+      // Открытие/закрытие меню при клике на кнопку
+      mobileMenuBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Переключаем активное состояние
         this.classList.toggle('active');
         mobileMenu.classList.toggle('active');
+
+        // Блокируем прокрутку страницы при открытом меню
+        if(mobileMenu.classList.contains('active')) {
+          body.style.overflow = 'hidden';
+        } else {
+          body.style.overflow = '';
+        }
+      });
+
+      // Закрытие меню при клике на пункт меню
+      const menuLinks = mobileMenu.querySelectorAll('.nav-link, .secondary-link');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenuBtn.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          body.style.overflow = '';
+        });
+      });
+
+      // Закрытие меню при клике вне меню
+      document.addEventListener('click', function(e) {
+        if(mobileMenu.classList.contains('active') &&
+                !mobileMenu.contains(e.target) &&
+                e.target !== mobileMenuBtn &&
+                !mobileMenuBtn.contains(e.target)) {
+          mobileMenuBtn.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          body.style.overflow = '';
+        }
+      });
+
+      // Закрытие меню при изменении размера окна
+      window.addEventListener('resize', function() {
+        if(window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+          mobileMenuBtn.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          body.style.overflow = '';
+        }
       });
     }
 
     // Фиксированная навигация с эффектом скрытия/показа при прокрутке
     const siteHeader = document.querySelector('.site-header');
     let lastScrollTop = 0;
+    let scrollThreshold = 200; // Порог прокрутки
 
     window.addEventListener('scroll', function() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if(scrollTop > lastScrollTop && scrollTop > 200) {
+      // Не скрываем шапку если открыто мобильное меню
+      if(mobileMenu && mobileMenu.classList.contains('active')) {
+        return;
+      }
+
+      // Скрываем шапку при прокрутке вниз и показываем при прокрутке вверх
+      if(scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+        // Прокрутка вниз после порога
         siteHeader.classList.add('nav-hidden');
       } else {
+        // Прокрутка вверх или до порога
         siteHeader.classList.remove('nav-hidden');
       }
 
       lastScrollTop = scrollTop;
     });
+
+    // Функция для проверки темного фона (добавляет класс для контраста)
+    function checkBackgroundColor() {
+      const header = document.querySelector('.site-header');
+      if(!header) return;
+
+      // Получаем цвет фона под шапкой
+      const headerHeight = header.offsetHeight;
+      const elemBelow = document.elementFromPoint(
+              header.offsetWidth / 2,
+              headerHeight + 10
+      );
+
+      if(elemBelow) {
+        const bgColor = window.getComputedStyle(elemBelow).backgroundColor;
+
+        // Проверяем, является ли фон темным
+        const rgb = bgColor.match(/\d+/g);
+        if(rgb && rgb.length >= 3) {
+          const brightness = (parseInt(rgb[0]) * 299 +
+                  parseInt(rgb[1]) * 587 +
+                  parseInt(rgb[2]) * 114) / 1000;
+
+          // Если фон темный - добавляем класс для контраста
+          if(brightness < 128) {
+            header.classList.add('dark-bg');
+          } else {
+            header.classList.remove('dark-bg');
+          }
+        }
+      }
+    }
+
+    // Проверяем цвет фона при загрузке и при прокрутке
+    checkBackgroundColor();
+    window.addEventListener('scroll', checkBackgroundColor);
   });
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   // Мобильное меню
+  //   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  //   const mobileMenu = document.querySelector('.mobile-menu');
+  //
+  //   if(mobileMenuBtn && mobileMenu) {
+  //     mobileMenuBtn.addEventListener('click', function() {
+  //       this.classList.toggle('active');
+  //       mobileMenu.classList.toggle('active');
+  //     });
+  //   }
+  //
+  //   // Фиксированная навигация с эффектом скрытия/показа при прокрутке
+  //   const siteHeader = document.querySelector('.site-header');
+  //   let lastScrollTop = 0;
+  //
+  //   window.addEventListener('scroll', function() {
+  //     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  //
+  //     if(scrollTop > lastScrollTop && scrollTop > 200) {
+  //       siteHeader.classList.add('nav-hidden');
+  //     } else {
+  //       siteHeader.classList.remove('nav-hidden');
+  //     }
+  //
+  //     lastScrollTop = scrollTop;
+  //   });
+  // });
 </script>
 
 <!-- Дополнительные стили для эффекта скрытия/показа навигации -->

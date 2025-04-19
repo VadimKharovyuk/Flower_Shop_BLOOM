@@ -18,7 +18,7 @@
   <!-- Подключение CSS для боковой панели -->
   <style th:replace="~{client/fragments/sidebar-search :: sidebar-search-css}"></style>
 
-  <title>Результаты поиска</title>
+  <title>Результати пошуку</title>
 
   <!-- Основные стили для страницы результатов поиска -->
   <style>
@@ -358,44 +358,44 @@
 
   <!-- Основное содержимое с найденными товарами -->
   <div class="category-main">
-    <!-- Панель с количеством найденных товаров -->
+    <!-- Панель з кількістю знайдених товарів -->
     <div class="category-toolbar">
       <div class="found-items">
-        Найдено <span th:text="${flowers.totalElements}">0</span> товаров по запросу «<span th:text="${query}">запрос</span>»
+        Знайдено <span th:text="${flowers.totalElements}">0</span> товарів за запитом «<span th:text="${query}">запит</span>»
       </div>
     </div>
 
-    <!-- Сетка товаров -->
+    <!-- Сітка товарів -->
     <div class="products-grid">
-      <!-- Если товары не найдены -->
+      <!-- Якщо товари не знайдені -->
       <div th:if="${flowers.empty}" class="no-results">
-        <p>По вашему запросу ничего не найдено. Попробуйте изменить запрос или посмотреть все товары.</p>
-        <a href="/categories" class="no-results-button">Показать все категории</a>
+        <p>За вашим запитом нічого не знайдено. Спробуйте змінити запит або переглянути всі товари.</p>
+        <a href="/categories" class="no-results-button">Показати всі категорії</a>
       </div>
 
-      <!-- Карточки найденных товаров -->
+      <!-- Картки знайдених товарів -->
       <div class="product-card" th:each="flower : ${flowers}">
         <div class="product-image">
           <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}">
         </div>
         <div class="product-info">
           <h3 class="product-title">
-            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название цветка</a>
+            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Назва квітки</a>
           </h3>
 
-          <!-- Цена -->
+          <!-- Ціна -->
           <div class="product-price" th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">
             100 ₽
           </div>
 
-          <!-- Кнопки действий -->
+          <!-- Кнопки дій -->
           <div class="product-actions">
-            <button class="add-to-cart" th:attr="data-id=${flower.id}">В корзину</button>
+            <button class="add-to-cart" th:attr="data-id=${flower.id}">У кошик</button>
             <div class="action-icons">
-              <div class="product-icon add-to-wishlist" th:attr="data-id=${flower.id}" title="Добавить в избранное">
+              <div class="product-icon add-to-wishlist" th:attr="data-id=${flower.id}" title="Додати до обраного">
                 <i class="far fa-heart"></i>
               </div>
-              <a th:href="@{'/flowers/' + ${flower.id}}" class="product-icon quick-view" title="Быстрый просмотр">
+              <a th:href="@{'/flowers/' + ${flower.id}}" class="product-icon quick-view" title="Швидкий перегляд">
                 <i class="far fa-eye"></i>
               </a>
             </div>
@@ -405,9 +405,9 @@
       </div>
     </div>
 
-    <!-- Пагинация -->
+    <!-- Пагінація -->
     <div class="pagination" th:if="${flowers.totalPages > 1}">
-      <!-- Кнопка "Предыдущая" -->
+      <!-- Кнопка "Попередня" -->
       <a class="pagination-button"
          th:classappend="${currentPage == 0 ? 'disabled' : ''}"
          th:href="@{/categories/search(query=${query}, page=${currentPage - 1}, size=${flowers.size})}"
@@ -415,7 +415,7 @@
         &laquo;
       </a>
 
-      <!-- Номера страниц -->
+      <!-- Номери сторінок -->
       <th:block th:each="i : ${#numbers.sequence(0, flowers.totalPages - 1)}">
         <a class="pagination-button"
            th:classappend="${i == currentPage ? 'active' : ''}"
@@ -424,7 +424,7 @@
         </a>
       </th:block>
 
-      <!-- Кнопка "Следующая" -->
+      <!-- Кнопка "Наступна" -->
       <a class="pagination-button"
          th:classappend="${currentPage == flowers.totalPages - 1 ? 'disabled' : ''}"
          th:href="@{/categories/search(query=${query}, page=${currentPage + 1}, size=${flowers.size})}"

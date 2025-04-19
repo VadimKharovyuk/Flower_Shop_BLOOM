@@ -543,18 +543,18 @@
 
 <section class="my-bookings-section">
     <div class="container">
-        <h1 class="section-title">Мои бронирования</h1>
+        <h1 class="section-title">Мої бронювання</h1>
 
         <div class="email-form">
-            <h2 class="email-form-title">Введите email для просмотра бронирований</h2>
+            <h2 class="email-form-title">Введіть email для перегляду бронювань</h2>
             <form th:action="@{/events/booking/my}" method="get">
                 <div class="form-group">
                     <input type="email" name="email" class="form-control"
-                           placeholder="Введите ваш email"
+                           placeholder="Введіть ваш email"
                            required
                            th:value="${email != null ? email : ''}">
                 </div>
-                <button type="submit" class="btn">Показать бронирования</button>
+                <button type="submit" class="btn">Показати бронювання</button>
             </form>
         </div>
     </div>
@@ -564,16 +564,16 @@
 <section class="event-details-section">
     <div class="container">
         <div class="event-details-container">
-            <!-- Левая колонка с информацией о событии -->
+            <!-- Ліва колонка з інформацією про подію -->
             <div class="event-info">
-                <div th:if="${event.featured}" class="event-featured-tag">Рекомендуемое</div>
+                <div th:if="${event.featured}" class="event-featured-tag">Рекомендуємо</div>
                 <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
 
                 <div class="event-header">
                     <div class="event-meta">
                         <div class="event-meta-item">
                             <i class="far fa-calendar"></i>
-                            <span th:text="${#temporals.format(event.eventDate, 'd MMMM yyyy')}">15 мая 2025</span>
+                            <span th:text="${#temporals.format(event.eventDate, 'd MMMM yyyy')}">15 травня 2025</span>
                         </div>
                         <div class="event-meta-item">
                             <i class="far fa-clock"></i>
@@ -581,74 +581,74 @@
                         </div>
                         <div class="event-meta-item">
                             <i class="fas fa-hourglass-half"></i>
-                            <span th:text="${event.durationMinutes} + ' минут'">180 минут</span>
+                            <span th:text="${event.durationMinutes} + ' хвилин'">180 хвилин</span>
                         </div>
                     </div>
 
-                    <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
-                    <h1 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h1>
+                    <span class="event-type" th:text="${event.eventType}">Майстер-клас</span>
+                    <h1 class="event-title" th:text="${event.title}">Мистецтво складання весняних букетів</h1>
                 </div>
 
                 <div class="event-description" th:utext="${event.description}">
-                    <p>Приглашаем вас на увлекательный мастер-класс по составлению весенних букетов. Вы познакомитесь с принципами композиции, научитесь выбирать цветы и зелень, чтобы создать гармоничную и стильную флористическую работу.</p>
-                    <p>Наш опытный флорист поделится секретами профессии и поможет каждому участнику создать уникальную композицию, которую вы сможете забрать с собой.</p>
+                    <p>Запрошуємо вас на захоплюючий майстер-клас зі складання весняних букетів. Ви познайомитесь з принципами композиції, навчитесь вибирати квіти та зелень для створення гармонійної і стильної флористичної роботи.</p>
+                    <p>Наш досвідчений флорист поділиться секретами професії та допоможе кожному учаснику створити унікальну композицію, яку ви зможете забрати з собою.</p>
                 </div>
 
                 <div class="event-details-list">
                     <div class="event-details-item">
-                        <div class="event-details-label">Тип события</div>
-                        <div class="event-details-value" th:text="${event.eventType}">Мастер-класс</div>
+                        <div class="event-details-label">Тип події</div>
+                        <div class="event-details-value" th:text="${event.eventType}">Майстер-клас</div>
                     </div>
                     <div class="event-details-item">
-                        <div class="event-details-label">Стоимость</div>
-                        <div class="event-details-value" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</div>
+                        <div class="event-details-label">Вартість</div>
+                        <div class="event-details-value" th:text="${event.price == null || event.price == 0 ? 'Безкоштовно' : event.price + ' грн'}">3 500 грн</div>
                     </div>
                     <div class="event-details-item">
-                        <div class="event-details-label">Всего мест</div>
+                        <div class="event-details-label">Загальна кількість місць</div>
                         <div class="event-details-value" th:text="${event.availableSeats}">15</div>
                     </div>
                     <div class="event-details-item">
-                        <div class="event-details-label">Осталось мест</div>
+                        <div class="event-details-label">Залишилось місць</div>
                         <div class="event-details-value" th:text="${event.remainingSeats}">8</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Правая колонка с формой бронирования -->
+            <!-- Права колонка з формою бронювання -->
             <div class="booking-form-container">
-                <h2 class="booking-form-title">Забронировать место</h2>
+                <h2 class="booking-form-title">Забронювати місце</h2>
 
-                <!-- Сообщения об ошибках и успехе -->
+                <!-- Повідомлення про помилки та успіх -->
                 <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}">
-                    К сожалению, произошла ошибка при бронировании.
+                    На жаль, сталася помилка при бронюванні.
                 </div>
 
                 <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">
-                    Ваше бронирование успешно создано!
+                    Ваше бронювання успішно створено!
                 </div>
 
                 <div class="booking-info">
-                    <span class="booking-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
+                    <span class="booking-price" th:text="${event.price == null || event.price == 0 ? 'Безкоштовно' : event.price + ' грн'}">3 500 грн</span>
 
                     <div class="booking-availability" th:with="availability=${event.remainingSeats > event.availableSeats * 0.5 ? 'available' : (event.remainingSeats > 0 ? 'limited' : 'full')}">
                         <span class="availability-indicator" th:classappend="${availability}"></span>
-                        <span th:text="${availability == 'available' ? 'Места в наличии' : (availability == 'limited' ? 'Осталось мало мест' : 'Нет свободных мест')}">Места в наличии</span>
+                        <span th:text="${availability == 'available' ? 'Місця є в наявності' : (availability == 'limited' ? 'Залишилось мало місць' : 'Немає вільних місць')}">Місця є в наявності</span>
                     </div>
 
-                    <div class="booking-seats-left" th:if="${event.remainingSeats > 0}" th:text="'Осталось мест: ' + ${event.remainingSeats}">
-                        Осталось мест: 8
+                    <div class="booking-seats-left" th:if="${event.remainingSeats > 0}" th:text="'Залишилось місць: ' + ${event.remainingSeats}">
+                        Залишилось місць: 8
                     </div>
                 </div>
 
-                <!-- Форма бронирования -->
+                <!-- Форма бронювання -->
                 <form th:action="@{/events/booking}" th:object="${bookingForm}" method="post">
                     <input type="hidden" th:field="*{eventId}" />
 
                     <div class="form-group">
-                        <label for="customerName" class="form-control-label">Ваше имя</label>
-                        <input type="text" th:field="*{customerName}" id="customerName" class="form-control" placeholder="Введите ваше имя">
+                        <label for="customerName" class="form-control-label">Ваше ім'я</label>
+                        <input type="text" th:field="*{customerName}" id="customerName" class="form-control" placeholder="Введіть ваше ім'я">
                         <div class="field-error" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}">
-                            Пожалуйста, укажите ваше имя
+                            Будь ласка, вкажіть ваше ім'я
                         </div>
                     </div>
 
@@ -656,47 +656,47 @@
                         <label for="customerEmail" class="form-control-label">Email</label>
                         <input type="email" th:field="*{customerEmail}" id="customerEmail" class="form-control" placeholder="example@mail.com">
                         <div class="field-error" th:if="${#fields.hasErrors('customerEmail')}" th:errors="*{customerEmail}">
-                            Пожалуйста, укажите корректный email
+                            Будь ласка, вкажіть коректний email
                         </div>
-                        <div class="text-help">Мы отправим детали бронирования на этот адрес</div>
+                        <div class="text-help">Ми надішлемо деталі бронювання на цю адресу</div>
                     </div>
 
                     <div class="form-group">
                         <label for="customerPhone" class="form-control-label">Телефон</label>
                         <input type="tel" th:field="*{customerPhone}" id="customerPhone" class="form-control" placeholder="+7 (___) ___-__-__">
                         <div class="field-error" th:if="${#fields.hasErrors('customerPhone')}" th:errors="*{customerPhone}">
-                            Пожалуйста, укажите корректный номер телефона
+                            Будь ласка, вкажіть коректний номер телефону
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="numberOfSeats" class="form-control-label">Количество мест</label>
+                        <label for="numberOfSeats" class="form-control-label">Кількість місць</label>
                         <div class="seats-input-group">
                             <button type="button" onclick="decrementSeats()" class="decrement-btn"><i class="fas fa-minus"></i></button>
                             <input type="number" th:field="*{numberOfSeats}" id="numberOfSeats" min="1" th:max="${event.remainingSeats}" readonly>
                             <button type="button" onclick="incrementSeats()" class="increment-btn"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="field-error" th:if="${#fields.hasErrors('numberOfSeats')}" th:errors="*{numberOfSeats}">
-                            Пожалуйста, выберите количество мест от 1 до 100
+                            Будь ласка, виберіть кількість місць від 1 до 100
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="specialRequests" class="form-control-label">Особые пожелания (необязательно)</label>
-                        <textarea th:field="*{specialRequests}" id="specialRequests" class="form-control" placeholder="Укажите особые пожелания или вопросы"></textarea>
+                        <label for="specialRequests" class="form-control-label">Особливі побажання (необов'язково)</label>
+                        <textarea th:field="*{specialRequests}" id="specialRequests" class="form-control" placeholder="Вкажіть особливі побажання або питання"></textarea>
                         <div class="field-error" th:if="${#fields.hasErrors('specialRequests')}" th:errors="*{specialRequests}">
-                            Текст слишком длинный
+                            Текст занадто довгий
                         </div>
                     </div>
 
-                    <button type="submit" class="btn" th:disabled="${event.remainingSeats <= 0}" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</button>
+                    <button type="submit" class="btn" th:disabled="${event.remainingSeats <= 0}" th:text="${event.price == null || event.price == 0 ? 'Зареєструватися' : 'Забронювати'}">Забронювати</button>
                 </form>
 
                 <div class="cancellation-policy">
-                    <div class="cancellation-title">Политика отмены</div>
+                    <div class="cancellation-title">Політика скасування</div>
                     <div class="cancellation-text">
-                        Вы можете отменить бронирование не позднее чем за 24 часа до начала события и получить полный возврат средств.
-                        Для отмены отправьте запрос на почту info@flowerscool.ru или позвоните по телефону 8 (800) 123-45-67.
+                        Ви можете скасувати бронювання не пізніше ніж за 24 години до початку події та отримати повний повернення коштів.
+                        Для скасування надішліть запит на пошту info@flowerscool.ru або зателефонуйте за номером 8 (800) 123-45-67.
                     </div>
                 </div>
             </div>

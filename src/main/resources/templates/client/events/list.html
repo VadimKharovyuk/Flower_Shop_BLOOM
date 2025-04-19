@@ -349,19 +349,19 @@
 <!-- Героический заголовок -->
 <div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мастер-классы и события', 'Погрузитесь в мир флористики вместе с нашими опытными специалистами', '/img/event-header-bg.jpg')}" class="luxe-header centered"></div>
 
-<!-- Секция событий -->
+<!-- Секція подій -->
 <section class="events-section">
     <div class="container">
-        <!-- Первые отображаем избранные события, которые занимают всю ширину -->
+        <!-- Спочатку відображаємо вибрані події, які займають всю ширину -->
         <div class="events-grid">
-            <!-- Сначала отображаем избранные события -->
+            <!-- Спочатку відображаємо вибрані події -->
             <div th:each="event : ${eventListDtos.content}" th:if="${event.isFeatured}"
                  class="event-card featured-event">
                 <div class="event-image-container">
                     <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
                     <div class="event-date">
                         <span class="event-day" th:text="${#temporals.format(event.eventDate, 'd')}">12</span>
-                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">мая</span>
+                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">травня</span>
                     </div>
                 </div>
                 <div class="event-content">
@@ -370,19 +370,19 @@
                             <i class="far fa-clock"></i>
                             <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>
                         </span>
-                        <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
+                        <span class="event-type" th:text="${event.eventType}">Майстер-клас</span>
                     </div>
-                    <h3 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h3>
-                    <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>
+                    <h3 class="event-title" th:text="${event.title}">Мистецтво складання весняних букетів</h3>
+                    <p class="event-description" th:text="${event.description}">Навчіться створювати гармонійні композиції із сезонних квітів.</p>
                     <div class="event-footer">
-                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
-                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
+                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Безкоштовно' : event.price + ' ₽'}">3 500 ₽</span>
+                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зареєструватися' : 'Забронювати'}">Забронювати</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Затем отображаем обычные события в отдельной сетке -->
+        <!-- Потім відображаємо звичайні події в окремій сітці -->
         <div class="events-grid">
             <div th:each="event : ${eventListDtos.content}" th:unless="${event.isFeatured}"
                  class="event-card">
@@ -390,7 +390,7 @@
                     <img th:src="${event.previewImageUrl}" th:alt="${event.title}" class="event-image">
                     <div class="event-date">
                         <span class="event-day" th:text="${#temporals.format(event.eventDate, 'd')}">12</span>
-                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">мая</span>
+                        <span class="event-month" th:text="${#temporals.format(event.eventDate, 'MMMM').toLowerCase()}">травня</span>
                     </div>
                 </div>
                 <div class="event-content">
@@ -399,19 +399,19 @@
                             <i class="far fa-clock"></i>
                             <span th:text="${#temporals.format(event.eventDate, 'HH:mm')} + ' - ' + ${#temporals.format(event.endTime, 'HH:mm')}">15:00 - 18:00</span>
                         </span>
-                        <span class="event-type" th:text="${event.eventType}">Мастер-класс</span>
+                        <span class="event-type" th:text="${event.eventType}">Майстер-клас</span>
                     </div>
-                    <h3 class="event-title" th:text="${event.title}">Искусство составления весенних букетов</h3>
-                    <p class="event-description" th:text="${event.description}">Научитесь создавать гармоничные композиции из сезонных цветов.</p>
+                    <h3 class="event-title" th:text="${event.title}">Мистецтво складання весняних букетів</h3>
+                    <p class="event-description" th:text="${event.description}">Навчіться створювати гармонійні композиції із сезонних квітів.</p>
                     <div class="event-footer">
-                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Бесплатно' : event.price + ' ₽'}">3 500 ₽</span>
-                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зарегистрироваться' : 'Забронировать'}">Забронировать</a>
+                        <span class="event-price" th:text="${event.price == null || event.price == 0 ? 'Безкоштовно' : event.price + ' ₽'}">3 500 ₽</span>
+                        <a th:href="@{/events/{id}(id=${event.id})}" class="event-button" th:text="${event.price == null || event.price == 0 ? 'Зареєструватися' : 'Забронювати'}">Забронювати</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Пагинация -->
+        <!-- Пагінація -->
         <div class="pagination-container" th:if="${eventListDtos.totalPages > 1}">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${eventListDtos.first} ? 'disabled' : ''">

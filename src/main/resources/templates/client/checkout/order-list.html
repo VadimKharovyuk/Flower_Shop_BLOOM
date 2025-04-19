@@ -214,7 +214,7 @@
         <div class="col-lg-8 mx-auto">
             <!-- Список заказов -->
             <div class="animate-fade-in mb-4">
-                <h4 class="serif mb-4">Выберите заказ для просмотра деталей</h4>
+                <h4 class="serif mb-4">Виберіть замовлення для перегляду деталей</h4>
 
                 <div class="row">
                     <div th:each="order : ${orders}" class="col-md-6 mb-4">
@@ -222,7 +222,7 @@
                             <div class="card order-card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-3">
-                                        <div class="order-number" th:text="'Заказ №' + ${order.id}"></div>
+                                        <div class="order-number" th:text="'Замовлення №' + ${order.id}"></div>
                                         <div class="status-badge"
                                              th:classappend="${'status-' + order.orderStatus.toString().toLowerCase()}"
                                              th:text="${order.orderStatus.displayName}"></div>
@@ -231,7 +231,7 @@
                                     <div class="order-info">
                                         <i class="bi bi-calendar3"></i>
                                         <div>
-                                            <div class="order-info-label">Дата заказа</div>
+                                            <div class="order-info-label">Дата замовлення</div>
                                             <div class="order-info-value" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy, HH:mm')}"></div>
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@
                                     <div class="order-info">
                                         <i class="bi bi-geo-alt"></i>
                                         <div>
-                                            <div class="order-info-label">Адрес доставки</div>
+                                            <div class="order-info-label">Адреса доставки</div>
                                             <div class="order-info-value" th:text="${#strings.abbreviate(order.deliveryAddress, 50)}"></div>
                                         </div>
                                     </div>
@@ -255,13 +255,13 @@
                                     <div class="order-info">
                                         <i class="bi bi-credit-card"></i>
                                         <div>
-                                            <div class="order-info-label">Сумма заказа</div>
+                                            <div class="order-info-label">Сума замовлення</div>
                                             <div class="order-info-value" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')} + ' ₽'"></div>
                                         </div>
                                     </div>
 
                                     <div class="mt-4 text-end">
-                                        <span class="btn btn-sm btn-outline-primary">Просмотреть детали</span>
+                                        <span class="btn btn-sm btn-outline-primary">Переглянути деталі</span>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
 
             <div class="d-flex justify-content-between mt-5">
                 <a href="/order-tracking" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-2"></i> Назад к поиску
+                    <i class="bi bi-arrow-left me-2"></i> Назад до пошуку
                 </a>
             </div>
         </div>

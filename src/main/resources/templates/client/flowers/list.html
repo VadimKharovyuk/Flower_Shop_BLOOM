@@ -595,29 +595,29 @@
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
 
 <!-- Хедер страницы -->
-<!-- Кастомный хедер для страницы каталога -->
+<!-- Кастомний хедер для сторінки каталогу -->
 <section class="catalog-header">
     <div class="catalog-header-overlay"></div>
     <div class="container">
         <div class="catalog-header-content">
-            <h1 class="catalog-title">Наша коллекция букетов</h1>
+            <h1 class="catalog-title">Наша колекція букетів</h1>
             <p class="catalog-description">
-                Откройте для себя изысканные букеты, созданные с любовью и вниманием к каждой детали.
-                Мы тщательно отбираем самые свежие и красивые цветы, чтобы воплотить ваши чувства
-                в прекрасных композициях.
+                Відкрийте для себе витончені букети, створені з любов'ю та увагою до кожної деталі.
+                Ми ретельно відбираємо найсвіжіші та найкрасивіші квіти, щоб втілити ваші почуття
+                в прекрасних композиціях.
             </p>
             <div class="catalog-features">
                 <div class="catalog-feature">
                     <i class="fas fa-leaf"></i>
-                    <span>Свежие цветы</span>
+                    <span>Свіжі квіти</span>
                 </div>
                 <div class="catalog-feature">
                     <i class="fas fa-truck"></i>
-                    <span>Доставка в день заказа</span>
+                    <span>Доставка в день замовлення</span>
                 </div>
                 <div class="catalog-feature">
                     <i class="fas fa-heart"></i>
-                    <span>Авторский дизайн</span>
+                    <span>Авторський дизайн</span>
                 </div>
             </div>
         </div>
@@ -630,16 +630,16 @@
         <!-- Панель управления каталогом -->
         <div class="catalog-controls">
             <div class="product-count">
-                Найдено <span th:text="${flowers.totalElements}">0</span> товаров
+                Знайдено <span th:text="${flowers.totalElements}">0</span> товарів
             </div>
 
             <div class="catalog-filter">
-                <span class="filter-label">Сортировать по:</span>
+                <span class="filter-label">Сортувати за:</span>
                 <select id="sort-select" class="sort-select">
-                    <option value="name_true" th:selected="${sortBy == 'name' && ascending == true}">Название (А-Я)</option>
-                    <option value="name_false" th:selected="${sortBy == 'name' && ascending == false}">Название (Я-А)</option>
-                    <option value="price_true" th:selected="${sortBy == 'price' && ascending == true}">Цена (по возрастанию)</option>
-                    <option value="price_false" th:selected="${sortBy == 'price' && ascending == false}">Цена (по убыванию)</option>
+                    <option value="name_true" th:selected="${sortBy == 'name' && ascending == true}">Назва (А-Я)</option>
+                    <option value="name_false" th:selected="${sortBy == 'name' && ascending == false}">Назва (Я-А)</option>
+                    <option value="price_true" th:selected="${sortBy == 'price' && ascending == true}">Ціна (по зростанню)</option>
+                    <option value="price_false" th:selected="${sortBy == 'price' && ascending == false}">Ціна (по зменшенню)</option>
                     <option value="createdAt_false" th:selected="${sortBy == 'createdAt' && ascending == false}">Новинки</option>
                 </select>
             </div>
@@ -649,11 +649,11 @@
         <div class="products-grid">
             <!-- Если нет товаров -->
             <div th:if="${flowers.empty}" style="grid-column: 1/-1; text-align: center; padding: 50px 0;">
-                <p>К сожалению, товары не найдены.</p>
-                <p>Пожалуйста, воспользуйтесь фильтрами или вернитесь позже.</p>
+                <p>На жаль, товари не знайдені.</p>
+                <p>Будь ласка, скористайтеся фільтрами або поверніться пізніше.</p>
             </div>
 
-            <!-- Карточки товаров -->
+            <!-- Картки товарів -->
             <div class="product-card" th:each="flower : ${flowers}">
                 <div class="product-image">
                     <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}">
@@ -668,15 +668,15 @@
                         </div>
                     </div>
                     <div class="product-badges">
-                        <span class="product-badge" th:if="${flower.hasDeliveryToday}">Доставка сегодня</span>
+                        <span class="product-badge" th:if="${flower.hasDeliveryToday}">Доставка сьогодні</span>
                     </div>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">
-                        <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>
+                        <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Назва букета</a>
                     </h3>
-                    <div class="product-price" th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</div>
-                    <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">В корзину</button>
+                    <div class="product-price" th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₴'}">1000 ₴</div>
+                    <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">В кошик</button>
                 </div>
             </div>
         </div>

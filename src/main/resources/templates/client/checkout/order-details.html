@@ -544,81 +544,81 @@
             <!-- Трекинг заказа -->
             <div class="card mb-4 animate-fade-in">
                 <div class="card-header">
-                    <h5 class="serif">Статус заказа</h5>
+                    <h5 class="serif">Статус замовлення</h5>
                 </div>
                 <div class="card-body">
                     <div class="timeline">
                         <div class="timeline-item completed">
                             <div class="timeline-date" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy, HH:mm')}"></div>
-                            <div class="timeline-title">Заказ создан</div>
-                            <div class="timeline-text">Ваш заказ успешно оформлен и ожидает оплаты.</div>
+                            <div class="timeline-title">Замовлення створено</div>
+                            <div class="timeline-text">Ваше замовлення успішно оформлено і очікує оплати.</div>
                         </div>
 
                         <div class="timeline-item"
                              th:classappend="${order.paymentStatus.toString() == 'COMPLETED' ? 'completed' :
-                                                  (order.paymentStatus.toString() == 'PROCESSING' ? 'active' : '')}">
+                                      (order.paymentStatus.toString() == 'PROCESSING' ? 'active' : '')}">
                             <div class="timeline-date" th:if="${order.paymentStatus.toString() == 'COMPLETED'}"
                                  th:text="${#temporals.format(order.updatedAt, 'dd.MM.yyyy, HH:mm')}"></div>
-                            <div class="timeline-date" th:if="${order.paymentStatus.toString() != 'COMPLETED'}">Ожидается</div>
-                            <div class="timeline-title">Оплата подтверждена</div>
+                            <div class="timeline-date" th:if="${order.paymentStatus.toString() != 'COMPLETED'}">Очікується</div>
+                            <div class="timeline-title">Оплату підтверджено</div>
                             <div class="timeline-text" th:if="${order.paymentStatus.toString() == 'COMPLETED'}">
-                                Оплата успешно получена.
+                                Оплату успішно отримано.
                             </div>
                             <div class="timeline-text" th:if="${order.paymentStatus.toString() == 'PROCESSING'}">
-                                Ожидается подтверждение оплаты.
+                                Очікується підтвердження оплати.
                             </div>
                             <div class="timeline-text" th:if="${order.paymentStatus.toString() == 'PENDING'}">
-                                Ожидается оплата заказа.
+                                Очікується оплата замовлення.
                             </div>
                         </div>
 
                         <div class="timeline-item"
                              th:classappend="${order.orderStatus.toString() == 'PROCESSING' ||
-                                                  order.orderStatus.toString() == 'SHIPPED' ||
-                                                  order.orderStatus.toString() == 'DELIVERED' ||
-                                                  order.orderStatus.toString() == 'COMPLETED' ? 'completed' :
-                                                  (order.orderStatus.toString() == 'PAID' ? 'active' : '')}">
-                            <div class="timeline-date" th:if="${order.orderStatus.toString() == 'PROCESSING'}">В процессе</div>
+                                      order.orderStatus.toString() == 'SHIPPED' ||
+                                      order.orderStatus.toString() == 'DELIVERED' ||
+                                      order.orderStatus.toString() == 'COMPLETED' ? 'completed' :
+                                      (order.orderStatus.toString() == 'PAID' ? 'active' : '')}">
+                            <div class="timeline-date" th:if="${order.orderStatus.toString() == 'PROCESSING'}">В процесі</div>
                             <div class="timeline-date" th:if="${order.orderStatus.toString() != 'PROCESSING' &&
-                                                                    order.orderStatus.toString() != 'PENDING' &&
-                                                                    order.orderStatus.toString() != 'PAID'}">Завершено</div>
+                                                        order.orderStatus.toString() != 'PENDING' &&
+                                                        order.orderStatus.toString() != 'PAID'}">Завершено</div>
                             <div class="timeline-date" th:if="${order.orderStatus.toString() == 'PENDING' ||
-                                                                   order.orderStatus.toString() == 'PAID'}">Ожидается</div>
-                            <div class="timeline-title">Заказ обрабатывается</div>
-                            <div class="timeline-text">Ваш заказ собирается и готовится к отправке.</div>
+                                                       order.orderStatus.toString() == 'PAID'}">Очікується</div>
+                            <div class="timeline-title">Замовлення обробляється</div>
+                            <div class="timeline-text">Ваше замовлення збирається та готується до відправки.</div>
                         </div>
 
                         <div class="timeline-item"
                              th:classappend="${order.orderStatus.toString() == 'SHIPPED' ||
-                                                  order.orderStatus.toString() == 'DELIVERED' ||
-                                                  order.orderStatus.toString() == 'COMPLETED' ? 'completed' : ''}">
+                                      order.orderStatus.toString() == 'DELIVERED' ||
+                                      order.orderStatus.toString() == 'COMPLETED' ? 'completed' : ''}">
                             <div class="timeline-date" th:if="${order.orderStatus.toString() == 'SHIPPED' ||
-                                                                    order.orderStatus.toString() == 'DELIVERED' ||
-                                                                    order.orderStatus.toString() == 'COMPLETED'}">Отправлено</div>
+                                                        order.orderStatus.toString() == 'DELIVERED' ||
+                                                        order.orderStatus.toString() == 'COMPLETED'}">Відправлено</div>
                             <div class="timeline-date" th:if="${order.orderStatus.toString() != 'SHIPPED' &&
-                                                                   order.orderStatus.toString() != 'DELIVERED' &&
-                                                                   order.orderStatus.toString() != 'COMPLETED'}">Ожидается</div>
-                            <div class="timeline-title">Заказ отправлен</div>
-                            <div class="timeline-text">Ваш заказ передан курьеру и находится в пути.</div>
+                                                       order.orderStatus.toString() != 'DELIVERED' &&
+                                                       order.orderStatus.toString() != 'COMPLETED'}">Очікується</div>
+                            <div class="timeline-title">Замовлення відправлено</div>
+                            <div class="timeline-text">Ваше замовлення передано кур'єру і знаходиться в дорозі.</div>
                         </div>
 
                         <div class="timeline-item"
                              th:classappend="${order.orderStatus.toString() == 'DELIVERED' ||
-                                                  order.orderStatus.toString() == 'COMPLETED' ? 'completed' :
-                                                  (order.orderStatus.toString() == 'CANCELED' ? 'canceled' : '')}">
+                                      order.orderStatus.toString() == 'COMPLETED' ? 'completed' :
+                                      (order.orderStatus.toString() == 'CANCELED' ? 'canceled' : '')}">
                             <div class="timeline-date" th:if="${order.orderStatus.toString() == 'DELIVERED' ||
-                                                                    order.orderStatus.toString() == 'COMPLETED'}">Доставлено</div>
+                                                        order.orderStatus.toString() == 'COMPLETED'}">Доставлено</div>
                             <div class="timeline-date" th:if="${order.orderStatus.toString() != 'DELIVERED' &&
-                                                                   order.orderStatus.toString() != 'COMPLETED' &&
-                                                                   order.orderStatus.toString() != 'CANCELED'}">Ожидается</div>
-                            <div class="timeline-date" th:if="${order.orderStatus.toString() == 'CANCELED'}">Отменено</div>
-                            <div class="timeline-title" th:if="${order.orderStatus.toString() != 'CANCELED'}">Заказ доставлен</div>
-                            <div class="timeline-title" th:if="${order.orderStatus.toString() == 'CANCELED'}">Заказ отменен</div>
+                                                       order.orderStatus.toString() != 'COMPLETED' &&
+                                                       order.orderStatus.toString() != 'CANCELED'}">Очікується</div>
+                            <div class="timeline-date" th:if="${order.orderStatus.toString() == 'CANCELED'}">Скасовано</div>
+                            <div class="timeline-title" th:if="${order.orderStatus.toString() != 'CANCELED'}">Замовлення доставлено</div>
+                            <div class="timeline-title" th:if="${order.orderStatus.toString() == 'CANCELED'}">Замовлення скасовано</div>
                             <div class="timeline-text" th:if="${order.orderStatus.toString() != 'CANCELED'}">
-                                Ваш заказ успешно доставлен получателю.
+                                Ваше замовлення успішно доставлено отримувачу.
                             </div>
                             <div class="timeline-text" th:if="${order.orderStatus.toString() == 'CANCELED'}">
-                                Заказ был отменен.
+                                Замовлення було скасовано.
                             </div>
                         </div>
                     </div>
@@ -627,15 +627,15 @@
 
 
             <div class="email-order-section">
-                <h3>Отправить детали заказа на email</h3>
+                <h3>Надіслати деталі замовлення на email</h3>
 
                 <form th:action="@{/checkout/order/{id}/send-email(id=${order.id})}" method="post">
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" class="form-control"
-                               th:value="${order.clientEmail}" placeholder="Введите email">
+                               th:value="${order.clientEmail}" placeholder="Введіть email">
                     </div>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="submit" class="btn btn-primary">Надіслати</button>
                 </form>
 
                 <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -645,16 +645,16 @@
             <!-- Контактная информация -->
             <div class="card mb-4 animate-fade-in">
                 <div class="card-header">
-                    <h5 class="serif">Нужна помощь?</h5>
+                    <h5 class="serif">Потрібна допомога?</h5>
                 </div>
                 <div class="card-body">
-                    <p>Если у вас возникли вопросы по заказу, пожалуйста, свяжитесь с нами:</p>
+                    <p>Якщо у вас виникли питання щодо замовлення, будь ласка, зв'яжіться з нами:</p>
 
                     <div class="d-flex align-items-center mb-3">
                         <i class="bi bi-telephone me-3" style="font-size: 24px;"></i>
                         <div>
                             <div class="detail-label">Телефон</div>
-                            <div class="detail-value">+7 (123) 456-78-90</div>
+                            <div class="detail-value">+38 (123) 456-78-90</div>
                         </div>
                     </div>
 
@@ -669,14 +669,14 @@
                     <div class="d-flex align-items-center">
                         <i class="bi bi-chat-dots me-3" style="font-size: 24px;"></i>
                         <div>
-                            <div class="detail-label">Чат поддержки</div>
-                            <div class="detail-value">Ежедневно с 9:00 до 21:00</div>
+                            <div class="detail-label">Чат підтримки</div>
+                            <div class="detail-value">Щоденно з 9:00 до 21:00</div>
                         </div>
                     </div>
 
                     <a th:href="@{/contact}" class="d-block">
                         <button class="btn btn-outline-primary w-100 mt-3" type="button">
-                            <i class="bi bi-chat-text me-2"></i> Написать в поддержку
+                            <i class="bi bi-chat-text me-2"></i> Написати в підтримку
                         </button>
                     </a>
                 </div>

@@ -274,15 +274,15 @@
 </head>
 <body>
 <div class="review-container">
-    <h1>Поделитесь своим мнением</h1>
-    <p class="intro-text">Ваш отзыв поможет нам стать лучше и будет полезен другим клиентам</p>
-    <p class="required-note">* обязательные поля</p>
+    <h1>Поділіться своєю думкою</h1>
+    <p class="intro-text">Ваш відгук допоможе нам стати кращими і буде корисним для інших клієнтів</p>
+    <p class="required-note">* обов'язкові поля</p>
 
-    <!-- Сообщение об ошибке -->
+    <!-- Повідомлення про помилку -->
     <div id="js-validation-alert" class="alert alert-error" style="display: none;">
         <div class="alert-icon">⚠️</div>
         <div class="alert-content">
-            <div class="alert-title">Пожалуйста, исправьте следующие ошибки:</div>
+            <div class="alert-title">Будь ласка, виправте наступні помилки:</div>
             <ul id="js-validation-errors" class="alert-list">
             </ul>
         </div>
@@ -290,39 +290,39 @@
 
     <form th:action="@{/review/add}" method="post" enctype="multipart/form-data" id="review-form">
         <div class="form-group">
-            <label for="userName">Имя пользователя *</label>
-            <input type="text" id="userName" name="userName" placeholder="Введите ваше имя" required minlength="2" maxlength="50"/>
+            <label for="userName">Ім'я користувача *</label>
+            <input type="text" id="userName" name="userName" placeholder="Введіть ваше ім'я" required minlength="2" maxlength="50"/>
             <div class="error error-userName"></div>
         </div>
 
         <div class="form-group">
-            <label for="city">Город</label>
-            <input type="text" id="city" name="city" placeholder="Укажите ваш город"/>
+            <label for="city">Місто</label>
+            <input type="text" id="city" name="city" placeholder="Вкажіть ваше місто"/>
         </div>
 
         <div class="form-group">
-            <label for="shoutDescription">Краткое описание *</label>
-            <textarea id="shoutDescription" name="shoutDescription" rows="3" placeholder="Поделитесь своим опытом" required minlength="5" maxlength="60"></textarea>
+            <label for="shoutDescription">Короткий опис *</label>
+            <textarea id="shoutDescription" name="shoutDescription" rows="3" placeholder="Поділіться своїм досвідом" required minlength="5" maxlength="60"></textarea>
             <div class="error error-shoutDescription"></div>
         </div>
 
         <div class="form-group">
-            <label>Оценка *</label>
+            <label>Оцінка *</label>
             <div class="rating-container">
                 <div class="rating-stars">
                     <input type="radio" id="star5" name="rating" value="5" />
-                    <label for="star5" title="5 звезд"></label>
+                    <label for="star5" title="5 зірок"></label>
                     <input type="radio" id="star4" name="rating" value="4" />
-                    <label for="star4" title="4 звезды"></label>
+                    <label for="star4" title="4 зірки"></label>
                     <input type="radio" id="star3" name="rating" value="3" />
-                    <label for="star3" title="3 звезды"></label>
+                    <label for="star3" title="3 зірки"></label>
                     <input type="radio" id="star2" name="rating" value="2" />
-                    <label for="star2" title="2 звезды"></label>
+                    <label for="star2" title="2 зірки"></label>
                     <input type="radio" id="star1" name="rating" value="1" />
-                    <label for="star1" title="1 звезда"></label>
+                    <label for="star1" title="1 зірка"></label>
                 </div>
                 <select id="rating" name="rating" style="display: none;" required>
-                    <option value="">Выберите оценку</option>
+                    <option value="">Виберіть оцінку</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -334,15 +334,15 @@
         </div>
 
         <div class="form-group">
-            <label for="file">Изображение</label>
+            <label for="file">Зображення</label>
             <div class="file-upload">
-                <span class="file-upload-btn">Выберите изображение</span>
+                <span class="file-upload-btn">Виберіть зображення</span>
                 <input type="file" id="file" name="file" accept="image/*"/>
             </div>
             <span class="selected-file" id="selected-file-name"></span>
         </div>
 
-        <button type="submit" class="submit-btn">Отправить отзыв</button>
+        <button type="submit" class="submit-btn">Відправити відгук</button>
     </form>
 </div>
 

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Специальные предложения и акции</title>
-  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
-  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
-  <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+    <title>Специальные предложения и акции</title>
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
 
 
-  <link rel="stylesheet" href="/css/special_offers/offers-section-list.css">
-  <!-- Подключаем красивый шрифт для премиального вида -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/special_offers/offers-section-list.css">
+    <!-- Подключаем красивый шрифт для премиального вида -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <!-- Шапка сайта -->
@@ -17,111 +18,119 @@
 
 <!-- Элегантный заголовок в минималистичном стиле -->
 <div class="luxe-promo-header">
-  <div class="container">
-    <h1 class="promo-title">Специальные предложения</h1>
-    <p class="promo-subtitle">Изысканные букеты по особым ценам</p>
-    <div class="promo-breadcrumbs">
-      <a href="/">Главная</a> <span class="separator">/</span> <span>Специальные предложения</span>
+    <div class="container">
+        <h1 class="promo-title">Спеціальні пропозиції</h1>
+        <p class="promo-subtitle">Вишукані букети за особливими цінами</p>
+        <div class="promo-breadcrumbs">
+            <a href="/">Головна</a> <span class="separator">/</span> <span>Спеціальні пропозиції</span>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Содержимое страницы -->
 <div class="page-content">
-  <div class="container">
-    <!-- Текст-описание -->
-    <div class="section-intro">
-      <p class="intro-text">Откройте для себя наши эксклюзивные предложения и акции, которые позволят вам порадовать близких роскошными букетами по особым ценам. Каждое предложение тщательно продумано, чтобы подарить вам незабываемые эмоции и удовольствие от покупки.</p>
-    </div>
-
-    <!-- Специальные предложения -->
-    <div class="offers-section">
-      <!-- Сообщение, если нет предложений -->
-      <div th:if="${#lists.isEmpty(offers)}" class="no-offers-message">
-        <div class="empty-state">
-          <div class="empty-icon"></div>
-          <h3>В настоящее время нет активных акций</h3>
-          <p>Пожалуйста, загляните к нам позже или ознакомьтесь с нашей <a href="/catalog">основной коллекцией</a>.</p>
+    <div class="container">
+        <!-- Текст-описание -->
+        <div class="section-intro">
+            <p class="intro-text">Відкрийте для себе наші ексклюзивні пропозиції та акції, які дозволять вам
+                потішити близьких розкішними букетами за особливими цінами. Кожна пропозиція ретельно продумана, щоб
+                подарувати вам незабутні емоції та задоволення від покупки.</p>
         </div>
-      </div>
-
-      <!-- Список предложений -->
-      <div th:unless="${#lists.isEmpty(offers)}" class="offers-grid">
-        <div th:each="offer : ${offers}" class="offer-item" th:classappend="${offer.featured ? 'featured-offer' : ''}">
-          <div class="offer-card">
-            <div class="offer-image">
-              <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}"></div>
-              <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акция" class="offer-img">
-              <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акция" class="offer-img">
-
-              <!-- Таймер акции -->
-              <div class="offer-timer" th:if="${offer.remainingDays > 0}">
-                <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}"></div>
-                <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
-                  <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+        <!-- Специальные предложения -->
+        <div class="offers-section">
+            <!-- Повідомлення, якщо немає пропозицій -->
+            <div th:if="${#lists.isEmpty(offers)}" class="no-offers-message">
+                <div class="empty-state">
+                    <div class="empty-icon"></div>
+                    <h3>На даний момент немає активних акцій</h3>
+                    <p>Будь ласка, завітайте до нас пізніше або ознайомтесь з нашою <a href="/catalog">основною колекцією</a>.</p>
                 </div>
-              </div>
             </div>
 
-            <div class="offer-content">
-              <h3 class="offer-title" th:text="${offer.name}">Название акции</h3>
+            <!-- Список предложений -->
+            <div th:unless="${#lists.isEmpty(offers)}" class="offers-grid">
+                <div th:each="offer : ${offers}" class="offer-item"
+                     th:classappend="${offer.featured ? 'featured-offer' : ''}">
+                    <div class="offer-card">
+                        <div class="offer-image">
+                            <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}"></div>
+                            <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акция" class="offer-img">
+                            <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акция"
+                                 class="offer-img">
 
-              <p class="offer-desc" th:if="${offer.getSpecialPriceText()}" th:text="${offer.getSpecialPriceText()}">Описание акции</p>
+                            <!-- Таймер акции -->
+                            <div class="offer-timer" th:if="${offer.remainingDays > 0}">
+                                <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}"
+                                     th:text="${offer.remainingDays + ' дн.'}"></div>
+                                <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}"
+                                     th:data-end-date="${offer.endDate}">
+                                    <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+                                </div>
+                            </div>
+                        </div>
 
-              <div class="offer-details">
-                <div class="price-info" th:if="${offer.oldPrice != null && offer.newPrice != null}">
-                  <div class="price-wrapper">
-                    <span class="price-old" th:text="${offer.oldPrice + ' ₽'}">5 400 ₽</span>
-                    <span class="price-new" th:text="${offer.newPrice + ' ₽'}">4 320 ₽</span>
-                  </div>
-                  <div class="discount-badge" th:if="${offer.discountPercentage > 0}" th:text="${'-' + offer.discountPercentage + '%'}">-20%</div>
+                        <div class="offer-content">
+                            <h3 class="offer-title" th:text="${offer.name}">Назва акції</h3>
+
+                            <p class="offer-desc" th:if="${offer.getSpecialPriceText()}"
+                               th:text="${offer.getSpecialPriceText()}">Опис акції</p>
+
+                            <div class="offer-details">
+                                <div class="price-info" th:if="${offer.oldPrice != null && offer.newPrice != null}">
+                                    <div class="price-wrapper">
+                                        <span class="price-old" th:text="${offer.oldPrice + ' ₴'}">5 400 ₴</span>
+                                        <span class="price-new" th:text="${offer.newPrice + ' ₴'}">4 320 ₴</span>
+                                    </div>
+                                    <div class="discount-badge" th:if="${offer.discountPercentage > 0}"
+                                         th:text="${'-' + offer.discountPercentage + '%'}">-20%
+                                    </div>
+                                </div>
+
+                                <div class="special-price" th:if="${offer.specialPriceText}">
+                                    <span class="special-price-text" th:text="${offer.specialPriceText}">Третій букет безкоштовно</span>
+                                </div>
+
+                                <div class="flower-count">
+                                    <span class="count-icon"></span>
+                                    <span class="count-text" th:text="${offer.flowerCount + ' видів квітів'}">12 видів квітів</span>
+                                </div>
+                            </div>
+
+                            <div class="offer-action">
+                                <a th:href="@{/special-offers/{id}(id=${offer.id})}"
+                                   th:class="${'btn-view ' + (offer.highlightButton ? 'btn-highlight' : '')}"
+                                   th:text="${offer.buttonText ?: 'Докладніше'}">Докладніше</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="special-price" th:if="${offer.specialPriceText}">
-                  <span class="special-price-text" th:text="${offer.specialPriceText}">Третий букет бесплатно</span>
-                </div>
-
-                <div class="flower-count">
-                  <span class="count-icon"></span>
-                  <span class="count-text" th:text="${offer.flowerCount + ' видов цветов'}">12 видов цветов</span>
-                </div>
-              </div>
-
-              <div class="offer-action">
-                <a th:href="@{/special-offers/{id}(id=${offer.id})}"
-                   th:class="${'btn-view ' + (offer.highlightButton ? 'btn-highlight' : '')}"
-                   th:text="${offer.buttonText ?: 'Подробнее'}">Подробнее</a>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Дополнительная информация -->
-    <div class="offers-info">
-      <div class="info-container">
-        <h3 class="info-title">Условия акций</h3>
-        <ul class="info-list">
-          <li>Акции не суммируются с другими скидками и специальными предложениями</li>
-          <li>Количество товаров по акции ограничено</li>
-          <li>Мы оставляем за собой право изменить условия акции в любое время</li>
-          <li>Для участия в акции необходимо добавить товар в корзину на сайте или оформить заказ по телефону</li>
-        </ul>
-      </div>
+        <!-- Додаткова інформація -->
+        <div class="offers-info">
+            <div class="info-container">
+                <h3 class="info-title">Умови акцій</h3>
+                <ul class="info-list">
+                    <li>Акції не сумуються з іншими знижками та спеціальними пропозиціями</li>
+                    <li>Кількість товарів за акцією обмежена</li>
+                    <li>Ми залишаємо за собою право змінювати умови акції в будь-який час</li>
+                    <li>Для участі в акції необхідно додати товар в кошик на сайті або оформити замовлення по телефону</li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Подключение скрипта таймера -->
 <script th:src="@{/js/countdown-timer.js}"></script>
 
 <div th:fragment="footer-example">
-  <!-- Подключение CSS для футера -->
-  <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+    <!-- Подключение CSS для футера -->
+    <style th:replace="~{client/fragments/footer :: footer-css}"></style>
 
-  <!-- Подключение футера -->
-  <div th:replace="~{client/fragments/footer :: footer}"></div>
+    <!-- Подключение футера -->
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
 </div>
 <script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
 </body>

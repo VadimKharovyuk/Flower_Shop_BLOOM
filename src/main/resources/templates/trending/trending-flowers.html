@@ -525,23 +525,22 @@
 <section class="catalog-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Популярные букеты</h2>
+      <h2 class="section-title">Популярні букети</h2>
       <div class="section-divider"></div>
-      <p class="section-subtitle">Откройте для себя наши самые востребованные композиции, которые выбирают наши клиенты. Элегантность, стиль и безупречное качество в каждом букете.</p>
+      <p class="section-subtitle">Відкрийте для себе наші найбільш затребувані композиції, які обирають наші клієнти. Елегантність, стиль та бездоганну якість в кожному букеті.</p>
     </div>
 
     <div class="catalog-controls">
       <div class="results-count">
-        Найдено <span th:text="${popularFlowers.totalElements}">0</span> букетов
+        Знайдено <span th:text="${popularFlowers.totalElements}">0</span> букетів
       </div>
-
       <div class="catalog-filter">
-        <span class="filter-label">Сортировать по:</span>
+        <span class="filter-label">Сортувати за:</span>
         <select id="sort-select" class="sort-select">
-          <option value="popularity_desc">По популярности</option>
-          <option value="price_asc">Цена (по возрастанию)</option>
-          <option value="price_desc">Цена (по убыванию)</option>
-          <option value="name_asc">По названию (А-Я)</option>
+          <option value="popularity_desc">За популярністю</option>
+          <option value="price_asc">Ціна (по зростанню)</option>
+          <option value="price_desc">Ціна (по зменшенню)</option>
+          <option value="name_asc">За назвою (А-Я)</option>
         </select>
       </div>
     </div>

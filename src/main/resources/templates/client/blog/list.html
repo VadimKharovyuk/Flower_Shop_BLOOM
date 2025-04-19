@@ -1,9 +1,177 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Блог | LUXE Цветочный магазин</title>-->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+<!--  <link rel="stylesheet" th:href="@{/css/blog.css}">-->
+<!--  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>-->
+<!--  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>-->
+<!--  <style th:replace="~{client/fragments/сustom-header :: custom-header-css}"></style>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>-->
+
+<!--&lt;!&ndash; Героический заголовок &ndash;&gt;-->
+<!--<div th:replace="~{client/fragments/сustom-header :: custom-header(-->
+<!--    'Наш блог',-->
+<!--    'Интересные статьи и полезные советы о цветах и флористике',-->
+<!--    '/img/wedding-couple.jpg',-->
+<!--    'Читайте новые статьи каждую неделю!'-->
+<!--)}"></div>-->
+
+<!--<div class="page-banner">-->
+<!--  <div class="container">-->
+<!--    <h1>Блог</h1>-->
+<!--    <p>Полезные статьи о цветах, уходе за растениями и флористике</p>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--  <div class="blog-filters">-->
+<!--    <div class="filter-categories">-->
+<!--      <a href="/blog" class="filter-btn" th:classappend="${currentType == null} ? 'active' : ''">Все статьи</a>-->
+<!--      <a th:each="type : ${postTypes}"-->
+<!--         th:href="@{/blog/type/{type}(type=${type})}"-->
+<!--         th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}"-->
+<!--         class="filter-btn"-->
+<!--         th:classappend="${currentType != null && currentType == type} ? 'active' : ''">-->
+<!--        Тип категории-->
+<!--      </a>-->
+<!--      <a href="/blog/popular" class="filter-btn" th:classappend="${isPopular != null && isPopular} ? 'active' : ''">-->
+<!--        <i class="fas fa-fire"></i> Популярные-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="blog-layout">-->
+<!--    <div class="blog-main">-->
+<!--      <div class="blog-grid">-->
+<!--        <div class="blog-card" th:each="post : ${blogPosts}">-->
+<!--          <div class="blog-card-image">-->
+<!--            <img th:if="${post.previewImageUrl}" th:src="${post.previewImageUrl}" alt="Blog image">-->
+<!--            <img th:unless="${post.previewImageUrl}" th:src="@{/images/blog-placeholder.jpg}" alt="Blog image">-->
+<!--            <div class="blog-card-category" th:text="${post.type.getDisplayName()}">Категория</div>-->
+<!--          </div>-->
+<!--          <div class="blog-card-content">-->
+<!--            <h3 class="blog-card-title">-->
+<!--              <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок статьи</a>-->
+<!--            </h3>-->
+<!--            <div class="blog-card-meta">-->
+<!--              <span class="blog-date" th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">01 января 2025</span>-->
+<!--              <span class="blog-views"><i class="far fa-eye"></i> <span th:text="${post.viewCount}">123</span></span>-->
+<!--            </div>-->
+<!--            <p class="blog-card-excerpt" th:text="${post.shortDescription}">-->
+<!--              Краткое описание статьи...-->
+<!--            </p>-->
+<!--            <a th:href="@{/blog/{id}(id=${post.id})}" class="read-more">Читать дальше <i class="fas fa-long-arrow-alt-right"></i></a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Пагинация &ndash;&gt;-->
+<!--      <div th:if="${blogPosts.totalPages > 1}" class="pagination">-->
+<!--        <a th:if="${currentPage > 0}"-->
+<!--           th:href="@{${isPopular != null && isPopular} ? '/blog/popular' : ${currentType != null} ? '/blog/type/' + ${currentType} : '/blog'(page=${currentPage - 1})}"-->
+<!--           class="pagination-arrow">-->
+<!--          <i class="fas fa-chevron-left"></i>-->
+<!--        </a>-->
+
+<!--        <th:block th:each="i : ${#numbers.sequence(0, blogPosts.totalPages - 1)}">-->
+<!--          <a th:if="${i == currentPage}" class="pagination-number active" th:text="${i + 1}">1</a>-->
+<!--          <a th:unless="${i == currentPage}"-->
+<!--             th:href="@{${isPopular != null && isPopular} ? '/blog/popular' : ${currentType != null} ? '/blog/type/' + ${currentType} : '/blog'(page=${i})}"-->
+<!--             class="pagination-number"-->
+<!--             th:text="${i + 1}">1</a>-->
+<!--        </th:block>-->
+
+<!--        <a th:if="${currentPage < blogPosts.totalPages - 1}"-->
+<!--           th:href="@{${isPopular != null && isPopular} ? '/blog/popular' : ${currentType != null} ? '/blog/type/' + ${currentType} : '/blog'(page=${currentPage + 1})}"-->
+<!--           class="pagination-arrow">-->
+<!--          <i class="fas fa-chevron-right"></i>-->
+<!--        </a>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Сообщение, если нет постов &ndash;&gt;-->
+<!--      <div th:if="${blogPosts.empty}" class="no-posts">-->
+<!--        <div class="no-posts-message">-->
+<!--          <i class="far fa-sad-tear"></i>-->
+<!--          <h3>Статьи не найдены</h3>-->
+<!--          <p>К сожалению, в данной категории пока нет статей.</p>-->
+<!--          <a href="/blog" class="btn">Вернуться ко всем статьям</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="blog-sidebar">-->
+<!--      <div class="sidebar-widget">-->
+<!--        <h3 class="widget-title">Популярные статьи</h3>-->
+<!--        <div class="popular-posts">-->
+<!--          <div class="popular-post" th:each="post : ${popularPosts}">-->
+<!--            <div class="popular-post-image">-->
+<!--              <img th:if="${post.previewImageUrl}" th:src="${post.previewImageUrl}" alt="Popular post">-->
+<!--              <img th:unless="${post.previewImageUrl}" th:src="@{/images/blog-placeholder.jpg}" alt="Popular post">-->
+<!--            </div>-->
+<!--            <div class="popular-post-content">-->
+<!--              <h4>-->
+<!--                <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок популярной статьи</a>-->
+<!--              </h4>-->
+<!--              <div class="post-meta">-->
+<!--                <span class="post-date" th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy')}">01.01.2025</span>-->
+<!--                <span class="post-views"><i class="far fa-eye"></i> <span th:text="${post.viewCount}">123</span></span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="sidebar-widget">-->
+<!--        <h3 class="widget-title">Категории</h3>-->
+<!--        <ul class="category-list">-->
+<!--          <li th:each="type : ${postTypes}">-->
+<!--            <a th:href="@{/blog/type/{type}(type=${type})}"-->
+<!--               th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}">-->
+<!--              Категория-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+
+<!--      <div class="sidebar-widget">-->
+<!--        <h3 class="widget-title">Подписаться на новости</h3>-->
+<!--        <p>Получайте уведомления о новых статьях и советах</p>-->
+<!--        <form class="subscribe-form">-->
+<!--          <input type="email" placeholder="Ваш email" required>-->
+<!--          <button type="submit" class="btn">Подписаться</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div th:fragment="footer-example">-->
+<!--  &lt;!&ndash; Подключение CSS для футера &ndash;&gt;-->
+<!--  <style th:replace="~{client/fragments/footer :: footer-css}"></style>-->
+
+<!--  &lt;!&ndash; Подключение футера &ndash;&gt;-->
+<!--  <div th:replace="~{client/fragments/footer :: footer}"></div>-->
+<!--</div>-->
+
+<!--<script th:src="@{/js/subscribe-form.js}"></script>-->
+
+<!--<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Блог | LUXE Цветочный магазин</title>
+  <title>Блог | LUXE Квітковий магазин</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/blog.css}">
   <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
@@ -14,34 +182,34 @@
 <body>
 <nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
 
-<!-- Героический заголовок -->
+<!-- Героїчний заголовок -->
 <div th:replace="~{client/fragments/сustom-header :: custom-header(
     'Наш блог',
-    'Интересные статьи и полезные советы о цветах и флористике',
+    'Цікаві статті та корисні поради про квіти та флористику',
     '/img/wedding-couple.jpg',
-    'Читайте новые статьи каждую неделю!'
+    'Читайте нові статті щотижня!'
 )}"></div>
 
 <div class="page-banner">
   <div class="container">
     <h1>Блог</h1>
-    <p>Полезные статьи о цветах, уходе за растениями и флористике</p>
+    <p>Корисні статті про квіти, догляд за рослинами та флористику</p>
   </div>
 </div>
 
 <div class="container">
   <div class="blog-filters">
     <div class="filter-categories">
-      <a href="/blog" class="filter-btn" th:classappend="${currentType == null} ? 'active' : ''">Все статьи</a>
+      <a href="/blog" class="filter-btn" th:classappend="${currentType == null} ? 'active' : ''">Всі статті</a>
       <a th:each="type : ${postTypes}"
          th:href="@{/blog/type/{type}(type=${type})}"
          th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}"
          class="filter-btn"
          th:classappend="${currentType != null && currentType == type} ? 'active' : ''">
-        Тип категории
+        Тип категорії
       </a>
       <a href="/blog/popular" class="filter-btn" th:classappend="${isPopular != null && isPopular} ? 'active' : ''">
-        <i class="fas fa-fire"></i> Популярные
+        <i class="fas fa-fire"></i> Популярні
       </a>
     </div>
   </div>
@@ -53,25 +221,25 @@
           <div class="blog-card-image">
             <img th:if="${post.previewImageUrl}" th:src="${post.previewImageUrl}" alt="Blog image">
             <img th:unless="${post.previewImageUrl}" th:src="@{/images/blog-placeholder.jpg}" alt="Blog image">
-            <div class="blog-card-category" th:text="${post.type.getDisplayName()}">Категория</div>
+            <div class="blog-card-category" th:text="${post.type.getDisplayName()}">Категорія</div>
           </div>
           <div class="blog-card-content">
             <h3 class="blog-card-title">
-              <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок статьи</a>
+              <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок статті</a>
             </h3>
             <div class="blog-card-meta">
-              <span class="blog-date" th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">01 января 2025</span>
+              <span class="blog-date" th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">01 січня 2025</span>
               <span class="blog-views"><i class="far fa-eye"></i> <span th:text="${post.viewCount}">123</span></span>
             </div>
             <p class="blog-card-excerpt" th:text="${post.shortDescription}">
-              Краткое описание статьи...
+              Короткий опис статті...
             </p>
-            <a th:href="@{/blog/{id}(id=${post.id})}" class="read-more">Читать дальше <i class="fas fa-long-arrow-alt-right"></i></a>
+            <a th:href="@{/blog/{id}(id=${post.id})}" class="read-more">Читати далі <i class="fas fa-long-arrow-alt-right"></i></a>
           </div>
         </div>
       </div>
 
-      <!-- Пагинация -->
+      <!-- Пагінація -->
       <div th:if="${blogPosts.totalPages > 1}" class="pagination">
         <a th:if="${currentPage > 0}"
            th:href="@{${isPopular != null && isPopular} ? '/blog/popular' : ${currentType != null} ? '/blog/type/' + ${currentType} : '/blog'(page=${currentPage - 1})}"
@@ -94,20 +262,20 @@
         </a>
       </div>
 
-      <!-- Сообщение, если нет постов -->
+      <!-- Повідомлення, якщо немає постів -->
       <div th:if="${blogPosts.empty}" class="no-posts">
         <div class="no-posts-message">
           <i class="far fa-sad-tear"></i>
-          <h3>Статьи не найдены</h3>
-          <p>К сожалению, в данной категории пока нет статей.</p>
-          <a href="/blog" class="btn">Вернуться ко всем статьям</a>
+          <h3>Статті не знайдені</h3>
+          <p>На жаль, у даній категорії поки що немає статей.</p>
+          <a href="/blog" class="btn">Повернутися до всіх статей</a>
         </div>
       </div>
     </div>
 
     <div class="blog-sidebar">
       <div class="sidebar-widget">
-        <h3 class="widget-title">Популярные статьи</h3>
+        <h3 class="widget-title">Популярні статті</h3>
         <div class="popular-posts">
           <div class="popular-post" th:each="post : ${popularPosts}">
             <div class="popular-post-image">
@@ -116,7 +284,7 @@
             </div>
             <div class="popular-post-content">
               <h4>
-                <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок популярной статьи</a>
+                <a th:href="@{/blog/{id}(id=${post.id})}" th:text="${post.title}">Заголовок популярної статті</a>
               </h4>
               <div class="post-meta">
                 <span class="post-date" th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy')}">01.01.2025</span>
@@ -128,23 +296,23 @@
       </div>
 
       <div class="sidebar-widget">
-        <h3 class="widget-title">Категории</h3>
+        <h3 class="widget-title">Категорії</h3>
         <ul class="category-list">
           <li th:each="type : ${postTypes}">
             <a th:href="@{/blog/type/{type}(type=${type})}"
                th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}">
-              Категория
+              Категорія
             </a>
           </li>
         </ul>
       </div>
 
       <div class="sidebar-widget">
-        <h3 class="widget-title">Подписаться на новости</h3>
-        <p>Получайте уведомления о новых статьях и советах</p>
+        <h3 class="widget-title">Підписатися на новини</h3>
+        <p>Отримуйте сповіщення про нові статті та поради</p>
         <form class="subscribe-form">
           <input type="email" placeholder="Ваш email" required>
-          <button type="submit" class="btn">Подписаться</button>
+          <button type="submit" class="btn">Підписатися</button>
         </form>
       </div>
     </div>
@@ -152,10 +320,10 @@
 </div>
 
 <div th:fragment="footer-example">
-  <!-- Подключение CSS для футера -->
+  <!-- Підключення CSS для футера -->
   <style th:replace="~{client/fragments/footer :: footer-css}"></style>
 
-  <!-- Подключение футера -->
+  <!-- Підключення футера -->
   <div th:replace="~{client/fragments/footer :: footer}"></div>
 </div>
 

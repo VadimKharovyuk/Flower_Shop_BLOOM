@@ -203,51 +203,51 @@
 
 <section class="reviews-section">
     <div class="bloom-container">
-        <h2 class="section-title">Что о нас говорят клиенты</h2>
-        <p class="section-subtitle">Мы ценим каждое мнение и стремимся сделать наш сервис еще лучше. Спасибо, что
-            делитесь своими впечатлениями о нашей работе.</p>
+        <h2 class="section-title">Що про нас говорять клієнти</h2>
+        <p class="section-subtitle">Ми цінуємо кожну думку і прагнемо зробити наш сервіс ще кращим. Дякуємо, що
+            ділитесь своїми враженнями про нашу роботу.</p>
 
-        <!-- Если отзывов нет -->
+        <!-- Якщо відгуків немає -->
         <div class="no-reviews" th:if="${listDTO.empty}">
-            <p>Пока нет отзывов. Станьте первым, кто оставит отзыв о нашем магазине!</p>
+            <p>Поки що немає відгуків. Станьте першим, хто залишить відгук про наш магазин!</p>
         </div>
 
-        <!-- Сетка отзывов -->
+        <!-- Сітка відгуків -->
         <div class="reviews-grid" th:if="${!listDTO.empty}">
             <div class="review-card" th:each="review : ${listDTO}">
                 <img th:if="${review.imageUrl != null}" th:src="${review.imageUrl}" class="review-image"
-                     alt="Фото к отзыву">
+                     alt="Фото до відгуку">
                 <div class="review-content">
                     <div class="review-rating">
-                        <!-- Явно задаем рейтинг и количество звезд -->
+                        <!-- Явно задаємо рейтинг і кількість зірок -->
                         <span th:with="rating=${review.rating != null ? review.rating : 0}">
-        <!-- Только заполненные звезды (рейтинг) -->
-        <i class="fas fa-star" th:if="${rating >= 1}"></i>
-        <i class="fas fa-star" th:if="${rating >= 2}"></i>
-        <i class="fas fa-star" th:if="${rating >= 3}"></i>
-        <i class="fas fa-star" th:if="${rating >= 4}"></i>
-        <i class="fas fa-star" th:if="${rating >= 5}"></i>
+                            <!-- Тільки заповнені зірки (рейтинг) -->
+                            <i class="fas fa-star" th:if="${rating >= 1}"></i>
+                            <i class="fas fa-star" th:if="${rating >= 2}"></i>
+                            <i class="fas fa-star" th:if="${rating >= 3}"></i>
+                            <i class="fas fa-star" th:if="${rating >= 4}"></i>
+                            <i class="fas fa-star" th:if="${rating >= 5}"></i>
 
-                            <!-- Только пустые звезды (5 - рейтинг) -->
-        <i class="far fa-star" th:if="${rating < 5}"></i>
-        <i class="far fa-star" th:if="${rating < 4}"></i>
-        <i class="far fa-star" th:if="${rating < 3}"></i>
-        <i class="far fa-star" th:if="${rating < 2}"></i>
-        <i class="far fa-star" th:if="${rating < 1}"></i>
-    </span>
+                            <!-- Тільки порожні зірки (5 - рейтинг) -->
+                            <i class="far fa-star" th:if="${rating < 5}"></i>
+                            <i class="far fa-star" th:if="${rating < 4}"></i>
+                            <i class="far fa-star" th:if="${rating < 3}"></i>
+                            <i class="far fa-star" th:if="${rating < 2}"></i>
+                            <i class="far fa-star" th:if="${rating < 1}"></i>
+                        </span>
                     </div>
-                    <h3 class="review-shout" th:text="${review.shoutDescription}">Прекрасные букеты!</h3>
-                    <p class="review-author" th:text="${review.userName}">Иван Петров</p>
+                    <h3 class="review-shout" th:text="${review.shoutDescription}">Прекрасні букети!</h3>
+                    <p class="review-author" th:text="${review.userName}">Іван Петров</p>
                     <p class="review-location" th:text="${review.city}">Санкт-Петербург</p>
                 </div>
             </div>
         </div>
 
-        <!-- Пагинация -->
+        <!-- Пагінація -->
         <div th:if="${!listDTO.empty}">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/review(page=${currentPage - 1}, size=10)}" aria-label="Previous">
+                    <a class="page-link" th:href="@{/review(page=${currentPage - 1}, size=10)}" aria-label="Попередня">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                 </li>
@@ -258,15 +258,15 @@
                 </li>
 
                 <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/review(page=${currentPage + 1}, size=10)}" aria-label="Next">
+                    <a class="page-link" th:href="@{/review(page=${currentPage + 1}, size=10)}" aria-label="Наступна">
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </li>
             </ul>
         </div>
 
-        <!-- Кнопка добавления отзыва -->
-        <a href="/review/create" class="add-review-button">Оставить отзыв</a>
+        <!-- Кнопка додавання відгуку -->
+        <a href="/review/create" class="add-review-button">Залишити відгук</a>
     </div>
 </section>
 

@@ -66,7 +66,7 @@
   <div class="container">
     <h1 class="promo-title" th:text="${offer.name}">Название акции</h1>
     <div class="promo-breadcrumbs">
-      <a href="/">Главная</a> <span class="separator">/</span> <a href="/special-offers">Специальные предложения</a> <span class="separator">/</span> <span th:text="${offer.name}"></span>
+      <a href="/">Головна</a> <span class="separator">/</span> <a href="/special-offers">Спеціальні пропозиції</a> <span class="separator">/</span> <span th:text="${offer.name}"></span>
     </div>
   </div>
 </div>
@@ -88,7 +88,7 @@
               <!-- Таймер акции -->
               <div class="offer-timer-wrapper" th:if="${offer.remainingDays > 0}">
                 <div class="offer-timer">
-                  <div class="timer-label">До окончания акции:</div>
+                  <div class="timer-label">До закінчення акції:</div>
                   <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}"></div>
                   <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
                     <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
@@ -101,40 +101,40 @@
           <!-- Информация об акции -->
           <div class="col-lg-6">
             <div class="offer-info">
-              <div class="offer-description" th:text="${offer.description}">Описание акции</div>
+              <div class="offer-description" th:text="${offer.description}">Опис акції</div>
 
               <div class="offer-price-details">
                 <div class="price-block" th:if="${offer.oldPrice != null && offer.newPrice != null}">
                   <div class="price-wrapper">
-                    <div class="price-old" th:text="${offer.oldPrice + ' ₽'}">5 400 ₽</div>
-                    <div class="price-new" th:text="${offer.newPrice + ' ₽'}">4 320 ₽</div>
+                    <div class="price-old" th:text="${offer.oldPrice + ' ₴'}">5 400 ₴</div>
+                    <div class="price-new" th:text="${offer.newPrice + ' ₴'}">4 320 ₴</div>
                   </div>
                   <div class="discount-info">
-                    <span class="discount-percentage" th:if="${offer.discountPercentage > 0}" th:text="${'Скидка: ' + offer.discountPercentage + '%'}">Скидка: 20%</span>
-                    <span class="discount-value" th:if="${offer.savedAmount > 0}" th:text="${'Экономия: ' + offer.savedAmount + ' ₽'}">Экономия: 1 080 ₽</span>
+                    <span class="discount-percentage" th:if="${offer.discountPercentage > 0}" th:text="${'Знижка: ' + offer.discountPercentage + '%'}">Знижка: 20%</span>
+                    <span class="discount-value" th:if="${offer.savedAmount > 0}" th:text="${'Економія: ' + offer.savedAmount + ' ₽'}">Економія: 1 080 ₽</span>
                   </div>
                 </div>
                 <div class="special-price" th:if="${offer.specialPriceText}">
-                  <div class="special-price-text" th:text="${offer.specialPriceText}">Третий букет бесплатно</div>
+                  <div class="special-price-text" th:text="${offer.specialPriceText}">Третій букет безкоштовно</div>
                 </div>
               </div>
 
               <div class="offer-meta">
                 <div class="meta-item" th:if="${offer.endDate}">
                   <i class="meta-icon date-icon"></i>
-                  <span th:text="${'Действует до: ' + #temporals.format(offer.endDate, 'dd.MM.yyyy')}">Действует до: 31.05.2025</span>
+                  <span th:text="${'Діє до: ' + #temporals.format(offer.endDate, 'dd.MM.yyyy')}">Діє до: 31.05.2025</span>
                 </div>
                 <div class="meta-item">
                   <i class="meta-icon flower-icon"></i>
-                  <span th:text="${offer.applicableFlowers.size() + ' видов цветов в акции'}">12 видов цветов в акции</span>
+                  <span th:text="${offer.applicableFlowers.size() + ' видів квітів в акції'}">12 видів квітів в акції</span>
                 </div>
               </div>
 
-<!--              <div class="offer-cta">-->
-<!--                <a th:href="${offer.buttonUrl ?: '/special-offers'}"-->
-<!--                   th:class="${'btn-primary ' + (offer.highlightButton ? 'btn-highlight' : '')}"-->
-<!--                   th:text="${offer.buttonText ?: 'Выбрать букет'}">Выбрать букет</a>-->
-<!--              </div>-->
+              <!--        <div class="offer-cta">-->
+              <!--            <a th:href="${offer.buttonUrl ?: '/special-offers'}"-->
+              <!--               th:class="${'btn-primary ' + (offer.highlightButton ? 'btn-highlight' : '')}"-->
+              <!--               th:text="${offer.buttonText ?: 'Вибрати букет'}">Вибрати букет</a>-->
+              <!--        </div>-->
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@
 
       <!-- Цветы, участвующие в акции -->
       <div class="offer-products-section">
-        <h3 class="section-title">Букеты и цветы, участвующие в акции</h3>
+        <h3 class="section-title">Букети та квіти, що беруть участь в акції</h3>
 
         <div class="products-carousel">
           <div class="products-wrapper">
@@ -152,17 +152,17 @@
                   <div class="discount-badge"
                        th:if="${flower.regularPrice != null && flower.discountedPrice != null && flower.regularPrice.compareTo(flower.discountedPrice) > 0}"
                        th:text="${'-' + flower.getDiscountedPrice() + '%'}">-20%</div>
-                  <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Цветок" class="product-image">
-                  <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Цветок" class="product-image">
+                  <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Квітка" class="product-image">
+                  <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Квітка" class="product-image">
                 </div>
                 <div class="product-info">
-                  <h4 class="product-title" th:text="${flower.name}">Название цветка</h4>
+                  <h4 class="product-title" th:text="${flower.name}">Назва квітки</h4>
                   <div class="product-price">
-                    <span class="price-old" th:if="${flower.regularPrice != null && flower.discountedPrice != null && flower.regularPrice.compareTo(flower.discountedPrice) > 0}"
-                          th:text="${flower.regularPrice + ' ₽'}">5 400 ₽</span>
-                    <span class="price-current" th:text="${flower.discountedPrice + ' ₽'}">4 320 ₽</span>
+            <span class="price-old" th:if="${flower.regularPrice != null && flower.discountedPrice != null && flower.regularPrice.compareTo(flower.discountedPrice) > 0}"
+                  th:text="${flower.regularPrice + ' ₴'}">5 400 ₴</span>
+                    <span class="price-current" th:text="${flower.discountedPrice + ' ₴'}">4 320 ₴</span>
                   </div>
-                  <button class="add-to-cart-btnV" th:attr="data-id=${flower.id}">Добавить в корзину</button>
+                  <button class="add-to-cart-btnV" th:attr="data-id=${flower.id}">Додати в кошик</button>
                 </div>
               </div>
             </div>
@@ -172,15 +172,15 @@
       <script th:src="@{/js/add-to-cart-btnV.js}"></script>
       <script th:src="@{/js/cart-utils.js}"></script>
 
-      <!-- Условия акции -->
+      <!-- Умови акції -->
       <div class="offer-terms">
         <div class="terms-container">
-          <h4 class="terms-title">Условия акции</h4>
+          <h4 class="terms-title">Умови акції</h4>
           <ul class="terms-list">
-            <li>Акция действует с момента публикации на сайте до даты окончания или до момента отмены.</li>
-            <li>Количество товаров, участвующих в акции, ограничено.</li>
-            <li>Акции не суммируются с другими скидками и специальными предложениями.</li>
-            <li>Для получения скидки необходимо добавить товар в корзину на сайте или оформить заказ по телефону.</li>
+            <li>Акція діє з моменту публікації на сайті до дати закінчення або до моменту скасування.</li>
+            <li>Кількість товарів, що беруть участь в акції, обмежена.</li>
+            <li>Акції не сумуються з іншими знижками та спеціальними пропозиціями.</li>
+            <li>Для отримання знижки необхідно додати товар в кошик на сайті або оформити замовлення по телефону.</li>
           </ul>
         </div>
       </div>
@@ -189,7 +189,7 @@
       <div class="other-offers">
         <a href="/special-offers" class="back-link">
           <span class="back-icon"></span>
-          <span>Все специальные предложения</span>
+          <span>Всі спеціальні пропозиції</span>
         </a>
       </div>
     </div>

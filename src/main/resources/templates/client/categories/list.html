@@ -162,12 +162,12 @@
             <img th:src="${category.getPreviewImageUrl() != null ? category.getPreviewImageUrl() : '/img/category-placeholder.jpg'}"
                  th:alt="${category.name}">
             <div class="category-overlay">
-              <span class="view-category">Смотреть</span>
+              <span class="view-category">Переглянути</span>
             </div>
           </div>
           <div class="category-info">
-            <h2 class="category-name" th:text="${category.name}">Название категории</h2>
-            <p class="category-products" th:text="${category.getFlowerCount() + ' товаров'}">0 товаров</p>
+            <h2 class="category-name" th:text="${category.name}">Назва категорії</h2>
+            <p class="category-products" th:text="${category.getFlowerCount() + ' товарів'}">0 товарів</p>
             <span class="category-description" th:text="${category.getShortDescription()}"></span>
           </div>
         </a>
@@ -398,25 +398,24 @@
 <section class="included-section">
   <h2 class="included-title">What's Included with your ORDER:</h2>
 
-  <!-- Первый ряд: описание слева, фото справа -->
+  <!-- Перший ряд: опис ліворуч, фото праворуч -->
   <div class="included-row">
     <div class="included-description">
-      <h3>Персональная консультация</h3>
-      <p>Наши опытные флористы проведут с вами персональную консультацию, чтобы понять ваши предпочтения, стиль и бюджет мероприятия. Мы работаем с каждым клиентом индивидуально, создавая уникальные цветочные композиции, которые идеально дополнят ваше событие.</p>
+      <h3>Персональна консультація</h3>
+      <p>Наші досвідчені флористи проведуть з вами персональну консультацію, щоб зрозуміти ваші уподобання, стиль і бюджет заходу. Ми працюємо з кожним клієнтом індивідуально, створюючи унікальні квіткові композиції, які ідеально доповнять вашу подію.</p>
     </div>
     <div class="included-image">
-      <img src="/img/wedding-couple.jpg" alt="Персональная консультация">
+      <img src="/img/wedding-couple.jpg" alt="Персональна консультація">
     </div>
   </div>
-
   <!-- Второй ряд: фото слева, описание справа -->
   <div class="included-row">
     <div class="included-image">
-      <img src="/img/bucketMain.webp" alt="Профессиональный дизайн">
+      <img src="/img/bucketMain.webp" alt="Професійний дизайн">
     </div>
     <div class="included-description">
-      <h3>Профессиональный дизайн</h3>
-      <p>Наша команда дизайнеров создаст для вас эксклюзивные цветочные композиции с учетом тематики вашего мероприятия. Мы используем только свежие цветы высочайшего качества и уникальные декоративные элементы, чтобы создать неповторимые цветочные аранжировки.</p>
+      <h3>Професійний дизайн</h3>
+      <p>Наша команда дизайнерів створить для вас ексклюзивні квіткові композиції з урахуванням тематики вашого заходу. Ми використовуємо лише свіжі квіти найвищої якості та унікальні декоративні елементи, щоб створити неповторні квіткові аранжування.</p>
     </div>
   </div>
 
@@ -426,14 +425,8 @@
 <div th:fragment="partners-example">
   <!-- Подключение CSS для секции партнеров -->
   <style th:replace="~{client/fragments/partners :: partners-css}"></style>
-
-
   <div th:replace="~{client/fragments/partners :: partners-with-cta}"></div>
 </div>
-
-
-
-
 <!-- Пример использования фрагмента футера -->
 <div th:fragment="footer-example">
   <!-- Подключение CSS для футера -->

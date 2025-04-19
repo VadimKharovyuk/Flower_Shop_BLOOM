@@ -1,405 +1,410 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мои бронирования</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои бронирования</title>
 
-  <!-- Подключение шрифтов -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+          rel="stylesheet">
 
-  <!-- Font Awesome для иконок -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <!-- Подключение стилей навигации -->
-  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
-  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
-  <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+    <!-- Подключение стилей навигации -->
+    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
 
-  <!-- Собственные стили страницы -->
-  <style>
-    :root {
-      --primary-color: #1a1a1a;
-      --secondary-color: #f5f5f5;
-      --accent-color: #c9a980;
-      --text-color: #333333;
-      --light-gray: #e0e0e0;
-      --success-color: #7ab55c;
-      --warning-color: #f2c94c;
-      --error-color: #d75a4a;
-      --transition: all 0.3s ease;
-    }
+    <!-- Собственные стили страницы -->
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #f5f5f5;
+            --accent-color: #c9a980;
+            --text-color: #333333;
+            --light-gray: #e0e0e0;
+            --success-color: #7ab55c;
+            --warning-color: #f2c94c;
+            --error-color: #d75a4a;
+            --transition: all 0.3s ease;
+        }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      margin: 0;
-      padding: 0;
-      color: var(--text-color);
-      background-color: #ffffff;
-      line-height: 1.6;
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
 
-    h1, h2, h3, h4, h5 {
-      font-family: 'Playfair Display', serif;
-    }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    /* Секция бронирований */
-    .bookings-section {
-      padding: 60px 0 80px;
-    }
+        /* Секция бронирований */
+        .bookings-section {
+            padding: 60px 0 80px;
+        }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 38px;
-      font-weight: 500;
-      margin-bottom: 15px;
-      color: var(--primary-color);
-      text-align: center;
-    }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            text-align: center;
+        }
 
-    .section-subtitle {
-      font-size: 16px;
-      color: #777;
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 40px;
-      font-weight: 300;
-      line-height: 1.8;
-    }
+        .section-subtitle {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
 
-    .email-info {
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 30px;
-      background-color: #faf8f5;
-      padding: 15px;
-      border-radius: 2px;
-      display: inline-block;
-      margin: 0 auto 40px;
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+        .email-info {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 30px;
+            background-color: #faf8f5;
+            padding: 15px;
+            border-radius: 2px;
+            display: inline-block;
+            margin: 0 auto 40px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-    .email-info span {
-      font-weight: 500;
-      color: var(--primary-color);
-    }
+        .email-info span {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
 
-    /* Пустое состояние */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      background-color: #faf8f5;
-      margin-bottom: 40px;
-    }
+        /* Пустое состояние */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #faf8f5;
+            margin-bottom: 40px;
+        }
 
-    .empty-state-icon {
-      font-size: 48px;
-      color: var(--light-gray);
-      margin-bottom: 20px;
-    }
+        .empty-state-icon {
+            font-size: 48px;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
 
-    .empty-state-title {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: var(--primary-color);
-    }
+        .empty-state-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
 
-    .empty-state-text {
-      font-size: 16px;
-      color: #777;
-      max-width: 500px;
-      margin: 0 auto 30px;
-    }
+        .empty-state-text {
+            font-size: 16px;
+            color: #777;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
 
-    /* Таблица бронирований */
-    .bookings-table-container {
-      overflow-x: auto;
-      margin-bottom: 40px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
+        /* Таблица бронирований */
+        .bookings-table-container {
+            overflow-x: auto;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
 
-    .bookings-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: none;
-    }
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
 
-    .bookings-table th {
-      background-color: #faf8f5;
-      padding: 15px;
-      text-align: left;
-      font-weight: 500;
-      color: var(--primary-color);
-      border-bottom: 1px solid var(--light-gray);
-    }
+        .bookings-table th {
+            background-color: #faf8f5;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--light-gray);
+        }
 
-    .bookings-table td {
-      padding: 18px 15px;
-      border-bottom: 1px solid var(--light-gray);
-      vertical-align: middle;
-    }
+        .bookings-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: middle;
+        }
 
-    .bookings-table tr:last-child td {
-      border-bottom: none;
-    }
+        .bookings-table tr:last-child td {
+            border-bottom: none;
+        }
 
-    .bookings-table tr:hover {
-      background-color: rgba(250, 248, 245, 0.5);
-    }
+        .bookings-table tr:hover {
+            background-color: rgba(250, 248, 245, 0.5);
+        }
 
-    /* Статус бронирования */
-    .booking-status {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        /* Статус бронирования */
+        .booking-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .status-confirmed {
-      background-color: rgba(122, 181, 92, 0.1);
-      color: var(--success-color);
-    }
+        .status-confirmed {
+            background-color: rgba(122, 181, 92, 0.1);
+            color: var(--success-color);
+        }
 
-    .status-pending {
-      background-color: rgba(242, 201, 76, 0.1);
-      color: var(--warning-color);
-    }
+        .status-pending {
+            background-color: rgba(242, 201, 76, 0.1);
+            color: var(--warning-color);
+        }
 
-    .status-cancelled {
-      background-color: rgba(215, 90, 74, 0.1);
-      color: var(--error-color);
-    }
+        .status-cancelled {
+            background-color: rgba(215, 90, 74, 0.1);
+            color: var(--error-color);
+        }
 
-    .booking-status i {
-      margin-right: 5px;
-    }
+        .booking-status i {
+            margin-right: 5px;
+        }
 
-    /* Кнопки действий */
-    .booking-actions {
-      display: flex;
-      gap: 10px;
-    }
+        /* Кнопки действий */
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+        }
 
-    .booking-action-btn {
-      background: none;
-      border: none;
-      color: var(--accent-color);
-      cursor: pointer;
-      font-size: 14px;
-      padding: 5px;
-      transition: var(--transition);
-    }
+        .booking-action-btn {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px;
+            transition: var(--transition);
+        }
 
-    .booking-action-btn:hover {
-      color: #b69670;
-    }
+        .booking-action-btn:hover {
+            color: #b69670;
+        }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: var(--transition);
-      text-align: center;
-      cursor: pointer;
-      border: none;
-    }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
 
-    .btn-primary {
-      background-color: var(--accent-color);
-      color: white;
-    }
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
 
-    .btn-primary:hover {
-      background-color: #b69670;
-    }
+        .btn-primary:hover {
+            background-color: #b69670;
+        }
 
-    .btn-outline {
-      background-color: transparent;
-      color: var(--accent-color);
-      border: 1px solid var(--accent-color);
-    }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
 
-    .btn-outline:hover {
-      background-color: #faf8f5;
-    }
+        .btn-outline:hover {
+            background-color: #faf8f5;
+        }
 
-    .actions-container {
-      text-align: center;
-      margin-top: 30px;
-    }
+        .actions-container {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-    /* Форма проверки бронирований */
-    .check-bookings-form {
-      background-color: #faf8f5;
-      padding: 30px;
-      max-width: 500px;
-      margin: 0 auto 60px;
-      text-align: center;
-    }
+        /* Форма проверки бронирований */
+        .check-bookings-form {
+            background-color: #faf8f5;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
 
-    .check-bookings-title {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: var(--primary-color);
-    }
+        .check-bookings-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    .form-control {
-      width: 100%;
-      padding: 12px 15px;
-      font-size: 14px;
-      border: 1px solid var(--light-gray);
-      background-color: white;
-      color: var(--text-color);
-      font-family: 'Montserrat', sans-serif;
-      transition: var(--transition);
-    }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 14px;
+            border: 1px solid var(--light-gray);
+            background-color: white;
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
 
-    .form-control:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(201, 169, 128, 0.1);
-    }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(201, 169, 128, 0.1);
+        }
 
-    /* Адаптивность */
-    @media (max-width: 768px) {
-      .section-title {
-        font-size: 32px;
-      }
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 32px;
+            }
 
-      .bookings-table th:nth-child(3),
-      .bookings-table td:nth-child(3) {
-        display: none;
-      }
-    }
+            .bookings-table th:nth-child(3),
+            .bookings-table td:nth-child(3) {
+                display: none;
+            }
+        }
 
-    @media (max-width: 576px) {
-      .bookings-section {
-        padding: 40px 0 60px;
-      }
+        @media (max-width: 576px) {
+            .bookings-section {
+                padding: 40px 0 60px;
+            }
 
-      .section-title {
-        font-size: 28px;
-      }
+            .section-title {
+                font-size: 28px;
+            }
 
-      .bookings-table th:nth-child(4),
-      .bookings-table td:nth-child(4) {
-        display: none;
-      }
+            .bookings-table th:nth-child(4),
+            .bookings-table td:nth-child(4) {
+                display: none;
+            }
 
-      .check-bookings-form {
-        padding: 20px;
-      }
-    }
-  </style>
+            .check-bookings-form {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- Навигация -->
 <nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
 
 <!-- Героический заголовок -->
-<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мои бронирования', 'Управляйте своими бронированиями событий и мастер-классов', '/img/bookings-header-bg.jpg')}" class="luxe-header centered"></div>
+<div th:replace="~{/client/fragments/luxe-header :: luxe-header('Мои бронирования', 'Управляйте своими бронированиями событий и мастер-классов', '/img/bookings-header-bg.jpg')}"
+     class="luxe-header centered"></div>
 
 <!-- Секция бронирований -->
 <section class="bookings-section">
-  <div class="container">
-    <!-- Информация о email -->
-    <div class="email-info" th:if="${email}">
-      Бронирования для: <span th:text="${email}">example@mail.com</span>
-    </div>
+    <div class="container">
+        <!-- Інформація про email -->
+        <div class="email-info" th:if="${email}">
+            Бронювання для: <span th:text="${email}">example@mail.com</span>
+        </div>
 
-    <!-- Пустое состояние, если нет бронирований -->
-    <div class="empty-state" th:if="${bookings.empty}">
-      <div class="empty-state-icon">
-        <i class="far fa-calendar-times"></i>
-      </div>
-      <h2 class="empty-state-title">У вас пока нет бронирований</h2>
-      <p class="empty-state-text">
-        Вы еще не забронировали ни одного события или мастер-класса.
-        Посмотрите наш каталог, там обязательно найдется что-то интересное для вас.
-      </p>
-      <a th:href="@{/events}" class="btn btn-primary">Посмотреть события</a>
-    </div>
-
-    <!-- Таблица бронирований -->
-    <div class="bookings-table-container" th:unless="${bookings.empty}">
-      <table class="bookings-table">
-        <thead>
-        <tr>
-          <th>№ бронирования</th>
-          <th>Событие</th>
-          <th>Дата и время</th>
-          <th>Количество мест</th>
-          <th>Статус</th>
-          <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="booking : ${bookings}">
-          <td th:text="${booking.id}">B12345</td>
-          <td th:text="${booking.eventTitle}">Искусство составления весенних букетов</td>
-          <td>
-            <div th:text="${#temporals.format(booking.eventDate, 'd MMMM yyyy')}">15 мая 2025</div>
-            <div th:text="${#temporals.format(booking.eventDate, 'HH:mm')}" style="color: #777; font-size: 13px;">15:00</div>
-          </td>
-          <td th:text="${booking.numberOfSeats}">2</td>
-          <td>
-                            <span th:if="${booking.status == 'CONFIRMED'}" class="booking-status status-confirmed">
-                                <i class="fas fa-check-circle"></i> Подтверждено
-                            </span>
-            <span th:if="${booking.status == 'PENDING'}" class="booking-status status-pending">
-                                <i class="fas fa-clock"></i> Ожидает подтверждения
-                            </span>
-            <span th:if="${booking.status == 'CANCELLED'}" class="booking-status status-cancelled">
-                                <i class="fas fa-times-circle"></i> Отменено
-                            </span>
-          </td>
-          <td>
-            <div class="booking-actions">
-              <a th:href="@{/events/booking/{id}(id=${booking.id})}" class="booking-action-btn" title="Подробности">
-                <i class="fas fa-eye"></i>
-              </a>
-              <!-- Кнопка отмены бронирования, если статус не "Отменено" -->
-              <button th:if="${booking.status != 'CANCELLED'}" class="booking-action-btn cancel-booking"
-                      th:data-id="${booking.id}" title="Отменить бронирование">
-                <i class="fas fa-times"></i>
-              </button>
+        <!-- Порожній стан, якщо немає бронювань -->
+        <div class="empty-state" th:if="${bookings.empty}">
+            <div class="empty-state-icon">
+                <i class="far fa-calendar-times"></i>
             </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <h2 class="empty-state-title">У вас поки що немає бронювань</h2>
+            <p class="empty-state-text">
+                Ви ще не забронювали жодної події або майстер-класу.
+                Перегляньте наш каталог, там обов'язково знайдеться щось цікаве для вас.
+            </p>
+            <a th:href="@{/events}" class="btn btn-primary">Переглянути події</a>
+        </div>
+
+        <!-- Таблиця бронювань -->
+        <div class="bookings-table-container" th:unless="${bookings.empty}">
+            <table class="bookings-table">
+                <thead>
+                <tr>
+                    <th>№ бронювання</th>
+                    <th>Подія</th>
+                    <th>Дата та час</th>
+                    <th>Кількість місць</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="booking : ${bookings}">
+                    <td th:text="${booking.id}">B12345</td>
+                    <td th:text="${booking.eventTitle}">Мистецтво складання весняних букетів</td>
+                    <td>
+                        <div th:text="${#temporals.format(booking.eventDate, 'd MMMM yyyy')}">15 травня 2025</div>
+                        <div th:text="${#temporals.format(booking.eventDate, 'HH:mm')}"
+                             style="color: #777; font-size: 13px;">15:00
+                        </div>
+                    </td>
+                    <td th:text="${booking.numberOfSeats}">2</td>
+                    <td>
+                            <span th:if="${booking.status == 'CONFIRMED'}" class="booking-status status-confirmed">
+                                <i class="fas fa-check-circle"></i> Підтверджено
+                            </span>
+                        <span th:if="${booking.status == 'PENDING'}" class="booking-status status-pending">
+                                <i class="fas fa-clock"></i> Очікує підтвердження
+                            </span>
+                        <span th:if="${booking.status == 'CANCELLED'}" class="booking-status status-cancelled">
+                                <i class="fas fa-times-circle"></i> Скасовано
+                            </span>
+                    </td>
+                    <td>
+                        <div class="booking-actions">
+                            <a th:href="@{/events/booking/{id}(id=${booking.id})}" class="booking-action-btn"
+                               title="Подробиці">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <!-- Кнопка скасування бронювання, якщо статус не "Скасовано" -->
+                            <button th:if="${booking.status != 'CANCELLED'}" class="booking-action-btn cancel-booking"
+                                    th:data-id="${booking.id}" title="Скасувати бронювання">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Дії -->
+        <div class="actions-container" th:unless="${bookings.empty}">
+            <a th:href="@{/events}" class="btn btn-outline">Забронювати ще</a>
+        </div>
+
+        <!-- Форма перевірки бронювань за email -->
+
     </div>
-
-    <!-- Действия -->
-    <div class="actions-container" th:unless="${bookings.empty}">
-      <a th:href="@{/events}" class="btn btn-outline">Забронировать еще</a>
-    </div>
-
-    <!-- Форма проверки бронирований по email -->
-
-  </div>
 </section>
 
 <!-- JavaScript для навигации -->
@@ -407,39 +412,39 @@
 
 <!-- JavaScript для страницы -->
 <script>
-  // Обработка отмены бронирования
-  document.addEventListener('DOMContentLoaded', function() {
-    const cancelButtons = document.querySelectorAll('.cancel-booking');
+    // Обработка отмены бронирования
+    document.addEventListener('DOMContentLoaded', function () {
+        const cancelButtons = document.querySelectorAll('.cancel-booking');
 
-    cancelButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const bookingId = this.getAttribute('data-id');
-        if (confirm('Вы уверены, что хотите отменить бронирование №' + bookingId + '?')) {
-          // Здесь будет логика отмены бронирования
-          // Например, отправка POST-запроса на соответствующий эндпоинт
-          alert('Функция отмены бронирования находится в разработке.');
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const bookingId = this.getAttribute('data-id');
+                if (confirm('Вы уверены, что хотите отменить бронирование №' + bookingId + '?')) {
+                    // Здесь будет логика отмены бронирования
+                    // Например, отправка POST-запроса на соответствующий эндпоинт
+                    alert('Функция отмены бронирования находится в разработке.');
 
-          // Пример кода для отправки запроса на отмену
-          /*
-          fetch('/events/booking/' + bookingId + '/cancel', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-              }
-          })
-          .then(response => {
-              if (response.ok) {
-                  window.location.reload();
-              } else {
-                  alert('Произошла ошибка при отмене бронирования.');
-              }
-          });
-          */
-        }
-      });
+                    // Пример кода для отправки запроса на отмену
+                    /*
+                    fetch('/events/booking/' + bookingId + '/cancel', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            alert('Произошла ошибка при отмене бронирования.');
+                        }
+                    });
+                    */
+                }
+            });
+        });
     });
-  });
 </script>
 </body>
 </html>
