@@ -117,7 +117,6 @@ public class FlowerClientController {
         // Обновление рейтинга цветка
         flowerService.updateRating(id, rating);
 
-        // Здесь можно добавить сохранение текста отзыва, если требуется
 
         // Перенаправление обратно на страницу цветка
         return "redirect:/flowers/" + id;
@@ -132,9 +131,6 @@ public class FlowerClientController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
-
-        log.info("Поиск цветов по запросу '{}': page={}, size={}", query, page, size);
-
         Pageable pageable = paginationUtils.createPageable(page, size, "name", true);
         Page<FlowerListDTO> searchResults = flowerService.searchFlowersByName(query, pageable);
 
