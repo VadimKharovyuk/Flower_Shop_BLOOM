@@ -1,516 +1,527 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Популярные букеты | LUXE Flowers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Популярные букеты | LUXE Flowers</title>
 
-  <!-- Подключение шрифтов -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
-  <!-- Подключение иконок Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Подключение шрифтов -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap">
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <!-- Стили для каталога в стиле премиального минимализма -->
-  <style>
-    /* Основные стили */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: #1a1a1a;
-      background-color: #f9f9f9;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
+    <!-- Стили для каталога в стиле премиального минимализма -->
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
 
-    /* Секция каталога */
-    .catalog-section {
-      padding: 80px 0;
-    }
+        /* Секция каталога */
+        .catalog-section {
+            padding: 80px 0;
+        }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-      position: relative;
-    }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 42px;
-      font-weight: 500;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
-    }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
 
-    .section-subtitle {
-      font-size: 16px;
-      color: #666;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
+        .section-subtitle {
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
 
-    .section-divider {
-      width: 60px;
-      height: 1px;
-      background-color: #c9a980;
-      margin: 30px auto;
-    }
+        .section-divider {
+            width: 60px;
+            height: 1px;
+            background-color: #c9a980;
+            margin: 30px auto;
+        }
 
-    /* Фильтры и сортировка */
-    .catalog-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
+        /* Фильтры и сортировка */
+        .catalog-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
 
-    .catalog-filter {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+        .catalog-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-    .filter-label {
-      font-size: 14px;
-      color: #666;
-      font-weight: 500;
-    }
+        .filter-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
 
-    .sort-select {
-      padding: 12px 40px 12px 20px;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      font-size: 14px;
-      color: #333;
-      background-color: white;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 20px center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .sort-select {
+            padding: 12px 40px 12px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .sort-select:focus {
-      outline: none;
-      border-color: #c9a980;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
+        .sort-select:focus {
+            outline: none;
+            border-color: #c9a980;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
 
-    .results-count {
-      font-size: 14px;
-      color: #666;
-    }
+        .results-count {
+            font-size: 14px;
+            color: #666;
+        }
 
-    .results-count span {
-      font-weight: 500;
-      color: #333;
-    }
+        .results-count span {
+            font-weight: 500;
+            color: #333;
+        }
 
-    /* Сетка товаров */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      margin-bottom: 60px;
-    }
+        /* Сетка товаров */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
 
-    /* Карточка товара */
-    .product-card {
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    }
+        /* Карточка товара */
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
 
-    .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
 
-    .product-image {
-      height: 320px;
-      position: relative;
-      overflow: hidden;
-    }
+        .product-image {
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s ease;
-    }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
 
-    .product-card:hover .product-image img {
-      transform: scale(1.08);
-    }
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
 
-    /* Оверлей с действиями */
-    .product-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 25px;
-    }
+        /* Оверлей с действиями */
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 25px;
+        }
 
-    .product-card:hover .product-overlay {
-      opacity: 1;
-    }
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
 
-    .product-actions {
-      display: flex;
-      gap: 15px;
-      transform: translateY(20px);
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
-    }
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
+        }
 
-    .product-card:hover .product-actions {
-      transform: translateY(0);
-      opacity: 1;
-    }
+        .product-card:hover .product-actions {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
-    .action-icon, .view-product {
-      width: 44px;
-      height: 44px;
-      background-color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1a1a;
-      text-decoration: none;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 2;
-    }
+        .action-icon, .view-product {
+            width: 44px;
+            height: 44px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
 
-    .action-icon:hover, .view-product:hover {
-      background-color: #c9a980;
-      color: white;
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(201, 169, 128, 0.3);
-    }
+        .action-icon:hover, .view-product:hover {
+            background-color: #c9a980;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(201, 169, 128, 0.3);
+        }
 
-    /* Бейджи */
-    .product-badges {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+        /* Бейджи */
+        .product-badges {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-    .product-badge {
-      background-color: rgba(201, 169, 128, 0.95);
-      color: white;
-      font-size: 12px;
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 2px 10px rgba(201, 169, 128, 0.3);
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
+        .product-badge {
+            background-color: rgba(201, 169, 128, 0.95);
+            color: white;
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(201, 169, 128, 0.3);
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
 
-    .product-badge.favorite {
-      background-color: rgba(231, 76, 60, 0.95);
-      box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
-    }
+        .product-badge.favorite {
+            background-color: rgba(231, 76, 60, 0.95);
+            box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
+        }
 
-    .product-card:hover .product-badge {
-      transform: translateX(5px);
-    }
+        .product-card:hover .product-badge {
+            transform: translateX(5px);
+        }
 
-    /* Информация о товаре */
-    .product-info {
-      padding: 25px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      position: relative;
-      z-index: 1;
-    }
+        /* Информация о товаре */
+        .product-info {
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
 
-    .popularity-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 3px;
-      margin-bottom: 10px;
-    }
+        .popularity-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin-bottom: 10px;
+        }
 
-    .popularity-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #e0e0e0;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
+        .popularity-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
 
-    .popularity-dot.active {
-      background-color: #c9a980;
-    }
+        .popularity-dot.active {
+            background-color: #c9a980;
+        }
 
-    .product-card:hover .popularity-dot.active {
-      transform: scale(1.3);
-    }
+        .product-card:hover .popularity-dot.active {
+            transform: scale(1.3);
+        }
 
-    .product-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 500;
-      margin-bottom: 8px;
-      transition: color 0.3s ease;
-      padding: 0 10px;
-    }
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            padding: 0 10px;
+        }
 
-    .product-title a {
-      color: #1a1a1a;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
+        .product-title a {
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-    .product-card:hover .product-title a {
-      color: #c9a980;
-    }
+        .product-card:hover .product-title a {
+            color: #c9a980;
+        }
 
-    .product-category {
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 12px;
-      font-weight: 400;
-    }
+        .product-category {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
 
-    .product-price {
-      font-size: 18px;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
+        .product-price {
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-    .add-to-cart-btn {
-      margin-top: auto;
-      background-color: #1a1a1a;
-      color: white;
-      border: none;
-      padding: 14px 0;
-      font-size: 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+        .add-to-cart-btn {
+            margin-top: auto;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 14px 0;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .add-to-cart-btn:hover {
-      background-color: #c9a980;
-      box-shadow: 0 6px 15px rgba(201, 169, 128, 0.3);
-      transform: translateY(-2px);
-    }
+        .add-to-cart-btn:hover {
+            background-color: #c9a980;
+            box-shadow: 0 6px 15px rgba(201, 169, 128, 0.3);
+            transform: translateY(-2px);
+        }
 
-    /* Пагинация */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 60px;
-    }
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+        }
 
-    .pagination-list {
-      display: flex;
-      align-items: center;
-      list-style: none;
-      padding: 0;
-      gap: 10px;
-    }
+        .pagination-list {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            gap: 10px;
+        }
 
-    .pagination-item a,
-    .pagination-item span {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 45px;
-      height: 45px;
-      border: 1px solid #e0e0e0;
-      text-decoration: none;
-      color: #333;
-      font-size: 14px;
-      transition: all 0.3s ease;
-      border-radius: 4px;
-    }
+        .pagination-item a,
+        .pagination-item span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            border: 1px solid #e0e0e0;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
 
-    .pagination-item a:hover {
-      border-color: #c9a980;
-      color: #c9a980;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
+        .pagination-item a:hover {
+            border-color: #c9a980;
+            color: #c9a980;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
 
-    .pagination-item.active span {
-      background-color: #1a1a1a;
-      border-color: #1a1a1a;
-      color: white;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .pagination-item.active span {
+            background-color: #1a1a1a;
+            border-color: #1a1a1a;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .pagination-item.disabled a {
-      color: #ccc;
-      pointer-events: none;
-    }
+        .pagination-item.disabled a {
+            color: #ccc;
+            pointer-events: none;
+        }
 
-    /* Секция категорий букетов */
-    .categories-section {
-      padding: 80px 0;
-      background-color: white;
-    }
+        /* Секция категорий букетов */
+        .categories-section {
+            padding: 80px 0;
+            background-color: white;
+        }
 
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 30px;
-    }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
 
-    .category-card {
-      position: relative;
-      border-radius: 8px;
-      overflow: hidden;
-      height: 280px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease;
-    }
+        .category-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 280px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
 
-    .category-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
 
-    .category-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s ease;
-    }
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
 
-    .category-card:hover .category-image {
-      transform: scale(1.08);
-    }
+        .category-card:hover .category-image {
+            transform: scale(1.08);
+        }
 
-    .category-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
-      display: flex;
-      align-items: flex-end;
-      padding: 25px;
-      box-sizing: border-box;
-    }
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            box-sizing: border-box;
+        }
 
-    .category-name {
-      font-family: 'Playfair Display', serif;
-      color: white;
-      font-size: 22px;
-      font-weight: 500;
-      margin: 0;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-    }
+        .category-name {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 22px;
+            font-weight: 500;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
 
-    .category-card:hover .category-name {
-      transform: translateY(-5px);
-    }
+        .category-card:hover .category-name {
+            transform: translateY(-5px);
+        }
 
-    /* Адаптивность */
-    @media (max-width: 1200px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
-    @media (max-width: 992px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .section-title {
-        font-size: 36px;
-      }
-      .catalog-controls {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-    }
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
 
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 20px;
-      }
-      .catalog-section {
-        padding: 60px 0;
-      }
-      .section-header {
-        margin-bottom: 40px;
-      }
-    }
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-    @media (max-width: 576px) {
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-      .categories-grid {
-        grid-template-columns: 1fr;
-      }
-      .section-title {
-        font-size: 30px;
-      }
-      .pagination-list {
-        gap: 5px;
-      }
-      .pagination-item a,
-      .pagination-item span {
-        width: 40px;
-        height: 40px;
-      }
-    }
-  </style>
-  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
-  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-  <style th:replace="~{client/fragments/luxe-header :: luxe-header-css}"></style>
+            .section-title {
+                font-size: 36px;
+            }
+
+            .catalog-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .catalog-section {
+                padding: 60px 0;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+
+            .pagination-list {
+                gap: 5px;
+            }
+
+            .pagination-item a,
+            .pagination-item span {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+
+    <style th:replace="~{client/fragments/luxe-header :: luxe-header-css}"></style>
 </head>
 
 <body>
@@ -523,517 +534,524 @@
 
 <!-- Секция с популярными букетами -->
 <section class="catalog-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Популярні букети</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">Відкрийте для себе наші найбільш затребувані композиції, які обирають наші клієнти. Елегантність, стиль та бездоганну якість в кожному букеті.</p>
-    </div>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Популярні букети</h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">Відкрийте для себе наші найбільш затребувані композиції, які обирають наші
+                клієнти. Елегантність, стиль та бездоганну якість в кожному букеті.</p>
+        </div>
 
-    <div class="catalog-controls">
-      <div class="results-count">
-        Знайдено <span th:text="${popularFlowers.totalElements}">0</span> букетів
-      </div>
-      <div class="catalog-filter">
-        <span class="filter-label">Сортувати за:</span>
-        <select id="sort-select" class="sort-select">
-          <option value="popularity_desc">За популярністю</option>
-          <option value="price_asc">Ціна (по зростанню)</option>
-          <option value="price_desc">Ціна (по зменшенню)</option>
-          <option value="name_asc">За назвою (А-Я)</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Сетка товаров -->
-    <div class="products-grid">
-      <div class="product-card" th:each="flower : ${popularFlowers.content}">
-        <div class="product-image">
-          <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}">
-          <div class="product-overlay">
-            <div class="product-actions">
-              <a th:href="@{'/flowers/' + ${flower.id}}" class="view-product">
-                <i class="far fa-eye"></i>
-              </a>
-              <div class="action-icon wishlist" th:attr="data-id=${flower.id}">
-                <i class="far fa-heart"></i>
-              </div>
+        <div class="catalog-controls">
+            <div class="results-count">
+                Знайдено <span th:text="${popularFlowers.totalElements}">0</span> букетів
             </div>
-          </div>
-          <div class="product-badges">
-            <span class="product-badge" th:if="${flower.popularityCount > 10}">Популярный</span>
-            <span class="product-badge favorite" th:if="${flower.favoritesCount > 5}">Часто добавляют</span>
-          </div>
+            <div class="catalog-filter">
+                <span class="filter-label">Сортувати за:</span>
+                <select id="sort-select" class="sort-select">
+                    <option value="popularity_desc">За популярністю</option>
+                    <option value="price_asc">Ціна (по зростанню)</option>
+                    <option value="price_desc">Ціна (по зменшенню)</option>
+                    <option value="name_asc">За назвою (А-Я)</option>
+                </select>
+            </div>
         </div>
-        <div class="product-info">
-          <div class="popularity-indicator">
-            <div class="popularity-dot" th:each="i : ${#numbers.sequence(1, 5)}"
-                 th:classappend="${flower.popularityCount >= i*5 ? 'active' : ''}"></div>
-          </div>
-          <h3 class="product-title">
-            <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Название букета</a>
-          </h3>
-          <div class="product-category" th:if="${flower.categoryName != null}" th:text="${flower.categoryName}">Категория</div>
-          <div class="product-price" th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</div>
-          <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">В корзину</button>
+
+        <!-- Сетка товаров -->
+        <div class="products-grid">
+            <div class="product-card" th:each="flower : ${popularFlowers.content}">
+                <div class="product-image">
+                    <img th:src="${flower.previewImageUrl}" th:alt="${flower.name}">
+                    <div class="product-overlay">
+                        <div class="product-actions">
+                            <a th:href="@{'/flowers/' + ${flower.id}}" class="view-product">
+                                <i class="far fa-eye"></i>
+                            </a>
+                            <div class="action-icon wishlist" th:attr="data-id=${flower.id}">
+                                <i class="far fa-heart"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-badges">
+                        <span class="product-badge" th:if="${flower.popularityCount > 10}">Популярний</span>
+                        <span class="product-badge favorite" th:if="${flower.favoritesCount > 5}">Часто додають</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="popularity-indicator">
+                        <div class="popularity-dot" th:each="i : ${#numbers.sequence(1, 5)}"
+                             th:classappend="${flower.popularityCount >= i*5 ? 'active' : ''}"></div>
+                    </div>
+                    <h3 class="product-title">
+                        <a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}">Назва букета</a>
+                    </h3>
+                    <div class="product-category" th:if="${flower.categoryName != null}"
+                         th:text="${flower.categoryName}">Категорія
+                    </div>
+                    <div class="product-price"
+                         th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₴'}">1000 ₴
+                    </div>
+                    <button class="add-to-cart-btn" th:attr="data-id=${flower.id}">В кошик</button>
+                </div>
+            </div>
         </div>
-      </div>
+
+
+        <!-- Пагинация -->
+        <div class="pagination" th:if="${popularFlowers.totalPages > 1}">
+            <ul class="pagination-list">
+                <li class="pagination-item" th:classappend="${popularFlowers.number == 0 ? 'disabled' : ''}">
+                    <a th:href="@{/popular(page=${popularFlowers.number - 1}, sort=${param.sort})}"
+                       th:if="${popularFlowers.number > 0}">&laquo;</a>
+                    <span th:unless="${popularFlowers.number > 0}">&laquo;</span>
+                </li>
+
+                <li class="pagination-item" th:each="i : ${#numbers.sequence(0, popularFlowers.totalPages - 1)}"
+                    th:classappend="${i == popularFlowers.number ? 'active' : ''}">
+                    <a th:href="@{/popular(page=${i}, sort=${param.sort})}" th:unless="${i == popularFlowers.number}"
+                       th:text="${i + 1}">1</a>
+                    <span th:if="${i == popularFlowers.number}" th:text="${i + 1}">1</span>
+                </li>
+
+                <li class="pagination-item"
+                    th:classappend="${popularFlowers.number == popularFlowers.totalPages - 1 ? 'disabled' : ''}">
+                    <a th:href="@{/popular(page=${popularFlowers.number + 1}, sort=${param.sort})}"
+                       th:if="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</a>
+                    <span th:unless="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</span>
+                </li>
+            </ul>
+        </div>
     </div>
-
-    <!-- Пагинация -->
-    <div class="pagination" th:if="${popularFlowers.totalPages > 1}">
-      <ul class="pagination-list">
-        <li class="pagination-item" th:classappend="${popularFlowers.number == 0 ? 'disabled' : ''}">
-          <a th:href="@{/popular(page=${popularFlowers.number - 1}, sort=${param.sort})}" th:if="${popularFlowers.number > 0}">&laquo;</a>
-          <span th:unless="${popularFlowers.number > 0}">&laquo;</span>
-        </li>
-
-        <li class="pagination-item" th:each="i : ${#numbers.sequence(0, popularFlowers.totalPages - 1)}"
-            th:classappend="${i == popularFlowers.number ? 'active' : ''}">
-          <a th:href="@{/popular(page=${i}, sort=${param.sort})}" th:unless="${i == popularFlowers.number}" th:text="${i + 1}">1</a>
-          <span th:if="${i == popularFlowers.number}" th:text="${i + 1}">1</span>
-        </li>
-
-        <li class="pagination-item" th:classappend="${popularFlowers.number == popularFlowers.totalPages - 1 ? 'disabled' : ''}">
-          <a th:href="@{/popular(page=${popularFlowers.number + 1}, sort=${param.sort})}" th:if="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</a>
-          <span th:unless="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</span>
-        </li>
-      </ul>
-    </div>
-  </div>
 </section>
-
 
 
 <!-- Блок популярных категорий в стиле Luxury Minimalism -->
 <div class="luxury-categories-section">
-  <h2 class="luxury-section-title">Популярные категории</h2>
+    <h2 class="luxury-section-title">Популярні категорії</h2>
 
-  <div class="luxury-categories-container">
-    <div class="luxury-categories-grid" th:if="${!popularCategory.empty}">
-      <div class="luxury-category-card" th:each="category : ${popularCategory}">
-        <a th:href="@{'/categories/' + ${category.id}}" class="luxury-category-link">
-          <div class="luxury-category-image">
-            <img th:src="${category.previewImageUrl != null ? category.previewImageUrl : '/img/category-placeholder.jpg'}"
-                 th:alt="${category.name}">
-            <div class="luxury-category-overlay">
-              <span class="luxury-view-category">Смотреть</span>
+    <div class="luxury-categories-container">
+        <div class="luxury-categories-grid" th:if="${!popularCategory.empty}">
+            <div class="luxury-category-card" th:each="category : ${popularCategory}">
+                <a th:href="@{'/categories/' + ${category.id}}" class="luxury-category-link">
+                    <div class="luxury-category-image">
+                        <img th:src="${category.previewImageUrl != null ? category.previewImageUrl : '/img/category-placeholder.jpg'}"
+                             th:alt="${category.name}">
+                        <div class="luxury-category-overlay">
+                            <span class="luxury-view-category">Дивитися</span>
+                        </div>
+                    </div>
+                    <div class="luxury-category-info">
+                        <h3 class="luxury-category-name" th:text="${category.name}">Назва категорії</h3>
+                        <p class="luxury-category-products" th:text="${category.flowerCount + ' товарів'}">0 товарів</p>
+                        <p class="luxury-category-cart-count" th:text="${'Додано в корзину: ' + category.cartAddCount}">
+                            Додано в корзину: 0</p>
+                        <span class="luxury-category-description" th:text="${category.shortDescription}"></span>
+                    </div>
+                </a>
             </div>
-          </div>
-          <div class="luxury-category-info">
-            <h3 class="luxury-category-name" th:text="${category.name}">Название категории</h3>
-            <p class="luxury-category-products" th:text="${category.flowerCount + ' товаров'}">0 товаров</p>
-            <p class="luxury-category-cart-count" th:text="${'Добавлено в корзину: ' + category.cartAddCount}">Добавлено в корзину: 0</p>
-            <span class="luxury-category-description" th:text="${category.shortDescription}"></span>
-          </div>
-        </a>
-      </div>
-    </div>
+        </div>
 
-    <div class="luxury-no-categories" th:if="${popularCategory.empty}">
-      <p>Популярные категории отсутствуют</p>
+        <div class="luxury-no-categories" th:if="${popularCategory.empty}">
+            <p>Популярні категорії відсутні</p>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- CSS для премиального минималистичного дизайна категорий -->
 <style>
-  /* Подключение шрифтов Cormorant Garamond (serif) и Montserrat (sans-serif) */
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+    /* Подключение шрифтов Cormorant Garamond (serif) и Montserrat (sans-serif) */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-  .luxury-categories-section {
-    padding: 60px 0;
-    margin: 20px 0;
-  }
-
-  .luxury-section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 40px;
-    color: #333;
-    letter-spacing: 0.5px;
-    position: relative;
-    padding-bottom: 15px;
-  }
-
-  .luxury-section-title:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 1px;
-    background-color: #9d8664;
-  }
-
-  .luxury-categories-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-
-  .luxury-categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-  }
-
-  .luxury-category-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-  }
-
-  .luxury-category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  }
-
-  .luxury-category-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-
-  .luxury-category-image {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-  }
-
-  .luxury-category-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
-  }
-
-  .luxury-category-card:hover .luxury-category-image img {
-    transform: scale(1.05);
-  }
-
-  .luxury-category-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .luxury-category-card:hover .luxury-category-overlay {
-    opacity: 1;
-  }
-
-  .luxury-view-category {
-    color: white;
-    background-color: rgba(157, 134, 100, 0.9);
-    padding: 8px 24px;
-    border-radius: 4px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    letter-spacing: 1px;
-    font-weight: 500;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-  }
-
-  .luxury-category-card:hover .luxury-view-category {
-    transform: translateY(0);
-  }
-
-  .luxury-category-info {
-    padding: 20px;
-  }
-
-  .luxury-category-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-    color: #333;
-  }
-
-  .luxury-category-products {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: #9d8664;
-    margin: 10px 0 5px;
-    font-weight: 500;
-  }
-
-  .luxury-category-cart-count {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    color: #666;
-    margin: 5px 0 10px;
-  }
-
-  .luxury-category-description {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #777;
-    display: block;
-    margin-top: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .luxury-no-categories {
-    text-align: center;
-    padding: 40px 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    color: #666;
-  }
-
-  @media (max-width: 768px) {
-    .luxury-categories-grid {
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
+    .luxury-categories-section {
+        padding: 60px 0;
+        margin: 20px 0;
     }
 
     .luxury-section-title {
-      font-size: 28px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 36px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+        letter-spacing: 0.5px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .luxury-section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 1px;
+        background-color: #9d8664;
+    }
+
+    .luxury-categories-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .luxury-categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .luxury-category-card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .luxury-category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .luxury-category-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    .luxury-category-image {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
+    }
+
+    .luxury-category-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+    }
+
+    .luxury-category-card:hover .luxury-category-image img {
+        transform: scale(1.05);
+    }
+
+    .luxury-category-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .luxury-category-card:hover .luxury-category-overlay {
+        opacity: 1;
+    }
+
+    .luxury-view-category {
+        color: white;
+        background-color: rgba(157, 134, 100, 0.9);
+        padding: 8px 24px;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        letter-spacing: 1px;
+        font-weight: 500;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .luxury-category-card:hover .luxury-view-category {
+        transform: translateY(0);
+    }
+
+    .luxury-category-info {
+        padding: 20px;
     }
 
     .luxury-category-name {
-      font-size: 20px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0 0 10px 0;
+        color: #333;
     }
-  }
+
+    .luxury-category-products {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        color: #9d8664;
+        margin: 10px 0 5px;
+        font-weight: 500;
+    }
+
+    .luxury-category-cart-count {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        color: #666;
+        margin: 5px 0 10px;
+    }
+
+    .luxury-category-description {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #777;
+        display: block;
+        margin-top: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .luxury-no-categories {
+        text-align: center;
+        padding: 40px 0;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 18px;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .luxury-categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .luxury-section-title {
+            font-size: 28px;
+        }
+
+        .luxury-category-name {
+            font-size: 20px;
+        }
+    }
 </style>
-
-
-<!-- Футер будет добавлен как фрагмент -->
 
 <!-- JavaScript для функциональности страницы -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Обработка изменения сортировки
-    const sortSelect = document.getElementById('sort-select');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', function() {
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('sort', this.value);
-        window.location.href = currentUrl.toString();
-      });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Обработка изменения сортировки
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function () {
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('sort', this.value);
+                window.location.href = currentUrl.toString();
+            });
 
-      // Устанавливаем значение сортировки из URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const sortValue = urlParams.get('sort');
-      if (sortValue) {
-        sortSelect.value = sortValue;
-      }
-    }
-
-    // Обработка кнопок "В корзину"
-    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-    addToCartButtons.forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const productId = this.getAttribute('data-id');
-        const quantity = 1; // По умолчанию добавляем 1 товар
-
-        // Отправляем запрос на добавление товара в корзину
-        fetch(`/cart/api/add?flowerId=${productId}&quantity=${quantity}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          }
-        })
-                .then(response => {
-                  if (response.ok) {
-                    return response.json();
-                  }
-                  throw new Error('Ошибка при добавлении товара в корзину');
-                })
-                .then(data => {
-                  // Показываем уведомление
-                  showNotification('Товар добавлен в корзину');
-
-                  // Обновляем счетчик корзины, если он есть на странице
-                  const cartCounters = document.querySelectorAll('.cart-counter');
-                  if (cartCounters.length > 0) {
-                    const itemCount = data.itemCount || data.items.length;
-                    cartCounters.forEach(counter => {
-                      counter.textContent = itemCount;
-                      counter.classList.remove('hidden');
-                    });
-                  }
-                })
-                .catch(error => {
-                  console.error('Ошибка:', error);
-                  showNotification('Произошла ошибка при добавлении товара в корзину');
-                });
-      });
-    });
-
-    // Обработка кнопок "Добавить в избранное"
-    const wishlistButtons = document.querySelectorAll('.wishlist');
-    wishlistButtons.forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const productId = this.getAttribute('data-id');
-        const icon = this.querySelector('i');
-
-        // Отправляем запрос на изменение статуса товара в избранном
-        fetch(`/favorites/api/toggle?flowerId=${productId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          }
-        })
-                .then(response => {
-                  if (response.ok) {
-                    return response.json();
-                  }
-                  throw new Error('Ошибка при обновлении избранного');
-                })
-                .then(data => {
-                  // Обновляем иконку в зависимости от статуса
-                  if (data.inFavorites) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    showNotification('Товар добавлен в избранное');
-                  } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    showNotification('Товар удален из избранного');
-                  }
-
-                  // Обновляем счетчик избранного, если он есть на странице
-                  const favoritesCounters = document.querySelectorAll('.favorites-counter');
-                  if (favoritesCounters.length > 0) {
-                    favoritesCounters.forEach(counter => {
-                      counter.textContent = data.totalItems;
-                      if (data.totalItems > 0) {
-                        counter.classList.remove('hidden');
-                      } else {
-                        counter.classList.add('hidden');
-                      }
-                    });
-                  }
-                })
-                .catch(error => {
-                  console.error('Ошибка:', error);
-                  showNotification('Произошла ошибка при обновлении избранного');
-                });
-      });
-    });
-
-    // Проверяем, находится ли товар в избранном при загрузке страницы
-    function checkFavoritesStatus() {
-      const wishlistButtons = document.querySelectorAll('.wishlist');
-
-      if (wishlistButtons.length > 0) {
-        const productIds = Array.from(wishlistButtons).map(button =>
-                button.getAttribute('data-id')
-        );
-
-        productIds.forEach(productId => {
-          fetch(`/favorites/api/check?flowerId=${productId}`)
-                  .then(response => response.json())
-                  .then(data => {
-                    const button = document.querySelector(`.wishlist[data-id="${productId}"]`);
-                    const icon = button.querySelector('i');
-
-                    if (data.inFavorites) {
-                      icon.classList.remove('far');
-                      icon.classList.add('fas');
-                    }
-                  })
-                  .catch(error => {
-                    console.error('Ошибка при проверке статуса избранного:', error);
-                  });
-        });
-      }
-    }
-
-    // Вызываем функцию проверки статуса избранного
-    checkFavoritesStatus();
-
-    // Функция для показа уведомлений
-    function showNotification(message) {
-      // Проверяем, существует ли уже уведомление
-      const existingNotification = document.querySelector('.notification');
-      if (existingNotification) {
-        existingNotification.remove();
-      }
-
-      // Создаем элемент уведомления
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.textContent = message;
-      notification.style.position = 'fixed';
-      notification.style.bottom = '20px';
-      notification.style.right = '20px';
-      notification.style.backgroundColor = '#1a1a1a';
-      notification.style.color = 'white';
-      notification.style.padding = '15px 25px';
-      notification.style.borderRadius = '8px';
-      notification.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-      notification.style.zIndex = '9999';
-      notification.style.opacity = '0';
-      notification.style.transform = 'translateY(20px)';
-      notification.style.transition = 'opacity 0.3s, transform 0.3s';
-      notification.style.fontSize = '14px';
-      notification.style.fontWeight = '500';
-
-      // Добавляем уведомление в DOM
-      document.body.appendChild(notification);
-
-      // Анимируем появление
-      setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateY(0)';
-      }, 10);
-
-      // Скрываем через 3 секунды
-      setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
-
-        // Удаляем из DOM после завершения анимации
-        setTimeout(() => {
-          notification.remove();
-        }, 300);
-      }, 3000);
-    }
-
-    // Анимация при прокрутке страницы
-    function animateOnScroll() {
-      const elements = document.querySelectorAll('.product-card, .category-card');
-
-      elements.forEach(element => {
-        const position = element.getBoundingClientRect();
-
-        // Если элемент видим в окне браузера
-        if(position.top < window.innerHeight && position.bottom >= 0) {
-          element.classList.add('show');
+            // Устанавливаем значение сортировки из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortValue = urlParams.get('sort');
+            if (sortValue) {
+                sortSelect.value = sortValue;
+            }
         }
-      });
-    }
 
-    // Добавляем стиль для анимации
-    const style = document.createElement('style');
-    style.textContent = `
+        // Обработка кнопок "В корзину"
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const productId = this.getAttribute('data-id');
+                const quantity = 1; // По умолчанию добавляем 1 товар
+
+                // Отправляем запрос на добавление товара в корзину
+                fetch(`/cart/api/add?flowerId=${productId}&quantity=${quantity}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Ошибка при добавлении товара в корзину');
+                    })
+                    .then(data => {
+                        // Показываем уведомление
+                        showNotification('Товар добавлен в корзину');
+
+                        // Обновляем счетчик корзины, если он есть на странице
+                        const cartCounters = document.querySelectorAll('.cart-counter');
+                        if (cartCounters.length > 0) {
+                            const itemCount = data.itemCount || data.items.length;
+                            cartCounters.forEach(counter => {
+                                counter.textContent = itemCount;
+                                counter.classList.remove('hidden');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        showNotification('Произошла ошибка при добавлении товара в корзину');
+                    });
+            });
+        });
+
+        // Обработка кнопок "Добавить в избранное"
+        const wishlistButtons = document.querySelectorAll('.wishlist');
+        wishlistButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const productId = this.getAttribute('data-id');
+                const icon = this.querySelector('i');
+
+                // Отправляем запрос на изменение статуса товара в избранном
+                fetch(`/favorites/api/toggle?flowerId=${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Ошибка при обновлении избранного');
+                    })
+                    .then(data => {
+                        // Обновляем иконку в зависимости от статуса
+                        if (data.inFavorites) {
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                            showNotification('Товар добавлен в избранное');
+                        } else {
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                            showNotification('Товар удален из избранного');
+                        }
+
+                        // Обновляем счетчик избранного, если он есть на странице
+                        const favoritesCounters = document.querySelectorAll('.favorites-counter');
+                        if (favoritesCounters.length > 0) {
+                            favoritesCounters.forEach(counter => {
+                                counter.textContent = data.totalItems;
+                                if (data.totalItems > 0) {
+                                    counter.classList.remove('hidden');
+                                } else {
+                                    counter.classList.add('hidden');
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        showNotification('Произошла ошибка при обновлении избранного');
+                    });
+            });
+        });
+
+        // Проверяем, находится ли товар в избранном при загрузке страницы
+        function checkFavoritesStatus() {
+            const wishlistButtons = document.querySelectorAll('.wishlist');
+
+            if (wishlistButtons.length > 0) {
+                const productIds = Array.from(wishlistButtons).map(button =>
+                    button.getAttribute('data-id')
+                );
+
+                productIds.forEach(productId => {
+                    fetch(`/favorites/api/check?flowerId=${productId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const button = document.querySelector(`.wishlist[data-id="${productId}"]`);
+                            const icon = button.querySelector('i');
+
+                            if (data.inFavorites) {
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при проверке статуса избранного:', error);
+                        });
+                });
+            }
+        }
+
+        // Вызываем функцию проверки статуса избранного
+        checkFavoritesStatus();
+
+        // Функция для показа уведомлений
+        function showNotification(message) {
+            // Проверяем, существует ли уже уведомление
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#1a1a1a';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+            notification.style.zIndex = '9999';
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.style.fontSize = '14px';
+            notification.style.fontWeight = '500';
+
+            // Добавляем уведомление в DOM
+            document.body.appendChild(notification);
+
+            // Анимируем появление
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+
+            // Скрываем через 3 секунды
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+
+                // Удаляем из DOM после завершения анимации
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Анимация при прокрутке страницы
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.product-card, .category-card');
+
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect();
+
+                // Если элемент видим в окне браузера
+                if (position.top < window.innerHeight && position.bottom >= 0) {
+                    element.classList.add('show');
+                }
+            });
+        }
+
+        // Добавляем стиль для анимации
+        const style = document.createElement('style');
+        style.textContent = `
             .product-card, .category-card {
                 opacity: 0;
                 transform: translateY(30px);
@@ -1045,12 +1063,12 @@
                 transform: translateY(0);
             }
         `;
-    document.head.appendChild(style);
+        document.head.appendChild(style);
 
-    // Вызываем анимацию при загрузке и при прокрутке
-    window.addEventListener('load', animateOnScroll);
-    window.addEventListener('scroll', animateOnScroll);
-  });
+        // Вызываем анимацию при загрузке и при прокрутке
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+    });
 </script>
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 </body>
