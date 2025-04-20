@@ -41,6 +41,6 @@ public class TrendingController {
 
         List<CategoryListDTO> popularCategoryList = categoryService.getTotalCartAddCountByCategory(5);
         model.addAttribute("popularCategory", popularCategoryList);
-        return "/trending/trending-flowers";
+        return "trending/trending-flowers";
     }
 }
