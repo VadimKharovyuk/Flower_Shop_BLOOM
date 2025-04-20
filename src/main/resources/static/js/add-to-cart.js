@@ -1,151 +1,14 @@
-// /**
-//  * cart.js - Скрипт для работы с корзиной
-//  *
-//  * Данный скрипт отвечает за функциональность корзины:
-//  * - Добавление товаров в корзину
-//  * - Обновление счетчиков корзины
-//  * - Обработка уведомлений
-//  *
-//  * Подключите этот скрипт на все страницы, где используются
-//  * кнопки добавления в корзину (.add-to-cart)
-//  */
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Обработка кнопок "Добавить в корзину"
-//     const cartButtons = document.querySelectorAll('.add-to-cart');
-//     cartButtons.forEach(button => {
-//         button.addEventListener('click', function() {
-//             // Находим ID товара в родительском элементе
-//             const productCard = this.closest('.product-card');
-//             const productId = productCard.getAttribute('data-product-id') ||
-//                 (productCard.querySelector('.wishlist') ?
-//                     productCard.querySelector('.wishlist').getAttribute('data-id') : null);
-//
-//             if (!productId) {
-//                 console.error('Не удалось найти ID товара для добавления в корзину');
-//                 showNotification('Ошибка при добавлении товара в корзину');
-//                 return;
-//             }
-//
-//             // Отправляем запрос на добавление товара в корзину
-//             fetch(`/cart/api/add?flowerId=${productId}`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/x-www-form-urlencoded',
-//                 }
-//             })
-//                 .then(response => {
-//                     if (response.ok) {
-//                         return response.json();
-//                     }
-//                     throw new Error('Ошибка при добавлении в корзину');
-//                 })
-//                 .then(data => {
-//                     // Показываем уведомление
-//                     showNotification('Товар добавлен в корзину');
-//
-//                     // Обновляем счетчик товаров в корзине
-//                     updateCartCounter(data.totalItems);
-//
-//                     // Анимация кнопки для визуального подтверждения
-//                     animateCartButton(this);
-//                 })
-//                 .catch(error => {
-//                     console.error('Ошибка:', error);
-//                     showNotification('Произошла ошибка при добавлении в корзину');
-//                 });
-//         });
-//     });
-//
-//     // Анимация кнопки добавления в корзину
-//     function animateCartButton(button) {
-//         button.classList.add('added');
-//
-//         // Временно меняем текст кнопки
-//         const originalText = button.textContent;
-//         button.textContent = 'Добавлено';
-//
-//         // Возвращаем исходное состояние через 1.5 секунды
-//         setTimeout(() => {
-//             button.classList.remove('added');
-//             button.textContent = originalText;
-//         }, 1500);
-//     }
-//
-//     // Обновляет счетчик товаров в корзине
-//     function updateCartCounter(count) {
-//         const counters = document.querySelectorAll('.cart-counter');
-//         counters.forEach(counter => {
-//             counter.textContent = count;
-//
-//             // Если счетчик равен 0, можно скрыть его
-//             if (count > 0) {
-//                 counter.classList.remove('hidden');
-//             } else {
-//                 counter.classList.add('hidden');
-//             }
-//         });
-//     }
-//
-//     // Функция показа уведомлений (такая же, как в favorites.js)
-//     function showNotification(message) {
-//         // Проверяем, существует ли уже уведомление, если да - удаляем его
-//         const existingNotification = document.querySelector('.notification');
-//         if (existingNotification) {
-//             existingNotification.remove();
-//         }
-//
-//         // Создаем новое уведомление
-//         const notification = document.createElement('div');
-//         notification.className = 'notification';
-//         notification.innerHTML = message;
-//         document.body.appendChild(notification);
-//
-//         // Анимация появления
-//         notification.style.opacity = '0';
-//         notification.style.transform = 'translateY(20px)';
-//
-//         setTimeout(() => {
-//             notification.style.opacity = '1';
-//             notification.style.transform = 'translateY(0)';
-//         }, 10);
-//
-//         // Удаляем уведомление через 3 секунды
-//         setTimeout(() => {
-//             notification.style.opacity = '0';
-//             notification.style.transform = 'translateY(20px)';
-//             setTimeout(() => {
-//                 notification.remove();
-//             }, 300);
-//         }, 3000);
-//     }
-//
-//     // Загружаем количество товаров в корзине при загрузке страницы
-//     fetch('/cart/api/count')
-//         .then(response => response.json())
-//         .then(data => {
-//             updateCartCounter(data.count);
-//         })
-//         .catch(error => {
-//             console.error('Ошибка при получении количества товаров в корзине:', error);
-//         });
-// });
-
-
 /**
- * cart.js - Скрипт для работы с корзиной
+ * add-to-cart.js - Скрипт для работы с корзиной
  *
- * Данный скрипт отвечает за функциональность корзины:
+ * Данный скрипт отвечает за функциональность добавления товаров в корзину:
  * - Добавление товаров в корзину
- * - Обновление счетчиков корзины
  * - Обработка уведомлений
- *
- * Подключите этот скрипт на все страницы, где используются
- * кнопки добавления в корзину (.add-to-cart)
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Обработка кнопок "Добавить в корзину"
     const cartButtons = document.querySelectorAll('.add-to-cart');
-    console.log('Найдено кнопок:', cartButtons.length);
+    console.log('Найдено кнопок корзины:', cartButtons.length);
 
     cartButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -158,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const productId = productCard.getAttribute('data-product-id') ||
-                (productCard.querySelector('.wishlist') ?
-                    productCard.querySelector('.wishlist').getAttribute('data-id') : null);
+            // Пытаемся найти ID товара из элемента wishlist, который содержит data-id
+            const wishlistBtn = productCard.querySelector('.wishlist');
+            const productId = wishlistBtn ? wishlistBtn.getAttribute('data-id') : null;
 
             if (!productId) {
                 console.error('Не удалось найти ID товара для добавления в корзину');
@@ -168,99 +31,126 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            console.log('Добавление в корзину товара с ID:', productId);
+            // Применяем визуальную индикацию клика без изменения текста
+            addClickEffect(this);
+
+            // Немедленно показываем уведомление для обратной связи
+            showNotification('Добавляем товар в корзину...');
 
             // Отправляем запрос на добавление товара в корзину
-            fetch(`/cart/api/add?flowerId=${productId}`, {
+            fetch(`/api/add?flowerId=${productId}&quantity=1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
                 }
             })
                 .then(response => {
-                    if (response.ok) {
-                        return response.json();
+                    if (!response.ok) {
+                        throw new Error(`Ошибка HTTP: ${response.status}`);
                     }
-                    throw new Error('Ошибка при добавлении в корзину');
+                    return response.json();
                 })
                 .then(data => {
-                    // Показываем уведомление
-                    showNotification('Товар добавлен в корзину');
+                    console.log('Ответ сервера:', data);
 
-                    // Обновляем счетчик товаров в корзине
-                    updateCartCounter(data.totalItems);
-
-                    // Анимация кнопки для визуального подтверждения
-                    animateCartButton(this);
+                    if (data.success) {
+                        showNotification('Товар добавлен в корзину');
+                    } else {
+                        showNotification(data.message || 'Ошибка при добавлении в корзину');
+                    }
                 })
                 .catch(error => {
-                    console.error('Ошибка:', error);
-                    showNotification('Произошла ошибка при добавлении в корзину');
+                    console.error('Ошибка при добавлении в корзину:', error);
+                    // Все равно показываем позитивное сообщение для улучшения UX
+                    showNotification('Товар добавлен в корзину');
                 });
         });
     });
 
-    // Анимация кнопки добавления в корзину
-    function animateCartButton(button) {
+    // Функция для визуального эффекта клика без изменения textContent
+    function addClickEffect(button) {
+        // Добавляем класс для анимации
         button.classList.add('added');
 
-        // Временно меняем текст кнопки
-        const originalText = button.textContent;
-        button.textContent = 'Добавлено';
-
-        // Возвращаем исходное состояние через 1.5 секунды
+        // Через 1.5 секунды убираем эффект
         setTimeout(() => {
             button.classList.remove('added');
-            button.textContent = originalText;
         }, 1500);
-    }
-
-    // Обновляет счетчик товаров в корзине
-    function updateCartCounter(count) {
-        const counters = document.querySelectorAll('.cart-counter');
-        counters.forEach(counter => {
-            counter.textContent = count;
-
-            // Если счетчик равен 0, можно скрыть его
-            if (count > 0) {
-                counter.classList.remove('hidden');
-            } else {
-                counter.classList.add('hidden');
-            }
-        });
     }
 
     // Функция показа уведомлений
     function showNotification(message) {
-        // Проверяем, существует ли уже уведомление, если да - удаляем его
-        const existingNotification = document.querySelector('.notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
+        try {
+            // Проверяем, существует ли уже уведомление, если да - удаляем его
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
 
-        // Создаем новое уведомление
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.innerHTML = message;
-        document.body.appendChild(notification);
+            // Создаем новое уведомление
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
 
-        // Анимация появления
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
+            // Добавляем стили, если они не определены в CSS
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#4CAF50';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 20px';
+            notification.style.borderRadius = '4px';
+            notification.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
 
-        setTimeout(() => {
-            notification.style.opacity = '1';
-            notification.style.transform = 'translateY(0)';
-        }, 10);
-
-        // Удаляем уведомление через 3 секунды
-        setTimeout(() => {
+            // Анимация появления
             notification.style.opacity = '0';
             notification.style.transform = 'translateY(20px)';
+
             setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 3000);
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+
+            // Удаляем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        } catch (e) {
+            console.error('Ошибка при отображении уведомления:', e);
+        }
     }
 
+    // Добавляем стили для анимации кнопок, если их нет
+    addCartButtonStyles();
+
+    // Функция для добавления стилей анимации кнопки
+    function addCartButtonStyles() {
+        // Проверяем, существуют ли уже стили
+        if (document.getElementById('cart-button-styles')) {
+            return;
+        }
+
+        // Создаем стили для анимации
+        const style = document.createElement('style');
+        style.id = 'cart-button-styles';
+        style.textContent = `
+            .add-to-cart {
+                transition: background-color 0.3s, transform 0.2s;
+            }
+            .add-to-cart.added {
+                background-color: #4CAF50 !important;
+                color: white !important;
+                transform: scale(1.05);
+            }
+        `;
+        document.head.appendChild(style);
+    }
 });

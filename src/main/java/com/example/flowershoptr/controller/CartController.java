@@ -151,36 +151,7 @@ public class CartController {
         return "client/cart/checkout";
     }
 
-    /**
-     * Обработка формы оформления заказа
-     */
-//    @PostMapping("/checkout")
-//    public String processCheckout(
-//            HttpSession session,
-//            @RequestParam String clientName,
-//            @RequestParam String clientPhone,
-//            @RequestParam String clientEmail,
-//            @RequestParam String deliveryAddress,
-//            @RequestParam String paymentMethod,
-//            RedirectAttributes redirectAttributes) {
-//
-//        try {
-//            // Создаем заказ из корзины
-//            Order order = cartService.createOrderFromCart(session, clientName, clientPhone,
-//                    clientEmail, deliveryAddress, paymentMethod);
-//
-////            // Сохраняем заказ
-////            Order savedOrder = orderService.saveOrder(order);
-//
-////            // Добавляем ID заказа для использования на странице подтверждения
-////            redirectAttributes.addAttribute("orderId", savedOrder.getId());
-//
-//            return "redirect:/order/confirmation";
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-//            return "redirect:/cart/checkout";
-//        }
-//    }
+
 
 
 

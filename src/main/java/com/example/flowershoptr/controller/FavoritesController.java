@@ -24,20 +24,6 @@ public class FavoritesController {
 
     private final FavoritesService favoritesService;
 
-
-
-    /**
-     * Отображает страницу избранных товаров
-     */
-    @GetMapping
-    public String viewFavorites(Model model, HttpSession session) {
-        List<Flower> items = favoritesService.getFavoritesItems(session);
-        model.addAttribute("favoritesItems", items);
-        model.addAttribute("itemsCount", items.size());
-
-        return "client/favorites/view";
-    }
-
     /**
      * API для добавления товара в избранное
      */
@@ -54,6 +40,21 @@ public class FavoritesController {
 
         return ResponseEntity.ok(response);
     }
+
+
+    /**
+     * Отображает страницу избранных товаров
+     */
+    @GetMapping
+    public String viewFavorites(Model model, HttpSession session) {
+        List<Flower> items = favoritesService.getFavoritesItems(session);
+        model.addAttribute("favoritesItems", items);
+        model.addAttribute("itemsCount", items.size());
+
+        return "client/favorites/view";
+    }
+
+
 
     /**
      * API для удаления товара из избранного

@@ -67,8 +67,10 @@ public class SecurityConfig {
                                 "/blog/**",
                                 "/api/**",
                                 "/error",
+                                "/cart/remove",
                                 "/favicon.ico",
                                 "/aut/login",
+                                "/favorites/**",
                                 "/aut/dashboard",
                                 "/fix-admin"
                         ).permitAll()
@@ -94,6 +96,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.sendRedirect("/aut/login"))
                 );
+
 
 
         return http.build();
