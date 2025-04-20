@@ -59,7 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDetailsDTO getCategoryById(Long id) {
-        log.info("Запрос категории по ID: {}", id);
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена с ID: " + id));
         return categoryMapper.toDetailsDTO(category);
@@ -68,8 +67,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     public CategoryDetailsDTO createCategoryWithImage(CreateCategoryDTO createDTO, MultipartFile imageFile) {
-        log.info("Создание новой категории с изображением: {}", createDTO.getName());
-
         // Сначала создаем категорию
         Category category = categoryMapper.toEntityFromCreateDTO(createDTO);
         Category savedCategory = categoryRepository.save(category);
@@ -114,8 +111,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (category.getPhotoId() != null) {
             cloudinaryService.deleteImage(category.getPhotoId().toString());
         }
-
-        // Загружаем новое изображение
         CloudinaryService.UploadResult result = cloudinaryService.uploadImage(imageFile);
         category.setPreviewImageUrl(result.getUrl());
         category.setPhotoId(Long.valueOf(result.getPublicId()));

@@ -509,13 +509,13 @@
                              order.paymentMethod.toString() == 'ELECTRONIC_WALLET')}"
                  class="card mb-4 animate-fade-in">
                 <div class="card-header">
-                    <h5 class="serif">Оплата заказа</h5>
+                    <h5 class="serif">Оплата замовлення</h5>
                 </div>
                 <div class="card-body text-center">
-                    <p>Для завершения заказа, пожалуйста, произведите оплату.</p>
+                    <p>Щоб завершити замовлення, будь ласка, здійсніть оплату.</p>
 
                     <form th:action="@{/checkout/order/{orderId}/pay(orderId=${order.id})}" method="post">
-                        <button type="submit" class="btn btn-primary">Оплатить заказ</button>
+                        <button type="submit" class="btn btn-primary">Сплатити замовлення</button>
                     </form>
                 </div>
             </div>

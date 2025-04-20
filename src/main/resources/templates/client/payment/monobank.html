@@ -113,25 +113,25 @@
             <div class="text-center mb-4 animate-fade-in">
                 <img src="/img/MonoBant.jpeg" alt="Monobank" class="monobank-logo">
                 <h2 class="serif">Оплата через Monobank</h2>
-                <p class="text-muted">Для завершения заказа, пожалуйста, воспользуйтесь сервисом Monobank</p>
+                <p class="text-muted">Щоб завершити замовлення, будь ласка, скористайтеся сервісом Monobank</p>
             </div>
 
             <div class="card animate-fade-in">
                 <div class="card-header">
-                    <h5 class="serif">Информация о заказе</h5>
+                    <h5 class="serif">Інформація про замовлення</h5>
                 </div>
                 <div class="card-body">
                     <div class="order-details">
                         <div class="order-details-row">
-                            <span>Номер заказа:</span>
+                            <span>Номер замовлення:</span>
                             <strong th:text="${order.orderNumber}"></strong>
                         </div>
                         <div class="order-details-row">
-                            <span>Получатель:</span>
+                            <span>Одержувач:</span>
                             <strong th:text="${order.clientName}"></strong>
                         </div>
                         <div class="order-details-row">
-                            <span>Адрес доставки:</span>
+                            <span>Адреса доставки:</span>
                             <span th:text="${order.deliveryAddress}"></span>
                         </div>
                         <div class="order-details-row">
@@ -139,22 +139,22 @@
                             <span th:text="${#temporals.format(order.deliveryDate, 'dd.MM.yyyy HH:mm')}"></span>
                         </div>
                         <div class="order-details-row">
-                            <span>Способ оплаты:</span>
+                            <span>Спосіб оплати:</span>
                             <span>Monobank</span>
                         </div>
                         <div class="order-details-row">
-                            <span>Сумма к оплате:</span>
-                            <strong th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')} + ' ₽'" class="text-primary"></strong>
+                            <span>Сума до сплати:</span>
+                            <strong th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')} + ' ₴'" class="text-primary"></strong>
                         </div>
                     </div>
 
                     <a th:href="${paymentLink}" target="_blank" class="payment-button">
-                        <i class="bi bi-credit-card me-2"></i> Оплатить через Monobank
+                        <i class="bi bi-credit-card me-2"></i> Сплатити через Monobank
                     </a>
 
                     <div class="mt-4 text-center">
                         <a th:href="@{/checkout/confirmation/{id}(id=${order.id})}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left me-2"></i> Вернуться к заказу
+                            <i class="bi bi-arrow-left me-2"></i> Повернутися до замовлення
                         </a>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
 
             <div class="alert alert-info mt-4 animate-fade-in">
                 <i class="bi bi-info-circle-fill me-2"></i>
-                <strong>Информация:</strong> После нажатия на кнопку "Оплатить через Monobank" вы будете перенаправлены на защищенную страницу оплаты. После успешной оплаты вы автоматически вернетесь на наш сайт.
+                <strong>Інформація:</strong> Після натискання кнопки "Сплатити через Monobank" ви будете перенаправлені на захищену сторінку оплати. Після успішної оплати ви автоматично повернетеся на наш сайт.
             </div>
         </div>
     </div>

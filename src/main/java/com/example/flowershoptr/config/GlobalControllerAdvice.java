@@ -1,6 +1,8 @@
 package com.example.flowershoptr.config;
 
 import com.example.flowershoptr.dto.category.CategoryListDTO;
+import com.example.flowershoptr.enums.PaymentMethod;
+import com.example.flowershoptr.enums.PaymentStatus;
 import com.example.flowershoptr.service.CartService;
 import com.example.flowershoptr.service.CategoryService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +42,16 @@ public class GlobalControllerAdvice {
             log.error("Ошибка при получении количества товаров в корзине", e);
             return 0;
         }
+    }
+
+    @ModelAttribute("PaymentMethod")
+    public PaymentMethod[] paymentMethods() {
+        return PaymentMethod.values();
+    }
+
+    @ModelAttribute("PaymentStatus")
+    public PaymentStatus[] paymentStatuses() {
+        return PaymentStatus.values();
     }
 
     /**
