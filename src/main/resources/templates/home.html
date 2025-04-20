@@ -938,7 +938,7 @@
                     <p class="product-category" th:text="${flower.categoryName}">Категорія</p>
                     <h3 class="product-title" th:text="${flower.name}">Назва букета</h3>
                     <div class="product-price-cart-wrapper">
-                        <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Ціна</p>
+                        <p class="product-price" th:text="${flower.price + ' ₴'}">Ціна</p>
                         <button class="add-to-cart">В кошик</button>
                     </div>
                 </div>
