@@ -1,447 +1,689 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');*/
 
 
-/* Стили для секции Почему выбрать нас */
-.why-choose-us {
-    background-color: var(--secondary-color);
-    padding: 7rem 0;
+/*!* Стили для секции Почему выбрать нас *!*/
+/*.why-choose-us {*/
+/*    background-color: var(--secondary-color);*/
+/*    padding: 7rem 0;*/
+/*}*/
+
+/*.advantages-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(3, 1fr);*/
+/*    gap: 2rem;*/
+/*    margin-top: 3rem;*/
+/*}*/
+
+/*.advantage-card {*/
+/*    background-color: var(--white);*/
+/*    padding: 2.5rem 2rem;*/
+/*    border-radius: 2px;*/
+/*    box-shadow: var(--shadow);*/
+/*    transition: var(--transition);*/
+/*    text-align: center;*/
+/*}*/
+
+/*.advantage-card:hover {*/
+/*    transform: translateY(-10px);*/
+/*    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.advantage-icon {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    width: 80px;*/
+/*    height: 80px;*/
+/*    border-radius: 50%;*/
+/*    background-color: var(--secondary-color);*/
+/*    color: var(--accent-color);*/
+/*    font-size: 2rem;*/
+/*    margin: 0 auto 1.5rem;*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.advantage-card:hover .advantage-icon {*/
+/*    background-color: var(--accent-color);*/
+/*    color: var(--white);*/
+/*}*/
+
+/*.advantage-title {*/
+/*    font-size: 1.3rem;*/
+/*    margin-bottom: 1rem;*/
+/*    color: var(--text-color);*/
+/*}*/
+
+/*.advantage-text {*/
+/*    font-size: 0.95rem;*/
+/*    color: var(--light-text);*/
+/*    margin-bottom: 0;*/
+/*}*/
+
+/*!* Стили для истории бренда *!*/
+/*.brand-story {*/
+/*    padding: 7rem 0;*/
+/*}*/
+
+/*.story-container {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1.5fr 1fr;*/
+/*    gap: 4rem;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.story-title {*/
+/*    font-size: 2.5rem;*/
+/*    margin-bottom: 1.5rem;*/
+/*    color: var(--text-color);*/
+/*    text-align: center;*/
+/*}*/
+
+/*.story-divider {*/
+/*    width: 80px;*/
+/*    height: 2px;*/
+/*    background-color: var(--accent-color);*/
+/*    margin-bottom: 2rem;*/
+/*}*/
+
+/*.story-text {*/
+/*    font-size: 1.05rem;*/
+/*    color: var(--light-text);*/
+/*    margin-bottom: 1.5rem;*/
+/*    line-height: 1.8;*/
+/*}*/
+
+/*.story-image {*/
+/*    position: relative;*/
+/*    overflow: hidden;*/
+/*    border-radius: 2px;*/
+/*    box-shadow: var(--shadow);*/
+/*}*/
+
+/*.story-img {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    display: block;*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.story-milestones {*/
+/*    margin-top: 3rem;*/
+/*}*/
+
+/*.milestone {*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    margin-bottom: 1.5rem;*/
+/*}*/
+
+/*.milestone-year {*/
+/*    flex-shrink: 0;*/
+/*    font-family: 'Cormorant Garamond', serif;*/
+/*    font-size: 1.8rem;*/
+/*    font-weight: 600;*/
+/*    color: var(--accent-color);*/
+/*    margin-right: 1.5rem;*/
+/*    width: 80px;*/
+/*}*/
+
+/*.milestone-title {*/
+/*    font-size: 1.2rem;*/
+/*    margin-bottom: 0.5rem;*/
+/*    color: var(--text-color);*/
+/*}*/
+
+/*.milestone-text {*/
+/*    font-size: 0.95rem;*/
+/*    color: var(--light-text);*/
+/*    margin: 0;*/
+/*}*/
+
+/*!* Стили для секции сервиса *!*/
+/*.our-service {*/
+/*    background-color: var(--background);*/
+/*    padding: 7rem 0;*/
+/*}*/
+
+/*.services-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(3, 1fr);*/
+/*    gap: 2rem;*/
+/*    margin-top: 3rem;*/
+/*}*/
+
+/*.service-card {*/
+/*    background-color: var(--white);*/
+/*    padding: 3rem 2rem;*/
+/*    border-radius: 2px;*/
+/*    box-shadow: var(--shadow);*/
+/*    transition: var(--transition);*/
+/*    position: relative;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.service-card:before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 5px;*/
+/*    height: 0;*/
+/*    background-color: var(--accent-color);*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.service-card:hover:before {*/
+/*    height: 100%;*/
+/*}*/
+
+/*.service-card:hover {*/
+/*    transform: translateY(-10px);*/
+/*    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.service-icon {*/
+/*    font-size: 2.5rem;*/
+/*    color: var(--accent-color);*/
+/*    margin-bottom: 1.5rem;*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.service-title {*/
+/*    font-size: 1.3rem;*/
+/*    margin-bottom: 1rem;*/
+/*    color: var(--text-color);*/
+/*}*/
+
+/*.service-text {*/
+/*    font-size: 0.95rem;*/
+/*    color: var(--light-text);*/
+/*    margin-bottom: 1.5rem;*/
+/*}*/
+
+/*.service-link {*/
+/*    font-size: 0.9rem;*/
+/*    text-transform: uppercase;*/
+/*    letter-spacing: 1px;*/
+/*    color: var(--accent-color);*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.service-link i {*/
+/*    margin-left: 0.5rem;*/
+/*    transition: var(--transition);*/
+/*}*/
+
+/*.service-link:hover i {*/
+/*    transform: translateX(5px);*/
+/*}*/
+
+/*!* Медиа-запросы *!*/
+/*@media screen and (max-width: 1200px) {*/
+/*    .advantages-grid,*/
+/*    .services-grid {*/
+/*        grid-template-columns: repeat(2, 1fr);*/
+/*    }*/
+/*}*/
+
+/*@media screen and (max-width: 992px) {*/
+/*    .story-container {*/
+/*        grid-template-columns: 1fr;*/
+/*        gap: 3rem;*/
+/*    }*/
+
+/*    .story-image {*/
+/*        order: -1;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (max-width: 768px) {*/
+/*    .advantages-grid,*/
+/*    .services-grid {*/
+/*        grid-template-columns: 1fr;*/
+/*        gap: 1.5rem;*/
+/*    }*/
+
+/*    .milestone {*/
+/*        flex-direction: column;*/
+/*    }*/
+
+/*    .milestone-year {*/
+/*        margin-bottom: 0.5rem;*/
+/*    }*/
+/*}*/
+
+/*!* About Section Styles *!*/
+/*.bloom-about-section {*/
+/*    padding: 7rem 0;*/
+/*    background-color: #FAFAFA;*/
+/*}*/
+
+/*.bloom-container {*/
+/*    width: 100%;*/
+/*    max-width: 1280px;*/
+/*    margin: 0 auto;*/
+/*    padding: 0 2rem;*/
+/*}*/
+
+/*.bloom-about-container {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    gap: 4rem;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.bloom-about-image {*/
+/*    position: relative;*/
+/*    height: 600px;*/
+/*    background-image: url('/img/wedding-couple.jpg');*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*    border-radius: 2px;*/
+/*    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);*/
+/*    overflow: hidden;*/
+/*    transition: all 0.5s ease;*/
+/*}*/
+
+/*.bloom-about-image:hover {*/
+/*    transform: translateY(-10px);*/
+/*    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.bloom-about-image::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background: linear-gradient(to bottom right, rgba(214, 173, 96, 0.2), transparent);*/
+/*}*/
+
+/*.bloom-about-content {*/
+/*    padding: 2rem 0;*/
+/*}*/
+
+/*.bloom-about-heading {*/
+/*    font-family: 'Cormorant Garamond', serif;*/
+/*    font-size: 2.5rem;*/
+/*    font-weight: 600;*/
+/*    color: #2C2C2C;*/
+/*    margin-bottom: 1.5rem;*/
+/*    position: relative;*/
+/*    padding-bottom: 1rem;*/
+/*}*/
+
+/*.bloom-about-heading::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    width: 80px;*/
+/*    height: 2px;*/
+/*    background-color: #D6AD60;*/
+/*}*/
+
+/*.bloom-about-paragraph {*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    margin-bottom: 1.8rem;*/
+/*    font-size: 1.05rem;*/
+/*    line-height: 1.8;*/
+/*    color: #6C6C6C;*/
+/*}*/
+
+/*.bloom-features-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    gap: 2rem;*/
+/*    margin-bottom: 2.5rem;*/
+/*}*/
+
+/*.bloom-feature-item {*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    transition: all 0.3s ease;*/
+/*}*/
+
+/*.bloom-feature-item:hover {*/
+/*    transform: translateX(5px);*/
+/*}*/
+
+/*.bloom-feature-icon {*/
+/*    flex-shrink: 0;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    width: 50px;*/
+/*    height: 50px;*/
+/*    border-radius: 50%;*/
+/*    background-color: #E8E4E0;*/
+/*    color: #9A8478;*/
+/*    font-size: 1.2rem;*/
+/*    margin-right: 1rem;*/
+/*    transition: all 0.3s ease;*/
+/*}*/
+
+/*.bloom-feature-item:hover .bloom-feature-icon {*/
+/*    background-color: #D6AD60;*/
+/*    color: #FFFFFF;*/
+/*}*/
+
+/*.bloom-feature-content h5 {*/
+/*    font-family: 'Cormorant Garamond', serif;*/
+/*    font-size: 1.2rem;*/
+/*    font-weight: 600;*/
+/*    margin-bottom: 0.5rem;*/
+/*    color: #2C2C2C;*/
+/*}*/
+
+/*.bloom-feature-content p {*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    font-size: 0.9rem;*/
+/*    margin-bottom: 0;*/
+/*    color: #6C6C6C;*/
+/*}*/
+
+/*.bloom-button {*/
+/*    display: inline-block;*/
+/*    padding: 0.8rem 2rem;*/
+/*    border-radius: 2px;*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    font-size: 0.9rem;*/
+/*    text-transform: uppercase;*/
+/*    letter-spacing: 1px;*/
+/*    transition: all 0.3s ease;*/
+/*    cursor: pointer;*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*.bloom-button-primary {*/
+/*    background-color: #D6AD60;*/
+/*    color: #FFFFFF;*/
+/*    border: 1px solid #D6AD60;*/
+/*}*/
+
+/*.bloom-button-primary:hover {*/
+/*    background-color: transparent;*/
+/*    color: #D6AD60;*/
+/*}*/
+
+/*!* Responsive *!*/
+/*@media screen and (max-width: 992px) {*/
+/*    .bloom-about-container {*/
+/*        grid-template-columns: 1fr;*/
+/*        gap: 3rem;*/
+/*    }*/
+
+/*    .bloom-about-image {*/
+/*        height: 400px;*/
+/*        order: -1;*/
+/*    }*/
+
+/*    .bloom-about-content {*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .bloom-about-heading::after {*/
+/*        left: 50%;*/
+/*        transform: translateX(-50%);*/
+/*    }*/
+
+/*    .bloom-features-grid {*/
+/*        justify-content: center;*/
+/*    }*/
+
+/*    .bloom-feature-item {*/
+/*        justify-content: center;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (max-width: 768px) {*/
+/*    .bloom-features-grid {*/
+/*        grid-template-columns: 1fr;*/
+/*    }*/
+
+/*    .bloom-about-section {*/
+/*        padding: 5rem 0;*/
+/*    }*/
+/*}*/
+/* Improved mobile adaptation and centering */
+
+/* Global responsiveness improvements */
+:root {
+    --section-padding: 5rem 0;
+    --section-padding-mobile: 3rem 0;
+    --container-padding: 0 2rem;
+    --container-padding-mobile: 0 1.2rem;
 }
 
-.advantages-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.advantage-card {
-    background-color: var(--white);
-    padding: 2.5rem 2rem;
-    border-radius: 2px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    text-align: center;
-}
-
-.advantage-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.advantage-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-    color: var(--accent-color);
-    font-size: 2rem;
-    margin: 0 auto 1.5rem;
-    transition: var(--transition);
-}
-
-.advantage-card:hover .advantage-icon {
-    background-color: var(--accent-color);
-    color: var(--white);
-}
-
-.advantage-title {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-.advantage-text {
-    font-size: 0.95rem;
-    color: var(--light-text);
-    margin-bottom: 0;
-}
-
-/* Стили для истории бренда */
-.brand-story {
-    padding: 7rem 0;
-}
-
-.story-container {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-
-.story-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-}
-
-.story-divider {
-    width: 80px;
-    height: 2px;
-    background-color: var(--accent-color);
-    margin-bottom: 2rem;
-}
-
-.story-text {
-    font-size: 1.05rem;
-    color: var(--light-text);
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-}
-
-.story-image {
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-    box-shadow: var(--shadow);
-}
-
-.story-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: var(--transition);
-}
-
-.story-milestones {
-    margin-top: 3rem;
-}
-
-.milestone {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-}
-
-.milestone-year {
-    flex-shrink: 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    margin-right: 1.5rem;
-    width: 80px;
-}
-
-.milestone-title {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-.milestone-text {
-    font-size: 0.95rem;
-    color: var(--light-text);
-    margin: 0;
-}
-
-/* Стили для секции сервиса */
-.our-service {
-    background-color: var(--background);
-    padding: 7rem 0;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.service-card {
-    background-color: var(--white);
-    padding: 3rem 2rem;
-    border-radius: 2px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.service-card:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 0;
-    background-color: var(--accent-color);
-    transition: var(--transition);
-}
-
-.service-card:hover:before {
-    height: 100%;
-}
-
-.service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.service-icon {
-    font-size: 2.5rem;
-    color: var(--accent-color);
-    margin-bottom: 1.5rem;
-    transition: var(--transition);
-}
-
-.service-title {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-.service-text {
-    font-size: 0.95rem;
-    color: var(--light-text);
-    margin-bottom: 1.5rem;
-}
-
-.service-link {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--accent-color);
-    transition: var(--transition);
-}
-
-.service-link i {
-    margin-left: 0.5rem;
-    transition: var(--transition);
-}
-
-.service-link:hover i {
-    transform: translateX(5px);
-}
-
-/* Медиа-запросы */
-@media screen and (max-width: 1200px) {
-    .advantages-grid,
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .story-container {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-
-    .story-image {
-        order: -1;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .advantages-grid,
-    .services-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .milestone {
-        flex-direction: column;
-    }
-
-    .milestone-year {
-        margin-bottom: 0.5rem;
-    }
-}
-
-/* About Section Styles */
-.bloom-about-section {
-    padding: 7rem 0;
-    background-color: #FAFAFA;
-}
-
-.bloom-container {
+.container, .bloom-container {
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: var(--container-padding);
+}
+
+.section {
+    padding: var(--section-padding);
+    text-align: center;
+}
+
+.section-title, .bloom-about-heading, .story-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* About Section Improved */
+.bloom-about-section {
+    padding: var(--section-padding);
+    background-color: #FAFAFA;
 }
 
 .bloom-about-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 4rem;
     align-items: center;
 }
 
 .bloom-about-image {
-    position: relative;
+    flex: 1;
     height: 600px;
-    background-image: url('/img/wedding-couple.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 2px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: all 0.5s ease;
-}
-
-.bloom-about-image:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.bloom-about-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom right, rgba(214, 173, 96, 0.2), transparent);
 }
 
 .bloom-about-content {
+    flex: 1;
     padding: 2rem 0;
 }
 
-.bloom-about-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #2C2C2C;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 1rem;
-}
-
 .bloom-about-heading::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
     left: 0;
-    width: 80px;
-    height: 2px;
-    background-color: #D6AD60;
-}
-
-.bloom-about-paragraph {
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 1.8rem;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: #6C6C6C;
+    right: 0;
+    margin: auto;
 }
 
 .bloom-features-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    margin-bottom: 2.5rem;
 }
 
-.bloom-feature-item {
+/* Story Section Improvements */
+.story-container {
     display: flex;
-    align-items: flex-start;
-    transition: all 0.3s ease;
-}
-
-.bloom-feature-item:hover {
-    transform: translateX(5px);
-}
-
-.bloom-feature-icon {
-    flex-shrink: 0;
-    display: flex;
+    flex-direction: row;
+    gap: 4rem;
     align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #E8E4E0;
-    color: #9A8478;
-    font-size: 1.2rem;
-    margin-right: 1rem;
-    transition: all 0.3s ease;
 }
 
-.bloom-feature-item:hover .bloom-feature-icon {
-    background-color: #D6AD60;
-    color: #FFFFFF;
+.story-content {
+    flex: 1.5;
 }
 
-.bloom-feature-content h5 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #2C2C2C;
+.story-image {
+    flex: 1;
 }
 
-.bloom-feature-content p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
-    margin-bottom: 0;
-    color: #6C6C6C;
+.story-divider {
+    margin: 0 auto 2rem auto;
 }
 
-.bloom-button {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    border-radius: 2px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-weight: 500;
+/* Responsive improvements */
+@media (max-width: 1200px) {
+    .advantages-grid,
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
 }
 
-.bloom-button-primary {
-    background-color: #D6AD60;
-    color: #FFFFFF;
-    border: 1px solid #D6AD60;
-}
+@media (max-width: 992px) {
+    .section, .bloom-about-section {
+        padding: var(--section-padding-mobile);
+    }
 
-.bloom-button-primary:hover {
-    background-color: transparent;
-    color: #D6AD60;
-}
+    .container, .bloom-container {
+        padding: var(--container-padding-mobile);
+    }
 
-/* Responsive */
-@media screen and (max-width: 992px) {
-    .bloom-about-container {
-        grid-template-columns: 1fr;
-        gap: 3rem;
+    .bloom-about-container,
+    .story-container {
+        flex-direction: column;
+        gap: 2.5rem;
     }
 
     .bloom-about-image {
-        height: 400px;
+        width: 100%;
+        height: 350px;
         order: -1;
     }
 
-    .bloom-about-content {
+    .story-image {
+        width: 100%;
+        height: 350px;
+        order: -1;
+    }
+
+    .bloom-about-content,
+    .story-content {
+        width: 100%;
         text-align: center;
     }
 
-    .bloom-about-heading::after {
+    .bloom-about-heading::after,
+    .story-divider {
         left: 50%;
         transform: translateX(-50%);
+        margin: 0 auto 2rem auto;
     }
 
-    .bloom-features-grid {
-        justify-content: center;
+    .section-title, .bloom-about-heading, .story-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
     }
 
     .bloom-feature-item {
         justify-content: center;
+        text-align: left;
     }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
     .bloom-features-grid {
         grid-template-columns: 1fr;
     }
 
-    .bloom-about-section {
-        padding: 5rem 0;
+    .advantages-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .milestone {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .milestone-year {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-title, .bloom-about-heading, .story-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .bloom-about-image,
+    .story-image {
+        height: 250px;
+    }
+
+    .advantage-card,
+    .service-card {
+        padding: 1.5rem;
+    }
+
+    .advantage-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .advantage-title,
+    .service-title {
+        font-size: 1.2rem;
+    }
+
+    .section-title, .bloom-about-heading, .story-title {
+        font-size: 1.6rem;
+    }
+
+    .bloom-about-paragraph,
+    .story-text,
+    .advantage-text,
+    .service-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}
+
+/* Fix for feature items layout */
+@media (max-width: 576px) {
+    .bloom-feature-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .bloom-feature-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Touch device hover fix */
+@media (hover: none) {
+    .advantage-card:hover,
+    .service-card:hover,
+    .bloom-about-image:hover,
+    .bloom-feature-item:hover {
+        transform: none;
+    }
+
+    .advantage-card,
+    .service-card {
+        transform: none !important;
+    }
+
+    .service-card:before {
+        height: 100%;
+        width: 3px;
     }
 }
