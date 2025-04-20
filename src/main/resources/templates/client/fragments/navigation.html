@@ -1,101 +1,670 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<body>-->
+<!--&lt;!&ndash; Фрагмент навигации &ndash;&gt;-->
+<!--<nav th:fragment="navigation" class="site-header">-->
+<!--  <div class="container">-->
+<!--    <div class="nav-wrapper">-->
+<!--      <a href="/" class="logo">BLOOM</a>-->
+
+<!--      <nav class="main-nav">-->
+<!--        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>-->
+<!--        <a href="/categories" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>-->
+<!--        <a href="/flowers" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>-->
+<!--        <a href="/order-tracking" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Відстежити замовлення</a>-->
+<!--        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>-->
+<!--        <a href="/blog" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Блог</a>-->
+<!--      </nav>-->
+
+<!--      <div class="nav-actions">-->
+<!--        <div class="search-container">-->
+<!--          <form action="/categories/search" method="get">-->
+<!--            <input type="text" name="query" placeholder="Пошук квітів...">-->
+<!--            <a href="#" onclick="this.closest('form').submit(); return false;" class="nav-icon">-->
+<!--              <i class="fas fa-search"></i>-->
+<!--            </a>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--        <a href="/favorites" class="nav-icon"><i class="far fa-heart"></i></a>-->
+<!--        <a href="/cart" class="nav-icon cart-icon">-->
+<!--          <i class="fas fa-shopping-bag"></i>-->
+<!--          <span th:text="${cartCount ?: 0}">0</span>-->
+<!--        </a>-->
+<!--        &lt;!&ndash; Додаємо іконку акаунту &ndash;&gt;-->
+<!--        <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Особистий кабінет">-->
+<!--          <i class="fas fa-user-circle"></i>-->
+<!--        </a>-->
+<!--        <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Увійти">-->
+<!--          <i class="far fa-user-circle"></i>-->
+<!--        </a>-->
+<!--        <button class="mobile-menu-btn">-->
+<!--          <span></span>-->
+<!--          <span></span>-->
+<!--          <span></span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Мобільне меню &ndash;&gt;-->
+<!--  <div class="mobile-menu">-->
+<!--    <div class="container">-->
+<!--      <div class="mobile-nav">-->
+<!--        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>-->
+<!--        <a href="/catalog" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>-->
+<!--        <a href="/bouquets" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>-->
+<!--        <a href="/collections" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Колекції</a>-->
+<!--        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>-->
+<!--        <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакти</a>-->
+
+<!--        <div class="mobile-secondary">-->
+<!--          <a th:if="${user != null}" href="/aut/dashboard" class="secondary-link">Особистий кабінет</a>-->
+<!--          <a th:unless="${user != null}" href="/aut/login" class="secondary-link">Увійти через Google</a>-->
+<!--          <a href="/order-tracking" class="secondary-link">Доставка</a>-->
+<!--          <a href="/favorites" class="secondary-link">Обране</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+
+
+
+<!--&lt;!&ndash; CSS для навигации (можно вынести в отдельный файл) &ndash;&gt;-->
+<!--<style th:fragment="navigation-css">-->
+<!--  /* Переменные для стиля "Премиальный минимализм" */-->
+<!--  :root {-->
+<!--    &#45;&#45;primary-color: #1a1a1a;-->
+<!--    &#45;&#45;secondary-color: #f5f5f5;-->
+<!--    &#45;&#45;accent-color: #e19d45;-->
+<!--    &#45;&#45;text-color: #333333;-->
+<!--    &#45;&#45;light-gray: #e0e0e0;-->
+<!--    &#45;&#45;transition: all 0.3s ease;-->
+<!--  }-->
+
+<!--  /* Базовые стили */-->
+<!--  * {-->
+<!--    margin: 0;-->
+<!--    padding: 0;-->
+<!--    box-sizing: border-box;-->
+<!--  }-->
+
+<!--  body {-->
+<!--    font-family: 'Helvetica Neue', Arial, sans-serif;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    line-height: 1.6;-->
+<!--  }-->
+
+<!--  .container {-->
+<!--    width: 100%;-->
+<!--    max-width: 1200px;-->
+<!--    margin: 0 auto;-->
+<!--    padding: 0 20px;-->
+<!--  }-->
+
+<!--  /* Навигация */-->
+<!--  .site-header {-->
+<!--    background-color: white;-->
+<!--    position: sticky;-->
+<!--    top: 0;-->
+<!--    z-index: 1000;-->
+<!--    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);-->
+<!--  }-->
+
+<!--  .nav-wrapper {-->
+<!--    display: flex;-->
+<!--    justify-content: space-between;-->
+<!--    align-items: center;-->
+<!--    padding: 20px 0;-->
+<!--  }-->
+
+<!--  .logo {-->
+<!--    color: var(&#45;&#45;primary-color);-->
+<!--    text-decoration: none;-->
+<!--    font-size: 24px;-->
+<!--    font-weight: 500;-->
+<!--    letter-spacing: 3px;-->
+<!--    text-transform: uppercase;-->
+<!--  }-->
+
+<!--  .main-nav {-->
+<!--    display: flex;-->
+<!--    gap: 40px;-->
+<!--  }-->
+
+<!--  .nav-link {-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    text-decoration: none;-->
+<!--    font-size: 14px;-->
+<!--    font-weight: 500;-->
+<!--    letter-spacing: 0.5px;-->
+<!--    position: relative;-->
+<!--    padding-bottom: 5px;-->
+<!--    text-transform: uppercase;-->
+<!--  }-->
+
+<!--  .nav-link::after {-->
+<!--    content: '';-->
+<!--    position: absolute;-->
+<!--    bottom: 0;-->
+<!--    left: 0;-->
+<!--    width: 0;-->
+<!--    height: 1px;-->
+<!--    background-color: var(&#45;&#45;accent-color);-->
+<!--    transition: width 0.3s ease;-->
+<!--  }-->
+
+<!--  .nav-link:hover::after,-->
+<!--  .nav-link.active::after {-->
+<!--    width: 100%;-->
+<!--  }-->
+
+<!--  .nav-actions {-->
+<!--    display: flex;-->
+<!--    gap: 20px;-->
+<!--    align-items: center;-->
+<!--  }-->
+
+<!--  .nav-icon {-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    font-size: 18px;-->
+<!--    transition: color 0.3s ease;-->
+<!--  }-->
+
+<!--  .nav-icon:hover {-->
+<!--    color: var(&#45;&#45;accent-color);-->
+<!--  }-->
+
+<!--  .cart-icon {-->
+<!--    position: relative;-->
+<!--  }-->
+
+<!--  .cart-count {-->
+<!--    position: absolute;-->
+<!--    top: -8px;-->
+<!--    right: -8px;-->
+<!--    background-color: var(&#45;&#45;accent-color);-->
+<!--    color: white;-->
+<!--    font-size: 10px;-->
+<!--    width: 16px;-->
+<!--    height: 16px;-->
+<!--    border-radius: 50%;-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    justify-content: center;-->
+<!--    font-weight: 600;-->
+<!--  }-->
+
+<!--  /* Мобильное меню */-->
+<!--  .mobile-menu-btn {-->
+<!--    display: none;-->
+<!--    background: none;-->
+<!--    border: none;-->
+<!--    cursor: pointer;-->
+<!--    width: 25px;-->
+<!--    height: 20px;-->
+<!--    position: relative;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn span {-->
+<!--    display: block;-->
+<!--    position: absolute;-->
+<!--    width: 100%;-->
+<!--    height: 2px;-->
+<!--    background-color: var(&#45;&#45;primary-color);-->
+<!--    transition: var(&#45;&#45;transition);-->
+<!--  }-->
+
+<!--  .mobile-menu-btn span:nth-child(1) {-->
+<!--    top: 0;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn span:nth-child(2) {-->
+<!--    top: 9px;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn span:nth-child(3) {-->
+<!--    top: 18px;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn.active span:nth-child(1) {-->
+<!--    transform: rotate(45deg);-->
+<!--    top: 9px;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn.active span:nth-child(2) {-->
+<!--    opacity: 0;-->
+<!--  }-->
+
+<!--  .mobile-menu-btn.active span:nth-child(3) {-->
+<!--    transform: rotate(-45deg);-->
+<!--    top: 9px;-->
+<!--  }-->
+
+<!--  .mobile-menu {-->
+<!--    display: none;-->
+<!--    background-color: white;-->
+<!--    border-top: 1px solid var(&#45;&#45;light-gray);-->
+<!--    overflow: hidden;-->
+<!--    max-height: 0;-->
+<!--    transition: max-height 0.3s ease;-->
+<!--  }-->
+
+<!--  .mobile-menu.active {-->
+<!--    max-height: 500px;-->
+<!--  }-->
+
+<!--  .mobile-nav {-->
+<!--    display: flex;-->
+<!--    flex-direction: column;-->
+<!--    padding: 20px 0;-->
+<!--  }-->
+
+<!--  .mobile-nav .nav-link {-->
+<!--    padding: 12px 0;-->
+<!--    border-bottom: 1px solid var(&#45;&#45;light-gray);-->
+<!--  }-->
+
+<!--  .mobile-secondary {-->
+<!--    margin-top: 20px;-->
+<!--    padding-top: 20px;-->
+<!--    border-top: 1px solid var(&#45;&#45;light-gray);-->
+<!--  }-->
+
+<!--  .secondary-link {-->
+<!--    display: block;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    text-decoration: none;-->
+<!--    font-size: 14px;-->
+<!--    margin-bottom: 12px;-->
+<!--    opacity: 0.8;-->
+<!--    transition: var(&#45;&#45;transition);-->
+<!--  }-->
+
+<!--  .secondary-link:hover {-->
+<!--    color: var(&#45;&#45;accent-color);-->
+<!--    opacity: 1;-->
+<!--  }-->
+
+<!--  /* Адаптивность */-->
+<!--  @media (max-width: 920px) {-->
+<!--    .main-nav {-->
+<!--      gap: 25px;-->
+<!--    }-->
+<!--  }-->
+
+<!--  @media (max-width: 768px) {-->
+<!--    .main-nav {-->
+<!--      display: none;-->
+<!--    }-->
+
+<!--    .mobile-menu-btn {-->
+<!--      display: block;-->
+<!--    }-->
+
+<!--    .mobile-menu {-->
+<!--      display: block;-->
+<!--    }-->
+
+<!--    .nav-actions {-->
+<!--      gap: 15px;-->
+<!--    }-->
+
+<!--    .nav-actions .nav-icon:not(.cart-icon) {-->
+<!--      display: none;-->
+<!--    }-->
+<!--  }-->
+
+<!--  /* Luxury Minimalism Search Box Styles */-->
+
+<!--  .search-container {-->
+<!--    position: relative;-->
+<!--    max-width: 300px;-->
+<!--    margin: 0;-->
+<!--    transition: all 0.3s ease;-->
+<!--  }-->
+
+<!--  .search-container form {-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--  }-->
+
+<!--  .search-container input[type="text"] {-->
+<!--    width: 100%;-->
+<!--    padding: 12px 40px 12px 16px;-->
+<!--    border: 1px solid #e0e0e0;-->
+<!--    border-radius: 0;-->
+<!--    background-color: transparent;-->
+<!--    font-family: 'Playfair Display', serif; /* Luxury font - you may need to import this */-->
+<!--    font-size: 14px;-->
+<!--    letter-spacing: 0.5px;-->
+<!--    color: #333;-->
+<!--    transition: all 0.3s ease;-->
+<!--    box-shadow: none;-->
+<!--    outline: none;-->
+<!--  }-->
+
+<!--  .search-container input[type="text"]:focus {-->
+<!--    border-color: #9e8a78; /* Subtle gold/bronze color for focus */-->
+<!--    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);-->
+<!--  }-->
+
+<!--  .search-container input[type="text"]::placeholder {-->
+<!--    color: #aaa;-->
+<!--    font-style: italic;-->
+<!--    font-weight: 300;-->
+<!--  }-->
+
+<!--  .search-container .nav-icon {-->
+<!--    position: absolute;-->
+<!--    right: 16px;-->
+<!--    background: none;-->
+<!--    border: none;-->
+<!--    padding: 0;-->
+<!--    margin: 0;-->
+<!--    color: #9e8a78; /* Matches the border focus color */-->
+<!--    font-size: 16px;-->
+<!--    cursor: pointer;-->
+<!--    transition: all 0.3s ease;-->
+<!--  }-->
+
+<!--  .search-container .nav-icon:hover {-->
+<!--    color: #806a59; /* Darker shade on hover */-->
+<!--    transform: scale(1.1);-->
+<!--  }-->
+
+<!--  /* Optional animations */-->
+<!--  @keyframes gentle-pulse {-->
+<!--    0% { opacity: 1; }-->
+<!--    50% { opacity: 0.8; }-->
+<!--    100% { opacity: 1; }-->
+<!--  }-->
+
+<!--  .search-container:focus-within .nav-icon {-->
+<!--    animation: gentle-pulse 2s infinite;-->
+<!--  }-->
+
+<!--  /* Media queries for responsive design */-->
+<!--  @media (max-width: 768px) {-->
+<!--    .search-container {-->
+<!--      max-width: 100%;-->
+<!--    }-->
+
+<!--    .search-container input[type="text"] {-->
+<!--      padding: 10px 36px 10px 12px;-->
+<!--      font-size: 13px;-->
+<!--    }-->
+
+<!--    .search-container .nav-icon {-->
+<!--      right: 12px;-->
+<!--      font-size: 14px;-->
+<!--    }-->
+<!--  }-->
+
+<!--  /* Добавляем стили для иконки аккаунта */-->
+<!--  .account-icon {-->
+<!--    position: relative;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    transition: color 0.3s ease;-->
+<!--  }-->
+
+<!--  .account-icon i {-->
+<!--    font-size: 18px;-->
+<!--  }-->
+
+<!--  .account-icon:hover {-->
+<!--    color: var(&#45;&#45;accent-color);-->
+<!--  }-->
+
+<!--  /* Для авторизованного пользователя используем заполненную иконку */-->
+<!--  .fa-user-circle {-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--  }-->
+
+<!--  /* Смена цвета при наведении */-->
+<!--  .account-icon:hover .fa-user-circle {-->
+<!--    color: var(&#45;&#45;accent-color);-->
+<!--  }-->
+
+<!--  /* Добавляем стиль для мобильной версии */-->
+<!--  @media (max-width: 768px) {-->
+<!--    .nav-actions .nav-icon.account-icon {-->
+<!--      display: block; /* Показываем иконку аккаунта даже на мобильных */-->
+<!--    }-->
+<!--  }-->
+<!--</style>-->
+
+<!--&lt;!&ndash; JavaScript для навигации (можно вынести в отдельный файл) &ndash;&gt;-->
+<!--<script th:fragment="navigation-js">-->
+<!--  // Улучшенный JavaScript для работы мобильного меню-->
+<!--  document.addEventListener('DOMContentLoaded', function() {-->
+<!--    // Мобильное меню с улучшенной обработкой-->
+<!--    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');-->
+<!--    const mobileMenu = document.querySelector('.mobile-menu');-->
+<!--    const body = document.body;-->
+
+<!--    if(mobileMenuBtn && mobileMenu) {-->
+<!--      // Открытие/закрытие меню при клике на кнопку-->
+<!--      mobileMenuBtn.addEventListener('click', function(e) {-->
+<!--        e.preventDefault();-->
+<!--        e.stopPropagation();-->
+
+<!--        // Переключаем активное состояние-->
+<!--        this.classList.toggle('active');-->
+<!--        mobileMenu.classList.toggle('active');-->
+
+<!--        // Блокируем прокрутку страницы при открытом меню-->
+<!--        if(mobileMenu.classList.contains('active')) {-->
+<!--          body.style.overflow = 'hidden';-->
+<!--        } else {-->
+<!--          body.style.overflow = '';-->
+<!--        }-->
+<!--      });-->
+
+<!--      // Закрытие меню при клике на пункт меню-->
+<!--      const menuLinks = mobileMenu.querySelectorAll('.nav-link, .secondary-link');-->
+<!--      menuLinks.forEach(link => {-->
+<!--        link.addEventListener('click', function() {-->
+<!--          mobileMenuBtn.classList.remove('active');-->
+<!--          mobileMenu.classList.remove('active');-->
+<!--          body.style.overflow = '';-->
+<!--        });-->
+<!--      });-->
+
+<!--      // Закрытие меню при клике вне меню-->
+<!--      document.addEventListener('click', function(e) {-->
+<!--        if(mobileMenu.classList.contains('active') &&-->
+<!--                !mobileMenu.contains(e.target) &&-->
+<!--                e.target !== mobileMenuBtn &&-->
+<!--                !mobileMenuBtn.contains(e.target)) {-->
+<!--          mobileMenuBtn.classList.remove('active');-->
+<!--          mobileMenu.classList.remove('active');-->
+<!--          body.style.overflow = '';-->
+<!--        }-->
+<!--      });-->
+
+<!--      // Закрытие меню при изменении размера окна-->
+<!--      window.addEventListener('resize', function() {-->
+<!--        if(window.innerWidth > 768 && mobileMenu.classList.contains('active')) {-->
+<!--          mobileMenuBtn.classList.remove('active');-->
+<!--          mobileMenu.classList.remove('active');-->
+<!--          body.style.overflow = '';-->
+<!--        }-->
+<!--      });-->
+<!--    }-->
+
+<!--    // Фиксированная навигация с эффектом скрытия/показа при прокрутке-->
+<!--    const siteHeader = document.querySelector('.site-header');-->
+<!--    let lastScrollTop = 0;-->
+<!--    let scrollThreshold = 200; // Порог прокрутки-->
+
+<!--    window.addEventListener('scroll', function() {-->
+<!--      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;-->
+
+<!--      // Не скрываем шапку если открыто мобильное меню-->
+<!--      if(mobileMenu && mobileMenu.classList.contains('active')) {-->
+<!--        return;-->
+<!--      }-->
+
+<!--      // Скрываем шапку при прокрутке вниз и показываем при прокрутке вверх-->
+<!--      if(scrollTop > lastScrollTop && scrollTop > scrollThreshold) {-->
+<!--        // Прокрутка вниз после порога-->
+<!--        siteHeader.classList.add('nav-hidden');-->
+<!--      } else {-->
+<!--        // Прокрутка вверх или до порога-->
+<!--        siteHeader.classList.remove('nav-hidden');-->
+<!--      }-->
+
+<!--      lastScrollTop = scrollTop;-->
+<!--    });-->
+
+<!--    // Функция для проверки темного фона (добавляет класс для контраста)-->
+<!--    function checkBackgroundColor() {-->
+<!--      const header = document.querySelector('.site-header');-->
+<!--      if(!header) return;-->
+
+<!--      // Получаем цвет фона под шапкой-->
+<!--      const headerHeight = header.offsetHeight;-->
+<!--      const elemBelow = document.elementFromPoint(-->
+<!--              header.offsetWidth / 2,-->
+<!--              headerHeight + 10-->
+<!--      );-->
+
+<!--      if(elemBelow) {-->
+<!--        const bgColor = window.getComputedStyle(elemBelow).backgroundColor;-->
+
+<!--        // Проверяем, является ли фон темным-->
+<!--        const rgb = bgColor.match(/\d+/g);-->
+<!--        if(rgb && rgb.length >= 3) {-->
+<!--          const brightness = (parseInt(rgb[0]) * 299 +-->
+<!--                  parseInt(rgb[1]) * 587 +-->
+<!--                  parseInt(rgb[2]) * 114) / 1000;-->
+
+<!--          // Если фон темный - добавляем класс для контраста-->
+<!--          if(brightness < 128) {-->
+<!--            header.classList.add('dark-bg');-->
+<!--          } else {-->
+<!--            header.classList.remove('dark-bg');-->
+<!--          }-->
+<!--        }-->
+<!--      }-->
+<!--    }-->
+
+<!--    // Проверяем цвет фона при загрузке и при прокрутке-->
+<!--    checkBackgroundColor();-->
+<!--    window.addEventListener('scroll', checkBackgroundColor);-->
+<!--  });-->
+<!--</script>-->
+
+<!--&lt;!&ndash; Дополнительные стили для эффекта скрытия/показа навигации &ndash;&gt;-->
+<!--<style th:fragment="navigation-scroll-css">-->
+<!--  .site-header {-->
+<!--    transition: transform 0.3s ease;-->
+<!--  }-->
+
+<!--  .site-header.nav-hidden {-->
+<!--    transform: translateY(-100%);-->
+<!--  }-->
+
+
+<!--</style>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!-- Фрагмент навигации -->
-<nav th:fragment="navigation" class="site-header">
-  <div class="container">
-    <div class="nav-wrapper">
-      <a href="/" class="logo">BLOOM</a>
-
-      <nav class="main-nav">
-        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>
-        <a href="/categories" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>
-        <a href="/flowers" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>
-        <a href="/order-tracking" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Відстежити замовлення</a>
-        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>
-        <a href="/blog" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Блог</a>
-      </nav>
-
-      <div class="nav-actions">
-        <div class="search-container">
-          <form action="/categories/search" method="get">
-            <input type="text" name="query" placeholder="Пошук квітів...">
-            <a href="#" onclick="this.closest('form').submit(); return false;" class="nav-icon">
-              <i class="fas fa-search"></i>
-            </a>
-          </form>
-        </div>
-        <a href="/favorites" class="nav-icon"><i class="far fa-heart"></i></a>
-        <a href="/cart" class="nav-icon cart-icon">
-          <i class="fas fa-shopping-bag"></i>
-          <span th:text="${cartCount ?: 0}">0</span>
-        </a>
-        <!-- Додаємо іконку акаунту -->
-        <a th:if="${user != null}" href="/aut/dashboard" class="nav-icon account-icon" title="Особистий кабінет">
-          <i class="fas fa-user-circle"></i>
-        </a>
-        <a th:unless="${user != null}" href="/aut/login" class="nav-icon account-icon" title="Увійти">
-          <i class="far fa-user-circle"></i>
-        </a>
-        <button class="mobile-menu-btn">
+<nav th:fragment="navigation" class="lucky-site-header">
+  <div class="lucky-container">
+    <div class="lucky-nav-wrapper">
+      <div class="lucky-header-left">
+        <a href="/" class="lucky-logo">BLOOM</a>
+        <button class="lucky-mobile-menu-btn">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
+
+      <nav class="lucky-main-nav">
+        <a href="/" class="lucky-nav-link" th:classappend="${currentPage == 'home'} ? 'lucky-active' : ''">Головна</a>
+        <a href="/categories" class="lucky-nav-link" th:classappend="${currentPage == 'catalog'} ? 'lucky-active' : ''">Каталог</a>
+        <a href="/flowers" class="lucky-nav-link" th:classappend="${currentPage == 'bouquets'} ? 'lucky-active' : ''">Букети</a>
+        <a href="/order-tracking" class="lucky-nav-link" th:classappend="${currentPage == 'collections'} ? 'lucky-active' : ''">Відстежити замовлення</a>
+        <a href="/about" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Про нас</a>
+        <a href="/blog" class="lucky-nav-link" th:classappend="${currentPage == 'contact'} ? 'lucky-active' : ''">Блог</a>
+      </nav>
+
+      <div class="lucky-nav-actions">
+        <div class="lucky-search-container">
+          <form action="/categories/search" method="get">
+            <input type="text" name="query" placeholder="Пошук квітів...">
+            <a href="#" onclick="this.closest('form').submit(); return false;" class="lucky-nav-icon">
+              <i class="fas fa-search"></i>
+            </a>
+          </form>
+        </div>
+        <a href="/favorites" class="lucky-nav-icon"><i class="far fa-heart"></i></a>
+        <a href="/cart" class="lucky-nav-icon lucky-cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="lucky-cart-count" th:text="${cartCount ?: 0}">0</span>
+        </a>
+        <!-- Додаємо іконку акаунту -->
+        <a th:if="${user != null}" href="/aut/dashboard" class="lucky-nav-icon lucky-account-icon" title="Особистий кабінет">
+          <i class="fas fa-user-circle"></i>
+        </a>
+        <a th:unless="${user != null}" href="/aut/login" class="lucky-nav-icon lucky-account-icon" title="Увійти">
+          <i class="far fa-user-circle"></i>
+        </a>
+      </div>
     </div>
   </div>
 
   <!-- Мобільне меню -->
-  <div class="mobile-menu">
-    <div class="container">
-      <div class="mobile-nav">
-        <a href="/" class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''">Головна</a>
-        <a href="/catalog" class="nav-link" th:classappend="${currentPage == 'catalog'} ? 'active' : ''">Каталог</a>
-        <a href="/bouquets" class="nav-link" th:classappend="${currentPage == 'bouquets'} ? 'active' : ''">Букети</a>
-        <a href="/collections" class="nav-link" th:classappend="${currentPage == 'collections'} ? 'active' : ''">Колекції</a>
-        <a href="/about" class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''">Про нас</a>
-        <a href="/contact" class="nav-link" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Контакти</a>
+  <div class="lucky-mobile-menu">
+    <div class="lucky-container">
+      <div class="lucky-mobile-search">
+        <form action="/categories/search" method="get">
+          <input type="text" name="query" placeholder="Пошук квітів...">
+          <button type="submit" class="lucky-nav-icon">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+      <div class="lucky-mobile-nav">
+        <a href="/" class="lucky-nav-link" th:classappend="${currentPage == 'home'} ? 'lucky-active' : ''">Головна</a>
+        <a href="/catalog" class="lucky-nav-link" th:classappend="${currentPage == 'catalog'} ? 'lucky-active' : ''">Каталог</a>
+        <a href="/bouquets" class="lucky-nav-link" th:classappend="${currentPage == 'bouquets'} ? 'lucky-active' : ''">Букети</a>
+        <a href="/order-tracking" class="lucky-nav-link" th:classappend="${currentPage == 'order-tracking'} ? 'lucky-active' : ''">Відстеження замовлення</a>
+        <a href="/about" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Про нас</a>
+        <a href="/contact" class="lucky-nav-link" th:classappend="${currentPage == 'contact'} ? 'lucky-active' : ''">Контакти</a>
 
-        <div class="mobile-secondary">
-          <a th:if="${user != null}" href="/aut/dashboard" class="secondary-link">Особистий кабінет</a>
-          <a th:unless="${user != null}" href="/aut/login" class="secondary-link">Увійти через Google</a>
-          <a href="/order-tracking" class="secondary-link">Доставка</a>
-          <a href="/favorites" class="secondary-link">Обране</a>
+        <div class="lucky-mobile-secondary">
+          <a th:if="${user != null}" href="/aut/dashboard" class="lucky-secondary-link">Особистий кабінет</a>
+          <a th:unless="${user != null}" href="/aut/login" class="lucky-secondary-link">Увійти через Google</a>
+          <a href="/order-tracking" class="lucky-secondary-link">Доставка</a>
+          <a href="/favorites" class="lucky-secondary-link">Обране</a>
         </div>
       </div>
     </div>
   </div>
 </nav>
 
-
-
 <!-- CSS для навигации (можно вынести в отдельный файл) -->
 <style th:fragment="navigation-css">
   /* Переменные для стиля "Премиальный минимализм" */
   :root {
-    --primary-color: #1a1a1a;
-    --secondary-color: #f5f5f5;
-    --accent-color: #e19d45;
-    --text-color: #333333;
-    --light-gray: #e0e0e0;
-    --transition: all 0.3s ease;
+    --lucky-primary-color: #1a1a1a;
+    --lucky-secondary-color: #f5f5f5;
+    --lucky-accent-color: #e19d45;
+    --lucky-text-color: #333333;
+    --lucky-light-gray: #e0e0e0;
+    --lucky-transition: all 0.3s ease;
   }
 
   /* Базовые стили */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
-  }
-
-  .container {
+  .lucky-container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -103,37 +672,48 @@
   }
 
   /* Навигация */
-  .site-header {
+  .lucky-site-header {
     background-color: white;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
   }
 
-  .nav-wrapper {
+  .lucky-nav-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
   }
 
-  .logo {
-    color: var(--primary-color);
+  /* Новый блок для логотипа и кнопки меню */
+  .lucky-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lucky-logo {
+    color: var(--lucky-primary-color);
     text-decoration: none;
     font-size: 24px;
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
+    flex-shrink: 0;
   }
 
-  .main-nav {
+  .lucky-main-nav {
     display: flex;
     gap: 40px;
+    flex-grow: 1;
+    justify-content: center;
   }
 
-  .nav-link {
-    color: var(--text-color);
+  .lucky-nav-link {
+    color: var(--lucky-text-color);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -141,49 +721,56 @@
     position: relative;
     padding-bottom: 5px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
-  .nav-link::after {
+  .lucky-nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--accent-color);
+    background-color: var(--lucky-accent-color);
     transition: width 0.3s ease;
   }
 
-  .nav-link:hover::after,
-  .nav-link.active::after {
+  .lucky-nav-link:hover::after,
+  .lucky-nav-link.lucky-active::after {
     width: 100%;
   }
 
-  .nav-actions {
+  .lucky-nav-actions {
     display: flex;
     gap: 20px;
     align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    min-width: 120px;
   }
 
-  .nav-icon {
-    color: var(--text-color);
+  .lucky-nav-icon {
+    color: var(--lucky-text-color);
     font-size: 18px;
     transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .nav-icon:hover {
-    color: var(--accent-color);
+  .lucky-nav-icon:hover {
+    color: var(--lucky-accent-color);
   }
 
-  .cart-icon {
+  .lucky-cart-icon {
     position: relative;
   }
 
-  .cart-count {
+  .lucky-cart-count {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: var(--accent-color);
+    background-color: var(--lucky-accent-color);
     color: white;
     font-size: 10px;
     width: 16px;
@@ -196,7 +783,7 @@
   }
 
   /* Мобильное меню */
-  .mobile-menu-btn {
+  .lucky-mobile-menu-btn {
     display: none;
     background: none;
     border: none;
@@ -204,138 +791,110 @@
     width: 25px;
     height: 20px;
     position: relative;
+    flex-shrink: 0;
   }
 
-  .mobile-menu-btn span {
+  .lucky-mobile-menu-btn span {
     display: block;
     position: absolute;
     width: 100%;
     height: 2px;
-    background-color: var(--primary-color);
-    transition: var(--transition);
+    background-color: var(--lucky-primary-color);
+    transition: var(--lucky-transition);
   }
 
-  .mobile-menu-btn span:nth-child(1) {
+  .lucky-mobile-menu-btn span:nth-child(1) {
     top: 0;
   }
 
-  .mobile-menu-btn span:nth-child(2) {
+  .lucky-mobile-menu-btn span:nth-child(2) {
     top: 9px;
   }
 
-  .mobile-menu-btn span:nth-child(3) {
+  .lucky-mobile-menu-btn span:nth-child(3) {
     top: 18px;
   }
 
-  .mobile-menu-btn.active span:nth-child(1) {
+  .lucky-mobile-menu-btn.lucky-active span:nth-child(1) {
     transform: rotate(45deg);
     top: 9px;
   }
 
-  .mobile-menu-btn.active span:nth-child(2) {
+  .lucky-mobile-menu-btn.lucky-active span:nth-child(2) {
     opacity: 0;
   }
 
-  .mobile-menu-btn.active span:nth-child(3) {
+  .lucky-mobile-menu-btn.lucky-active span:nth-child(3) {
     transform: rotate(-45deg);
     top: 9px;
   }
 
-  .mobile-menu {
+  .lucky-mobile-menu {
     display: none;
     background-color: white;
-    border-top: 1px solid var(--light-gray);
+    border-top: 1px solid var(--lucky-light-gray);
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease;
+    width: 100%;
   }
 
-  .mobile-menu.active {
+  .lucky-mobile-menu.lucky-active {
     max-height: 500px;
   }
 
-  .mobile-nav {
+  .lucky-mobile-nav {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
   }
 
-  .mobile-nav .nav-link {
+  .lucky-mobile-nav .lucky-nav-link {
     padding: 12px 0;
-    border-bottom: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(--lucky-light-gray);
   }
 
-  .mobile-secondary {
+  .lucky-mobile-secondary {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid var(--light-gray);
+    border-top: 1px solid var(--lucky-light-gray);
   }
 
-  .secondary-link {
+  .lucky-secondary-link {
     display: block;
-    color: var(--text-color);
+    color: var(--lucky-text-color);
     text-decoration: none;
     font-size: 14px;
     margin-bottom: 12px;
     opacity: 0.8;
-    transition: var(--transition);
+    transition: var(--lucky-transition);
   }
 
-  .secondary-link:hover {
-    color: var(--accent-color);
+  .lucky-secondary-link:hover {
+    color: var(--lucky-accent-color);
     opacity: 1;
   }
 
-  /* Адаптивность */
-  @media (max-width: 920px) {
-    .main-nav {
-      gap: 25px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .main-nav {
-      display: none;
-    }
-
-    .mobile-menu-btn {
-      display: block;
-    }
-
-    .mobile-menu {
-      display: block;
-    }
-
-    .nav-actions {
-      gap: 15px;
-    }
-
-    .nav-actions .nav-icon:not(.cart-icon) {
-      display: none;
-    }
-  }
-
   /* Luxury Minimalism Search Box Styles */
-
-  .search-container {
+  .lucky-search-container {
     position: relative;
-    max-width: 300px;
-    margin: 0;
+    max-width: 180px;
     transition: all 0.3s ease;
+    margin-right: 10px;
   }
 
-  .search-container form {
+  .lucky-search-container form {
     display: flex;
     align-items: center;
   }
 
-  .search-container input[type="text"] {
+  .lucky-search-container input[type="text"] {
     width: 100%;
-    padding: 12px 40px 12px 16px;
+    padding: 10px 30px 10px 12px;
     border: 1px solid #e0e0e0;
     border-radius: 0;
     background-color: transparent;
-    font-family: 'Playfair Display', serif; /* Luxury font - you may need to import this */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 14px;
     letter-spacing: 0.5px;
     color: #333;
@@ -344,92 +903,177 @@
     outline: none;
   }
 
-  .search-container input[type="text"]:focus {
+  .lucky-search-container input[type="text"]:focus {
     border-color: #9e8a78; /* Subtle gold/bronze color for focus */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
-  .search-container input[type="text"]::placeholder {
+  .lucky-search-container input[type="text"]::placeholder {
     color: #aaa;
     font-style: italic;
     font-weight: 300;
+    font-size: 13px;
   }
 
-  .search-container .nav-icon {
+  .lucky-search-container .lucky-nav-icon {
     position: absolute;
-    right: 16px;
+    right: 12px;
     background: none;
     border: none;
     padding: 0;
     margin: 0;
     color: #9e8a78; /* Matches the border focus color */
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
-  .search-container .nav-icon:hover {
+  .lucky-search-container .lucky-nav-icon:hover {
     color: #806a59; /* Darker shade on hover */
     transform: scale(1.1);
   }
 
-  /* Optional animations */
-  @keyframes gentle-pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.8; }
-    100% { opacity: 1; }
-  }
-
-  .search-container:focus-within .nav-icon {
-    animation: gentle-pulse 2s infinite;
-  }
-
-  /* Media queries for responsive design */
-  @media (max-width: 768px) {
-    .search-container {
-      max-width: 100%;
-    }
-
-    .search-container input[type="text"] {
-      padding: 10px 36px 10px 12px;
-      font-size: 13px;
-    }
-
-    .search-container .nav-icon {
-      right: 12px;
-      font-size: 14px;
-    }
-  }
-
   /* Добавляем стили для иконки аккаунта */
-  .account-icon {
+  .lucky-account-icon {
     position: relative;
-    color: var(--text-color);
+    color: var(--lucky-text-color);
     transition: color 0.3s ease;
   }
 
-  .account-icon i {
+  .lucky-account-icon i {
     font-size: 18px;
   }
 
-  .account-icon:hover {
-    color: var(--accent-color);
+  .lucky-account-icon:hover {
+    color: var(--lucky-accent-color);
   }
 
   /* Для авторизованного пользователя используем заполненную иконку */
-  .fa-user-circle {
-    color: var(--text-color);
+  .lucky-account-icon .fa-user-circle {
+    color: var(--lucky-text-color);
   }
 
   /* Смена цвета при наведении */
-  .account-icon:hover .fa-user-circle {
-    color: var(--accent-color);
+  .lucky-account-icon:hover .fa-user-circle {
+    color: var(--lucky-accent-color);
   }
 
-  /* Добавляем стиль для мобильной версии */
+  /* Стили для мобильной поисковой строки */
+  .lucky-mobile-search {
+    display: none;
+    margin: 15px 0;
+    width: 100%;
+    position: relative;
+  }
+
+  .lucky-mobile-search input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--lucky-light-gray);
+    font-size: 14px;
+  }
+
+  .lucky-mobile-search .lucky-nav-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9e8a78;
+    cursor: pointer;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .lucky-main-nav {
+      gap: 20px;
+    }
+
+    .lucky-nav-link {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 920px) {
+    .lucky-nav-wrapper {
+      flex-wrap: wrap;
+    }
+
+    .lucky-header-left {
+      order: 1;
+      margin-right: auto;
+    }
+
+    .lucky-main-nav {
+      order: 3;
+      width: 100%;
+      margin-top: 15px;
+      gap: 15px;
+      justify-content: space-between;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .lucky-nav-actions {
+      order: 2;
+      margin-left: auto;
+    }
+  }
+
   @media (max-width: 768px) {
-    .nav-actions .nav-icon.account-icon {
-      display: block; /* Показываем иконку аккаунта даже на мобильных */
+    .lucky-nav-wrapper {
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+
+    .lucky-header-left {
+      order: 1;
+    }
+
+    .lucky-nav-actions {
+      order: 2;
+      gap: 10px;
+    }
+
+    .lucky-main-nav {
+      display: none;
+    }
+
+    .lucky-mobile-menu-btn {
+      display: block;
+    }
+
+    .lucky-mobile-menu {
+      display: block;
+    }
+
+    .lucky-search-container {
+      display: none;
+    }
+
+    .lucky-mobile-search {
+      display: block;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .lucky-nav-actions {
+      gap: 8px;
+      justify-content: flex-end;
+      min-width: auto;
+    }
+
+    .lucky-nav-actions .lucky-nav-icon:not(.lucky-cart-icon):not(.lucky-account-icon) {
+      display: none;
+    }
+
+    .lucky-logo {
+      font-size: 20px;
+    }
+
+    .lucky-nav-wrapper {
+      padding: 15px 0;
     }
   }
 </style>
@@ -439,8 +1083,8 @@
   // Улучшенный JavaScript для работы мобильного меню
   document.addEventListener('DOMContentLoaded', function() {
     // Мобильное меню с улучшенной обработкой
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuBtn = document.querySelector('.lucky-mobile-menu-btn');
+    const mobileMenu = document.querySelector('.lucky-mobile-menu');
     const body = document.body;
 
     if(mobileMenuBtn && mobileMenu) {
@@ -450,11 +1094,11 @@
         e.stopPropagation();
 
         // Переключаем активное состояние
-        this.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
+        this.classList.toggle('lucky-active');
+        mobileMenu.classList.toggle('lucky-active');
 
         // Блокируем прокрутку страницы при открытом меню
-        if(mobileMenu.classList.contains('active')) {
+        if(mobileMenu.classList.contains('lucky-active')) {
           body.style.overflow = 'hidden';
         } else {
           body.style.overflow = '';
@@ -462,39 +1106,39 @@
       });
 
       // Закрытие меню при клике на пункт меню
-      const menuLinks = mobileMenu.querySelectorAll('.nav-link, .secondary-link');
+      const menuLinks = mobileMenu.querySelectorAll('.lucky-nav-link, .lucky-secondary-link');
       menuLinks.forEach(link => {
         link.addEventListener('click', function() {
-          mobileMenuBtn.classList.remove('active');
-          mobileMenu.classList.remove('active');
+          mobileMenuBtn.classList.remove('lucky-active');
+          mobileMenu.classList.remove('lucky-active');
           body.style.overflow = '';
         });
       });
 
       // Закрытие меню при клике вне меню
       document.addEventListener('click', function(e) {
-        if(mobileMenu.classList.contains('active') &&
+        if(mobileMenu.classList.contains('lucky-active') &&
                 !mobileMenu.contains(e.target) &&
                 e.target !== mobileMenuBtn &&
                 !mobileMenuBtn.contains(e.target)) {
-          mobileMenuBtn.classList.remove('active');
-          mobileMenu.classList.remove('active');
+          mobileMenuBtn.classList.remove('lucky-active');
+          mobileMenu.classList.remove('lucky-active');
           body.style.overflow = '';
         }
       });
 
       // Закрытие меню при изменении размера окна
       window.addEventListener('resize', function() {
-        if(window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
-          mobileMenuBtn.classList.remove('active');
-          mobileMenu.classList.remove('active');
+        if(window.innerWidth > 768 && mobileMenu.classList.contains('lucky-active')) {
+          mobileMenuBtn.classList.remove('lucky-active');
+          mobileMenu.classList.remove('lucky-active');
           body.style.overflow = '';
         }
       });
     }
 
     // Фиксированная навигация с эффектом скрытия/показа при прокрутке
-    const siteHeader = document.querySelector('.site-header');
+    const siteHeader = document.querySelector('.lucky-site-header');
     let lastScrollTop = 0;
     let scrollThreshold = 200; // Порог прокрутки
 
@@ -502,99 +1146,33 @@
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
       // Не скрываем шапку если открыто мобильное меню
-      if(mobileMenu && mobileMenu.classList.contains('active')) {
+      if(mobileMenu && mobileMenu.classList.contains('lucky-active')) {
         return;
       }
 
       // Скрываем шапку при прокрутке вниз и показываем при прокрутке вверх
       if(scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
         // Прокрутка вниз после порога
-        siteHeader.classList.add('nav-hidden');
+        siteHeader.classList.add('lucky-nav-hidden');
       } else {
         // Прокрутка вверх или до порога
-        siteHeader.classList.remove('nav-hidden');
+        siteHeader.classList.remove('lucky-nav-hidden');
       }
 
       lastScrollTop = scrollTop;
     });
-
-    // Функция для проверки темного фона (добавляет класс для контраста)
-    function checkBackgroundColor() {
-      const header = document.querySelector('.site-header');
-      if(!header) return;
-
-      // Получаем цвет фона под шапкой
-      const headerHeight = header.offsetHeight;
-      const elemBelow = document.elementFromPoint(
-              header.offsetWidth / 2,
-              headerHeight + 10
-      );
-
-      if(elemBelow) {
-        const bgColor = window.getComputedStyle(elemBelow).backgroundColor;
-
-        // Проверяем, является ли фон темным
-        const rgb = bgColor.match(/\d+/g);
-        if(rgb && rgb.length >= 3) {
-          const brightness = (parseInt(rgb[0]) * 299 +
-                  parseInt(rgb[1]) * 587 +
-                  parseInt(rgb[2]) * 114) / 1000;
-
-          // Если фон темный - добавляем класс для контраста
-          if(brightness < 128) {
-            header.classList.add('dark-bg');
-          } else {
-            header.classList.remove('dark-bg');
-          }
-        }
-      }
-    }
-
-    // Проверяем цвет фона при загрузке и при прокрутке
-    checkBackgroundColor();
-    window.addEventListener('scroll', checkBackgroundColor);
   });
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   // Мобильное меню
-  //   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-  //   const mobileMenu = document.querySelector('.mobile-menu');
-  //
-  //   if(mobileMenuBtn && mobileMenu) {
-  //     mobileMenuBtn.addEventListener('click', function() {
-  //       this.classList.toggle('active');
-  //       mobileMenu.classList.toggle('active');
-  //     });
-  //   }
-  //
-  //   // Фиксированная навигация с эффектом скрытия/показа при прокрутке
-  //   const siteHeader = document.querySelector('.site-header');
-  //   let lastScrollTop = 0;
-  //
-  //   window.addEventListener('scroll', function() {
-  //     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  //
-  //     if(scrollTop > lastScrollTop && scrollTop > 200) {
-  //       siteHeader.classList.add('nav-hidden');
-  //     } else {
-  //       siteHeader.classList.remove('nav-hidden');
-  //     }
-  //
-  //     lastScrollTop = scrollTop;
-  //   });
-  // });
 </script>
 
 <!-- Дополнительные стили для эффекта скрытия/показа навигации -->
 <style th:fragment="navigation-scroll-css">
-  .site-header {
+  .lucky-site-header {
     transition: transform 0.3s ease;
   }
 
-  .site-header.nav-hidden {
+  .lucky-site-header.lucky-nav-hidden {
     transform: translateY(-100%);
   }
-
-
 </style>
 </body>
 </html>
