@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Детали акции</title>
-  <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
-  <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
-  <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+  <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+  <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+  <style th:replace="~{client/fragments/luxe-header :: luxe-header-css}"></style>
   <!-- Подключаем красивый шрифт для премиального вида -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -59,7 +59,7 @@
 </head>
 <body>
 <!-- Шапка сайта -->
-<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+<nav th:replace="~{client/fragments/navigation :: navigation}"></nav>
 
 <!-- Героический заголовок в минималистичном стиле -->
 <div class="luxe-promo-header">
@@ -729,6 +729,7 @@
   <!-- Подключение футера -->
   <div th:replace="~{client/fragments/footer :: footer}"></div>
 </div>
-<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+
 </body>
 </html>

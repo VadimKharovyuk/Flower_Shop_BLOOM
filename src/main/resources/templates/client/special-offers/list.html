@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Специальные предложения и акции</title>
-    <style th:replace="~{/client/fragments/navigation :: navigation-css}"></style>
-    <style th:replace="~{/client/fragments/navigation :: navigation-scroll-css}"></style>
-    <style th:replace="~{/client/fragments/luxe-header :: luxe-header-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/luxe-header :: luxe-header-css}"></style>
 
 
     <link rel="stylesheet" href="/css/special_offers/offers-section-list.css">
@@ -14,7 +14,7 @@
 </head>
 <body>
 <!-- Шапка сайта -->
-<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+<nav th:replace="~{client/fragments/navigation :: navigation}"></nav>
 
 <!-- Элегантный заголовок в минималистичном стиле -->
 <div class="luxe-promo-header">
@@ -132,6 +132,6 @@
     <!-- Подключение футера -->
     <div th:replace="~{client/fragments/footer :: footer}"></div>
 </div>
-<script th:replace="~{/client/fragments/navigation :: navigation-js}"></script>
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 </body>
 </html>
