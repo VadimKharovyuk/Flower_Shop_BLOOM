@@ -16,7 +16,6 @@ public class FlowerShopTrApplication {
 }
 
 
-
 ///   http://localhost:1634/special-offers/5  убрать каруель для товаров добавить page
 
 ///
