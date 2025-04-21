@@ -598,24 +598,25 @@
 
 
         <!-- Пагинация -->
+        <!-- Пагинация -->
         <div class="pagination" th:if="${popularFlowers.totalPages > 1}">
             <ul class="pagination-list">
                 <li class="pagination-item" th:classappend="${popularFlowers.number == 0 ? 'disabled' : ''}">
-                    <a th:href="@{/popular(page=${popularFlowers.number - 1}, sort=${param.sort})}"
+                    <a th:href="@{/trending(page=${popularFlowers.number - 1}, size=${param.size})}"
                        th:if="${popularFlowers.number > 0}">&laquo;</a>
                     <span th:unless="${popularFlowers.number > 0}">&laquo;</span>
                 </li>
 
                 <li class="pagination-item" th:each="i : ${#numbers.sequence(0, popularFlowers.totalPages - 1)}"
                     th:classappend="${i == popularFlowers.number ? 'active' : ''}">
-                    <a th:href="@{/popular(page=${i}, sort=${param.sort})}" th:unless="${i == popularFlowers.number}"
+                    <a th:href="@{/trending(page=${i}, size=${param.size})}" th:unless="${i == popularFlowers.number}"
                        th:text="${i + 1}">1</a>
                     <span th:if="${i == popularFlowers.number}" th:text="${i + 1}">1</span>
                 </li>
 
                 <li class="pagination-item"
                     th:classappend="${popularFlowers.number == popularFlowers.totalPages - 1 ? 'disabled' : ''}">
-                    <a th:href="@{/popular(page=${popularFlowers.number + 1}, sort=${param.sort})}"
+                    <a th:href="@{/trending(page=${popularFlowers.number + 1}, size=${param.size})}"
                        th:if="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</a>
                     <span th:unless="${popularFlowers.number < popularFlowers.totalPages - 1}">&raquo;</span>
                 </li>
