@@ -1028,89 +1028,6 @@
     </div>
 </section>
 
-<!-- Wedding Section -->
-<section class="wedding-section">
-    <div class="container">
-        <div class="wedding-content">
-            <div class="wedding-text-container">
-                <h2 class="wedding-title">Весільні букети</h2>
-                <p class="wedding-description">Створюємо унікальні квіткові композиції, які підкреслять особливість вашого свята. Вишуканий дизайн, преміальні квіти та індивідуальний підхід для самого важливого дня.</p>
-<!--                <a href="#" class="wedding-btn">Переглянути колекцію</a>-->
-            </div>
-            <div class="wedding-gallery">
-                <div class="gallery-main">
-                    <img src="/img/075357AB-C84E-4CA1-9D44-346810F0ECA3.webp" alt="Весільний букет" class="wedding-main-image">
-                </div>
-                <div class="gallery-side">
-                    <img src="/img/IMG_0744.webp" alt="Весільний букет" class="wedding-side-image">
-                    <img src="/img/IMG_5274.webp" alt="Весільна композиція" class="wedding-side-image">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-
-<!-- Special Offers Section -->
-<section class="offers-section">
-    <div class="container">
-        <div class="offers-header">
-            <h2 class="offers-title">Спеціальні пропозиції</h2>
-            <p class="offers-subtitle">Обмежені за часом акції та сезонні знижки на преміальні букети</p>
-        </div>
-
-        <!-- Повідомлення, якщо немає пропозицій -->
-        <div th:if="${#lists.isEmpty(offers)}" class="no-offers-message">
-            <p class="text-center">Наразі немає активних акцій. Будь ласка, загляньте до нас пізніше або ознайомтесь з нашою <a href="/catalog">основною колекцією</a>.</p>
-        </div>
-
-        <!-- Список пропозицій -->
-        <div th:unless="${#lists.isEmpty(offers)}" class="offers-grid">
-            <div th:each="offer : ${offers}" class="offer-card" th:classappend="${offer.featured ? 'featured-offer' : ''}">
-                <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}">-20%</div>
-                <div class="offer-image-container">
-                    <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акція" class="offer-image">
-                    <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акція" class="offer-image">
-                </div>
-                <div class="offer-content">
-                    <h3 class="offer-name" th:text="${offer.name}">Сезонна колекція</h3>
-                    <p class="offer-description" th:text="${offer.getSpecialPriceText() ?: 'Спеціальна пропозиція з вигідною ціною'}">Знижка 20% на всі букети з весняної колекції при замовленні до кінця тижня.</p>
-                    <div class="offer-meta">
-                        <div class="offer-price" th:if="${offer.oldPrice != null && offer.newPrice != null}">
-                            <span class="price-old" th:text="${offer.oldPrice + ' ₴'}">5 400 ₴</span>
-                            <span class="price-new" th:text="${offer.newPrice + ' ₴'}">4 320 ₴</span>
-                        </div>
-                        <div class="offer-price special-offer" th:if="${offer.specialPriceText}">
-                            <span class="price-special" th:text="${offer.specialPriceText}">Третій букет безкоштовно</span>
-                        </div>
-                        <div class="offer-timer" th:if="${offer.remainingDays > 0}">
-                            <div class="timer-label">До кінця акції:</div>
-                            <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}">3 дні</div>
-                            <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
-                                <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a th:href="@{/special-offers/{id}(id=${offer.id})}"
-                       th:class="${'offer-button ' + (offer.highlightButton ? 'highlight' : '')}"
-                       th:text="${offer.buttonText ?: 'Докладніше'}">Вибрати букет</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="events-footer">
-            <a th:href="@{/special-offers}" class="view-all-button">Переглянути всі акції <i class="fas fa-long-arrow-alt-right"></i></a>
-        </div>
-    </div>
-</section>
-<!-- Подключение скрипта с обратным отсчетом -->
-<script th:src="@{/js/countdown-timer.js}"></script>
-
-<!-- Custom Bouquet Section -->
-
-
 
 <section class="custom-bouquet-section">
     <div class="container">
@@ -1243,6 +1160,89 @@
 <script th:src="@{/js/custom-bouquet.js}"></script>
 
 
+<!-- Wedding Section -->
+<section class="wedding-section">
+    <div class="container">
+        <div class="wedding-content">
+            <div class="wedding-text-container">
+                <h2 class="wedding-title">Весільні букети</h2>
+                <p class="wedding-description">Створюємо унікальні квіткові композиції, які підкреслять особливість вашого свята. Вишуканий дизайн, преміальні квіти та індивідуальний підхід для самого важливого дня.</p>
+<!--                <a href="#" class="wedding-btn">Переглянути колекцію</a>-->
+            </div>
+            <div class="wedding-gallery">
+                <div class="gallery-main">
+                    <img src="/img/075357AB-C84E-4CA1-9D44-346810F0ECA3.webp" alt="Весільний букет" class="wedding-main-image">
+                </div>
+                <div class="gallery-side">
+                    <img src="/img/IMG_0744.webp" alt="Весільний букет" class="wedding-side-image">
+                    <img src="/img/IMG_5274.webp" alt="Весільна композиція" class="wedding-side-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Special Offers Section -->
+<section class="offers-section">
+    <div class="container">
+        <div class="offers-header">
+            <h2 class="offers-title">Спеціальні пропозиції</h2>
+            <p class="offers-subtitle">Обмежені за часом акції та сезонні знижки на преміальні букети</p>
+        </div>
+
+        <!-- Повідомлення, якщо немає пропозицій -->
+        <div th:if="${#lists.isEmpty(offers)}" class="no-offers-message">
+            <p class="text-center">Наразі немає активних акцій. Будь ласка, загляньте до нас пізніше або ознайомтесь з нашою <a href="/catalog">основною колекцією</a>.</p>
+        </div>
+
+        <!-- Список пропозицій -->
+        <div th:unless="${#lists.isEmpty(offers)}" class="offers-grid">
+            <div th:each="offer : ${offers}" class="offer-card" th:classappend="${offer.featured ? 'featured-offer' : ''}">
+                <div class="offer-badge" th:if="${offer.badgeText}" th:text="${offer.badgeText}">-20%</div>
+                <div class="offer-image-container">
+                    <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Акція" class="offer-image">
+                    <img th:unless="${offer.imageUrl}" src="/images/placeholder-offer.jpg" alt="Акція" class="offer-image">
+                </div>
+                <div class="offer-content">
+                    <h3 class="offer-name" th:text="${offer.name}">Сезонна колекція</h3>
+                    <p class="offer-description" th:text="${offer.getSpecialPriceText() ?: 'Спеціальна пропозиція з вигідною ціною'}">Знижка 20% на всі букети з весняної колекції при замовленні до кінця тижня.</p>
+                    <div class="offer-meta">
+                        <div class="offer-price" th:if="${offer.oldPrice != null && offer.newPrice != null}">
+                            <span class="price-old" th:text="${offer.oldPrice + ' ₴'}">5 400 ₴</span>
+                            <span class="price-new" th:text="${offer.newPrice + ' ₴'}">4 320 ₴</span>
+                        </div>
+                        <div class="offer-price special-offer" th:if="${offer.specialPriceText}">
+                            <span class="price-special" th:text="${offer.specialPriceText}">Третій букет безкоштовно</span>
+                        </div>
+                        <div class="offer-timer" th:if="${offer.remainingDays > 0}">
+                            <div class="timer-label">До кінця акції:</div>
+                            <div class="timer-value" th:if="${offer.timerDisplayType == 'days'}" th:text="${offer.remainingDays + ' дн.'}">3 дні</div>
+                            <div class="timer-countdown" th:if="${offer.timerDisplayType == 'countdown'}" th:data-end-date="${offer.endDate}">
+                                <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/special-offers/{id}(id=${offer.id})}"
+                       th:class="${'offer-button ' + (offer.highlightButton ? 'highlight' : '')}"
+                       th:text="${offer.buttonText ?: 'Докладніше'}">Вибрати букет</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="events-footer">
+            <a th:href="@{/special-offers}" class="view-all-button">Переглянути всі акції <i class="fas fa-long-arrow-alt-right"></i></a>
+        </div>
+    </div>
+</section>
+<!-- Подключение скрипта с обратным отсчетом -->
+<script th:src="@{/js/countdown-timer.js}"></script>
+
+<!-- Custom Bouquet Section -->
+
+
 
 
 <section class="masterclass-section">
@@ -1284,286 +1284,6 @@
 
 
 
-<!--&lt;!&ndash; Seasonal Collections Section &ndash;&gt;-->
-<!--<section class="seasonal-section">-->
-<!--    <div class="container">-->
-<!--        <div class="section-header">-->
-<!--            <h2 class="section-title">Сезонные коллекции</h2>-->
-<!--            <p class="section-subtitle">Каждый сезон вдохновляет нас на создание уникальных цветочных композиций, отражающих природную красоту времени года</p>-->
-<!--        </div>-->
-
-<!--        <div class="seasons-tabs">-->
-<!--            <div class="seasons-nav">-->
-<!--                <button class="season-tab active" data-season="spring">Весна</button>-->
-<!--                <button class="season-tab" data-season="summer">Лето</button>-->
-<!--                <button class="season-tab" data-season="autumn">Осень</button>-->
-<!--                <button class="season-tab" data-season="winter">Зима</button>-->
-<!--            </div>-->
-
-<!--            <div class="season-content-wrapper">-->
-<!--                &lt;!&ndash; Spring Collection &ndash;&gt;-->
-<!--                <div class="season-content active" id="spring">-->
-<!--                    <div class="season-header">-->
-<!--                        <div class="season-desc">-->
-<!--                            <h3 class="season-title">Весенняя коллекция</h3>-->
-<!--                            <p class="season-description">Нежные оттенки, свежие тюльпаны, нарциссы и первые пионы. Весенние букеты наполнены яркостью пробуждающейся природы и легкими ароматами.</p>-->
-<!--                            <a href="#" class="season-link">Смотреть все весенние букеты <i class="fas fa-long-arrow-alt-right"></i></a>-->
-<!--                        </div>-->
-<!--                        <div class="season-badge">-->
-<!--                            <span class="badge-text">Весна 2025</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="season-grid">-->
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Весенний букет «Пробуждение»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Пробуждение»</h4>-->
-<!--                            <p class="product-price">4 800 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Весенний букет «Нежность»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Нежность»</h4>-->
-<!--                            <p class="product-price">3 900 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product featured-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Весенний букет «Весенний сад»" class="product-image">-->
-<!--                                <span class="product-tag">Популярное</span>-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Весенний сад»</h4>-->
-<!--                            <p class="product-price">5 700 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Весенний букет «Первоцвет»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Первоцвет»</h4>-->
-<!--                            <p class="product-price">4 200 ₽</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Summer Collection &ndash;&gt;-->
-<!--                <div class="season-content" id="summer">-->
-<!--                    <div class="season-header">-->
-<!--                        <div class="season-desc">-->
-<!--                            <h3 class="season-title">Летняя коллекция</h3>-->
-<!--                            <p class="season-description">Яркие и насыщенные букеты с обилием роз, пионов и полевых цветов. Летние композиции переполнены солнцем и жизненной энергией.</p>-->
-<!--                            <a href="#" class="season-link">Смотреть все летние букеты <i class="fas fa-long-arrow-alt-right"></i></a>-->
-<!--                        </div>-->
-<!--                        <div class="season-badge summer-badge">-->
-<!--                            <span class="badge-text">Лето 2025</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="season-grid">-->
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Летний букет «Солнечный день»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Солнечный день»</h4>-->
-<!--                            <p class="product-price">4 500 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product featured-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Летний букет «Полевые цветы»" class="product-image">-->
-<!--                                <span class="product-tag">Бестселлер</span>-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Полевые цветы»</h4>-->
-<!--                            <p class="product-price">5 200 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Летний букет «Пионовый рай»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Пионовый рай»</h4>-->
-<!--                            <p class="product-price">6 800 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Летний букет «Морской бриз»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Морской бриз»</h4>-->
-<!--                            <p class="product-price">4 900 ₽</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Autumn Collection &ndash;&gt;-->
-<!--                <div class="season-content" id="autumn">-->
-<!--                    <div class="season-header">-->
-<!--                        <div class="season-desc">-->
-<!--                            <h3 class="season-title">Осенняя коллекция</h3>-->
-<!--                            <p class="season-description">Теплые охристые и бордовые оттенки с нотками золота и меди. Осенние букеты создают атмосферу уюта и гармонии.</p>-->
-<!--                            <a href="#" class="season-link">Смотреть все осенние букеты <i class="fas fa-long-arrow-alt-right"></i></a>-->
-<!--                        </div>-->
-<!--                        <div class="season-badge autumn-badge">-->
-<!--                            <span class="badge-text">Осень 2025</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="season-grid">-->
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Осенний букет «Золотая пора»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Золотая пора»</h4>-->
-<!--                            <p class="product-price">4 600 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Осенний букет «Бархатный сезон»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Бархатный сезон»</h4>-->
-<!--                            <p class="product-price">5 100 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Осенний букет «Медные сумерки»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Медные сумерки»</h4>-->
-<!--                            <p class="product-price">5 300 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product featured-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Осенний букет «Теплый вечер»" class="product-image">-->
-<!--                                <span class="product-tag">Новинка</span>-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Теплый вечер»</h4>-->
-<!--                            <p class="product-price">5 800 ₽</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Winter Collection &ndash;&gt;-->
-<!--                <div class="season-content" id="winter">-->
-<!--                    <div class="season-header">-->
-<!--                        <div class="season-desc">-->
-<!--                            <h3 class="season-title">Зимняя коллекция</h3>-->
-<!--                            <p class="season-description">Элегантные белоснежные букеты с хвойными элементами и серебристыми акцентами. Зимние композиции наполнены праздничным настроением.</p>-->
-<!--                            <a href="#" class="season-link">Смотреть все зимние букеты <i class="fas fa-long-arrow-alt-right"></i></a>-->
-<!--                        </div>-->
-<!--                        <div class="season-badge winter-badge">-->
-<!--                            <span class="badge-text">Зима 2025</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="season-grid">-->
-<!--                        <div class="season-product featured-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Зимний букет «Морозное утро»" class="product-image">-->
-<!--                                <span class="product-tag">Хит сезона</span>-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Морозное утро»</h4>-->
-<!--                            <p class="product-price">5 500 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Зимний букет «Снежная королева»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Снежная королева»</h4>-->
-<!--                            <p class="product-price">6 200 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Зимний букет «Серебряная ночь»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Серебряная ночь»</h4>-->
-<!--                            <p class="product-price">4 900 ₽</p>-->
-<!--                        </div>-->
-
-<!--                        <div class="season-product">-->
-<!--                            <div class="product-image-container">-->
-<!--                                <img src="/img/9B16E7FF-297B-4DBD-9121-DDD7CFDAAA18.jpg.webp" alt="Зимний букет «Праздничный»" class="product-image">-->
-<!--                                <div class="product-actions">-->
-<!--                                    <div class="product-action-btn"><i class="fas fa-shopping-bag"></i></div>-->
-<!--                                    <div class="product-action-btn"><i class="far fa-heart"></i></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <h4 class="product-name">Букет «Праздничный»</h4>-->
-<!--                            <p class="product-price">5 400 ₽</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
 
 <!-- Секція сезонних колекцій -->
 <section class="seasonal-section">
