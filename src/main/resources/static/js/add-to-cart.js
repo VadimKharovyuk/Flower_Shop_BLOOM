@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Находим ID товара в родительском элементе
             const productCard = this.closest('.product-card');
 
+
             if (!productCard) {
                 console.error('Не найден родительский элемент .product-card');
                 showNotification('Ошибка при добавлении товара в корзину');

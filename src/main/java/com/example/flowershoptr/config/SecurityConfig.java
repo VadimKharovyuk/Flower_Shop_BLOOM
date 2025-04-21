@@ -55,6 +55,7 @@ public class SecurityConfig {
                                 "/events/**",
                                 "/flowers/**",
                                 "/login",
+                                "/product-review/**",
                                 "/order-tracking/**",
                                 "/css/**",
                                 "/js/**",

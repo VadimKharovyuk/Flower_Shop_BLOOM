@@ -25,4 +25,3 @@ public class FlowerShopTrApplication {
 ///   mvn clean package -DskipTests
 
 
-///добвить отзвы по iD

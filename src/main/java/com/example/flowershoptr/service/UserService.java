@@ -18,6 +18,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Transactional
     public User processOAuthPostLogin(OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
@@ -59,4 +60,10 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
 }
+
+

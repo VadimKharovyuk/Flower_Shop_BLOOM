@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${flower.name + ' - Отзывы | BLOOM'}">Название цветка - Отзывы | BLOOM</title>
+
+    <!-- Подключение стилей навигации -->
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/footer :: footer-css}"></style>
+    <!-- Подключение шрифтов -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Основные переменные */
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #f5f5f5;
+            --accent-color: #e19d45;
+            --text-color: #333333;
+            --light-gray: #f8f8f8;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #666666;
+            --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Заголовок страницы */
+        .page-header {
+            background-color: var(--light-gray);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .breadcrumbs {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent-color);
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 5px;
+            color: var(--medium-gray);
+        }
+
+        /* Основной контент */
+        .main-content {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        /* Информация о товаре */
+        .product-summary {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .product-image-container {
+            flex: 0 0 250px;
+            width: 250px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .product-desc {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-gray);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Секция отзывов */
+        .reviews-container {
+            flex: 1;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .reviews-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        /* Статистика отзывов */
+        .reviews-summary {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .rating-big {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .average-rating {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stars-big {
+            margin-bottom: 5px;
+        }
+
+        .stars-big i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin: 0 2px;
+        }
+
+        .review-count {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .rating-bars {
+            flex: 1;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .rating-label {
+            width: 30px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 8px;
+            background-color: var(--medium-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .rating-percent {
+            width: 40px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            text-align: right;
+        }
+
+        /* Форма отзыва */
+        .review-form-container {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .review-form-title {
+            font-family: 'Playfair Display', serif;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .rating-select {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .rating-select input[type="radio"] {
+            display: none;
+        }
+
+        .rating-select label {
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating-select label:hover,
+        .rating-select label:hover ~ label,
+        .rating-select input[type="radio"]:checked ~ label {
+            color: var(--accent-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(225, 157, 69, 0.2);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-review-btn {
+            align-self: flex-start;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-review-btn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Список отзывов */
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .review-item {
+            padding: 25px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .reviewer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reviewer-name {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+
+        .review-rating {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .stars {
+            margin-bottom: 5px;
+        }
+
+        .stars i {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin: 0 1px;
+        }
+
+        .review-verified {
+            font-size: 0.8rem;
+            color: #3d8b3d;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .review-verified i {
+            font-size: 0.75rem;
+        }
+
+        .review-content {
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+            border-radius: 4px;
+        }
+
+        .no-reviews p {
+            margin-bottom: 20px;
+        }
+
+        /* Оповещения */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+
+        .alert-error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+
+        .alert i {
+            font-size: 1.2rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .product-summary {
+                flex-direction: column;
+            }
+
+            .product-image-container {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                aspect-ratio: 1;
+                margin: 0 auto 20px;
+            }
+
+            .reviews-summary {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+
+            .rating-big {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 40px 0;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+
+            .reviewer-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .review-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .review-rating {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 30px 0;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .product-name {
+                font-size: 1.4rem;
+            }
+
+            .reviews-title {
+                font-size: 1.3rem;
+            }
+
+            .review-item {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Навигация -->
+<nav th:replace="~{/client/fragments/navigation :: navigation}"></nav>
+
+<!-- Заголовок страницы -->
+<header class="page-header">
+    <div class="container">
+        <h1 class="page-title">Відгуки про товар</h1>
+        <div class="breadcrumbs">
+            <a href="/">Головна</a>
+            <span class="separator">/</span>
+            <a href="/categories">Каталог</a>
+            <span class="separator">/</span>
+            <a th:href="@{/catalog/{id}(id=${flower.id})}" th:text="${flower.name}">Название цветка</a>
+            <span class="separator">/</span>
+            <span>Відгуки</span>
+        </div>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<div class="container">
+    <!-- Алерты для сообщений -->
+    <div class="alert alert-success" th:if="${success != null}" th:text="${success}">
+        <i class="fas fa-check-circle"></i>
+        Спасибо за ваш отзыв!
+    </div>
+    <div class="alert alert-error" th:if="${error != null}" th:text="${error}">
+        <i class="fas fa-exclamation-circle"></i>
+        Произошла ошибка при добавлении отзыва.
+    </div>
+
+    <div class="main-content">
+        <div class="reviews-container">
+            <!-- Информация о товаре -->
+            <div class="product-summary product-card" th:attr="data-product-id=${flower.id}">
+                <div class="product-image-container">
+                    <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Товар" class="product-image">
+                    <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Товар" class="product-image">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <h2 class="product-name" th:text="${flower.name}">Название цветка</h2>
+                        <div class="product-desc" th:text="${flower.shortDescription}">Краткое описание товара...</div>
+                        <div class="product-price" th:text="${flower.price + ' ₴'}">1500 ₴</div>
+                    </div>
+                    <div class="product-actions">
+                        <a th:href="@{/flowers/{id}(id=${flower.id})}" class="btn-primary">Повернутися до товару</a>
+                        <button
+                                class="btn-secondary add-to-cart"
+                        >
+                            Додати в кошик
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <script th:src="@{/js/add-to-cart-btn.js}"></script>
+
+
+
+            <!-- Заголовок отзывов -->
+            <div class="reviews-header">
+                <h3 class="reviews-title">Відгуки клієнтів</h3>
+            </div>
+
+            <!-- Статистика отзывов -->
+            <div class="reviews-summary" th:if="${summary != null && summary.reviewCount > 0}">
+                <div class="rating-big">
+                    <div class="average-rating" th:text="${#numbers.formatDecimal(summary.averageRating, 1, 1)}">4.5</div>
+                    <div class="stars-big">
+                        <!-- Выводим звезды на основе среднего рейтинга -->
+                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                            <i th:class="${i <= summary.averageRating ? 'fas fa-star' : (i <= summary.averageRating + 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')}"></i>
+                        </th:block>
+                    </div>
+                    <div class="review-count" th:text="${summary.reviewCount + ' відгуків'}">5 отзывов</div>
+                </div>
+                <div class="rating-bars">
+                    <div class="rating-bar">
+                        <div class="rating-label">5★</div>
+                        <div class="progress-container">
+                            <div class="progress-bar"
+                                 th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating5Count * 100 / summary.reviewCount : 0} + '%'"></div>
+                        </div>
+                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating5Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">80%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-label">4★</div>
+                        <div class="progress-container">
+                            <div class="progress-bar"
+                                 th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating4Count * 100 / summary.reviewCount : 0} + '%'"></div>
+                        </div>
+                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating4Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">15%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-label">3★</div>
+                        <div class="progress-container">
+                            <div class="progress-bar"
+                                 th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating3Count * 100 / summary.reviewCount : 0} + '%'"></div>
+                        </div>
+                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating3Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">5%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-label">2★</div>
+                        <div class="progress-container">
+                            <div class="progress-bar"
+                                 th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating2Count * 100 / summary.reviewCount : 0} + '%'"></div>
+                        </div>
+                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating2Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">0%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-label">1★</div>
+                        <div class="progress-container">
+                            <div class="progress-bar"
+                                 th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating1Count * 100 / summary.reviewCount : 0} + '%'"></div>
+                        </div>
+                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating1Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <form th:if="${isAuthenticated}"
+                  th:action="@{/product-review/create}"
+                  method="post"
+                  th:object="${createReviewDTO}">
+                <input type="hidden" th:field="*{flowerId}" th:value="${flower.id}">
+                <div class="form-group">
+                    <label class="form-label">Оцінка</label>
+                    <div class="rating-select">
+                        <input type="radio" th:field="*{rating}" id="star5" value="1" required>
+                        <label for="star5">★</label>
+                        <input type="radio" th:field="*{rating}" id="star4" value="2">
+                        <label for="star4">★</label>
+                        <input type="radio" th:field="*{rating}" id="star3" value="3">
+                        <label for="star3">★</label>
+                        <input type="radio" th:field="*{rating}" id="star2" value="4">
+                        <label for="star2">★</label>
+                        <input type="radio" th:field="*{rating}" id="star1" value="5">
+                        <label for="star1">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Ваш відгук</label>
+                    <textarea th:field="*{comment}" id="comment" class="form-control" required
+                              placeholder="Розкажіть, що вам сподобалося або не сподобалося в цьому товарі"></textarea>
+                </div>
+                <button type="submit" class="submit-review-btn">Опублікувати відгук</button>
+            </form>
+
+            <!-- Сообщение для авторизованных, но не купивших товар -->
+            <div th:if="${isAuthenticated and !canReview}" class="review-form-container">
+                <h4 class="review-form-title">Залишити відгук</h4>
+                <p>Відгуки можуть залишати тільки клієнти, які придбали цей товар.</p>
+            </div>
+
+            <div th:unless="${isAuthenticated}" class="review-form-container">
+                <h4 class="review-form-title">Залишити відгук</h4>
+                <p>Щоб залишити відгук, вам необхідно <a href="/auth/login">увійти в аккаунт</a>.</p>
+            </div>
+
+            <!-- Список отзывов -->
+            <div class="reviews-list" th:if="${!#lists.isEmpty(reviews)}">
+                <div class="review-item" th:each="review : ${reviews}" th:id="'review-' + ${review.id}">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <img th:if="${review.userPictureUrl}" th:src="${review.userPictureUrl}" alt="Аватар">
+                                <img th:unless="${review.userPictureUrl}" src="/images/default-avatar.jpg" alt="Аватар">
+                            </div>
+                            <div>
+                                <div class="reviewer-name" th:text="${review.userName}">Имя пользователя</div>
+                                <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd.MM.yyyy')}">01.01.2023</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <div class="stars">
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <i th:class="${i <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                                </th:block>
+                            </div>
+                            <div class="review-verified" th:if="${review.verified}">
+                                <i class="fas fa-check-circle"></i> Підтверджена покупка
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content" th:text="${review.getComment()}">
+                        Текст отзыва...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Сообщение, если нет отзывов -->
+            <div class="no-reviews" th:if="${#lists.isEmpty(reviews)}">
+                <p>У цього товару ще немає відгуків. Будьте першим, хто поділиться своєю думкою!</p>
+                <a th:if="${!isAuthenticated != null && canReview}" href="#" onclick="document.querySelector('.review-form-container').scrollIntoView({behavior: 'smooth'}); return false;" class="btn-primary">Залишити відгук</a>
+                <a th:if="${!isAuthenticated == null}" href="/auth/login" class="btn-primary">Увійти та залишити відгук</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Подключение футера -->
+<div th:replace="~{client/fragments/footer :: footer}"></div>
+
+<!-- Скрипты для навигации -->
+<script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+
+<!-- JavaScript для отзывов -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // AJAX проверка, может ли пользователь оставить отзыв
+        function checkCanReview() {
+            const flowerId = document.querySelector('input[name="flowerId"]');
+
+            if (!flowerId) return; // Если элемент не найден, прекращаем выполнение
+
+            fetch(`/product-review/api/can-review?flowerId=${flowerId.value}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Сетевой ответ не был успешным');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Если пользователь не может оставить отзыв - скрываем форму
+                    if (!data) {
+                        const reviewForm = document.querySelector('.review-form-container');
+                        if (reviewForm) {
+                            reviewForm.style.display = 'none';
+
+                            // Показываем сообщение о том, что пользователь уже оставил отзыв
+                            const container = document.createElement('div');
+                            container.className = 'review-form-container';
+                            container.innerHTML = `
+                        <h4 class="review-form-title">Залишити відгук</h4>
+                        <p>Ви вже залишили відгук на цей товар або не здійснювали його покупку.</p>
+                    `;
+
+                            reviewForm.parentNode.insertBefore(container, reviewForm.nextSibling);
+                        }
+                    }
+                })
+                .catch(error => console.error('Ошибка при проверке возможности оставить отзыв:', error));
+        }
+
+        // Инициализация рейтинга
+        function initRating() {
+            const ratingSelect = document.querySelector('.rating-select');
+
+            if (!ratingSelect) return;
+
+            const labels = Array.from(ratingSelect.querySelectorAll('label')).reverse();
+            const radios = Array.from(ratingSelect.querySelectorAll('input[type="radio"]')).reverse();
+
+            // Обработка наведения
+            labels.forEach((label, index) => {
+                label.addEventListener('mouseover', function() {
+                    // Подсвечиваем все звезды до текущей включительно
+                    labels.forEach((l, i) => {
+                        if (i >= index) {
+                            l.classList.add('hover');
+                        } else {
+                            l.classList.remove('hover');
+                        }
+                    });
+                });
+            });
+
+            // Сброс подсветки при уводе мыши
+            ratingSelect.addEventListener('mouseout', function() {
+                labels.forEach(l => l.classList.remove('hover'));
+            });
+
+            // Обработка клика для визуальной фиксации выбранного рейтинга
+            labels.forEach((label, index) => {
+                label.addEventListener('click', function() {
+                    // Находим соответствующий радио-инпут
+                    const radio = radios[index];
+                    if (radio) {
+                        radio.checked = true;
+
+                        // Визуальная индикация выбранных звезд
+                        labels.forEach((l, i) => {
+                            if (i >= index) {
+                                l.classList.add('selected');
+                            } else {
+                                l.classList.remove('selected');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Проверяем, авторизован ли пользователь по наличию формы отзыва
+        const reviewForm = document.querySelector('.review-form');
+        if (reviewForm) {
+            // Если форма есть, проверяем возможность оставить отзыв
+            checkCanReview();
+            initRating();
+
+            // Обработка формы отзыва
+            reviewForm.addEventListener('submit', function(e) {
+                // Проверяем заполненность полей
+                const rating = document.querySelector('input[name="rating"]:checked');
+                const comment = document.querySelector('textarea[name="comment"]').value.trim();
+
+                if (!rating) {
+                    e.preventDefault();
+                    alert('Будь ласка, виберіть оцінку');
+                    return false;
+                }
+
+                if (!comment) {
+                    e.preventDefault();
+                    alert('Будь ласка, напишіть текст відгуку');
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        // Прокрутка к конкретному отзыву, если есть якорь в URL
+        if (window.location.hash) {
+            const id = window.location.hash.substring(1);
+            const element = document.getElementById(id);
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({behavior: 'smooth'});
+                    element.classList.add('highlight');
+
+                    // Удаляем подсветку через 3 секунды
+                    setTimeout(() => {
+                        element.classList.remove('highlight');
+                    }, 3000);
+                }, 500);
+            }
+        }
+    });
+</script>
+
+<!-- Дополнительные стили для JavaScript-функциональности -->
+<style>
+    .rating-select {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .rating-select input[type="radio"] {
+        display: none;
+    }
+
+    .rating-select label {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #ddd;
+        transition: color 0.2s;
+    }
+
+    /* Объединил селекторы для hover и selected */
+    .rating-select label.hover,
+    .rating-select label.selected,
+    .rating-select label:hover,
+    .rating-select label:hover ~ label {
+        color: var(--accent-color, #ffc107);
+    }
+
+    /* Подсветка нового отзыва */
+    @keyframes highlight-animation {
+        0% { background-color: var(--light-gray); }
+        50% { background-color: rgba(225, 157, 69, 0.2); }
+        100% { background-color: white; }
+    }
+
+    .highlight {
+        animation: highlight-animation 3s ease;
+    }
+
+    /* Стили для валидации формы */
+    .form-control.error {
+        border-color: #a94442;
+        box-shadow: 0 0 0 2px rgba(169, 68, 66, 0.2);
+    }
+
+    .error-message {
+        color: #a94442;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .error-message.visible {
+        display: block;
+    }
+</style>
+</body>
+</html>

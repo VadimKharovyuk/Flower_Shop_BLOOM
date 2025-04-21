@@ -1,8 +1,11 @@
 package com.example.flowershoptr.controller;
 
+import com.example.flowershoptr.dto.ProductReview.ProductReviewDTO;
+import com.example.flowershoptr.dto.ProductReview.ProductReviewSummaryDTO;
 import com.example.flowershoptr.dto.flower.FlowerDetailsDTO;
 import com.example.flowershoptr.dto.flower.FlowerListDTO;
 import com.example.flowershoptr.service.FlowerService;
+import com.example.flowershoptr.service.ProductReviewService;
 import com.example.flowershoptr.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +28,7 @@ public class FlowerClientController {
 
     private final FlowerService flowerService;
     private final PaginationUtils paginationUtils;
+    private final ProductReviewService productReviewService;
 
     /**
      * Просмотр детальной информации о цветке
@@ -46,7 +52,11 @@ public class FlowerClientController {
         Page<FlowerListDTO> recommendedFlowers = flowerService.getFlowersByCategory(
                 flower.getCategory().getId(), pageable);
 
+        List<ProductReviewDTO> reviews = productReviewService.getReviewsByFlowerId(flower.getId());
+        ProductReviewSummaryDTO summary = productReviewService.getReviewSummaryByFlowerId(flower.getId());
 
+        model.addAttribute("summary", summary);
+        model.addAttribute("reviews", reviews);
         model.addAttribute("recommendedFlowers", recommendedFlowers);
 
         return "client/flowers/view";

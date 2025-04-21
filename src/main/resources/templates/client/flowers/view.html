@@ -996,11 +996,6 @@
         <div class="product-gallery">
             <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="main-image">
 
-            <!-- Миниатюры (если есть дополнительные изображения) -->
-            <!--      <div class="thumbnails" th:if="${flower.additionalImages != null && !flower.additionalImages.isEmpty()}">-->
-            <!--        <img th:src="${flower.previewImageUrl}" alt="${flower.name}" class="thumbnail active">-->
-            <!--        <img th:each="image : ${flower.additionalImages}" th:src="${image}" th:alt="${flower.name}" class="thumbnail">-->
-            <!--      </div>-->
         </div>
 
         <!-- Информация о продукте -->
@@ -1014,14 +1009,14 @@
             <!-- Рейтинг -->
             <div class="product-rating">
                 <div class="stars">
-                    <span>Рейтинг </span>
-                    <!--          <th:block th:with="fullStars=${T(Math).floor(flower.averageRating)}, hasHalfStar=${flower.averageRating - T(Math).floor(flower.averageRating) >= 0.5}">-->
-                    <!--            <i class="fas fa-star" th:each="i : ${#numbers.sequence(1, fullStars)}"></i>-->
-                    <!--            <i class="fas fa-star-half-alt" th:if="${hasHalfStar}"></i>-->
-                    <!--            <i class="far fa-star" th:each="i : ${#numbers.sequence(1, 5 - fullStars - (hasHalfStar ? 1 : 0))}"></i>-->
-                    <!--          </th:block>-->
+                    <!-- Динамическая генерация звезд на основе среднего рейтинга -->
+                    <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                        <i th:class="${i <= summary.averageRating ? 'fas fa-star' : (i <= summary.averageRating + 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')}"></i>
+                    </th:block>
                 </div>
-                <span class="review-count" th:text="${flower.reviewCount + ' отзывов'}">0 отзывов</span>
+                <a th:href="@{/product-review/flower/{flowerId}(flowerId=${flower.id})}" class="review-count">
+                    <span th:text="${summary.reviewCount + ' відгуків'}">0 отзывов</span>
+                </a>
             </div>
             <!-- Цена -->
 
@@ -1029,11 +1024,6 @@
                 <!-- Только основная цена без проверки на скидку -->
                 <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>
             </div>
-            <!--      <div class="product-price">-->
-            <!--          <span class="old-price" th:if="${flower.discountPercent > 0}"-->
-            <!--                th:text="${#numbers.formatDecimal(flower.originalPrice, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">1000 ₽</span>-->
-            <!--        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>-->
-            <!--      </div>-->
 
             <!-- Описание -->
             <div class="product-description" th:utext="${flower.getFullDescription()}">
