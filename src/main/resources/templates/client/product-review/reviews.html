@@ -629,7 +629,7 @@
     <div class="main-content">
         <div class="reviews-container">
             <!-- Информация о товаре -->
-            <div class="product-summary">
+            <div class="product-summary product-card" th:attr="data-product-id=${flower.id}">
                 <div class="product-image-container">
                     <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Товар" class="product-image">
                     <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Товар" class="product-image">
@@ -642,10 +642,17 @@
                     </div>
                     <div class="product-actions">
                         <a th:href="@{/flowers/{id}(id=${flower.id})}" class="btn-primary">Повернутися до товару</a>
-                        <a th:href="@{/cart/add/{id}(id=${flower.id})}" class="btn-secondary">Додати в кошик</a>
+                        <button
+                                class="btn-secondary add-to-cart"
+                        >
+                            Додати в кошик
+                        </button>
                     </div>
                 </div>
             </div>
+            <script th:src="@{/js/add-to-cart-btn.js}"></script>
+
+
 
             <!-- Заголовок отзывов -->
             <div class="reviews-header">
@@ -772,7 +779,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="review-content" th:text="${review.comment}">
+                    <div class="review-content" th:text="${review.getComment()}">
                         Текст отзыва...
                     </div>
                 </div>
