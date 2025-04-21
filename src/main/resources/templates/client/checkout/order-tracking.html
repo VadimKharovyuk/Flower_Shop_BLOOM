@@ -240,6 +240,32 @@
                 </div>
             </div>
 
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card animate-fade-in">
+                            <div class="card-body">
+                                <h5 class="serif text-center mb-4">Слідкуйте за вашим замовленням в дорозі</h5>
+                                <div id="delivery-animation" class="position-relative">
+                                    <div class="road"></div>
+                                    <div id="truck" class="delivery-truck">
+                                        <i class="bi bi-truck"></i>
+                                    </div>
+                                    <div class="milestone start">
+                                        <i class="bi bi-box"></i>
+                                        <span>Відправлено</span>
+                                    </div>
+                                    <div class="milestone end">
+                                        <i class="bi bi-house"></i>
+                                        <span>Отримано</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Інформаційні картки -->
             <div class="row mt-4">
                 <div class="col-md-6">
@@ -270,9 +296,10 @@
 <script>
     // Маска для телефону
     document.getElementById('phone').addEventListener('input', function (e) {
-        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
         e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + (x[3] ? x[3] + '-' : '') + (x[4] ? x[4] + '-' : '') + x[5];
     });
 </script>
+
 </body>
 </html>
