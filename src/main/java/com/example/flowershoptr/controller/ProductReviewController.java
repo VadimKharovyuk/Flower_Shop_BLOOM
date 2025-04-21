@@ -8,7 +8,7 @@ import com.example.flowershoptr.service.AuthService;
 import com.example.flowershoptr.service.FlowerService;
 import com.example.flowershoptr.service.ProductReviewService;
 import com.example.flowershoptr.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -78,14 +81,18 @@ public class ProductReviewController {
         model.addAttribute("canReview", canReview);
 
         return "client/product-review/reviews";
+
     }
 
     @PostMapping("/create")
-    public String createReview(
-            @Valid @ModelAttribute CreateProductReviewDTO createDTO,
+    @ResponseBody
+    public ResponseEntity<?> createReview(
+            @Valid @RequestBody CreateProductReviewDTO createDTO,
             BindingResult bindingResult,
-            @AuthenticationPrincipal OAuth2User oauth2User,
-            RedirectAttributes redirectAttributes) {
+            @AuthenticationPrincipal OAuth2User oauth2User) {
+
+        // Создаем карту для ответа
+        Map<String, Object> response = new HashMap<>();
 
         try {
             // Извлечение email из OAuth2 аутентификации
@@ -93,23 +100,61 @@ public class ProductReviewController {
 
             // Проверка валидации
             if (bindingResult.hasErrors()) {
-                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createReviewDTO", bindingResult);
-                redirectAttributes.addFlashAttribute("createReviewDTO", createDTO);
-                return "redirect:/flowers/" + createDTO.getFlowerId();
-            }
+                List<String> errors = bindingResult.getAllErrors()
+                        .stream()
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                        .collect(Collectors.toList());
 
+                response.put("success", false);
+                response.put("errors", errors);
+                return ResponseEntity.badRequest().body(response);
+            }
 
             // Создание отзыва через сервис
             ProductReviewDTO createdReview = productReviewService.createProductReview(createDTO, email);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Отзыв успешно добавлен");
-            return "redirect:/flowers/" + createDTO.getFlowerId();
+            response.put("success", true);
+            response.put("message", "Отзыв успешно добавлен");
+            response.put("review", createdReview);
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/flowers/" + createDTO.getFlowerId();
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+//
+//    @PostMapping("/create")
+//    public String createReview(
+//            @Valid @ModelAttribute CreateProductReviewDTO createDTO,
+//            BindingResult bindingResult,
+//            @AuthenticationPrincipal OAuth2User oauth2User,
+//            RedirectAttributes redirectAttributes) {
+//
+//        try {
+//            // Извлечение email из OAuth2 аутентификации
+//            String email = oauth2User.getAttribute("email");
+//
+//            // Проверка валидации
+//            if (bindingResult.hasErrors()) {
+//                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createReviewDTO", bindingResult);
+//                redirectAttributes.addFlashAttribute("createReviewDTO", createDTO);
+//                return "redirect:/flowers/" + createDTO.getFlowerId();
+//            }
+//
+//
+//            // Создание отзыва через сервис
+//            ProductReviewDTO createdReview = productReviewService.createProductReview(createDTO, email);
+//
+//            redirectAttributes.addFlashAttribute("successMessage", "Отзыв успешно добавлен");
+//            return "redirect:/flowers/" + createDTO.getFlowerId();
+//
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+//            return "redirect:/flowers/" + createDTO.getFlowerId();
+//        }
+//    }
 
     /**
      * Класс для стандартизации ошибок API
