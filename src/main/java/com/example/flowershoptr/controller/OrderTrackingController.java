@@ -24,8 +24,11 @@ public class OrderTrackingController {
 
     @GetMapping
     public String orderTracking() {
+
+
         return "client/checkout/order-tracking";
     }
+
 
 
     // Обработка поиска по номеру заказа

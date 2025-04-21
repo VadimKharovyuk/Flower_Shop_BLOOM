@@ -240,6 +240,32 @@
                 </div>
             </div>
 
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card animate-fade-in">
+                            <div class="card-body">
+                                <h5 class="serif text-center mb-4">Слідкуйте за вашим замовленням в дорозі</h5>
+                                <div id="delivery-animation" class="position-relative">
+                                    <div class="road"></div>
+                                    <div id="truck" class="delivery-truck">
+                                        <i class="bi bi-truck"></i>
+                                    </div>
+                                    <div class="milestone start">
+                                        <i class="bi bi-box"></i>
+                                        <span>Відправлено</span>
+                                    </div>
+                                    <div class="milestone end">
+                                        <i class="bi bi-house"></i>
+                                        <span>Отримано</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Інформаційні картки -->
             <div class="row mt-4">
                 <div class="col-md-6">
@@ -268,11 +294,115 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Маска для телефону
     document.getElementById('phone').addEventListener('input', function (e) {
-        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
         e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + (x[3] ? x[3] + '-' : '') + (x[4] ? x[4] + '-' : '') + x[5];
     });
 </script>
+<script>
+    // Анімація доставки
+    document.addEventListener('DOMContentLoaded', function() {
+        const truck = document.getElementById('truck');
+        let position = 0;
+        const roadWidth = document.querySelector('.road').offsetWidth;
+        const truckWidth = truck.offsetWidth;
+        const maxPosition = roadWidth - truckWidth;
+
+        function animateTruck() {
+            // Рух вантажівки вперед
+            const forward = setInterval(function() {
+                position += 1;
+                truck.style.left = position + 'px';
+
+                if (position >= maxPosition) {
+                    clearInterval(forward);
+
+                    // Затримка перед поверненням
+                    setTimeout(function() {
+                        // Рух вантажівки назад
+                        const backward = setInterval(function() {
+                            position -= 1;
+                            truck.style.left = position + 'px';
+
+                            if (position <= 0) {
+                                clearInterval(backward);
+
+                                // Затримка перед повторенням анімації
+                                setTimeout(animateTruck, 2000);
+                            }
+                        }, 15);
+                    }, 2000);
+                }
+            }, 15);
+        }
+
+        // Запуск анімації
+        animateTruck();
+    });
+</script>
+
+<style>
+    #delivery-animation {
+        height: 120px;
+        overflow: hidden;
+    }
+
+    .road {
+        position: absolute;
+        height: 5px;
+        background-color: #ccc;
+        width: 100%;
+        top: 60px;
+    }
+
+    .delivery-truck {
+        position: absolute;
+        top: 38px;
+        left: 0;
+        font-size: 24px;
+        color: #0d6efd;
+        z-index: 2;
+        transition: transform 0.3s;
+    }
+
+    /* При русі назад, розвертаємо вантажівку */
+    .delivery-truck.backward {
+        transform: scaleX(-1);
+    }
+
+    .milestone {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .milestone i {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .milestone.start {
+        left: 0;
+        top: 80px;
+    }
+
+    .milestone.end {
+        right: 0;
+        top: 80px;
+    }
+
+    /* Додаємо тінь для ефекту руху */
+    @keyframes truck-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+
+    .delivery-truck {
+        animation: truck-bounce 0.5s infinite;
+    }
+</style>
+
 </body>
 </html>
