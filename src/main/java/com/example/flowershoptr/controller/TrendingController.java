@@ -44,3 +44,4 @@ public class TrendingController {
         return "trending/trending-flowers";
     }
 }
+
