@@ -626,6 +626,7 @@
         Произошла ошибка при добавлении отзыва.
     </div>
 
+
     <div class="main-content">
         <div class="reviews-container">
             <!-- Информация о товаре -->
@@ -714,8 +715,7 @@
                     </div>
                 </div>
             </div>
-
-            <form th:if="${isAuthenticated}"
+            <form th:if="${isAuthenticated && canReview}"
                   th:action="@{/product-review/create}"
                   method="post"
                   th:object="${createReviewDTO}">
@@ -723,15 +723,15 @@
                 <div class="form-group">
                     <label class="form-label">Оцінка</label>
                     <div class="rating-select">
-                        <input type="radio" th:field="*{rating}" id="star5" value="1" required>
+                        <input type="radio" th:field="*{rating}" id="star5" value="5" required>
                         <label for="star5">★</label>
-                        <input type="radio" th:field="*{rating}" id="star4" value="2">
+                        <input type="radio" th:field="*{rating}" id="star4" value="4">
                         <label for="star4">★</label>
                         <input type="radio" th:field="*{rating}" id="star3" value="3">
                         <label for="star3">★</label>
-                        <input type="radio" th:field="*{rating}" id="star2" value="4">
+                        <input type="radio" th:field="*{rating}" id="star2" value="2">
                         <label for="star2">★</label>
-                        <input type="radio" th:field="*{rating}" id="star1" value="5">
+                        <input type="radio" th:field="*{rating}" id="star1" value="1">
                         <label for="star1">★</label>
                     </div>
                 </div>
@@ -743,13 +743,13 @@
                 <button type="submit" class="submit-review-btn">Опублікувати відгук</button>
             </form>
 
-            <!-- Сообщение для авторизованных, но не купивших товар -->
-            <div th:if="${isAuthenticated and !canReview}" class="review-form-container">
+            <div th:if="${isAuthenticated && !canReview}" class="review-form-container">
                 <h4 class="review-form-title">Залишити відгук</h4>
                 <p>Відгуки можуть залишати тільки клієнти, які придбали цей товар.</p>
             </div>
 
-            <div th:unless="${isAuthenticated}" class="review-form-container">
+            <!-- Сообщение для неавторизованных пользователей -->
+            <div th:if="${!isAuthenticated}" class="review-form-container">
                 <h4 class="review-form-title">Залишити відгук</h4>
                 <p>Щоб залишити відгук, вам необхідно <a href="/auth/login">увійти в аккаунт</a>.</p>
             </div>
