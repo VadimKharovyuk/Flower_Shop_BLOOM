@@ -1,5 +1,6 @@
 package com.example.flowershoptr.config;
 
+import com.example.flowershoptr.enums.UserRole;
 import com.example.flowershoptr.model.User;
 import com.example.flowershoptr.service.UserService;
 import org.slf4j.Logger;
@@ -34,22 +35,36 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oauth2User = super.loadUser(userRequest);
 
         String email = oauth2User.getAttribute("email");
-        logger.info("Loading OAuth user with email: {}", email);
+        String googleId = oauth2User.getAttribute("sub");
+        logger.info("Loading OAuth user with email: {}, googleId: {}", email, googleId);
 
-        // Получаем пользователя из базы данных
+        // Получаем пользователя из базы данных по email или googleId
         User user = userService.getUserByEmail(email);
 
         if (user == null) {
-            String googleId = oauth2User.getAttribute("sub");
             user = userService.getUserByGoogleId(googleId);
             logger.info("User found by googleId: {}", user != null);
+        }
+
+        // Если пользователь не найден, создаем нового
+        if (user == null) {
+            logger.info("Creating new user for email: {}", email);
+            user = new User();
+            user.setEmail(email);
+            user.setName(oauth2User.getAttribute("name"));
+            user.setGoogleId(googleId);
+            user.setPictureUrl(oauth2User.getAttribute("picture"));
+
+             user.setRole(UserRole.USER);
+
+            user = userService.saveUser(user);
+            logger.info("New user created with ID: {}", user.getId());
         }
 
         Collection<GrantedAuthority> authorities = new ArrayList<>(oauth2User.getAuthorities());
 
         // Добавляем роль из нашей базы данных
-        if (user != null && user.getRole() != null) {
-            // Предполагаем, что user.getRole() возвращает Enum типа UserRole
+        if (user.getRole() != null) {
             String roleName = "ROLE_" + user.getRole().name();
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(roleName);
             authorities.add(authority);

@@ -38,4 +38,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserEmailOrUserId(String email, Long id);
 
+
+    @Query("SELECT COUNT(o) > 0 FROM Order o JOIN o.items i WHERE o.clientEmail = :email AND i.flower.id = :flowerId")
+    boolean existsByEmailAndFlowerId(@Param("email") String email, @Param("flowerId") Long flowerId);
+
+    @Query("SELECT COUNT(o) > 0 FROM Order o JOIN o.items i WHERE o.user.id = :userId AND i.flower.id = :flowerId")
+    boolean existsByUserIdAndFlowerId(@Param("userId") Long userId, @Param("flowerId") Long flowerId);
+
 }

@@ -67,6 +67,7 @@
         <a href="/about" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Про нас</a>
         <a href="/contact" class="lucky-nav-link" th:classappend="${currentPage == 'contact'} ? 'lucky-active' : ''">Контакти</a>
 
+
         <div class="lucky-mobile-secondary">
           <a th:if="${user != null}" href="/aut/dashboard" class="lucky-secondary-link">Особистий кабінет</a>
           <a th:unless="${user != null}" href="/aut/login" class="lucky-secondary-link">Увійти через Google</a>
