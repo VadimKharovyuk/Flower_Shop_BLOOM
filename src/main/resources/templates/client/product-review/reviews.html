@@ -10,7 +10,8 @@
     <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
     <style th:replace="~{client/fragments/footer :: footer-css}"></style>
     <!-- Подключение шрифтов -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -25,8 +26,8 @@
             --light-gray: #f8f8f8;
             --medium-gray: #e0e0e0;
             --dark-gray: #666666;
-            --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         body {
@@ -592,6 +593,35 @@
                 padding: 15px;
             }
         }
+
+        .rating-select {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-select input[type="radio"] {
+            display: none;
+        }
+
+        .rating-select label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        /* Убираем старые селекторы, которые могут мешать */
+        .rating-select label:hover,
+        .rating-select label:hover ~ label {
+            color: inherit; /* Отменяем любые автоматические подсветки */
+        }
+
+        /* Только явно подсвеченные звезды будут с цветом */
+        .rating-select label.hover,
+        .rating-select label.selected {
+            color: var(--accent-color, #ffc107);
+        }
     </style>
 </head>
 <body>
@@ -632,8 +662,10 @@
             <!-- Информация о товаре -->
             <div class="product-summary product-card" th:attr="data-product-id=${flower.id}">
                 <div class="product-image-container">
-                    <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Товар" class="product-image">
-                    <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Товар" class="product-image">
+                    <img th:if="${flower.previewImageUrl}" th:src="${flower.previewImageUrl}" alt="Товар"
+                         class="product-image">
+                    <img th:unless="${flower.previewImageUrl}" src="/images/placeholder-flower.jpg" alt="Товар"
+                         class="product-image">
                 </div>
                 <div class="product-info">
                     <div>
@@ -654,7 +686,6 @@
             <script th:src="@{/js/add-to-cart-btn.js}"></script>
 
 
-
             <!-- Заголовок отзывов -->
             <div class="reviews-header">
                 <h3 class="reviews-title">Відгуки клієнтів</h3>
@@ -663,7 +694,8 @@
             <!-- Статистика отзывов -->
             <div class="reviews-summary" th:if="${summary != null && summary.reviewCount > 0}">
                 <div class="rating-big">
-                    <div class="average-rating" th:text="${#numbers.formatDecimal(summary.averageRating, 1, 1)}">4.5</div>
+                    <div class="average-rating" th:text="${#numbers.formatDecimal(summary.averageRating, 1, 1)}">4.5
+                    </div>
                     <div class="stars-big">
                         <!-- Выводим звезды на основе среднего рейтинга -->
                         <th:block th:each="i : ${#numbers.sequence(1, 5)}">
@@ -679,7 +711,10 @@
                             <div class="progress-bar"
                                  th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating5Count * 100 / summary.reviewCount : 0} + '%'"></div>
                         </div>
-                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating5Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">80%</div>
+                        <div class="rating-percent"
+                             th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating5Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">
+                            80%
+                        </div>
                     </div>
                     <div class="rating-bar">
                         <div class="rating-label">4★</div>
@@ -687,7 +722,10 @@
                             <div class="progress-bar"
                                  th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating4Count * 100 / summary.reviewCount : 0} + '%'"></div>
                         </div>
-                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating4Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">15%</div>
+                        <div class="rating-percent"
+                             th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating4Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">
+                            15%
+                        </div>
                     </div>
                     <div class="rating-bar">
                         <div class="rating-label">3★</div>
@@ -695,7 +733,10 @@
                             <div class="progress-bar"
                                  th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating3Count * 100 / summary.reviewCount : 0} + '%'"></div>
                         </div>
-                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating3Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">5%</div>
+                        <div class="rating-percent"
+                             th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating3Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">
+                            5%
+                        </div>
                     </div>
                     <div class="rating-bar">
                         <div class="rating-label">2★</div>
@@ -703,7 +744,10 @@
                             <div class="progress-bar"
                                  th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating2Count * 100 / summary.reviewCount : 0} + '%'"></div>
                         </div>
-                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating2Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">0%</div>
+                        <div class="rating-percent"
+                             th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating2Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">
+                            0%
+                        </div>
                     </div>
                     <div class="rating-bar">
                         <div class="rating-label">1★</div>
@@ -711,35 +755,38 @@
                             <div class="progress-bar"
                                  th:style="'width: ' + ${summary.reviewCount > 0 ? summary.rating1Count * 100 / summary.reviewCount : 0} + '%'"></div>
                         </div>
-                        <div class="rating-percent" th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating1Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">0%</div>
+                        <div class="rating-percent"
+                             th:text="${summary.reviewCount > 0 ? #numbers.formatInteger(summary.rating1Count * 100 / summary.reviewCount, 0) + '%' : '0%'}">
+                            0%
+                        </div>
                     </div>
                 </div>
             </div>
             <form th:if="${isAuthenticated && canReview}"
-                  th:action="@{/product-review/create}"
-                  method="post"
-                  th:object="${createReviewDTO}">
-                <input type="hidden" th:field="*{flowerId}" th:value="${flower.id}">
+                  id="reviewForm"
+                  class="review-form">
+                <input type="hidden" name="flowerId" id="flowerId" th:value="${flower.id}">
                 <div class="form-group">
                     <label class="form-label">Оцінка</label>
                     <div class="rating-select">
-                        <input type="radio" th:field="*{rating}" id="star5" value="5" required>
-                        <label for="star5">★</label>
-                        <input type="radio" th:field="*{rating}" id="star4" value="4">
-                        <label for="star4">★</label>
-                        <input type="radio" th:field="*{rating}" id="star3" value="3">
-                        <label for="star3">★</label>
-                        <input type="radio" th:field="*{rating}" id="star2" value="2">
-                        <label for="star2">★</label>
-                        <input type="radio" th:field="*{rating}" id="star1" value="1">
+                        <input type="radio" name="rating" id="star1" value="1">
                         <label for="star1">★</label>
+                        <input type="radio" name="rating" id="star2" value="2">
+                        <label for="star2">★</label>
+                        <input type="radio" name="rating" id="star3" value="3">
+                        <label for="star3">★</label>
+                        <input type="radio" name="rating" id="star4" value="4">
+                        <label for="star4">★</label>
+                        <input type="radio" name="rating" id="star5" value="5">
+                        <label for="star5">★</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Ваш відгук</label>
-                    <textarea th:field="*{comment}" id="comment" class="form-control" required
+                    <textarea name="comment" id="comment" class="form-control"
                               placeholder="Розкажіть, що вам сподобалося або не сподобалося в цьому товарі"></textarea>
                 </div>
+                <div id="formError" class="error-message"></div>
                 <button type="submit" class="submit-review-btn">Опублікувати відгук</button>
             </form>
 
@@ -760,12 +807,16 @@
                     <div class="review-header">
                         <div class="reviewer-info">
                             <div class="reviewer-avatar">
+
                                 <img th:if="${review.userPictureUrl}" th:src="${review.userPictureUrl}" alt="Аватар">
                                 <img th:unless="${review.userPictureUrl}" src="/images/default-avatar.jpg" alt="Аватар">
                             </div>
+
                             <div>
                                 <div class="reviewer-name" th:text="${review.userName}">Имя пользователя</div>
-                                <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd.MM.yyyy')}">01.01.2023</div>
+                                <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd.MM.yyyy')}">
+                                    01.01.2023
+                                </div>
                             </div>
                         </div>
                         <div class="review-rating">
@@ -788,72 +839,38 @@
             <!-- Сообщение, если нет отзывов -->
             <div class="no-reviews" th:if="${#lists.isEmpty(reviews)}">
                 <p>У цього товару ще немає відгуків. Будьте першим, хто поділиться своєю думкою!</p>
-                <a th:if="${!isAuthenticated != null && canReview}" href="#" onclick="document.querySelector('.review-form-container').scrollIntoView({behavior: 'smooth'}); return false;" class="btn-primary">Залишити відгук</a>
-                <a th:if="${!isAuthenticated == null}" href="/auth/login" class="btn-primary">Увійти та залишити відгук</a>
+                <a th:if="${!isAuthenticated != null && canReview}" href="#"
+                   onclick="document.querySelector('.review-form-container').scrollIntoView({behavior: 'smooth'}); return false;"
+                   class="btn-primary">Залишити відгук</a>
+                <a th:if="${!isAuthenticated == null}" href="/auth/login" class="btn-primary">Увійти та залишити
+                    відгук</a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Подключение футера -->
 <div th:replace="~{client/fragments/footer :: footer}"></div>
 
-<!-- Скрипты для навигации -->
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 
-<!-- JavaScript для отзывов -->
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // AJAX проверка, может ли пользователь оставить отзыв
-        function checkCanReview() {
-            const flowerId = document.querySelector('input[name="flowerId"]');
-
-            if (!flowerId) return; // Если элемент не найден, прекращаем выполнение
-
-            fetch(`/product-review/api/can-review?flowerId=${flowerId.value}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Сетевой ответ не был успешным');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Если пользователь не может оставить отзыв - скрываем форму
-                    if (!data) {
-                        const reviewForm = document.querySelector('.review-form-container');
-                        if (reviewForm) {
-                            reviewForm.style.display = 'none';
-
-                            // Показываем сообщение о том, что пользователь уже оставил отзыв
-                            const container = document.createElement('div');
-                            container.className = 'review-form-container';
-                            container.innerHTML = `
-                        <h4 class="review-form-title">Залишити відгук</h4>
-                        <p>Ви вже залишили відгук на цей товар або не здійснювали його покупку.</p>
-                    `;
-
-                            reviewForm.parentNode.insertBefore(container, reviewForm.nextSibling);
-                        }
-                    }
-                })
-                .catch(error => console.error('Ошибка при проверке возможности оставить отзыв:', error));
-        }
-
+    document.addEventListener('DOMContentLoaded', function () {
         // Инициализация рейтинга
         function initRating() {
             const ratingSelect = document.querySelector('.rating-select');
 
             if (!ratingSelect) return;
 
-            const labels = Array.from(ratingSelect.querySelectorAll('label')).reverse();
-            const radios = Array.from(ratingSelect.querySelectorAll('input[type="radio"]')).reverse();
+            const labels = Array.from(ratingSelect.querySelectorAll('label'));
+            const radios = Array.from(ratingSelect.querySelectorAll('input[type="radio"]'));
 
             // Обработка наведения
             labels.forEach((label, index) => {
-                label.addEventListener('mouseover', function() {
+                label.addEventListener('mouseover', function () {
                     // Подсвечиваем все звезды до текущей включительно
                     labels.forEach((l, i) => {
-                        if (i >= index) {
+                        if (i <= index) {
                             l.classList.add('hover');
                         } else {
                             l.classList.remove('hover');
@@ -863,13 +880,13 @@
             });
 
             // Сброс подсветки при уводе мыши
-            ratingSelect.addEventListener('mouseout', function() {
+            ratingSelect.addEventListener('mouseout', function () {
                 labels.forEach(l => l.classList.remove('hover'));
             });
 
             // Обработка клика для визуальной фиксации выбранного рейтинга
             labels.forEach((label, index) => {
-                label.addEventListener('click', function() {
+                label.addEventListener('click', function () {
                     // Находим соответствующий радио-инпут
                     const radio = radios[index];
                     if (radio) {
@@ -877,7 +894,7 @@
 
                         // Визуальная индикация выбранных звезд
                         labels.forEach((l, i) => {
-                            if (i >= index) {
+                            if (i <= index) {
                                 l.classList.add('selected');
                             } else {
                                 l.classList.remove('selected');
@@ -886,34 +903,191 @@
                     }
                 });
             });
+
         }
 
-        // Проверяем, авторизован ли пользователь по наличию формы отзыва
-        const reviewForm = document.querySelector('.review-form');
+        // Функция для показа ошибки в форме
+        function showError(message) {
+            const errorDiv = document.getElementById('formError');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('visible');
+
+                setTimeout(() => {
+                    errorDiv.classList.remove('visible');
+                }, 5000);
+            } else {
+                alert(message);
+            }
+        }
+
+        // Функция для показа сообщений на странице
+        function showMessage(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'error'}`;
+            alertDiv.textContent = message;
+
+            // Добавляем сообщение в начало контейнера
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild);
+
+            // Удаляем сообщение через 5 секунд
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Функция для добавления нового отзыва в список без перезагрузки страницы
+        function addReviewToList(review) {
+            let reviewsList = document.querySelector('.reviews-list');
+
+            // Если списка отзывов еще нет, создаем его
+            if (!reviewsList) {
+                const noReviews = document.querySelector('.no-reviews');
+                if (noReviews) {
+                    noReviews.remove();
+                }
+
+                const newList = document.createElement('div');
+                newList.className = 'reviews-list';
+                document.querySelector('.reviews-container').appendChild(newList);
+
+                // Обновляем ссылку на список
+                reviewsList = newList;
+            }
+
+            // Создаем HTML для нового отзыва
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            reviewItem.id = `review-${review.id}`;
+
+            // Формируем звезды для отзыва
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<i class="${i <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>`;
+            }
+
+            // Текущая дата в формате dd.MM.yyyy
+            const now = new Date();
+            const formattedDate = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()}`;
+
+            reviewItem.innerHTML = `
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">
+                            <img src="/images/default-avatar.jpg" alt="Аватар">
+                        </div>
+                        <div>
+                            <div class="reviewer-name">${review.userName || 'Пользователь'}</div>
+                            <div class="review-date">${formattedDate}</div>
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        <div class="stars">
+                            ${starsHtml}
+                        </div>
+                        <div class="review-verified">
+                            <i class="fas fa-check-circle"></i> Підтверджена покупка
+                        </div>
+                    </div>
+                </div>
+                <div class="review-content">${review.comment}</div>
+            `;
+
+            // Добавляем новый отзыв в начало списка
+            reviewsList.insertBefore(reviewItem, reviewsList.firstChild);
+
+            // Обновляем счетчики отзывов и средний рейтинг, если есть
+            updateReviewSummary();
+        }
+
+        // Функция для обновления статистики отзывов
+        function updateReviewSummary() {
+            // Можно сделать запрос к API для получения обновленной статистики
+            // Или обойтись простым обновлением счетчика
+            const reviewCount = document.querySelector('.review-count');
+            if (reviewCount) {
+                const countText = reviewCount.textContent;
+                const count = parseInt(countText) + 1;
+                reviewCount.textContent = count + ' відгуків';
+            }
+        }
+
+        // Функция для сброса выбранных звезд
+        function resetRatingStars() {
+            const labels = document.querySelectorAll('.rating-select label');
+            labels.forEach(label => {
+                label.classList.remove('selected');
+            });
+        }
+
+        // Инициализация рейтинга
+        initRating();
+
+        // Обработка отправки формы отзыва
+        const reviewForm = document.getElementById('reviewForm');
         if (reviewForm) {
-            // Если форма есть, проверяем возможность оставить отзыв
-            checkCanReview();
-            initRating();
+            reviewForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            // Обработка формы отзыва
-            reviewForm.addEventListener('submit', function(e) {
-                // Проверяем заполненность полей
-                const rating = document.querySelector('input[name="rating"]:checked');
-                const comment = document.querySelector('textarea[name="comment"]').value.trim();
+                // Получаем данные формы
+                const flowerId = document.getElementById('flowerId').value;
+                const rating = document.querySelector('input[name="rating"]:checked')?.value;
+                const comment = document.getElementById('comment').value.trim();
 
+                // Проверка заполнения
                 if (!rating) {
-                    e.preventDefault();
-                    alert('Будь ласка, виберіть оцінку');
-                    return false;
+                    showError('Будь ласка, виберіть оцінку');
+                    return;
                 }
 
                 if (!comment) {
-                    e.preventDefault();
-                    alert('Будь ласка, напишіть текст відгуку');
-                    return false;
+                    showError('Будь ласка, напишіть текст відгуку');
+                    return;
                 }
 
-                return true;
+                // Создаем объект данных
+                const reviewData = {
+                    flowerId: flowerId,
+                    rating: rating,
+                    comment: comment
+                };
+
+
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+
+                // Отправляем запрос
+                fetch('/product-review/create', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(reviewData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Показываем сообщение об успехе
+                            showMessage('success', data.message);
+
+                            // Обновляем список отзывов без перезагрузки страницы
+                            if (data.review) {
+                                addReviewToList(data.review);
+                            }
+
+                            // Очищаем форму
+                            reviewForm.reset();
+                            resetRatingStars();
+                        } else {
+                            // Показываем сообщение об ошибке
+                            const errorMsg = data.message || (data.errors && data.errors.length > 0 ? data.errors[0] : 'Произошла ошибка при добавлении отзыва');
+                            showError(errorMsg);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        showError('Произошла ошибка при отправке отзыва');
+                    });
             });
         }
 
@@ -935,6 +1109,7 @@
         }
     });
 </script>
+
 
 <!-- Дополнительные стили для JavaScript-функциональности -->
 <style>
@@ -965,9 +1140,15 @@
 
     /* Подсветка нового отзыва */
     @keyframes highlight-animation {
-        0% { background-color: var(--light-gray); }
-        50% { background-color: rgba(225, 157, 69, 0.2); }
-        100% { background-color: white; }
+        0% {
+            background-color: var(--light-gray);
+        }
+        50% {
+            background-color: rgba(225, 157, 69, 0.2);
+        }
+        100% {
+            background-color: white;
+        }
     }
 
     .highlight {
