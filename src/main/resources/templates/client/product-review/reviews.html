@@ -716,15 +716,15 @@
                 <div class="form-group">
                     <label class="form-label">Оцінка</label>
                     <div class="rating-select">
-                        <input type="radio" th:field="*{rating}" id="star5" value="5" required>
+                        <input type="radio" th:field="*{rating}" id="star5" value="1" required>
                         <label for="star5">★</label>
-                        <input type="radio" th:field="*{rating}" id="star4" value="4">
+                        <input type="radio" th:field="*{rating}" id="star4" value="2">
                         <label for="star4">★</label>
                         <input type="radio" th:field="*{rating}" id="star3" value="3">
                         <label for="star3">★</label>
-                        <input type="radio" th:field="*{rating}" id="star2" value="2">
+                        <input type="radio" th:field="*{rating}" id="star2" value="4">
                         <label for="star2">★</label>
-                        <input type="radio" th:field="*{rating}" id="star1" value="1">
+                        <input type="radio" th:field="*{rating}" id="star1" value="5">
                         <label for="star1">★</label>
                     </div>
                 </div>
@@ -821,9 +821,9 @@
                             const container = document.createElement('div');
                             container.className = 'review-form-container';
                             container.innerHTML = `
-                            <h4 class="review-form-title">Залишити відгук</h4>
-                            <p>Ви вже залишили відгук на цей товар або не здійснювали його покупку.</p>
-                        `;
+                        <h4 class="review-form-title">Залишити відгук</h4>
+                        <p>Ви вже залишили відгук на цей товар або не здійснювали його покупку.</p>
+                    `;
 
                             reviewForm.parentNode.insertBefore(container, reviewForm.nextSibling);
                         }
@@ -832,11 +832,61 @@
                 .catch(error => console.error('Ошибка при проверке возможности оставить отзыв:', error));
         }
 
+        // Инициализация рейтинга
+        function initRating() {
+            const ratingSelect = document.querySelector('.rating-select');
+
+            if (!ratingSelect) return;
+
+            const labels = Array.from(ratingSelect.querySelectorAll('label')).reverse();
+            const radios = Array.from(ratingSelect.querySelectorAll('input[type="radio"]')).reverse();
+
+            // Обработка наведения
+            labels.forEach((label, index) => {
+                label.addEventListener('mouseover', function() {
+                    // Подсвечиваем все звезды до текущей включительно
+                    labels.forEach((l, i) => {
+                        if (i >= index) {
+                            l.classList.add('hover');
+                        } else {
+                            l.classList.remove('hover');
+                        }
+                    });
+                });
+            });
+
+            // Сброс подсветки при уводе мыши
+            ratingSelect.addEventListener('mouseout', function() {
+                labels.forEach(l => l.classList.remove('hover'));
+            });
+
+            // Обработка клика для визуальной фиксации выбранного рейтинга
+            labels.forEach((label, index) => {
+                label.addEventListener('click', function() {
+                    // Находим соответствующий радио-инпут
+                    const radio = radios[index];
+                    if (radio) {
+                        radio.checked = true;
+
+                        // Визуальная индикация выбранных звезд
+                        labels.forEach((l, i) => {
+                            if (i >= index) {
+                                l.classList.add('selected');
+                            } else {
+                                l.classList.remove('selected');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
         // Проверяем, авторизован ли пользователь по наличию формы отзыва
         const reviewForm = document.querySelector('.review-form');
         if (reviewForm) {
             // Если форма есть, проверяем возможность оставить отзыв
             checkCanReview();
+            initRating();
 
             // Обработка формы отзыва
             reviewForm.addEventListener('submit', function(e) {
@@ -876,31 +926,36 @@
                 }, 500);
             }
         }
-
-        // Анимация звездного рейтинга
-        const ratingLabels = document.querySelectorAll('.rating-select label');
-        ratingLabels.forEach(label => {
-            label.addEventListener('mouseover', function() {
-                // При наведении подсвечиваем эту звезду и все предыдущие
-                let prevSibling = this;
-                while (prevSibling) {
-                    prevSibling.classList.add('hover');
-                    prevSibling = prevSibling.previousElementSibling;
-                }
-            });
-
-            label.addEventListener('mouseout', function() {
-                // При уходе курсора убираем подсветку
-                document.querySelectorAll('.rating-select label').forEach(l => {
-                    l.classList.remove('hover');
-                });
-            });
-        });
     });
 </script>
 
 <!-- Дополнительные стили для JavaScript-функциональности -->
 <style>
+    .rating-select {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .rating-select input[type="radio"] {
+        display: none;
+    }
+
+    .rating-select label {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #ddd;
+        transition: color 0.2s;
+    }
+
+    /* Объединил селекторы для hover и selected */
+    .rating-select label.hover,
+    .rating-select label.selected,
+    .rating-select label:hover,
+    .rating-select label:hover ~ label {
+        color: var(--accent-color, #ffc107);
+    }
+
     /* Подсветка нового отзыва */
     @keyframes highlight-animation {
         0% { background-color: var(--light-gray); }
@@ -910,11 +965,6 @@
 
     .highlight {
         animation: highlight-animation 3s ease;
-    }
-
-    /* Стили для наведения на звезды */
-    .rating-select label.hover {
-        color: var(--accent-color);
     }
 
     /* Стили для валидации формы */

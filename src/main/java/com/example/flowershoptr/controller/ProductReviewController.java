@@ -96,6 +96,7 @@ public class ProductReviewController {
                 return "redirect:/flowers/" + createDTO.getFlowerId();
             }
 
+
             // Создание отзыва через сервис
             ProductReviewDTO createdReview = productReviewService.createProductReview(createDTO, email);
 
