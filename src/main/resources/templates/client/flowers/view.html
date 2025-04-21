@@ -1018,6 +1018,7 @@
                     <span th:text="${summary.reviewCount + ' відгуків'}">0 отзывов</span>
                 </a>
             </div>
+
             <!-- Цена -->
 
             <div class="product-price">
@@ -1030,6 +1031,7 @@
                 Детальний опис квітки...
             </div>
 
+
             <!-- Характеристики товару -->
             <div class="product-attributes">
                 <div class="attribute">
@@ -1039,10 +1041,10 @@
                     В наявності: <span th:text="${flower.count > 0 ? 'Так' : 'Ні'}">Так</span>
                 </div>
                 <div class="attribute">
-                    Висота: <span th:text="${flower.price ?: 'Не вказано'}">50 см</span>
+                    Висота: <span th:text="${flower.getWeight() ?: 'Не вказано'}">50 см</span>
                 </div>
                 <div class="attribute">
-                    Склад: <span th:text="${flower.getPrice() ?: 'Не вказано'}">Троянди, зелень</span>
+                    Склад: <span th:text="${flower.getCount() ?: 'Не вказано'}">Троянди, зелень</span>
                 </div>
             </div>
 
@@ -1098,7 +1100,6 @@
 
 <script th:src="@{/js/add-to-cart-btn.js}"></script>
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
-
 
 
 </body>
