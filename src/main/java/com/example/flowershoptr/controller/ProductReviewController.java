@@ -124,37 +124,7 @@ public class ProductReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-//
-//    @PostMapping("/create")
-//    public String createReview(
-//            @Valid @ModelAttribute CreateProductReviewDTO createDTO,
-//            BindingResult bindingResult,
-//            @AuthenticationPrincipal OAuth2User oauth2User,
-//            RedirectAttributes redirectAttributes) {
-//
-//        try {
-//            // Извлечение email из OAuth2 аутентификации
-//            String email = oauth2User.getAttribute("email");
-//
-//            // Проверка валидации
-//            if (bindingResult.hasErrors()) {
-//                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createReviewDTO", bindingResult);
-//                redirectAttributes.addFlashAttribute("createReviewDTO", createDTO);
-//                return "redirect:/flowers/" + createDTO.getFlowerId();
-//            }
-//
-//
-//            // Создание отзыва через сервис
-//            ProductReviewDTO createdReview = productReviewService.createProductReview(createDTO, email);
-//
-//            redirectAttributes.addFlashAttribute("successMessage", "Отзыв успешно добавлен");
-//            return "redirect:/flowers/" + createDTO.getFlowerId();
-//
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-//            return "redirect:/flowers/" + createDTO.getFlowerId();
-//        }
-//    }
+
 
     /**
      * Класс для стандартизации ошибок API

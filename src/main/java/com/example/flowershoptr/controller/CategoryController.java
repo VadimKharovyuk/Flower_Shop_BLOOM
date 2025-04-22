@@ -93,6 +93,7 @@ public class CategoryController {
         return "client/categories/view";
     }
 
+
     /**
      * Поиск товара по названию
      */
@@ -120,12 +121,13 @@ public class CategoryController {
             @RequestParam(required = false) Boolean inStock,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Integer rating,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
 
         Pageable pageable = paginationUtils.createPageable(page, size, "name", true);
-        Page<FlowerSearchDTO> filterPriceResults = flowerService.searchFlowersWithFilters(query, minPrice, maxPrice, inStock, pageable);
+        Page<FlowerSearchDTO> filterPriceResults = flowerService.searchFlowersWithFilters(query, minPrice, maxPrice, inStock,  rating ,pageable);
 
         model.addAttribute("flowers", filterPriceResults);
 

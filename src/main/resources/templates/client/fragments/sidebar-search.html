@@ -8,7 +8,6 @@
     <i class="fas fa-filter"></i> Показати фільтри
   </div>
 
-
   <!-- Блок пошуку -->
   <div class="sidebar-block search-block">
     <h3 class="sidebar-title">Пошук</h3>
@@ -23,10 +22,9 @@
     </form>
   </div>
 
-  <!-- Блок фильтров по цене -->
   <!-- Блок фільтрів -->
   <div class="sidebar-block filter-block">
-    <h3 class="sidebar-title">Фільтри за ціною</h3>
+    <h3 class="sidebar-title">Фільтри</h3>
     <form th:action="@{/categories/filter}" method="get">
       <!-- Зберігаємо пошуковий запит при фільтрації -->
       <input type="hidden" name="query" th:value="${param.query}">
@@ -46,12 +44,101 @@
         </div>
       </div>
 
+      <!-- Фільтр за рейтингом -->
+      <div class="filter-group">
+        <h4 class="filter-title">Рейтинг</h4>
+        <div class="rating-filter">
+          <div class="rating-option">
+            <input type="radio" id="rating5" name="rating" value="5" th:checked="${param.rating == '5'}">
+            <label for="rating5">
+              <span class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </span>
+            </label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" id="rating4" name="rating" value="4" th:checked="${param.rating == '4'}">
+            <label for="rating4">
+              <span class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-text">і вище</span>
+              </span>
+            </label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" id="rating3" name="rating" value="3" th:checked="${param.rating == '3'}">
+            <label for="rating3">
+              <span class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-text">і вище</span>
+              </span>
+            </label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" id="rating2" name="rating" value="2" th:checked="${param.rating == '2'}">
+            <label for="rating2">
+              <span class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-text">і вище</span>
+              </span>
+            </label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" id="rating1" name="rating" value="1" th:checked="${param.rating == '1'}">
+            <label for="rating1">
+              <span class="stars">
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-text">і вище</span>
+              </span>
+            </label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" id="ratingAny" name="rating" value="" th:checked="${param.rating == null or param.rating == ''}">
+            <label for="ratingAny">
+              <span class="rating-text">Всі товари</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Наявність товару -->
+      <div class="filter-group">
+        <div class="checkbox-filter">
+          <input type="checkbox" id="inStock" name="inStock" value="true" th:checked="${param.inStock == 'true'}">
+          <label for="inStock">Тільки в наявності</label>
+        </div>
+      </div>
+
       <!-- Приховані поля для збереження параметрів пагінації -->
       <input type="hidden" name="page" value="0">
       <input type="hidden" name="size" th:value="${param.size ?: 12}">
 
       <button type="submit" class="filter-button">Застосувати</button>
     </form>
+    <!-- Кнопки управления фильтрами -->
+    <div class="filter-actions">
+      <a href="/categories" class="reset-filter-button">Скинути фільтри</a>
+    </div>
   </div>
 </aside>
 
@@ -127,10 +214,14 @@
   /* Фильтры */
   .filter-group {
     margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
   }
 
   .filter-group:last-child {
     margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .filter-title {
@@ -172,6 +263,54 @@
     box-shadow: 0 0 0 2px rgba(201, 169, 128, 0.1);
   }
 
+  /* Стили для фильтра рейтинга */
+  .rating-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rating-option {
+    display: flex;
+    align-items: center;
+  }
+
+  .rating-option input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  .rating-option .stars {
+    display: flex;
+    align-items: center;
+  }
+
+  .rating-option .stars i {
+    color: #ffc107;
+    font-size: 14px;
+    margin-right: 2px;
+  }
+
+  .rating-option .rating-text {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Стили для чекбокса */
+  .checkbox-filter {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox-filter input[type="checkbox"] {
+    margin-right: 8px;
+  }
+
+  .checkbox-filter label {
+    font-size: 14px;
+    color: #333;
+  }
+
   .filter-button {
     width: 100%;
     padding: 10px;
@@ -181,6 +320,7 @@
     margin-top: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 4px;
   }
 
   .filter-button:hover {
@@ -197,6 +337,7 @@
     cursor: pointer;
     text-align: center;
     font-size: 14px;
+    border-radius: 4px;
   }
 
   .mobile-filter-toggle i {
@@ -225,6 +366,47 @@
       display: block;
     }
   }
+
+  /* Стили для блока кнопок фильтрации */
+  .filter-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .filter-button {
+    flex: 1;
+    padding: 10px;
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .reset-filter-button {
+    flex: 1;
+    padding: 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .filter-button:hover {
+    background-color: #333;
+  }
+
+  .reset-filter-button:hover {
+    background-color: #e0e0e0;
+  }
 </style>
 
 <!-- JavaScript для боковой панели с поиском -->
@@ -240,9 +422,9 @@
 
         // Изменение текста кнопки
         if (categorySidebar.classList.contains('sidebar-active')) {
-          mobileFilterToggle.innerHTML = '<i class="fas fa-times"></i> Скрыть фильтры';
+          mobileFilterToggle.innerHTML = '<i class="fas fa-times"></i> Скрити фільтри';
         } else {
-          mobileFilterToggle.innerHTML = '<i class="fas fa-filter"></i> Показать фильтры';
+          mobileFilterToggle.innerHTML = '<i class="fas fa-filter"></i> Показати фільтри';
         }
       });
     }
