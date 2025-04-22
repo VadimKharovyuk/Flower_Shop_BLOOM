@@ -181,8 +181,10 @@ public class FlowerServiceImpl implements FlowerService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "popularFlowersList")
     @Override
     public List<PopularFlowerDto> getPopularFlowersList() {
+        log.info("CACHE MISS: Загрузка списка популярных цветов из БД");
         return flowerRepository.findTop6ByFavoritesCountGreaterThanOrderByFavoritesCountDesc()
                 .stream()
                 .map(flowerMapper::toPopularDto)

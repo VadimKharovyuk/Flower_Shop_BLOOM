@@ -1001,10 +1001,10 @@
         <!-- Информация о продукте -->
         <div class="product-info">
         <span class="product-category">
-          <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категория</a>
+          <a th:href="@{'/categories/' + ${flower.category.id}}" th:text="${flower.category.name}">Категорія</a>
         </span>
 
-            <h1 class="product-title" th:text="${flower.name}">Название цветка</h1>
+            <h1 class="product-title" th:text="${flower.name}">Назва квітки</h1>
 
             <!-- Рейтинг -->
             <div class="product-rating">
@@ -1023,7 +1023,7 @@
 
             <div class="product-price">
                 <!-- Только основная цена без проверки на скидку -->
-                <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₽'}">800 ₽</span>
+                <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'COMMA') + ' ₴'}">800 ₴</span>
             </div>
 
             <!-- Описание -->

@@ -47,12 +47,6 @@ public class Home {
 
         model.addAttribute("popularFlowers", popularFlowers);
 
-        List<PopularFlowerDto> favoriteFlowers = flowerService.getFavoritesFlowersList().stream()
-                .limit(6)
-                .collect(Collectors.toList());
-
-
-        model.addAttribute("favoriteFlowers", favoriteFlowers);
 
         List<CategoryListDTO> popularCategoryList = categoryService.getTotalCartAddCountByCategory(6);
         model.addAttribute("popularCategory", popularCategoryList);
