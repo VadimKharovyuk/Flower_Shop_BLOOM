@@ -129,8 +129,7 @@ public interface FlowerService {
     Page<FlowerSearchDTO> searchFlowersFindByName(String query, Pageable pageable);
 
 
-    Page<FlowerSearchDTO> searchFlowersWithFilters(String query, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Pageable pageable);
-
+    Page<FlowerSearchDTO> searchFlowersWithFilters(String query, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Integer rating, Pageable pageable);
     Page<PopularFlowerDto> getPopularFlowers(Pageable pageable);
     Page<PopularFlowerDto> getFavoritesFlowers(Pageable pageable);
 

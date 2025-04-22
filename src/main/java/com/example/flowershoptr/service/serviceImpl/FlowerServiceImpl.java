@@ -1,5 +1,6 @@
 package com.example.flowershoptr.service.serviceImpl;
 
+import com.example.flowershoptr.dto.ProductReview.ProductReviewSummaryDTO;
 import com.example.flowershoptr.dto.flower.*;
 import com.example.flowershoptr.maper.FlowerMapper;
 import com.example.flowershoptr.model.Category;
@@ -7,13 +8,11 @@ import com.example.flowershoptr.model.Flower;
 import com.example.flowershoptr.repository.CategoryRepository;
 import com.example.flowershoptr.repository.FlowerRepository;
 import com.example.flowershoptr.service.FlowerService;
+import com.example.flowershoptr.service.ProductReviewService;
 import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,8 @@ public class FlowerServiceImpl implements FlowerService {
     private final CategoryRepository categoryRepository;
     private final FlowerMapper flowerMapper;
     private final CloudinaryService cloudinaryService;
+    private final ProductReviewService productReviewService;
+
 
     @Override
     public Page<FlowerListDTO> getAllFlowers(Pageable pageable) {
@@ -72,7 +75,7 @@ public class FlowerServiceImpl implements FlowerService {
     }
 
     @Override
-    public Page<FlowerSearchDTO> searchFlowersWithFilters(String query, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Pageable pageable) {
+    public Page<FlowerSearchDTO> searchFlowersWithFilters(String query, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Integer rating, Pageable pageable) {
         // Создаем спецификацию для динамических запросов
         Specification<Flower> spec = Specification.where(null);
 
@@ -100,19 +103,60 @@ public class FlowerServiceImpl implements FlowerService {
                     criteriaBuilder.greaterThan(root.get("stock"), 0));
         }
 
+        // Добавляем фильтр по рейтингу
+        if (rating != null) {
+            // Получаем список цветков с рейтингом выше указанного
+            List<Long> flowerIdsWithRating = flowerRepository.findFlowerIdsWithAverageRatingGreaterThanOrEqual(rating);
+
+            if (!flowerIdsWithRating.isEmpty()) {
+                spec = spec.and((root, criteriaQuery, criteriaBuilder) ->
+                        root.get("id").in(flowerIdsWithRating));
+            } else {
+                // Если нет товаров с указанным рейтингом, возвращаем пустую страницу
+                return Page.empty(pageable);
+            }
+        }
+
         // Выполняем запрос и получаем страницу результатов
         Page<Flower> flowers = flowerRepository.findAll(spec, pageable);
 
-        // Конвертируем результаты в DTO
-        return flowers.map(flower -> {
-            FlowerSearchDTO dto = new FlowerSearchDTO();
-            dto.setId(flower.getId());
-            dto.setName(flower.getName());
-            dto.setPreviewImageUrl(flower.getPreviewImageUrl());
-            dto.setPrice(flower.getPrice());
-            return dto;
-        });
+        // Конвертируем результаты в DTO и добавляем рейтинг
+        List<FlowerSearchDTO> flowerDTOs = flowers.getContent().stream()
+                .map(flower -> {
+                    FlowerSearchDTO dto = new FlowerSearchDTO();
+                    dto.setId(flower.getId());
+                    dto.setName(flower.getName());
+                    dto.setPreviewImageUrl(flower.getPreviewImageUrl());
+                    dto.setPrice(flower.getPrice());
+
+                    // Получаем средний рейтинг
+                    ProductReviewSummaryDTO summary = productReviewService.getReviewSummaryByFlowerId(flower.getId());
+                    dto.setAverageRating(summary.getAverageRating());
+
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        // Если нужна сортировка по рейтингу в убывающем порядке
+        if (pageable.getSort().isEmpty() || pageable.getSort().toString().contains("averageRating")) {
+            flowerDTOs.sort(Comparator.comparing(FlowerSearchDTO::getAverageRating, Comparator.nullsLast(Comparator.reverseOrder())));
+        }
+
+        // Создаем новую страницу с отсортированными элементами
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), flowerDTOs.size());
+
+        // Проверка границ подсписка
+        if (start > flowerDTOs.size()) {
+            return new PageImpl<>(Collections.emptyList(), pageable, flowers.getTotalElements());
+        }
+
+        List<FlowerSearchDTO> pageContent = flowerDTOs.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, flowers.getTotalElements());
     }
+
+
 
     @Override
     public Page<PopularFlowerDto> getPopularFlowers(Pageable pageable) {

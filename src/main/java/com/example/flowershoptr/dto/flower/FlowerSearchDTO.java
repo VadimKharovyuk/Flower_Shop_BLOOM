@@ -12,6 +12,8 @@ public class FlowerSearchDTO {
     private String name;
     private String previewImageUrl;
     private BigDecimal price;
+    private Integer rating;
+    private Double averageRating;
 
 
 }

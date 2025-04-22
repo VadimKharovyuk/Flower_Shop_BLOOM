@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -128,4 +129,10 @@ public interface FlowerRepository extends JpaRepository<Flower, Long> {
     // Или, если хотите ограничить количество
     @Query("SELECT f FROM Flower f WHERE f.favoritesCount > 0 ORDER BY f.favoritesCount DESC")
     List<Flower> findTop6ByFavoritesCountGreaterThanOrderByFavoritesCountDesc();
+
+    @Query(value = "SELECT f.id FROM flowers f " +
+            "JOIN product_reviews pr ON f.id = pr.flower_id " +
+            "GROUP BY f.id " +
+            "HAVING AVG(pr.rating) >= :rating", nativeQuery = true)
+    List<Long> findFlowerIdsWithAverageRatingGreaterThanOrEqual(@Param("rating") Integer rating);
 }

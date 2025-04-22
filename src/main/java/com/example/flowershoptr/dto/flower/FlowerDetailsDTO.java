@@ -55,6 +55,7 @@ public class FlowerDetailsDTO {
     private Double averageRating;
     private LocalDateTime createdAt;
 
+
     // Вложенный DTO для категории
     @Data
     public static class CategoryDTO {
