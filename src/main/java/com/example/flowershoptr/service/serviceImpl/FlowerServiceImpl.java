@@ -12,6 +12,7 @@ import com.example.flowershoptr.service.ProductReviewService;
 import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,9 @@ public class FlowerServiceImpl implements FlowerService {
     private final ProductReviewService productReviewService;
 
 
-    @Override
+    @Cacheable(value = "flowersPageList", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort.toString()}", unless = "#result.isEmpty()")
     public Page<FlowerListDTO> getAllFlowers(Pageable pageable) {
-        log.info("Получение страницы списка всех цветов. Page: {}, Size: {}",
+        log.info("CACHE MISS: Получение страницы списка всех цветов из БД. Page: {}, Size: {}",
                 pageable.getPageNumber(), pageable.getPageSize());
 
         return flowerRepository.findAll(pageable)
@@ -196,6 +197,8 @@ public class FlowerServiceImpl implements FlowerService {
     }
 
 
+
+    @Cacheable(value = "activeFlowersPageList", key = "'page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @Override
     public Page<FlowerListDTO> getActiveFlowers(Pageable pageable) {
         log.info("Получение страницы списка активных цветов. Page: {}, Size: {}",
@@ -205,13 +208,14 @@ public class FlowerServiceImpl implements FlowerService {
         Pageable pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
-                Sort.by("name") // Сортировка по умолчанию, если не указана
+                pageable.getSort().isEmpty() ? Sort.by("name") : pageable.getSort() // Сортировка по умолчанию, если не указана
         );
 
         return flowerRepository.findByIsActiveTrue(pageRequest)
                 .map(flowerMapper::toListDTO);
     }
 
+    @Cacheable(value = "flowersByCategory", key = "{#categoryId, #pageable.pageNumber, #pageable.pageSize}")
     @Override
     public Page<FlowerListDTO> getFlowersByCategory(Long categoryId, Pageable pageable) {
         log.info("Получение страницы списка цветов по категории с ID: {}. Page: {}, Size: {}",
@@ -230,9 +234,10 @@ public class FlowerServiceImpl implements FlowerService {
                 .map(flowerMapper::toListDTO);
     }
 
+    @Cacheable(value = "flowerById", key = "#id")
     @Override
     public FlowerDetailsDTO getFlowerById(Long id) {
-        log.info("Получение информации о цветке с ID: {}", id);
+        log.info("CACHE MISS: Загрузка Floweer  с ID: {}", id);
         return flowerRepository.findById(id)
                 .map(flowerMapper::toDetailsDTO)
                 .orElseThrow(() -> new RuntimeException("Цветок с ID " + id + " не найден"));

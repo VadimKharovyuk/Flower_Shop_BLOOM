@@ -11,6 +11,7 @@ import com.example.flowershoptr.service.CategoryService;
 import com.example.flowershoptr.util.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,9 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
+    @Cacheable(value = "activeCategoriesPageList", key = "'page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @Override
     public Page<CategoryListDTO> getActiveCategories(Pageable pageable) {
-        log.info("Запрос активных категорий с пагинацией: page={}, size={}",
+        log.info("CACHE MISS: Загрузка активных категорий из БД. Page: {}, Size: {}",
                 pageable.getPageNumber(), pageable.getPageSize());
         Page<Category> activeCategories = categoryRepository.findByIsActiveTrue(pageable);
         return activeCategories.map(categoryMapper::toListDTO);
@@ -56,14 +58,14 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> featuredCategories = categoryRepository.findByIsFeaturedTrue(pageable);
         return featuredCategories.map(categoryMapper::toListDTO);
     }
-
+    @Cacheable(value = "categoryById", key = "#id")
     @Override
     public CategoryDetailsDTO getCategoryById(Long id) {
+        log.info("CACHE MISS: Загрузка категории с ID: {} из БД", id);
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена с ID: " + id));
         return categoryMapper.toDetailsDTO(category);
     }
-
 
     @Transactional
     public CategoryDetailsDTO createCategoryWithImage(CreateCategoryDTO createDTO, MultipartFile imageFile) {

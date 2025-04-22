@@ -70,8 +70,6 @@ public class CategoryController {
             @RequestParam(defaultValue = "true") boolean ascending,
             Model model) {
 
-        log.info("Запрос категории {}: page={}, size={}", id, page, size);
-
         // Получаем детали категории
         CategoryDetailsDTO category = categoryService.getCategoryById(id);
         model.addAttribute("currentUrl", "/categories/" + id);
