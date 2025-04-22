@@ -209,6 +209,7 @@ public class CacheConfig {
         return cacheManager;
     }
 
+
     // Обработчик ошибок кеша
     @Bean
     public CacheErrorHandler errorHandler() {
