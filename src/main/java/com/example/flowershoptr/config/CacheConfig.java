@@ -228,6 +228,7 @@ public class CacheConfig {
                 log.error("Cache EVICT error: cache={}, key={}", cache.getName(), key, e);
             }
 
+
             @Override
             public void handleCacheClearError(RuntimeException e, Cache cache) {
                 log.error("Cache CLEAR error: cache={}", cache.getName(), e);
