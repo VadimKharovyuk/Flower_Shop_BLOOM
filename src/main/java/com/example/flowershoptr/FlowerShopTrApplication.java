@@ -27,6 +27,6 @@ public class FlowerShopTrApplication {
 
 ///   mvn clean package -DskipTests
 
-/// ТУт ок
+/// ТУт ок -D
 
 
