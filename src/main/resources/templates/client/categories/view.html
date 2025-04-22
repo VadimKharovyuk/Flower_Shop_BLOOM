@@ -572,8 +572,6 @@
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
 <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
 <!-- Хедер категории -->
-<!--<div th:replace="~{client/fragments/header :: page-header(${category.name}, ${category.description}, ${category.getPreviewImageUrl()})}"></div>-->
-<!-- Подключение фрагмента -->
 <div th:replace="~{client/fragments/luxe-header-content :: category-header(${category})}"></div>
 <style th:replace="~{client/fragments/luxe-header-content :: category-header-css}"></style>
 
@@ -588,20 +586,21 @@
     <!-- Дополнительная информация о категории (если нужно) -->
     <div class="category-header" th:if="${category.getName() != null}">
       <div class="category-description" th:utext="${category.getDescription()}">
-        Подробное описание категории...
+          Детальний опис категорії…
       </div>
     </div>
+
 
     <!-- Панель сортировки и фильтрации -->
     <div class="category-toolbar">
       <!-- Количество найденных товаров -->
       <div class="found-items" th:text="${'Найдено ' + flowers.totalElements + ' товаров'}">
-        Найдено X товаров
+          Знайдено X товарів
       </div>
 
       <!-- Опции сортировки -->
       <div class="sort-options">
-        <span class="sort-label">Сортировать по:</span>
+        <span class="sort-label">Сортувати за:</span>
         <select class="sort-select" id="sort-select">
           <option value="name_asc" th:selected="${param.sortBy == 'name' && param.ascending == true}">Название (А-Я)</option>
           <option value="name_desc" th:selected="${param.sortBy == 'name' && param.ascending == false}">Название (Я-А)</option>
@@ -654,7 +653,7 @@
                 </h3>
                 <div class="luxury-product-footer">
                     <div class="luxury-product-price" th:if="${flower.price != null}">
-                        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₽'">2 500 ₽</span>
+                        <span th:text="${#numbers.formatDecimal(flower.price, 0, 'WHITESPACE', 0, 'POINT')} + ' ₴'">2 500 ₴</span>
                     </div>
                     <button class="luxury-cart-btn add-to-cart">У кошик</button>
                 </div>
@@ -1148,8 +1147,8 @@
     <!-- Избранные букеты -->
     <section class="section products-section">
         <div class="container">
-            <h2 class="section-title">Избранные букеты</h2>
-            <p class="section-subtitle">Букеты, которые полюбили наши клиенты</p>
+            <h2 class="section-title">Обрані букети</h2>
+            <p class="section-subtitle">Букети, які полюбили наші клієнти</p>
 
             <div class="products-grid">
                 <div th:each="flower : ${popularFlower}" class="product-card">
@@ -1158,7 +1157,7 @@
                              th:alt="${flower.name}"
                              class="product-image">
 
-                        <span th:if="${flower.favoritesCount > 10}" class="product-tag">Популярное</span>
+                        <span th:if="${flower.favoritesCount > 10}" class="product-tag">Популярне</span>
 
                         <div class="product-actions">
                             <div class="product-action-btn wishlist" th:data-id="${flower.id}">
@@ -1171,11 +1170,11 @@
                     </div>
 
                     <div class="product-content">
-                        <p class="product-category" th:text="${flower.categoryName}">Категория</p>
-                        <h3 class="product-title" th:text="${flower.name}">Название букета</h3>
+                        <p class="product-category" th:text="${flower.categoryName}">Категорія</p>
+                        <h3 class="product-title" th:text="${flower.name}">Назва букета</h3>
                         <div class="product-price-cart-wrapper">
-                            <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Цена</p>
-                            <button class="add-to-cart">В корзину</button>
+                            <p class="product-price" th:text="${#numbers.formatCurrency(flower.price)}">Ціна</p>
+                            <button class="add-to-cart">До кошика</button>
                         </div>
                     </div>
                 </div>
@@ -1183,7 +1182,7 @@
 
             <div class="section-more-container" style="text-align: center;">
                 <a href="/trending" class="wedding-btn">
-                    Посмотреть больше
+                    Переглянути більше
                     <span class="btn-arrow">→</span>
                 </a>
             </div>
@@ -1201,29 +1200,29 @@
         <div class="why-us-icon">
           <i class="fas fa-truck"></i>
         </div>
-        <h3>Быстрая доставка</h3>
-        <p>Доставляем свежие цветы в день заказа по всему городу</p>
+          <h3>Швидка доставка</h3>
+          <p>Доставляємо свіжі квіти в день замовлення по всьому місту</p>
       </div>
       <div class="why-us-item">
         <div class="why-us-icon">
           <i class="fas fa-leaf"></i>
         </div>
-        <h3>Свежие цветы</h3>
-        <p>Работаем только с проверенными поставщиками и свежими цветами</p>
+          <h3>Свіжі квіти</h3>
+          <p>Працюємо тільки з перевіреними постачальниками та свіжими квітами</p>
       </div>
       <div class="why-us-item">
         <div class="why-us-icon">
           <i class="fas fa-medal"></i>
         </div>
-        <h3>Гарантия качества</h3>
-        <p>Гарантируем свежесть и качество всех наших цветочных композиций</p>
+          <h3>Гарантія якості</h3>
+          <p>Гарантуємо свіжість та якість усіх наших квіткових композицій</p>
       </div>
       <div class="why-us-item">
         <div class="why-us-icon">
           <i class="fas fa-heart"></i>
         </div>
-        <h3>Индивидуальный подход</h3>
-        <p>Создаем уникальные композиции по вашим пожеланиям и требованиям</p>
+          <h3>Індивідуальний підхід</h3>
+          <p>Створюємо унікальні композиції за вашими побажаннями та вимогами</p>
       </div>
     </div>
   </div>

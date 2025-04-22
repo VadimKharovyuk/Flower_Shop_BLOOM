@@ -128,17 +128,17 @@
         </div>
       </div>
 
-      <div class="sidebar-widget">
-        <h3 class="widget-title">Категорії</h3>
-        <ul class="category-list">
-          <li th:each="type : ${postTypes}">
-            <a th:href="@{/blog/type/{type}(type=${type})}"
-               th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}">
-              Категорія
-            </a>
-          </li>
-        </ul>
-      </div>
+<!--      <div class="sidebar-widget">-->
+<!--        <h3 class="widget-title">Категорії</h3>-->
+<!--        <ul class="category-list">-->
+<!--          <li th:each="type : ${postTypes}">-->
+<!--            <a th:href="@{/blog/type/{type}(type=${type})}"-->
+<!--               th:text="${T(com.example.flowershoptr.enums.BlogPostType).valueOf(type).getDisplayName()}">-->
+<!--              Категорія-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
 
       <div class="sidebar-widget">
         <h3 class="widget-title">Підписатися на новини</h3>

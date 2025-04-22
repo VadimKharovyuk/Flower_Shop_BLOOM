@@ -10,6 +10,7 @@ import com.example.flowershoptr.service.EventService;
 import com.example.flowershoptr.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +32,11 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
     private final StorageService storageService;
 
+    @Cacheable(value = "activeEventsPageList", key = "'page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @Override
     public Page<EventListDto> getAllEvents(Pageable pageable) {
+        log.info("CACHE MISS: Загрузка страницы активных событий из БД. Page: {}, Size: {}",
+                pageable.getPageNumber(), pageable.getPageSize());
         Page<Event> eventPage = eventRepository.findAllByIsActiveTrue(pageable);
         return eventPage.map(eventMapper::toListDto);
     }
@@ -44,15 +48,19 @@ public class EventServiceImpl implements EventService {
     }
 
 
+    @Cacheable(value = "featuredEventsList", key = "#limit")
     @Override
     public List<EventListDto> getFeaturedEvents(int limit) {
+        log.info("CACHE MISS: Загрузка избранных событий из БД. Limit: {}", limit);
         Pageable pageable = PageRequest.of(0, limit);
         List<Event> events = eventRepository.findByIsFeaturedTrueAndIsActiveTrueOrderByEventDateDesc(pageable);
         return eventMapper.toListDto(events);
     }
 
+    @Cacheable(value = "eventById", key = "#id")
     @Override
     public EventDetailsDto getEventById(Long id) {
+        log.info("CACHE MISS: Загрузка события с ID: {} из БД", id);
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Событие не найдено с ID: " + id));
         return eventMapper.toDetailsDto(event);
