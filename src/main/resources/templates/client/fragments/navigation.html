@@ -19,7 +19,7 @@
         <a href="/categories" class="lucky-nav-link" th:classappend="${currentPage == 'catalog'} ? 'lucky-active' : ''">Каталог</a>
         <a href="/flowers" class="lucky-nav-link" th:classappend="${currentPage == 'bouquets'} ? 'lucky-active' : ''">Букети</a>
         <a href="/order-tracking" class="lucky-nav-link" th:classappend="${currentPage == 'collections'} ? 'lucky-active' : ''">Відстежити замовлення</a>
-        <a href="/about" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Про нас</a>
+        <a href="/view/recently-viewed" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Нещодавно переглянуті</a>
         <a href="/blog" class="lucky-nav-link" th:classappend="${currentPage == 'contact'} ? 'lucky-active' : ''">Блог</a>
       </nav>
 
@@ -64,7 +64,7 @@
         <a href="/categories" class="lucky-nav-link" th:classappend="${currentPage == 'catalog'} ? 'lucky-active' : ''">Каталог</a>
         <a href="/flowers" class="lucky-nav-link" th:classappend="${currentPage == 'bouquets'} ? 'lucky-active' : ''">Букети</a>
         <a href="/order-tracking" class="lucky-nav-link" th:classappend="${currentPage == 'order-tracking'} ? 'lucky-active' : ''">Відстеження замовлення</a>
-        <a href="/about" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Про нас</a>
+        <a href="/view/recently-viewed" class="lucky-nav-link" th:classappend="${currentPage == 'about'} ? 'lucky-active' : ''">Нещодавно переглянуті</a>
         <a href="/contact" class="lucky-nav-link" th:classappend="${currentPage == 'contact'} ? 'lucky-active' : ''">Контакти</a>
 
 
@@ -602,5 +602,8 @@
     transform: translateY(-100%);
   }
 </style>
+
+<div th:replace="~{client/fragments/footer :: footer}"></div>
+<style th:replace="~{client/fragments/footer :: footer-css}"></style>
 </body>
 </html>

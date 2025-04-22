@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>История просмотров - BLOOM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Переменные для стиля "Премиальный минимализм" */
+        :root {
+            --lucky-primary-color: #1a1a1a;
+            --lucky-secondary-color: #f5f5f5;
+            --lucky-accent-color: #e19d45;
+            --lucky-text-color: #333333;
+            --lucky-light-gray: #e0e0e0;
+            --lucky-transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--lucky-text-color);
+            background-color: #fff;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Основной контейнер */
+        .lucky-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Стили для страницы истории просмотров */
+        .lucky-page-title {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 40px 0 30px;
+            text-transform: uppercase;
+        }
+
+        .lucky-back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--lucky-text-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--lucky-transition);
+            margin-bottom: 30px;
+        }
+
+        .lucky-back-link i {
+            margin-right: 8px;
+        }
+
+        .lucky-back-link:hover {
+            color: var(--lucky-accent-color);
+        }
+
+        /* Переключатель режимов просмотра */
+        .lucky-view-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .lucky-view-option {
+            background: none;
+            border: none;
+            font-size: 18px;
+            padding: 8px 12px;
+            color: var(--lucky-text-color);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: var(--lucky-transition);
+        }
+
+        .lucky-view-option.active {
+            opacity: 1;
+            color: var(--lucky-accent-color);
+        }
+
+        .lucky-view-option:hover {
+            opacity: 0.8;
+        }
+
+        /* Стили для сетки товаров */
+        .lucky-products-container {
+            margin-bottom: 50px;
+        }
+
+        .lucky-products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* <-- это как раз 3 колонки */
+            gap: 30px;
+        }
+
+        /* Улучшенные стили для списочного представления */
+        .lucky-products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Карточка товара в списке с улучшенной структурой */
+        .lucky-product-card-list {
+            background-color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--lucky-transition);
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+            height: 200px; /* Фиксированная высота для карточки в режиме списка */
+        }
+
+        /* Стили для изображения в списке */
+        .lucky-product-image-list {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Заглушка для отсутствующего изображения в списке */
+        .lucky-image-placeholder-list {
+            width: 200px;
+            height: 200px;
+            background-color: var(--lucky-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .lucky-product-content-list {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Размер карточки в сетке */
+        .lucky-product-card-grid {
+            background-color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--lucky-transition);
+            height: 400px; /* Фиксированная высота для карточки */
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Изображение в сетке */
+        .lucky-product-image-grid {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        /* Заглушка для отсутствующего изображения в сетке */
+        .lucky-image-placeholder-grid {
+            width: 100%;
+            height: 220px;
+            background-color: var(--lucky-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .lucky-product-card-list {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .lucky-product-image-list,
+            .lucky-image-placeholder-list {
+                width: 100%;
+                height: 220px;
+            }
+        }
+
+        /* Адаптивность для маленьких экранов */
+        @media (max-width: 576px) {
+            .lucky-button {
+                width: 100%; /* Кнопка на всю ширину */
+                padding: 8px 15px;
+            }
+
+            .lucky-product-card-grid,
+            .lucky-product-content-list {
+                padding-bottom: 50px; /* Уменьшаем отступ для кнопки на маленьких экранах */
+            }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .lucky-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lucky-product-card-list {
+                flex-direction: column;
+            }
+
+            .lucky-product-image-list,
+            .lucky-image-placeholder-list {
+                width: 100%;
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .lucky-products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lucky-page-title {
+                font-size: 24px;
+                margin: 30px 0 20px;
+            }
+        }
+        .lucky-product-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: var(--lucky-transition);
+        }
+
+        .lucky-product-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Убираем стиль ссылки внутри карточки, теперь у нас кнопка - это span */
+        .lucky-product-link .lucky-button {
+            display: inline-block;
+            background-color: white;
+            color: var(--lucky-primary-color);
+            border: 1px solid var(--lucky-primary-color);
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--lucky-transition);
+            cursor: pointer;
+        }
+
+        .lucky-product-link:hover .lucky-button {
+            background-color: var(--lucky-primary-color);
+            color: white;
+        }
+    </style>
+    <!-- Подключение стилей навигации -->
+    <style th:replace="~{client/fragments/navigation :: navigation-css}"></style>
+    <style th:replace="~{client/fragments/navigation :: navigation-scroll-css}"></style>
+    <style th:replace="~{client/fragments/header :: header-css}"></style>
+    <script th:replace="~{client/fragments/navigation :: navigation-js}"></script>
+</head>
+<body>
+<!-- Навигация -->
+<div th:replace="~{client/fragments/navigation :: navigation}"></div>
+
+<div class="lucky-container">
+    <a href="/" class="lucky-back-link">
+        <i class="fas fa-arrow-left"></i> На главную
+    </a>
+    <h1 class="lucky-page-title">История просмотров</h1>
+
+    <!-- Переключатель режимов просмотра -->
+    <div class="lucky-view-toggle" th:if="${not #lists.isEmpty(recentProducts)}">
+        <button id="gridViewBtn" class="lucky-view-option active" title="Сетка">
+            <i class="fas fa-th"></i>
+        </button>
+        <button id="listViewBtn" class="lucky-view-option" title="Список">
+            <i class="fas fa-list"></i>
+        </button>
+    </div>
+
+
+    <!-- Контейнер для товаров -->
+    <div id="productsList" class="lucky-products-list" style="display: none;">
+        <a th:href="@{/flowers/{id}(id=${product.id})}" class="lucky-product-link" th:each="product : ${recentProducts}">
+            <div class="lucky-product-card-list">
+                <img th:if="${product.getPreviewImageUrl() != null}"
+                     th:src="${product.getPreviewImageUrl()}"
+                     class="lucky-product-image-list"
+                     alt="Изображение товара">
+                <div th:if="${product.getPreviewImageUrl() == null}"
+                     class="lucky-image-placeholder-list">
+                    <p>Изображение отсутствует</p>
+                </div>
+                <div class="lucky-product-content-list">
+                    <h3 class="lucky-product-title" th:text="${product.name}">Название цветка</h3>
+                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Описание цветка</p>
+                    <div class="lucky-product-footer-list">
+                        <p class="lucky-product-price" th:text="${product.price + ' ₽'}">1000 ₽</p>
+                        <span class="lucky-button">Просмотреть</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Обновленный фрагмент для отображения товаров в сетке -->
+    <div id="productsGrid" class="lucky-products-grid">
+        <a th:href="@{/flowers/{id}(id=${product.id})}" class="lucky-product-link" th:each="product : ${recentProducts}">
+            <div class="lucky-product-card-grid">
+                <img th:if="${product.getPreviewImageUrl() != null}"
+                     th:src="${product.getPreviewImageUrl()}"
+                     class="lucky-product-image-grid"
+                     alt="Изображение товара">
+                <div th:if="${product.getPreviewImageUrl() == null}"
+                     class="lucky-image-placeholder-grid">
+                    <p>Изображение отсутствует</p>
+                </div>
+                <div class="lucky-product-content-grid">
+                    <h3 class="lucky-product-title" th:text="${product.name}">Название цветка</h3>
+                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Описание цветка</p>
+                </div>
+                <div class="lucky-product-footer-grid">
+                    <p class="lucky-product-price" th:text="${product.price + ' ₽'}">1000 ₽</p>
+                    <span class="lucky-button">Просмотреть</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Сообщение, если нет просмотренных товаров -->
+    <div class="lucky-empty-message" th:if="${#lists.isEmpty(recentProducts)}">
+        <p>Вы еще не просматривали товары</p>
+    </div>
+</div>
+
+<!-- JavaScript для навигации -->
+<div th:replace="~{client/fragments/footer :: footer}"></div>
+<style th:replace="~{client/fragments/footer :: footer-css}"></style>
+
+
+<!-- JavaScript для переключения между режимами просмотра -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Получаем элементы
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
+        const productsGrid = document.getElementById('productsGrid');
+        const productsList = document.getElementById('productsList');
+
+        // Сохраняем/получаем предпочтение пользователя из localStorage
+        const savedView = localStorage.getItem('productsViewMode');
+
+        // Если есть сохраненные настройки, применяем их
+        if (savedView === 'list') {
+            showListView();
+        } else {
+            showGridView(); // По умолчанию или если сохранен grid
+        }
+
+        // Обработчик для кнопки сетки
+        gridViewBtn.addEventListener('click', function () {
+            showGridView();
+            localStorage.setItem('productsViewMode', 'grid');
+        });
+
+        // Обработчик для кнопки списка
+        listViewBtn.addEventListener('click', function () {
+            showListView();
+            localStorage.setItem('productsViewMode', 'list');
+        });
+
+        // Функция для отображения сетки
+        function showGridView() {
+            productsGrid.style.display = 'grid';
+            productsList.style.display = 'none';
+            gridViewBtn.classList.add('active');
+            listViewBtn.classList.remove('active');
+        }
+
+        // Функция для отображения списка
+        function showListView() {
+            productsGrid.style.display = 'none';
+            productsList.style.display = 'flex';
+            gridViewBtn.classList.remove('active');
+            listViewBtn.classList.add('active');
+        }
+    });
+</script>
+
+</body>
+</html>
