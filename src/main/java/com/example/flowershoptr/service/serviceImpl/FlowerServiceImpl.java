@@ -39,7 +39,7 @@ public class FlowerServiceImpl implements FlowerService {
     private final ProductReviewService productReviewService;
 
 
-    @Cacheable(value = "flowersPageList", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort.toString()}", unless = "#result.isEmpty()")
+
     public Page<FlowerListDTO> getAllFlowers(Pageable pageable) {
         log.info("CACHE MISS: Получение страницы списка всех цветов из БД. Page: {}, Size: {}",
                 pageable.getPageNumber(), pageable.getPageSize());

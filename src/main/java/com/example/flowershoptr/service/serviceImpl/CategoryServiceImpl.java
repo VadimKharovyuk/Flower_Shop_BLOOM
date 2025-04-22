@@ -58,6 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> featuredCategories = categoryRepository.findByIsFeaturedTrue(pageable);
         return featuredCategories.map(categoryMapper::toListDTO);
     }
+
+
     @Cacheable(value = "categoryById", key = "#id")
     @Override
     public CategoryDetailsDTO getCategoryById(Long id) {
