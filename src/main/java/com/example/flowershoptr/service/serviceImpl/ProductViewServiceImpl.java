@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 public class ProductViewServiceImpl implements ProductViewService {
 
+
     @Value("${product.max-recent-views}")
     private int maxRecentViews;
 
@@ -76,6 +77,7 @@ public class ProductViewServiceImpl implements ProductViewService {
         if (views.size() > maxRecentViews) {
             views = new ArrayList<>(views.subList(views.size() - maxRecentViews, views.size()));
         }
+
 
         // Явно сохраняем обновленный список в кеш
         cache.put(sessionId, views);

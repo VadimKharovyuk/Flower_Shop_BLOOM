@@ -87,8 +87,104 @@
         }
 
         /* Стили для сетки товаров */
-        .lucky-products-container {
-            margin-bottom: 50px;
+        .lucky-product-card-grid {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 400px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .lucky-product-content-grid {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lucky-product-footer-grid {
+            padding: 0 15px 15px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        /* List view fixes */
+        .lucky-product-card-list {
+            height: auto;
+            min-height: 200px;
+        }
+
+        .lucky-product-footer-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Button fixes - ensure buttons are visible */
+        .lucky-button {
+            display: inline-block;
+            background-color: white;
+            color: var(--lucky-primary-color);
+            border: 1px solid var(--lucky-primary-color);
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--lucky-transition);
+            cursor: pointer;
+            margin-left: 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .lucky-product-link:hover .lucky-button {
+            background-color: var(--lucky-primary-color);
+            color: white;
+        }
+
+        /* Fix product titles and descriptions to prevent overflow */
+        .lucky-product-title {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .lucky-product-description {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lucky-product-price {
+            font-weight: 600;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        /* Fix the link styles */
+        .lucky-product-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        /* Give proper separation between cards */
+        .lucky-products-list .lucky-product-link {
+            margin-bottom: 20px;
         }
 
         .lucky-products-grid {
@@ -275,16 +371,15 @@
 <body>
 <!-- Навигация -->
 <div th:replace="~{client/fragments/navigation :: navigation}"></div>
-
 <div class="lucky-container">
     <a href="/" class="lucky-back-link">
-        <i class="fas fa-arrow-left"></i> На главную
+        <i class="fas fa-arrow-left"></i> На головну
     </a>
-    <h1 class="lucky-page-title">История просмотров</h1>
+    <h1 class="lucky-page-title">Історія переглядів</h1>
 
-    <!-- Переключатель режимов просмотра -->
+    <!-- Перемикач режимів перегляду -->
     <div class="lucky-view-toggle" th:if="${not #lists.isEmpty(recentProducts)}">
-        <button id="gridViewBtn" class="lucky-view-option active" title="Сетка">
+        <button id="gridViewBtn" class="lucky-view-option active" title="Сітка">
             <i class="fas fa-th"></i>
         </button>
         <button id="listViewBtn" class="lucky-view-option" title="Список">
@@ -293,57 +388,57 @@
     </div>
 
 
-    <!-- Контейнер для товаров -->
+    <!-- Спочатку режим списку -->
     <div id="productsList" class="lucky-products-list" style="display: none;">
         <a th:href="@{/flowers/{id}(id=${product.id})}" class="lucky-product-link" th:each="product : ${recentProducts}">
             <div class="lucky-product-card-list">
                 <img th:if="${product.getPreviewImageUrl() != null}"
                      th:src="${product.getPreviewImageUrl()}"
                      class="lucky-product-image-list"
-                     alt="Изображение товара">
+                     alt="Зображення товару">
                 <div th:if="${product.getPreviewImageUrl() == null}"
                      class="lucky-image-placeholder-list">
-                    <p>Изображение отсутствует</p>
+                    <p>Зображення відсутнє</p>
                 </div>
                 <div class="lucky-product-content-list">
-                    <h3 class="lucky-product-title" th:text="${product.name}">Название цветка</h3>
-                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Описание цветка</p>
+                    <h3 class="lucky-product-title" th:text="${product.name}">Назва квітки</h3>
+                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Опис квітки</p>
                     <div class="lucky-product-footer-list">
                         <p class="lucky-product-price" th:text="${product.price + ' ₽'}">1000 ₽</p>
-                        <span class="lucky-button">Просмотреть</span>
+                        <span class="lucky-button">Переглянути</span>
                     </div>
                 </div>
             </div>
         </a>
     </div>
 
-    <!-- Обновленный фрагмент для отображения товаров в сетке -->
+    <!-- Тепер режим сітки -->
     <div id="productsGrid" class="lucky-products-grid">
         <a th:href="@{/flowers/{id}(id=${product.id})}" class="lucky-product-link" th:each="product : ${recentProducts}">
             <div class="lucky-product-card-grid">
                 <img th:if="${product.getPreviewImageUrl() != null}"
                      th:src="${product.getPreviewImageUrl()}"
                      class="lucky-product-image-grid"
-                     alt="Изображение товара">
+                     alt="Зображення товару">
                 <div th:if="${product.getPreviewImageUrl() == null}"
                      class="lucky-image-placeholder-grid">
-                    <p>Изображение отсутствует</p>
+                    <p>Зображення відсутнє</p>
                 </div>
                 <div class="lucky-product-content-grid">
-                    <h3 class="lucky-product-title" th:text="${product.name}">Название цветка</h3>
-                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Описание цветка</p>
-                </div>
-                <div class="lucky-product-footer-grid">
-                    <p class="lucky-product-price" th:text="${product.price + ' ₽'}">1000 ₽</p>
-                    <span class="lucky-button">Просмотреть</span>
+                    <h3 class="lucky-product-title" th:text="${product.name}">Назва квітки</h3>
+                    <p class="lucky-product-description" th:text="${product.getShortDescription()}">Опис квітки</p>
+                    <div class="lucky-product-footer-grid">
+                        <p class="lucky-product-price" th:text="${product.price + ' ₽'}">1000 ₽</p>
+                        <span class="lucky-button">Переглянути</span>
+                    </div>
                 </div>
             </div>
         </a>
     </div>
 
-    <!-- Сообщение, если нет просмотренных товаров -->
+    <!-- Повідомлення, якщо немає переглянутих товарів -->
     <div class="lucky-empty-message" th:if="${#lists.isEmpty(recentProducts)}">
-        <p>Вы еще не просматривали товары</p>
+        <p>Ви ще не переглядали товари</p>
     </div>
 </div>
 
@@ -400,6 +495,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
