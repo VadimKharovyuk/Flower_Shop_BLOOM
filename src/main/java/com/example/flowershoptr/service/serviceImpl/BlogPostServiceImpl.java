@@ -180,4 +180,5 @@ public class BlogPostServiceImpl implements BlogPostService {
     public Optional<BlogPost> getBlogPostByIdOptional(Long id) {
        return blogPostRepository.findById(id);
     }
+
 }
