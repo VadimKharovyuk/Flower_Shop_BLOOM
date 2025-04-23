@@ -1,3 +1,430 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Вход в аккаунт | BLOOM</title>-->
+<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;color-primary: #3d3d3d;-->
+<!--            &#45;&#45;color-secondary: #767676;-->
+<!--            &#45;&#45;color-accent-dark: #a57742;-->
+<!--            &#45;&#45;color-accent-light: rgba(212, 169, 119, 0.8);-->
+<!--            &#45;&#45;color-background: #f8f8f8;-->
+<!--            &#45;&#45;color-card: rgba(255, 255, 255, 0.35);-->
+<!--            &#45;&#45;shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);-->
+<!--            &#45;&#45;transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Montserrat', sans-serif;-->
+<!--            margin: 0;-->
+<!--            min-height: 100vh;-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--            position: relative;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        /* Полноэкранное фоновое изображение */-->
+<!--        .page-background {-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-image: url('/img/wedding-couple.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            filter: brightness(0.85);-->
+<!--            z-index: -1;-->
+<!--        }-->
+
+<!--        .overlay {-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));-->
+<!--            z-index: -1;-->
+<!--        }-->
+
+<!--        /* Заголовок сверху */-->
+<!--        .site-header {-->
+<!--            position: relative;-->
+<!--            text-align: center;-->
+<!--            padding: 3rem 2rem;-->
+<!--            color: white;-->
+<!--            z-index: 2;-->
+<!--        }-->
+
+<!--        .site-logo {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 3.5rem;-->
+<!--            letter-spacing: 2px;-->
+<!--            margin-bottom: 1rem;-->
+<!--            position: relative;-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        .site-logo::after {-->
+<!--            content: '';-->
+<!--            position: absolute;-->
+<!--            bottom: -10px;-->
+<!--            left: 50%;-->
+<!--            transform: translateX(-50%);-->
+<!--            width: 80px;-->
+<!--            height: 2px;-->
+<!--            background-color: var(&#45;&#45;color-accent);-->
+<!--        }-->
+
+<!--        .site-tagline {-->
+<!--            font-size: 1.2rem;-->
+<!--            font-weight: 300;-->
+<!--            margin-bottom: 0.5rem;-->
+<!--            opacity: 0.9;-->
+<!--        }-->
+
+<!--        /* Основной контент */-->
+<!--        .main-content {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            min-height: calc(100vh - 220px);-->
+<!--            padding: 2rem;-->
+<!--            position: relative;-->
+<!--            z-index: 2;-->
+<!--        }-->
+
+<!--        #particles-js {-->
+<!--            position: fixed;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            z-index: 1;-->
+<!--        }-->
+
+<!--        .login-container {-->
+<!--            position: relative;        /* Устанавливает относительное позиционирование элемента */-->
+<!--            z-index: 3;                /* Определяет порядок наложения элементов, 3 - выше, чем элементы с z-index 1 и 2 */-->
+<!--            background-color: var(&#45;&#45;color-card);  /* Цвет фона, берется из CSS-переменной &#45;&#45;color-card */-->
+<!--            backdrop-filter: blur(5px);  /* Добавляет размытие того, что находится под элементом (для современных браузеров) */-->
+<!--            -webkit-backdrop-filter: blur(8px);  /* То же самое, но префикс для Safari */-->
+<!--            border-radius: 12px;       /* Округляет углы элемента с радиусом 12 пикселей */-->
+<!--            box-shadow: var(&#45;&#45;shadow-soft);  /* Добавляет тень вокруг элемента, значение из CSS-переменной */-->
+<!--            padding: 3.5rem;           /* Внутренний отступ вокруг содержимого (3.5 единицы rem) */-->
+<!--            max-width: 480px;          /* Максимальная ширина элемента - 480 пикселей */-->
+<!--            width: 90%;                /* Ширина элемента - 90% от ширины родительского элемента */-->
+<!--            text-align: center;        /* Выравнивает текст по центру внутри элемента */-->
+<!--            transition: transform 0.5s ease, box-shadow 0.5s ease;  /* Определяет плавные анимации для transform и box-shadow */-->
+<!--        }-->
+
+<!--        .login-container:hover {-->
+<!--            transform: translateY(-5px);  /* При наведении поднимает элемент на 5 пикселей вверх */-->
+<!--            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);  /* При наведении добавляет более выраженную тень */-->
+<!--        }-->
+
+<!--        .subtitle {-->
+<!--            font-size: 1rem;-->
+<!--            color: #333333; /* Темнее для лучшей контрастности */-->
+<!--            margin-bottom: 2.5rem;-->
+<!--            line-height: 1.6;-->
+<!--            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3); /* Легкая тень для улучшения читабельности */-->
+<!--        }-->
+
+<!--        .benefits-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 1.2rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--            color: #1a1a1a; /* Темнее для лучшей контрастности */-->
+<!--            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);-->
+<!--        }-->
+
+<!--        .benefit-item {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 0.8rem;-->
+<!--            color: #333333; /* Темнее для лучшей контрастности */-->
+<!--            font-size: 0.95rem;-->
+<!--            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);-->
+<!--        }-->
+
+<!--        .back-link {-->
+<!--            display: inline-block;-->
+<!--            margin-top: 2rem;-->
+<!--            color: #444444; /* Темнее для лучшей контрастности */-->
+<!--            text-decoration: none;-->
+<!--            font-size: 0.9rem;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .login-button {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background-color: rgba(255, 255, 255, 0.8);-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--            border: 1px solid rgba(0, 0, 0, 0.1);-->
+<!--            border-radius: 8px;-->
+<!--            padding: 1rem 1.5rem;-->
+<!--            font-size: 1rem;-->
+<!--            font-weight: 500;-->
+<!--            cursor: pointer;-->
+<!--            width: 100%;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--            text-decoration: none;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .login-button:hover {-->
+<!--            background-color: var(&#45;&#45;color-accent-light);-->
+<!--            border-color: var(&#45;&#45;color-accent);-->
+<!--            color: #a57742; /* Более темный цвет текста при наведении */-->
+<!--            transform: translateY(-2px);-->
+<!--        }-->
+
+<!--        .login-button img {-->
+<!--            margin-right: 0.8rem;-->
+<!--            width: 22px;-->
+<!--            height: 22px;-->
+<!--        }-->
+
+<!--        .login-button .button-text {-->
+<!--            flex: 1;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .benefits {-->
+<!--            margin-top: 2.5rem;-->
+<!--            text-align: left;-->
+<!--        }-->
+
+<!--        .benefits-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 1.2rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--            color: var(&#45;&#45;color-primary);-->
+<!--        }-->
+
+<!--        .benefits-list {-->
+<!--            list-style: none;-->
+<!--        }-->
+
+
+<!--        .back-link:hover {-->
+<!--            color: var(&#45;&#45;color-accent);-->
+<!--        }-->
+
+<!--        .back-link i {-->
+<!--            margin-right: 0.5rem;-->
+<!--            font-size: 0.8rem;-->
+<!--        }-->
+
+<!--        /* Адаптивность */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .site-logo {-->
+<!--                font-size: 2.8rem;-->
+<!--            }-->
+
+<!--            .site-tagline {-->
+<!--                font-size: 1rem;-->
+<!--            }-->
+
+<!--            .site-header {-->
+<!--                padding: 2rem 1rem;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 576px) {-->
+<!--            .login-container {-->
+<!--                padding: 2rem;-->
+<!--                width: 95%;-->
+<!--            }-->
+
+<!--            h1 {-->
+<!--                font-size: 1.5rem;-->
+<!--            }-->
+
+<!--            .site-logo {-->
+<!--                font-size: 2.2rem;-->
+<!--            }-->
+
+<!--            .site-tagline {-->
+<!--                font-size: 0.9rem;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash; Фоновое изображение &ndash;&gt;-->
+<!--<div class="page-background"></div>-->
+<!--<div class="overlay"></div>-->
+
+<!--&lt;!&ndash; Заголовок &ndash;&gt;-->
+<!--<header class="site-header">-->
+<!--    <h1 class="site-logo">BLOOM</h1>-->
+<!--    <p class="site-tagline">Преміальні квіткові композиції</p>-->
+<!--</header>-->
+<!--<div id="particles-js"></div>-->
+
+<!--&lt;!&ndash; Форма входа &ndash;&gt;-->
+<!--<main class="main-content">-->
+<!--    <div class="login-container">-->
+<!--        <h1>Особистий кабінет</h1>-->
+<!--        <p class="subtitle">Увійдіть, щоб керувати замовленнями, зберігати обрані букети та отримувати персональні знижки</p>-->
+<!--        <a th:href="@{/oauth2/authorization/google}" class="login-button">-->
+<!--            <img src="/img/google-logo.png" alt="Google logo">-->
+<!--            <span class="button-text">Увійти за допомогою Google</span>-->
+<!--        </a>-->
+
+<!--        <div class="benefits">-->
+<!--            <h3 class="benefits-title">Переваги особистого кабінету</h3>-->
+<!--            <ul class="benefits-list">-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-history"></i>-->
+<!--                    <span>Історія та відстеження ваших замовлень</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-heart"></i>-->
+<!--                    <span>Збереження обраних букетів та композицій</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-gift"></i>-->
+<!--                    <span>Персональні знижки та спеціальні пропозиції</span>-->
+<!--                </li>-->
+<!--                <li class="benefit-item">-->
+<!--                    <i class="fas fa-truck"></i>-->
+<!--                    <span>Швидке оформлення замовлень збереженими адресами</span>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+<!--        <a href="/" class="back-link">-->
+<!--            <i class="fas fa-arrow-left"></i> Повернутися на головну-->
+<!--        </a>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>-->
+<!--<script>-->
+<!--    particlesJS("particles-js", {-->
+<!--        "particles": {-->
+<!--            "number": {-->
+<!--                "value": 100, // было 50-->
+<!--                "density": {-->
+<!--                    "enable": true,-->
+<!--                    "value_area": 800-->
+<!--                }-->
+<!--            },-->
+<!--            "color": {-->
+<!--                "value": ["#d4a977", "#f9c74f", "#f9844a"] // яркие оттенки-->
+<!--            },-->
+<!--            "shape": {-->
+<!--                "type": "circle",-->
+<!--                "stroke": {-->
+<!--                    "width": 0,-->
+<!--                    "color": "#000000"-->
+<!--                },-->
+<!--                "polygon": {-->
+<!--                    "nb_sides": 5-->
+<!--                }-->
+<!--            },-->
+<!--            "opacity": {-->
+<!--                "value": 0.6, // было 0.3-->
+<!--                "random": true,-->
+<!--                "anim": {-->
+<!--                    "enable": true,-->
+<!--                    "speed": 1,-->
+<!--                    "opacity_min": 0.2,-->
+<!--                    "sync": false-->
+<!--                }-->
+<!--            },-->
+<!--            "size": {-->
+<!--                "value": 4, // чуть больше-->
+<!--                "random": true,-->
+<!--                "anim": {-->
+<!--                    "enable": true,-->
+<!--                    "speed": 3,-->
+<!--                    "size_min": 0.3,-->
+<!--                    "sync": false-->
+<!--                }-->
+<!--            },-->
+<!--            "line_linked": {-->
+<!--                "enable": true,-->
+<!--                "distance": 120,-->
+<!--                "color": "#ffffff",-->
+<!--                "opacity": 0.4, // чуть ярче-->
+<!--                "width": 1-->
+<!--            },-->
+<!--            "move": {-->
+<!--                "enable": true,-->
+<!--                "speed": 2.5, // было 1-->
+<!--                "direction": "none",-->
+<!--                "random": true,-->
+<!--                "straight": false,-->
+<!--                "out_mode": "out",-->
+<!--                "bounce": false,-->
+<!--                "attract": {-->
+<!--                    "enable": false,-->
+<!--                    "rotateX": 600,-->
+<!--                    "rotateY": 1200-->
+<!--                }-->
+<!--            }-->
+<!--        },-->
+<!--        "interactivity": {-->
+<!--            "detect_on": "canvas",-->
+<!--            "events": {-->
+<!--                "onhover": {-->
+<!--                    "enable": true,-->
+<!--                    "mode": "grab" // было bubble-->
+<!--                },-->
+<!--                "onclick": {-->
+<!--                    "enable": true,-->
+<!--                    "mode": "repulse" // было push-->
+<!--                },-->
+<!--                "resize": true-->
+<!--            },-->
+<!--            "modes": {-->
+<!--                "grab": {-->
+<!--                    "distance": 250,-->
+<!--                    "line_linked": {-->
+<!--                        "opacity": 0.8-->
+<!--                    }-->
+<!--                },-->
+<!--                "bubble": {-->
+<!--                    "distance": 200,-->
+<!--                    "size": 6,-->
+<!--                    "duration": 2,-->
+<!--                    "opacity": 1,-->
+<!--                    "speed": 3-->
+<!--                },-->
+<!--                "repulse": {-->
+<!--                    "distance": 300,-->
+<!--                    "duration": 0.6-->
+<!--                },-->
+<!--                "push": {-->
+<!--                    "particles_nb": 6-->
+<!--                },-->
+<!--                "remove": {-->
+<!--                    "particles_nb": 2-->
+<!--                }-->
+<!--            }-->
+<!--        },-->
+<!--        "retina_detect": true-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,14 +435,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --color-primary: #3d3d3d;
-            --color-secondary: #767676;
-            --color-accent-dark: #a57742;
-            --color-accent-light: rgba(212, 169, 119, 0.8);
+            /* Светлая тема (по умолчанию) */
+            --lucky-primary-color: #1a1a1a;
+            --lucky-secondary-color: #f5f5f5;
+            --lucky-accent-color: #e19d45;
+            --lucky-text-color: #333333;
+            --lucky-light-gray: #e0e0e0;
+            --lucky-transition: all 0.3s ease;
+
+            /* Переменные для логина */
             --color-background: #f8f8f8;
-            --color-card: rgba(255, 255, 255, 0.35);
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s ease;
+            --color-card: rgba(255, 255, 255, 0.5);
+            --card-text-color: #333333;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --benefits-bg: rgba(255, 255, 255, 0.3);
+            --benefits-border: rgba(255, 255, 255, 0.2);
+            --back-link-bg: rgba(255, 255, 255, 0.5);
+            --button-bg: white;
+            --button-color: #1a1a1a;
+            --button-border: rgba(0, 0, 0, 0.1);
+            --overlay-gradient: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3));
+        }
+
+        /* Темная тема */
+        [data-theme="dark"] {
+            --lucky-primary-color: #f5f5f5;
+            --lucky-secondary-color: #2a2a2a;
+            --lucky-accent-color: #f0a950;
+            --lucky-text-color: #e0e0e0;
+            --lucky-light-gray: #444444;
+
+            /* Переменные для логина в темной теме */
+            --color-background: #121212;
+            --color-card: rgba(30, 30, 30, 0.7);
+            --card-text-color: #e0e0e0;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --benefits-bg: rgba(40, 40, 40, 0.5);
+            --benefits-border: rgba(70, 70, 70, 0.3);
+            --back-link-bg: rgba(40, 40, 40, 0.6);
+            --button-bg: #2a2a2a;
+            --button-color: #f5f5f5;
+            --button-border: rgba(255, 255, 255, 0.1);
+            --overlay-gradient: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7));
         }
 
         * {
@@ -28,9 +489,9 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             min-height: 100vh;
-            color: var(--color-primary);
+            color: var(--lucky-text-color);
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* Полноэкранное фоновое изображение */
@@ -43,8 +504,13 @@
             background-image: url('/img/wedding-couple.jpg');
             background-size: cover;
             background-position: center;
-            filter: brightness(0.85);
+            filter: brightness(0.9);
             z-index: -1;
+            transition: filter 0.5s ease;
+        }
+
+        [data-theme="dark"] .page-background {
+            filter: brightness(0.6);
         }
 
         .overlay {
@@ -53,15 +519,41 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+            background: var(--overlay-gradient);
             z-index: -1;
+            transition: background 0.5s ease;
+        }
+
+        /* Переключатель темы */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.2);
+            transition: var(--lucky-transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
         /* Заголовок сверху */
         .site-header {
             position: relative;
             text-align: center;
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem;
             color: white;
             z-index: 2;
         }
@@ -73,6 +565,8 @@
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .site-logo::after {
@@ -83,7 +577,8 @@
             transform: translateX(-50%);
             width: 80px;
             height: 2px;
-            background-color: var(--color-accent);
+            background-color: var(--lucky-accent-color);
+            transition: background-color 0.5s ease;
         }
 
         .site-tagline {
@@ -91,6 +586,8 @@
             font-weight: 300;
             margin-bottom: 0.5rem;
             opacity: 0.9;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
         }
 
         /* Основной контент */
@@ -114,82 +611,96 @@
         }
 
         .login-container {
-            position: relative;        /* Устанавливает относительное позиционирование элемента */
-            z-index: 3;                /* Определяет порядок наложения элементов, 3 - выше, чем элементы с z-index 1 и 2 */
-            background-color: var(--color-card);  /* Цвет фона, берется из CSS-переменной --color-card */
-            backdrop-filter: blur(5px);  /* Добавляет размытие того, что находится под элементом (для современных браузеров) */
-            -webkit-backdrop-filter: blur(8px);  /* То же самое, но префикс для Safari */
-            border-radius: 12px;       /* Округляет углы элемента с радиусом 12 пикселей */
-            box-shadow: var(--shadow-soft);  /* Добавляет тень вокруг элемента, значение из CSS-переменной */
-            padding: 3.5rem;           /* Внутренний отступ вокруг содержимого (3.5 единицы rem) */
-            max-width: 480px;          /* Максимальная ширина элемента - 480 пикселей */
-            width: 90%;                /* Ширина элемента - 90% от ширины родительского элемента */
-            text-align: center;        /* Выравнивает текст по центру внутри элемента */
-            transition: transform 0.5s ease, box-shadow 0.5s ease;  /* Определяет плавные анимации для transform и box-shadow */
+            position: relative;
+            z-index: 3;
+            background-color: var(--color-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            padding: 3.5rem;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            transition: transform 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .login-container:hover {
-            transform: translateY(-5px);  /* При наведении поднимает элемент на 5 пикселей вверх */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);  /* При наведении добавляет более выраженную тень */
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--lucky-primary-color);
+            font-weight: 600;
+            transition: color 0.5s ease;
         }
 
         .subtitle {
             font-size: 1rem;
-            color: #333333; /* Темнее для лучшей контрастности */
+            color: var(--card-text-color);
             margin-bottom: 2.5rem;
             line-height: 1.6;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3); /* Легкая тень для улучшения читабельности */
+            transition: color 0.5s ease;
         }
 
         .benefits-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a; /* Темнее для лучшей контрастности */
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+            margin-bottom: 1.2rem;
+            color: var(--lucky-primary-color);
+            font-weight: 500;
+            transition: color 0.5s ease;
         }
 
         .benefit-item {
             display: flex;
             align-items: center;
-            margin-bottom: 0.8rem;
-            color: #333333; /* Темнее для лучшей контрастности */
+            margin-bottom: 1rem;
+            color: var(--card-text-color);
             font-size: 0.95rem;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+            text-align: left;
+            transition: color 0.5s ease;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #444444; /* Темнее для лучшей контрастности */
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
+        .benefit-item i {
+            color: var(--lucky-accent-color);
+            font-size: 1rem;
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            transition: color 0.5s ease;
         }
 
         .login-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: var(--color-primary);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: var(--button-bg);
+            color: var(--button-color);
+            border: 1px solid var(--button-border);
             border-radius: 8px;
             padding: 1rem 1.5rem;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             width: 100%;
-            transition: var(--transition);
+            transition: var(--lucky-transition);
             text-decoration: none;
             margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .login-button:hover {
-            background-color: var(--color-accent-light);
-            border-color: var(--color-accent);
-            color: #a57742; /* Более темный цвет текста при наведении */
+            background-color: var(--lucky-accent-color);
+            border-color: var(--lucky-accent-color);
+            color: white;
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .login-button img {
@@ -206,22 +717,36 @@
         .benefits {
             margin-top: 2.5rem;
             text-align: left;
-        }
-
-        .benefits-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--color-primary);
+            background-color: var(--benefits-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--benefits-border);
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
 
         .benefits-list {
             list-style: none;
         }
 
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--lucky-primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--lucky-transition);
+            padding: 8px 16px;
+            border-radius: 4px;
+            background-color: var(--back-link-bg);
+        }
 
         .back-link:hover {
-            color: var(--color-accent);
+            color: var(--lucky-accent-color);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        [data-theme="dark"] .back-link:hover {
+            background-color: rgba(60, 60, 60, 0.8);
         }
 
         .back-link i {
@@ -242,6 +767,11 @@
             .site-header {
                 padding: 2rem 1rem;
             }
+
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -250,8 +780,8 @@
                 width: 95%;
             }
 
-            h1 {
-                font-size: 1.5rem;
+            .login-container h1 {
+                font-size: 1.8rem;
             }
 
             .site-logo {
@@ -261,6 +791,10 @@
             .site-tagline {
                 font-size: 0.9rem;
             }
+
+            .benefits {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -268,6 +802,11 @@
 <!-- Фоновое изображение -->
 <div class="page-background"></div>
 <div class="overlay"></div>
+
+<!-- Переключатель темы -->
+<button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+    <i class="fas fa-moon"></i>
+</button>
 
 <!-- Заголовок -->
 <header class="site-header">
@@ -316,17 +855,18 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    particlesJS("particles-js", {
+    // Настройки для частиц
+    const particleConfig = {
         "particles": {
             "number": {
-                "value": 100, // было 50
+                "value": 80,
                 "density": {
                     "enable": true,
                     "value_area": 800
                 }
             },
             "color": {
-                "value": ["#d4a977", "#f9c74f", "#f9844a"] // яркие оттенки
+                "value": ["#ffffff", "#e19d45", "#f5f5f5"]
             },
             "shape": {
                 "type": "circle",
@@ -339,35 +879,35 @@
                 }
             },
             "opacity": {
-                "value": 0.6, // было 0.3
+                "value": 0.5,
                 "random": true,
                 "anim": {
                     "enable": true,
                     "speed": 1,
-                    "opacity_min": 0.2,
+                    "opacity_min": 0.1,
                     "sync": false
                 }
             },
             "size": {
-                "value": 4, // чуть больше
+                "value": 3,
                 "random": true,
                 "anim": {
                     "enable": true,
-                    "speed": 3,
+                    "speed": 2,
                     "size_min": 0.3,
                     "sync": false
                 }
             },
             "line_linked": {
                 "enable": true,
-                "distance": 120,
+                "distance": 150,
                 "color": "#ffffff",
-                "opacity": 0.4, // чуть ярче
+                "opacity": 0.4,
                 "width": 1
             },
             "move": {
                 "enable": true,
-                "speed": 2.5, // было 1
+                "speed": 2,
                 "direction": "none",
                 "random": true,
                 "straight": false,
@@ -385,17 +925,17 @@
             "events": {
                 "onhover": {
                     "enable": true,
-                    "mode": "grab" // было bubble
+                    "mode": "grab"
                 },
                 "onclick": {
                     "enable": true,
-                    "mode": "repulse" // было push
+                    "mode": "push"
                 },
                 "resize": true
             },
             "modes": {
                 "grab": {
-                    "distance": 250,
+                    "distance": 140,
                     "line_linked": {
                         "opacity": 0.8
                     }
@@ -408,11 +948,11 @@
                     "speed": 3
                 },
                 "repulse": {
-                    "distance": 300,
-                    "duration": 0.6
+                    "distance": 200,
+                    "duration": 0.4
                 },
                 "push": {
-                    "particles_nb": 6
+                    "particles_nb": 4
                 },
                 "remove": {
                     "particles_nb": 2
@@ -420,6 +960,62 @@
             }
         },
         "retina_detect": true
+    };
+
+    // Настройки для темной темы
+    const darkParticleConfig = {
+        ...particleConfig,
+        particles: {
+            ...particleConfig.particles,
+            color: {
+                value: ["#444444", "#f0a950", "#777777"]
+            },
+            line_linked: {
+                ...particleConfig.particles.line_linked,
+                color: "#666666"
+            }
+        }
+    };
+
+    // Инициализация частиц
+    particlesJS("particles-js", particleConfig);
+
+    // Скрипт для переключения темы
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Проверяем, сохранена ли тема в localStorage
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            // Обновляем конфигурацию частиц для темной темы
+            particlesJS("particles-js", darkParticleConfig);
+        }
+
+        // Обработчик клика по кнопке переключения темы
+        themeToggle.addEventListener('click', function() {
+            if (document.body.getAttribute('data-theme') === 'dark') {
+                // Переключаемся на светлую тему
+                document.body.removeAttribute('data-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+                // Обновляем конфигурацию частиц для светлой темы
+                particlesJS("particles-js", particleConfig);
+            } else {
+                // Переключаемся на темную тему
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+                // Обновляем конфигурацию частиц для темной темы
+                particlesJS("particles-js", darkParticleConfig);
+            }
+        });
     });
 </script>
 </body>

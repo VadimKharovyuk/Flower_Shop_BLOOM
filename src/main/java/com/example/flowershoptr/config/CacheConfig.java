@@ -204,8 +204,21 @@ public class CacheConfig {
                 .evictionListener((key, value, cause) ->
                         log.warn("PopularBlogPostsPageList cache eviction: key={}, cause={}", key, cause))
                 .recordStats();
-
         cacheManager.registerCustomCache("popularBlogPostsPageList", popularBlogPostsPageListCache.build());
+
+
+
+       // Кеш для просмотренных товаров
+        Caffeine<Object, Object> productViewCache = Caffeine.newBuilder()
+                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .initialCapacity(20)
+                .maximumSize(50)
+                .evictionListener((key, value, cause) ->
+                        log.warn("ProductView cache eviction: key={}, cause={}", key, cause))
+                .recordStats();
+        cacheManager.registerCustomCache("productViews", productViewCache.build());
+
+
         return cacheManager;
     }
 

@@ -6,14 +6,18 @@ import com.example.flowershoptr.dto.flower.FlowerDetailsDTO;
 import com.example.flowershoptr.dto.flower.FlowerListDTO;
 import com.example.flowershoptr.service.FlowerService;
 import com.example.flowershoptr.service.ProductReviewService;
+import com.example.flowershoptr.service.ProductViewService;
 import com.example.flowershoptr.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +33,16 @@ public class FlowerClientController {
     private final FlowerService flowerService;
     private final PaginationUtils paginationUtils;
     private final ProductReviewService productReviewService;
+    private final ProductViewService productViewService;
 
     /**
      * Просмотр детальной информации о цветке
      */
     @GetMapping("/{id}")
-    public String viewFlower(@PathVariable Long id, Model model , HttpServletRequest request) {
+    public String viewFlower(@PathVariable Long id, Model model,
+                             HttpServletRequest request,
+                             HttpSession session,
+                             Authentication authentication) {
         log.info("Запрос на просмотр цветка с ID: {}", id);
 
         FlowerDetailsDTO flower = flowerService.getFlowerById(id);
@@ -43,8 +51,20 @@ public class FlowerClientController {
         if (!flower.isActive()) {
             log.warn("Попытка доступа к неактивному цветку: {}", id);
             return "redirect:/flowers";
-        }model.addAttribute("request", request);
+        }
 
+        // Добавление просмотра
+        String sessionId = session.getId();
+        if (authentication != null && authentication.isAuthenticated()) {
+            // Для авторизованного пользователя
+            String email = ((OAuth2User) authentication.getPrincipal()).getAttribute("email");
+            productViewService.saveUserViewByEmail(email, id);
+        } else {
+            // Для неавторизованного пользователя
+            productViewService.addView(sessionId, id);
+        }
+
+        model.addAttribute("request", request);
         model.addAttribute("flower", flower);
 
         // Дополнительно можно добавить рекомендуемые/похожие цветы
@@ -61,6 +81,40 @@ public class FlowerClientController {
 
         return "client/flowers/view";
     }
+
+
+//
+//    /**
+//     * Просмотр детальной информации о цветке
+//     */
+//    @GetMapping("/{id}")
+//    public String viewFlower(@PathVariable Long id, Model model , HttpServletRequest request) {
+//        log.info("Запрос на просмотр цветка с ID: {}", id);
+//
+//        FlowerDetailsDTO flower = flowerService.getFlowerById(id);
+//
+//        // Проверка, активен ли цветок
+//        if (!flower.isActive()) {
+//            log.warn("Попытка доступа к неактивному цветку: {}", id);
+//            return "redirect:/flowers";
+//        }model.addAttribute("request", request);
+//
+//        model.addAttribute("flower", flower);
+//
+//        // Дополнительно можно добавить рекомендуемые/похожие цветы
+//        Pageable pageable = paginationUtils.createPageable(0, 4, "name", true);
+//        Page<FlowerListDTO> recommendedFlowers = flowerService.getFlowersByCategory(
+//                flower.getCategory().getId(), pageable);
+//
+//        List<ProductReviewDTO> reviews = productReviewService.getReviewsByFlowerId(flower.getId());
+//        ProductReviewSummaryDTO summary = productReviewService.getReviewSummaryByFlowerId(flower.getId());
+//
+//        model.addAttribute("summary", summary);
+//        model.addAttribute("reviews", reviews);
+//        model.addAttribute("recommendedFlowers", recommendedFlowers);
+//
+//        return "client/flowers/view";
+//    }
 
     /**
      * Отображение всех цветов с пагинацией

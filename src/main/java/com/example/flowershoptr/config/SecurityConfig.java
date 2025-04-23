@@ -44,9 +44,9 @@ public class SecurityConfig {
                             }
                         })
 
-                        // Затем открытые URL, доступные всем
                         .requestMatchers(
                                 "/",
+                                "/view/**",
                                 "/trending/**",
                                 "/special-offers/**",
                                 "/review/**",
