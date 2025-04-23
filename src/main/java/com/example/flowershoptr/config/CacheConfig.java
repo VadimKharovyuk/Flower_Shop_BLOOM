@@ -23,7 +23,7 @@ public class CacheConfig {
 
         // Кеш для списка категорий
         Caffeine<Object, Object> categoriesListCache = Caffeine.newBuilder()
-                .expireAfterWrite(30, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(50)
                 .evictionListener((key, value, cause) ->
@@ -33,7 +33,7 @@ public class CacheConfig {
 
         // Кеш для отдельных категорий по ID
         Caffeine<Object, Object> categoryByIdCache = Caffeine.newBuilder()
-                .expireAfterWrite(60, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(50)
                 .maximumSize(100)
                 .evictionListener((key, value, cause) ->
@@ -43,7 +43,7 @@ public class CacheConfig {
 
         // Кеш для списка цветов
         Caffeine<Object, Object> flowersListCache = Caffeine.newBuilder()
-                .expireAfterWrite(20, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(20)
                 .maximumSize(50)
                 .evictionListener((key, value, cause) ->
@@ -53,7 +53,7 @@ public class CacheConfig {
 
         // Кеш для отдельных цветов по ID
         Caffeine<Object, Object> flowerByIdCache = Caffeine.newBuilder()
-                .expireAfterWrite(30, TimeUnit.MINUTES)
+                .expireAfterWrite(10, TimeUnit.DAYS)
                 .initialCapacity(100)
                 .maximumSize(500)
                 .evictionListener((key, value, cause) ->
@@ -63,7 +63,7 @@ public class CacheConfig {
 
         // Кеш для страниц цветов
         Caffeine<Object, Object> flowersPageListCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(30)
                 .maximumSize(100)
                 .evictionListener((key, value, cause) ->
@@ -83,7 +83,7 @@ public class CacheConfig {
 
         // Кеш для страниц активных категорий
         Caffeine<Object, Object> activeCategoriesPageListCache = Caffeine.newBuilder()
-                .expireAfterWrite(30, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(20)
                 .maximumSize(50)
                 .evictionListener((key, value, cause) ->
@@ -93,7 +93,7 @@ public class CacheConfig {
 
         // Кеш для списка цветов по категории
         Caffeine<Object, Object> flowersByCategoryCache = Caffeine.newBuilder()
-                .expireAfterWrite(15, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(50)
                 .maximumSize(200)
                 .evictionListener((key, value, cause) ->
@@ -105,7 +105,7 @@ public class CacheConfig {
 
         // Кеш для страниц блог-постов
         Caffeine<Object, Object> blogPostsPageListCache = Caffeine.newBuilder()
-                .expireAfterWrite(15, TimeUnit.MINUTES)
+                .expireAfterWrite(10, TimeUnit.DAYS)
                 .initialCapacity(20)
                 .maximumSize(100)
                 .evictionListener((key, value, cause) ->
@@ -115,7 +115,7 @@ public class CacheConfig {
 
         // Кеш для отдельных блог-постов по ID
         Caffeine<Object, Object> blogPostByIdCache = Caffeine.newBuilder()
-                .expireAfterWrite(20, TimeUnit.MINUTES)
+                .expireAfterWrite(10, TimeUnit.DAYS)
                 .initialCapacity(50)
                 .maximumSize(200)
                 .evictionListener((key, value, cause) ->
@@ -125,7 +125,7 @@ public class CacheConfig {
 
         // Кеш для блог-постов по типу
         Caffeine<Object, Object> blogPostsByTypeCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(30)
                 .maximumSize(150)
                 .evictionListener((key, value, cause) ->
@@ -135,7 +135,7 @@ public class CacheConfig {
 
         // Кеш для популярных блог-постов
         Caffeine<Object, Object> popularBlogPostsCache = Caffeine.newBuilder()
-                .expireAfterWrite(5, TimeUnit.MINUTES)  // Меньшее время для популярных постов, т.к. они могут чаще просматриваться
+                .expireAfterWrite(1, TimeUnit.DAYS) // Меньшее время для популярных постов, т.к. они могут чаще просматриваться
                 .initialCapacity(20)
                 .maximumSize(100)
                 .evictionListener((key, value, cause) ->
@@ -147,7 +147,7 @@ public class CacheConfig {
 
         // Кеш для страниц активных событий
         Caffeine<Object, Object> activeEventsPageListCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(20)
                 .maximumSize(100)
                 .evictionListener((key, value, cause) ->
@@ -157,7 +157,7 @@ public class CacheConfig {
 
         // Кеш для избранных событий
         Caffeine<Object, Object> featuredEventsListCache = Caffeine.newBuilder()
-                .expireAfterWrite(15, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(50)
                 .evictionListener((key, value, cause) ->
@@ -167,7 +167,7 @@ public class CacheConfig {
 
         // Кеш для отдельных событий по ID
         Caffeine<Object, Object> eventByIdCache = Caffeine.newBuilder()
-                .expireAfterWrite(20, TimeUnit.MINUTES)
+                .expireAfterWrite(5, TimeUnit.DAYS)
                 .initialCapacity(30)
                 .maximumSize(150)
                 .evictionListener((key, value, cause) ->
@@ -177,7 +177,7 @@ public class CacheConfig {
 
         // Кеш для списка популярных цветов
         Caffeine<Object, Object> popularFlowersListCache = Caffeine.newBuilder()
-                .expireAfterWrite(15, TimeUnit.MINUTES)
+                .expireAfterWrite(1, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(30)
                 .evictionListener((key, value, cause) ->
