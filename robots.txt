@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /account/
+Disallow: /cart/process/
+Disallow: /api/
+
+# Разрешаем корзину для индексации, но не процесс оформления заказа
+Allow: /cart
+
+# Указываем путь к карте сайта
+Sitemap: https://flower-shop-bloom.onrender.com/sitemap.xml
