@@ -153,7 +153,7 @@ public class CheckoutController {
 
 
 
-    // Обработка оплаты (простой пример)
+    // Обработка оплаты
     @PostMapping("/order/{orderId}/pay")
     public String payOrder(@PathVariable Long orderId, Model model,HttpSession session) {
         try {

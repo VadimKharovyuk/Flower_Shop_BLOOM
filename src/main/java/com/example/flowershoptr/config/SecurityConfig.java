@@ -46,11 +46,13 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/",
+                                "/payment/**",
                                 "/view/**",
                                 "/trending/**",
                                 "/special-offers/**",
                                 "/review/**",
                                 "/blog/**",
+                                "/checkout/**",
                                 "/profile/**",
                                 "/events/**",
                                 "/flowers/**",
@@ -65,7 +67,6 @@ public class SecurityConfig {
                                 "/contact",
                                 "/about",
                                 "/cart/**",
-                                "/blog/**",
                                 "/api/**",
                                 "/error",
                                 "/cart/remove",
