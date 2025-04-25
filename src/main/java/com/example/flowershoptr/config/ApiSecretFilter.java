@@ -24,11 +24,17 @@ public class ApiSecretFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
+        // Отладочный вывод
+        System.out.println("Request path: " + path);
+        System.out.println("Expected API Secret: " + apiSecret);
+        System.out.println("Received API Secret: " + request.getHeader("X-API-Secret"));
+
         // Проверяем только API Render эндпоинты
         if (path.startsWith("/api/render")) {
             String requestApiSecret = request.getHeader("X-API-Secret");
 
             if (requestApiSecret == null || !requestApiSecret.equals(apiSecret)) {
+                System.out.println("Unauthorized access attempt");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 response.getWriter().write("{\"error\":\"Unauthorized\"}");

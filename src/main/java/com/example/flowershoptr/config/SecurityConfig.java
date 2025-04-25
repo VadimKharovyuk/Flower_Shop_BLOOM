@@ -24,6 +24,8 @@ public class SecurityConfig {
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+    @Autowired
+    private ApiSecretFilter apiSecretFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -100,7 +102,7 @@ public class SecurityConfig {
                                 response.sendRedirect("/aut/login"))
                 )
                 // Добавляем фильтр для проверки API Secret
-                .addFilterBefore(new ApiSecretFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(apiSecretFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
