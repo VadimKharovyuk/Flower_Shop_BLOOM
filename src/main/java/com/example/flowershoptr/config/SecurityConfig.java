@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -68,6 +70,7 @@ public class SecurityConfig {
                                 "/about",
                                 "/cart/**",
                                 "/api/**",
+                                "/api/render/**", // Добавляем эндпоинты Render API
                                 "/error",
                                 "/cart/remove",
                                 "/favicon.ico",
@@ -89,17 +92,15 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/aut/dashboard")
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                 )
-
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.sendRedirect("/aut/login"))
-                );
-
-
+                )
+                // Добавляем фильтр для проверки API Secret
+                .addFilterBefore(new ApiSecretFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
