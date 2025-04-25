@@ -70,7 +70,6 @@ public class SecurityConfig {
                                 "/about",
                                 "/cart/**",
                                 "/api/**",
-                                "/api/render/**", // Добавляем эндпоинты Render API
                                 "/error",
                                 "/cart/remove",
                                 "/favicon.ico",
@@ -98,10 +97,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.sendRedirect("/aut/login"))
-                )
-                // Добавляем фильтр для проверки API Secret
-                .addFilterBefore(new ApiSecretFilter(), UsernamePasswordAuthenticationFilter.class);
-
+                );
         return http.build();
     }
 
