@@ -11,13 +11,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-@RequiredArgsConstructor
+
 //  для фильтрации запросов на Render API
 @Component
 public class ApiSecretFilter extends OncePerRequestFilter {
 
+
     @Value("${api.secret}")
     private String apiSecret;
+
+    public ApiSecretFilter() {
+        this.apiSecret = "LuckyBoom";
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
